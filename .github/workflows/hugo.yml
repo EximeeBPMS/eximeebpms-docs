@@ -1,0 +1,65 @@
+name: Deploy Hugo Docs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+  
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Hugo
+        run: |
+          HUGO_VERSION=0.54.0
+          wget -O ${{ runner.temp }}/hugo.tar.gz https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
+          tar -xzf ${{ runner.temp }}/hugo.tar.gz -C ${{ runner.temp }}
+          chmod +x ${{ runner.temp }}/hugo
+
+      - name: Build Hugo site for each section
+        run: |
+          HUGO_BIN="${{ runner.temp }}/hugo"
+          for dir in enterprise security get-started manual; do
+            if [ -d "$dir" ]; then
+              echo "Building site for $dir..."
+              "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+            else
+              echo "Skipping $dir, directory does not exist."
+            fi
+          done
+
+      - name: Checkout `gh-pages` branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Move built files to `gh-pages/docs/{dir}`
+        run: |
+          rm -rf gh-pages/docs/*
+          mkdir -p gh-pages/docs
+          for dir in enterprise security get-started manual; do
+            mkdir -p gh-pages/docs/${dir}
+            cp -r public-${dir}/* gh-pages/docs/${dir}/
+          done
+          cp -r public-manual/* gh-pages/docs/
+
+      - name: Commit and push changes
+        run: |
+          cd gh-pages
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Deploy updates to GitHub Pages" || echo "No changes to commit"
+          git push origin gh-pages

@@ -1,0 +1,44 @@
+---
+baseURL: "/eximeebpms-docs/enterprise/"
+languageCode: "en-us"
+title: "Eximee BPMS Enterprise"
+themesDir: "../themes"
+theme: "eximiee"
+
+relativeURLs: false
+
+blackfriday:
+  plainIDAnchors: true
+
+params:
+  canonicalBasePath: "https://eximeebpms.github.io/eximeebpms-docs"
+  sections:
+    - id: "get-started"
+      name: "Get Started"
+      url: "/eximeebpms-docs/get-started"
+    - id: "manual"
+      name: "Manual"
+      url: "/eximeebpms-docs/manual"
+    - id: "enterprise"
+      name: "Enterprise"
+      url: "/eximeebpms-docs/enterprise"
+    - id: "security"
+      name: "Security"
+      url: "/eximeebpms-docs/security"
+  section:
+    id: "enterprise"
+  github:
+    repositoryName: "EximeeBPMS/eximeebpms-docs"
+    branch: "master/enterprise"
+
+outputs:
+  home:
+    - "HTML"
+    - "RSS"
+  section:
+    - "HTML"
+
+disableKinds:
+- taxonomy
+- taxonomyTerm
+...
