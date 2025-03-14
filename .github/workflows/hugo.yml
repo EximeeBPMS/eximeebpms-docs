@@ -1,68 +1,52 @@
-name: Deploy Multi-Site Hugo to GitHub Pages
+name: Deploy Hugo Docs to GitHub Pages
 
 on:
   push:
-    branches: ["master"]
-  workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
-defaults:
-  run:
-    shell: bash
+    branches:
+      - manual
+      - get-started
+      - enterprise
+      - security
 
 jobs:
-  build_and_deploy:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      HUGO_VERSION: '0.54.0'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Install Hugo CLI
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Hugo
         run: |
+          HUGO_VERSION=0.54.0
           wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.deb \
           && sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
-      - name: Build and Deploy get-started site
-        run: |
-          cd get-started
-          hugo -s . -d ../public/get-started
-        env:
-          HUGO_ENV: production
+      - name: Determine branch name
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
 
-      - name: Build and Deploy enterprise site
-        run: |
-          cd enterprise
-          hugo -s . -d ../public/enterprise
-        env:
-          HUGO_ENV: production
+      - name: Build Hugo site
+        run: hugo --minify -d "public-${{ env.BRANCH_NAME }}"
 
-      - name: Build and Deploy security site
-        run: |
-          cd security
-          hugo -s . -d ../public/security
-        env:
-          HUGO_ENV: production
-
-      - name: Build and Deploy user-guide site
-        run: |
-          cd user-guide
-          hugo -s . -d ../public/
-        env:
-          HUGO_ENV: production
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Checkout `gh-pages` branch
+        uses: actions/checkout@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          destination_dir: docs
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Move built files to `gh-pages/docs/{branch}`
+        run: |
+          mkdir -p gh-pages/docs/${{ env.BRANCH_NAME }}
+          rm -rf gh-pages/docs/${{ env.BRANCH_NAME }}/*
+          mv public-${{ env.BRANCH_NAME }}/* gh-pages/docs/${{ env.BRANCH_NAME }}/
+
+      - name: Commit and push changes
+        run: |
+          cd gh-pages
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "GitHub Actions"
+          git add .
+          git commit -m "Deploy ${{ env.BRANCH_NAME }} to GitHub Pages" || echo "No changes to commit"
+          git push origin gh-pages
