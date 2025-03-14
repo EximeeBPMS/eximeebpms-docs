@@ -1,0 +1,43 @@
+---
+baseURL: "/test-docs/security/"
+languageCode: "en-us"
+title: "Product Security Guide"
+theme: "camunda"
+
+relativeURLs: true
+
+blackfriday:
+  plainIDAnchors: true
+
+params:
+  canonicalBasePath: "https://docs.camunda.org"
+  sections:
+    - id: "get-started"
+      name: "Get Started"
+      url: "/test-docs/get-started"
+    - id: "user-guide"
+      name: "Camunda 7"
+      url: "/"
+    - id: "enterprise"
+      name: "Enterprise"
+      url: "/test-docs/enterprise"
+    - id: "security"
+      name: "Security"
+      url: "/test-docs/security"
+  section:
+    id: "security"
+  github:
+    repositoryName: "camunda/camunda-docs-static"
+    branch: "master/security"
+
+outputs:
+  home:
+    - "HTML"
+    - "RSS"
+  section:
+    - "HTML"
+
+disableKinds:
+- taxonomy
+- taxonomyTerm
+...
