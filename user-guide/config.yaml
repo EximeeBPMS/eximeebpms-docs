@@ -1,0 +1,71 @@
+---
+baseURL: "/test-docs"
+languageCode: "en-us"
+title: "Camunda 7 documentation"
+theme: "camunda"
+
+relativeURLs: false
+
+blackfriday:
+  plainIDAnchors: true
+
+params:
+  canonicalBasePath: "https://robertmastalerek.github.io/test-docs"
+  sections:
+    - id: "get-started"
+      name: "Get Started"
+      url: "/test-docs/get-started"
+    - id: "user-guide"
+      name: "Camunda 7"
+      url: "/"
+    - id: "enterprise"
+      name: "Enterprise"
+      url: "/test-docs/enterprise"
+    - id: "security"
+      name: "Security"
+      url: "/test-docs/security"
+  section:
+    id: "manual"
+    version: "develop"
+    versionAlias: "7.23"
+    versions:
+      - "latest"
+      - "7.22"
+      - "7.21"
+      - "7.20"
+      - "7.19"
+      - "7.18"
+      - "7.17"
+      - "7.16"
+      - "7.15"
+      - "7.14"
+      - "7.13"
+      - "7.12"
+      - "7.11"
+      - "7.10"
+      - "7.9"
+      - "7.8"
+      - "7.7"
+      - "7.6"
+      - "7.5"
+      - "7.4"
+      - "7.3"
+      - "7.2"
+      - "7.1"
+      - "7.0"
+      - "develop"
+  github:
+    repositoryName: "camunda/camunda-docs-manual"
+    branch: "master"
+
+outputs:
+  home:
+    - "HTML"
+    - "RSS"
+  section:
+    - "HTML"
+
+disableKinds:
+- taxonomy
+- taxonomyTerm
+...
