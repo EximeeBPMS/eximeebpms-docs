@@ -3567,7 +3567,7 @@ a.btn.disabled, fieldset[disabled] a.btn {
 
 .btn-link {
     font-weight: 400;
-    color: #0075FF;
+    color: #787DFF;
     border-radius: 0
 }
 
@@ -4448,7 +4448,7 @@ a.badge:focus, a.badge:hover {
 }
 
 .list-group-item.active > .badge, .nav-pills > .active > a > .badge {
-    color: #0075FF;
+    color: #787DFF;
     background-color: #fff
 }
 
@@ -4482,7 +4482,7 @@ a.badge:focus, a.badge:hover {
 }
 
 a.thumbnail.active, a.thumbnail:focus, a.thumbnail:hover {
-    border-color: #0075FF
+    border-color: #787DFF
 }
 
 .thumbnail .caption {
@@ -5467,7 +5467,7 @@ body {
 }
 
 .site-menu .site-menu-items li > a:hover {
-    border-left-color: #0075FF;
+    border-left-color: #787DFF;
     color: #000
 }
 
@@ -5553,7 +5553,7 @@ body {
 }
 
 .site-menu .meta {
-    background-color: #0075FF;
+    background-color: #787DFF;
     color: #fff;
     z-index: 50
 }
@@ -5825,7 +5825,7 @@ body.site-menu-open .site-menu-toggle > span:last-of-type {
 }
 
 .navbar-top-section a {
-    color: #0075FF;
+    color: #787DFF;
     text-decoration: underline
 }
 
@@ -6106,7 +6106,7 @@ pre[class*=language-] {
 }
 
 .token.boolean, .token.constant, .token.deleted, .token.number, .token.property, .token.symbol, .token.tag {
-    color: #0075FF
+    color: #787DFF
 }
 
 .token.attr-name, .token.builtin, .token.char, .token.inserted, .token.selector, .token.string {
@@ -6240,7 +6240,7 @@ blockquote {
 }
 
 a {
-    color: #0075FF
+    color: #787DFF
 }
 
 a:focus, a:hover {
@@ -6291,7 +6291,7 @@ a:focus, a:hover {
 }
 
 .page-content h1:hover a.content-anchor, .page-content h2:hover a.content-anchor, .page-content h3:hover a.content-anchor, .page-content h4:hover a.content-anchor, .page-content h5:hover a.content-anchor, .page-content h6:hover a.content-anchor {
-    color: #0075FF
+    color: #787DFF
 }
 
 .page-content figure.image img, .page-content p > img {
@@ -6329,7 +6329,7 @@ a:focus, a:hover {
 }
 
 .page-content figure.clickable > span {
-    border-color: #0075FF
+    border-color: #787DFF
 }
 
 .page-content figure.clickable:after, .page-content figure.clickable:before {
@@ -6689,7 +6689,7 @@ code {
 }
 
 .page-toc li > a:hover {
-    border-left-color: #0075FF;
+    border-left-color: #787DFF;
     color: #000
 }
 
@@ -6768,7 +6768,7 @@ code {
 }
 
 .docs-banner a {
-    color: #0075FF
+    color: #787DFF
 }
 
 .docs-banner a:hover {
