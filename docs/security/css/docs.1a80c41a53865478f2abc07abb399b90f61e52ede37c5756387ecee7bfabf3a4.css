@@ -6365,7 +6365,7 @@ a:focus, a:hover {
     right: -39px;
     content: '';
     z-index: 1;
-    background-color: rgba(0, 117, 255, .9);
+    background-color: #787DFF;
     transform: rotateZ(45deg)
 }
 
