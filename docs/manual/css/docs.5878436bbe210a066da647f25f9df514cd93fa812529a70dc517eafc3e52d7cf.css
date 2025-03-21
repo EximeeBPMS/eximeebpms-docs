@@ -6110,7 +6110,7 @@ pre[class*=language-] {
 }
 
 .token.attr-name, .token.builtin, .token.char, .token.inserted, .token.selector, .token.string {
-    color: #2b65aa
+    color: #787DFF
 }
 
 .language-css .token.string, .style .token.string, .token.entity, .token.operator, .token.url {
@@ -6266,7 +6266,7 @@ a:focus, a:hover {
 .page-content a.content-anchor {
     font-size: .7em;
     text-decoration: none;
-    color: #77b2f7
+    color: #787DFF
 }
 
 .page-content h1, .page-content h2, .page-content h3, .page-content h4, .page-content h5, .page-content h6 {
