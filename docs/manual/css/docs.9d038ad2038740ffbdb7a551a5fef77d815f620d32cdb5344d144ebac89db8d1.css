@@ -2862,7 +2862,7 @@ output {
 }
 
 .form-control:focus {
-    border-color: #004699;
+    border-color: #787DFF;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(0, 70, 153, .6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(0, 70, 153, .6)
@@ -3582,7 +3582,7 @@ a.btn.disabled, fieldset[disabled] a.btn {
 }
 
 .btn-link:focus, .btn-link:hover {
-    color: #004699;
+    color: #787DFF;
     text-decoration: none;
     background-color: transparent
 }
@@ -6245,7 +6245,7 @@ a {
 
 a:focus, a:hover {
     outline: 0;
-    color: #004699;
+    color: #787DFF;
     text-decoration: none
 }
 
