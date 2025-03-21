@@ -3444,7 +3444,7 @@ a.btn.disabled, fieldset[disabled] a.btn {
 
 .btn-info {
     color: #fff;
-    background-color: #5bc0de;
+    background-color: #787DFF;
     border-color: #46b8da
 }
 
@@ -3474,12 +3474,12 @@ a.btn.disabled, fieldset[disabled] a.btn {
 }
 
 .btn-info.disabled.focus, .btn-info.disabled:focus, .btn-info.disabled:hover, .btn-info[disabled].focus, .btn-info[disabled]:focus, .btn-info[disabled]:hover, fieldset[disabled] .btn-info.focus, fieldset[disabled] .btn-info:focus, fieldset[disabled] .btn-info:hover {
-    background-color: #5bc0de;
+    background-color: #787DFF;
     border-color: #46b8da
 }
 
 .btn-info .badge {
-    color: #5bc0de;
+    color: #787DFF;
     background-color: #fff
 }
 
@@ -4393,7 +4393,7 @@ a.label:focus, a.label:hover {
 }
 
 .label-info {
-    background-color: #5bc0de
+    background-color: #787DFF
 }
 
 .label-info[href]:focus, .label-info[href]:hover {
@@ -6523,7 +6523,7 @@ pre.console {
 }
 
 .note.docs-info:before {
-    background-color: #5bc0de
+    background-color: #787DFF
 }
 
 .note.docs-warning {
