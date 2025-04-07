@@ -14,7 +14,7 @@ This guide gives an introduction to Camunda Run, a pre-packaged, lightweight dis
 
 # Prerequisites and audience
 
-To use this guide, you should at least know what Camunda 7 is and what it does. Check out the [Get Started guides](https://docs.camunda.org/get-started/quick-start/) if you have never used Camunda 7 before. The [Installation guide]({{< ref "/installation/camunda-bpm-run.md" >}}) is also worth looking at if you are completely new to Camunda 7.
+To use this guide, you should at least know what Camunda 7 is and what it does. Check out the [Get Started guides](https://eximeebpms.github.io/eximeebpms-docs/get-started/quick-start/) if you have never used Camunda 7 before. The [Installation guide]({{< ref "/installation/camunda-bpm-run.md" >}}) is also worth looking at if you are completely new to Camunda 7.
 
 This guide will teach you about Camunda Run and how to configure it. It can serve as a reference page for configuration and operation options. It will not give you a step-by-step guide on how to install Camunda Run. Head over to the [Installation guide]({{< ref "/installation/camunda-bpm-run.md" >}}) for details on how to install and start Camunda Run.
 
