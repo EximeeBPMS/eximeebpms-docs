@@ -33,7 +33,7 @@ params:
       - "0.9.0"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "master"
+    branch: "master/manual"
 
 outputs:
   home:
