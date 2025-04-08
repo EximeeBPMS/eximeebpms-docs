@@ -11,9 +11,9 @@ menu:
 ---
 
 
-# Camunda 
+# EximeeBPMS 
 
-Camunda is a Java-based framework.
+EximeeBPMS is a Java-based framework.
 
 ## Community Edition
 
@@ -25,10 +25,10 @@ If you are using the Enterprise Platform, additionally to the Community componen
 
 ## Third-Party Libraries
 
-Camunda (Community and Enterprise Edition) includes libraries developed by third parties. See the following resources:
+EximeeBPMS (Community and Enterprise Edition) includes libraries developed by third parties. See the following resources:
 
-* [Third-Party Libraries][third-party-libraries]: An overview of the dependencies Camunda distributes. Additionally, this page points out particularly important third-party licenses to be aware of.
-* [HTML License Book Camunda]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies Camunda distributes with the Camunda 7 artifacts, including their licenses and notices.
+* [Third-Party Libraries][third-party-libraries]: An overview of the dependencies EximeeBPMS distributes. Additionally, this page points out particularly important third-party licenses to be aware of.
+* [HTML License Book Camunda]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS 7 artifacts, including their licenses and notices.
 * [Plain text license book Camunda][license-book]: A plain text version of the license book.
 
 [third-party-libraries]: {{< ref "/introduction/third-party-libraries/_index.md" >}}
@@ -65,12 +65,12 @@ Camunda may modify this Commitment by publishing a new edition on this page or a
 
 ‘Covered License’ means the GNU General Public License, version 2 (GPLv2), the GNU Lesser General Public License, version 2.1 (LGPLv2.1), or the GNU Library General Public License, version 2 (LGPLv2), all as published by the Free Software Foundation.
 
-‘Defensive Action’ means a legal proceeding or claim that Camunda brings against you in response to a prior proceeding or claim initiated by you or your affiliate.
+‘Defensive Action’ means a legal proceeding or claim that EximeeBPMS brings against you in response to a prior proceeding or claim initiated by you or your affiliate.
 
-‘Camunda’ means Camunda and its subsidiaries.
+‘EximeeBPMS’ means EximeeBPMS and its subsidiaries.
 
 This work is available under a [Creative Commons Attribution-ShareAlike 4.0 International license](https://creativecommons.org/licenses/by-sa/4.0/).
 
 # Contact
 
-If you have a question specifically about the licensing or distribution of Camunda’s software and it has not been answered by this page, please contact the Open Source Compliance team at [foss@camunda.com](mailto:foss@camunda.com).
+If you have a question specifically about the licensing or distribution of EximeeBPMS’s software and it has not been answered by this page, please contact the Open Source Compliance team at [foss@camunda.com](mailto:foss@camunda.com).
