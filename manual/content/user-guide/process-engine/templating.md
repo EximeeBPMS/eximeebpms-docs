@@ -11,10 +11,10 @@ menu:
 ---
 
 
-Camunda 7 supports template engines which are implemented as script engines compatible with
+EximeeBPMS supports template engines which are implemented as script engines compatible with
 JSR-223. As a result, templates can be used everywhere where scripts can be used.
 
-In community distributions of Camunda 7, the following template engine is provided out of the
+In community distributions of EximeeBPMS, the following template engine is provided out of the
 box:
 
 * [FreeMarker][freemarker]
@@ -43,7 +43,7 @@ application deployment. When using the process engine in a maven `war` project, 
 dependencies must be added as dependencies to the maven `pom.xml` file:
 
 {{< note title="" class="info" >}}
-  The [Camunda BOM](/get-started/apache-maven/) only contains the officially supported freemarker template engine.
+  The [EximeeBPMS BOM](/eximeebpms-docs/get-started/apache-maven/) only contains the officially supported freemarker template engine.
   For the community-driven template engines, please check the Maven coordinates below. 
 {{< /note >}}
 
@@ -52,8 +52,8 @@ dependencies must be added as dependencies to the maven `pom.xml` file:
 
   <!-- freemarker -->
   <dependency>
-    <groupId>org.camunda.template-engines</groupId>
-    <artifactId>camunda-template-engines-freemarker</artifactId>
+    <groupId>org.eximeebpms.template-engines</groupId>
+    <artifactId>eximeebpms-template-engines-freemarker</artifactId>
   </dependency>
 
 </dependencies>
@@ -66,20 +66,20 @@ Here are the Maven coordinates of the community extensions:
 
   <!-- saxon xquery -->
   <dependency>
-    <groupId>org.camunda.community.template.engine</groupId>
-    <artifactId>camunda-7-template-engine-xquery</artifactId>
+    <groupId>org.eximeebpms.community.template.engine</groupId>
+    <artifactId>eximeebpms-template-engine-xquery</artifactId>
   </dependency>
 
   <!-- saxon xslt -->
   <dependency>
-    <groupId>org.camunda.community.template.engine</groupId>
-    <artifactId>camunda-7-template-engine-xslt</artifactId>
+    <groupId>org.eximeebpms.community.template.engine</groupId>
+    <artifactId>eximeebpms-template-engine-xslt</artifactId>
   </dependency>
 
   <!-- apache velocity -->
   <dependency>
-    <groupId>org.camunda.community.template.engine</groupId>
-    <artifactId>camunda-7-template-engine-velocity</artifactId>
+    <groupId>org.eximeebpms.community.template.engine</groupId>
+    <artifactId>eximeebpms-template-engine-velocity</artifactId>
   </dependency>
 
 </dependencies>
@@ -93,7 +93,7 @@ classpath. The procedure for this depends on the application server. In Apache T
 libraries have to be added to the shared `lib/` folder.
 
 {{< note title="" class="info" >}}
-  [FreeMarker](http://freemarker.org/) is pre-installed in the Camunda pre-packaged distribution.
+  [FreeMarker](http://freemarker.org/) is pre-installed in the EximeeBPMS pre-packaged distribution.
 {{< /note >}}
 
 
@@ -101,7 +101,7 @@ libraries have to be added to the shared `lib/` folder.
 
 If the template engine library is in the classpath, you can use templates everywhere in the BPMN
 process where you can [use scripts][use-scripts], for example as a script task or inputOutput mapping.
-The FreeMarker template engine is part of the Camunda 7 distribution.
+The FreeMarker template engine is part of the EximeeBPMS distribution.
 
 Inside the template, all process variables of the BPMN element scope are available. The
 template can also be loaded from an external resource as described in the [script source
@@ -111,14 +111,14 @@ The following example shows a FreeMarker template, of which the result is saved 
 `text`.
 
 ```xml
-<scriptTask id="templateScript" scriptFormat="freemarker" camunda:resultVariable="text">
+<scriptTask id="templateScript" scriptFormat="freemarker" eximeebpms:resultVariable="text">
   <script>
     Dear ${customer},
 
-    thank you for working with Camunda ${version}.
+    thank you for working with EximeeBPMS ${version}.
 
     Greetings,
-    Camunda Developers
+    EximeeBPMS Developers
   </script>
 </scriptTask>
 ```
@@ -129,18 +129,18 @@ payload of a `camunda:connector`.
 ```xml
 <bpmn2:serviceTask id="soapTask" name="Send SOAP request">
   <bpmn2:extensionElements>
-    <camunda:connector>
-      <camunda:connectorId>soap-http-connector</camunda:connectorId>
-      <camunda:inputOutput>
+    <eximeebpms:connector>
+      <eximeebpms:connectorId>soap-http-connector</eximeebpms:connectorId>
+      <eximeebpms:inputOutput>
 
-        <camunda:inputParameter name="soapEnvelope">
-          <camunda:script scriptFormat="freemarker" resource="soapEnvelope.ftl" />
-        </camunda:inputParameter>
+        <eximeebpms:inputParameter name="soapEnvelope">
+          <eximeebpms:script scriptFormat="freemarker" resource="soapEnvelope.ftl" />
+        </eximeebpms:inputParameter>
 
         <!-- ... remaining connector config omitted -->
 
-      </camunda:inputOutput>
-    </camunda:connector>
+      </eximeebpms:inputOutput>
+    </eximeebpms:connector>
   </bpmn2:extensionElements>
 </bpmn2:serviceTask>
 ```
@@ -158,8 +158,8 @@ dependency must be added as dependencies to the maven `pom.xml` file:
 
   <!-- XSLT -->
   <dependency>
-    <groupId>org.camunda.community.template.engine</groupId>
-    <artifactId>camunda-7-template-engine-xslt</artifactId>
+    <groupId>org.eximeebpms.community.template.engine</groupId>
+    <artifactId>eximeebpms-template-engine-xslt</artifactId>
   </dependency>
 
 </dependencies>
@@ -172,29 +172,29 @@ The following is an example of a BPMN ScriptTask used to execute an XSLT Templat
 ```xml
 <bpmn2:scriptTask id="ScriptTask_1" name="convert input"
                   scriptFormat="xslt"
-                  camunda:resource="org/camunda/bpm/example/xsltexample/example.xsl"
-                  camunda:resultVariable="xmlOutput">
+                  eximeebpms:resource="org/eximeebpms/bpm/example/xsltexample/example.xsl"
+                  eximeebpms:resultVariable="xmlOutput">
 
   <bpmn2:extensionElements>
-    <camunda:inputOutput>
-      <camunda:inputParameter name="camunda_source">${customers}</camunda:inputParameter>
-    </camunda:inputOutput>
+    <eximeebpms:inputOutput>
+      <eximeebpms:inputParameter name="eximeebpms_source">${customers}</eximeebpms:inputParameter>
+    </eximeebpms:inputOutput>
   </bpmn2:extensionElements>
 
 </bpmn2:scriptTask>
 ```
 
-As shown in the example above, the XSL source file can be referenced using the `camunda:resource`
+As shown in the example above, the XSL source file can be referenced using the `eximeebpms:resource`
 attribute. It may be loaded from the classpath or the deployment (database) in the same way as
 described for [script tasks][script-source].
 
-The result of the transformation can be mapped to a variable using the `camunda:resultVariable`
+The result of the transformation can be mapped to a variable using the `eximeebpms:resultVariable`
 attribute.
 
-Finally, the input of the transformation must be mapped using the special variable `camunda_source`
-using a `<camunda:inputParameter ... />` mapping.
+Finally, the input of the transformation must be mapped using the special variable `eximeebpms_source`
+using a `<eximeebpms:inputParameter ... />` mapping.
 
-A [full example of the XSLT Template Engine][xslt-example] in Camunda 7 can be found in the
+A [full example of the XSLT Template Engine][xslt-example] in EximeeBPMS can be found in the
 examples' repository.
 
 
