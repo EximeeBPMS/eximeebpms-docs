@@ -10,7 +10,7 @@ menu:
 
 ---
 
-You can delegate the bootstrapping of the process engine and process deployment to a process application class. The basic ProcessApplication functionality is provided by the `org.camunda.bpm.application.AbstractProcessApplication` base class. Based on this class there is a set of environment-specific sub classes that realize integration within a specific environment:
+You can delegate the bootstrapping of the process engine and process deployment to a process application class. The basic ProcessApplication functionality is provided by the `org.eximeebpms.bpm.application.AbstractProcessApplication` base class. Based on this class there is a set of environment-specific sub classes that realize integration within a specific environment:
 
 * **ServletProcessApplication**: To be used for process applications in a Servlet container like Apache Tomcat.
 * **JakartaServletProcessApplication**: To be used for process applications in a Jakarta Servlet 5.0+ container like WildFly 27 and above.
@@ -37,10 +37,10 @@ The `ServletProcessApplication` class is the base class for developing process a
 The following is an example of a Servlet Process Application:
 
 ```java
-package org.camunda.bpm.example.loanapproval;
+package org.eximeebpms.bpm.example.loanapproval;
 
-import org.camunda.bpm.application.ProcessApplication;
-import org.camunda.bpm.application.impl.ServletProcessApplication;
+import org.eximeebpms.bpm.application.ProcessApplication;
+import org.eximeebpms.bpm.application.impl.ServletProcessApplication;
 
 @ProcessApplication("Loan Approval App")
 public class LoanApprovalApplication extends ServletProcessApplication {
@@ -51,7 +51,7 @@ public class LoanApprovalApplication extends ServletProcessApplication {
 Notice the `@ProcessApplication` annotation. This annotation fulfills two purposes:
 
 * **provide the name of the ProcessApplication**: You can provide a custom name for your process application using the annotation: `@ProcessApplication("Loan Approval App")`. If no name is provided, a name is automatically detected. In case of a servlet process application, the name of the `ServletContext` is used.
-* **trigger auto-deployment**. In a Servlet 3.0 container, the annotation is sufficient for making sure that the process application is automatically picked up by the servlet container and automatically added as a ServletContextListener to the Servlet Container deployment. This functionality is realized by a `javax.servlet.ServletContainerInitializer` implementation named `org.camunda.bpm.application.impl.ServletProcessApplicationDeployer` which is located in the camunda-engine module. The implementation works for both embedded deployment of the camunda-engine.jar as a web application library in the `WEB-INF/lib` folder of your WAR file, or for the deployment of the camunda-engine.jar as a shared library in the shared library (e.g., Apache Tomcat global `lib/` folder) directory of your application server. The Servlet 3.0 Specification foresees both deployment scenarios. In case of embedded deployment, the `ServletProcessApplicationDeployer` is notified once, when the web application is deployed. In case of deployment as a shared library, the `ServletProcessApplicationDeployer` is notified for each WAR file containing a class annotated with `@ProcessApplication` (as required by the Servlet 3.0 Specification).
+* **trigger auto-deployment**. In a Servlet 3.0 container, the annotation is sufficient for making sure that the process application is automatically picked up by the servlet container and automatically added as a ServletContextListener to the Servlet Container deployment. This functionality is realized by a `javax.servlet.ServletContainerInitializer` implementation named `org.camunda-engine m.bpm.application.impl.ServletProcessApplicationDeployer` which is located in the camunda-engine module. The implementation works for both embedded deployment of the camunda-engine.jar as a web application library in the `WEB-INF/lib` folder of your WAR file, or for the deployment of the camunda-engine.jar as a shared library in the shared library (e.g., Apache Tomcat global `lib/` folder) directory of your application server. The Servlet 3.0 Specification foresees both deployment scenarios. In case of embedded deployment, the `ServletProcessApplicationDeployer` is notified once, when the web application is deployed. In case of deployment as a shared library, the `ServletProcessApplicationDeployer` is notified for each WAR file containing a class annotated with `@ProcessApplication` (as required by the Servlet 3.0 Specification).
 
 This means that in case you deploy to a Servlet 3.0 compliant container (such as Apache Tomcat) annotating your class with `@ProcessApplication` is sufficient.
 
@@ -299,7 +299,7 @@ When the EJB process application registers with a process engine (see `Managemen
 
 **Packaging:** JAR, WAR, EAR
 
-The `org.camunda.bpm.application.impl.EmbeddedProcessApplication` can only be used in combination with an embedded process engine. Usage in combination with a Shared Process Engine is not supported as the class performs no process application context switching at runtime.
+The `org.eximeebpms.bpm.application.impl.EmbeddedProcessApplication` can only be used in combination with an embedded process engine. Usage in combination with a Shared Process Engine is not supported as the class performs no process application context switching at runtime.
 
 The embedded process application also does not provide auto-startup. You need to manually call the `#deploy` method of your process application:
 
@@ -344,9 +344,9 @@ runtimeContainerDelegate.registerProcessEngine(processEngine);
 
 **Packaging:** JAR, WAR, EAR
 
-The `org.camunda.bpm.engine.spring.application.SpringProcessApplication` class allows bootstrapping a process application through a Spring Application Context. You can either reference the SpringProcessApplication class from an XML-based application context configuration file or use an annotation-based setup.
+The `org.eximeebpms.bpm.engine.spring.application.SpringProcessApplication` class allows bootstrapping a process application through a Spring Application Context. You can either reference the SpringProcessApplication class from an XML-based application context configuration file or use an annotation-based setup.
 
-If your application is a web application you should use `org.camunda.bpm.engine.spring.application.SpringServletProcessApplication` as it provides support for exposing the servlet context path through the `ProcessApplicationInfo#PROP_SERVLET_CONTEXT_PATH` property.
+If your application is a web application you should use `org.eximeebpms.bpm.engine.spring.application.SpringServletProcessApplication` as it provides support for exposing the servlet context path through the `ProcessApplicationInfo#PROP_SERVLET_CONTEXT_PATH` property.
 
 We recommend to always use `SpringServletProcessApplication` unless the deployment is not a web application. Using this class requires the ```org.springframework:spring-web``` module to be on the classpath.
 
@@ -362,7 +362,7 @@ The following shows an example of how to bootstrap a SpringProcessApplication in
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean id="invoicePa" class="org.camunda.bpm.engine.spring.application.SpringServletProcessApplication" />
+  <bean id="invoicePa" class="org.eximeebpms.bpm.engine.spring.application.SpringServletProcessApplication" />
 
 </beans>
 ```
@@ -379,7 +379,7 @@ The `SpringProcessApplication` will use the bean name (`id="invoicePa"` in the e
 
 ## Configure a Managed Process Engine Using Spring
 
-If you use a Spring process application, you may want to configure your process engine inside the Spring application context Xml file (as opposed to the processes.xml file). In this case, you must use the `org.camunda.bpm.engine.spring.container.ManagedProcessEngineFactoryBean` class for creating the process engine object instance. In addition to creating the process engine object, this implementation registers the process engine with the Camunda 7 infrastructure so that the process engine is returned by the `ProcessEngineService`. The following is an example of how to configure a managed process engine using Spring.
+If you use a Spring process application, you may want to configure your process engine inside the Spring application context Xml file (as opposed to the processes.xml file). In this case, you must use the `org.eximeebpms.bpm.engine.spring.container.ManagedProcessEngineFactoryBean` class for creating the process engine object instance. In addition to creating the process engine object, this implementation registers the process engine with the EximeeBPMS infrastructure so that the process engine is returned by the `ProcessEngineService`. The following is an example of how to configure a managed process engine using Spring.
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
