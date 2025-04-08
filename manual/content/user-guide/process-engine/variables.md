@@ -85,9 +85,9 @@ There is a possibility to set variables into specific scope from scripts, input\
 
 Here is example usage with script executionListener:
 ```xml
-<camunda:executionListener event="end">
-        <camunda:script scriptFormat="groovy"><![CDATA[execution.setVariable("aVariable", "aValue","aSubProcess");]]></camunda:script>
-</camunda:executionListener>
+<eximeebpms:executionListener event="end">
+        <eximeebpms:script scriptFormat="groovy"><![CDATA[execution.setVariable("aVariable", "aValue","aSubProcess");]]></eximeebpms:script>
+</eximeebpms:executionListener>
 ```
 Another usage example would be input\output mapping using `DelegateVariableMapping` implementation 
 
@@ -131,12 +131,12 @@ The value type `object` represents custom Java objects. When such a variable is 
 
 {{< note title="String length restriction" class="warning" >}}
 `string` values are stored in the database in a column of type `(n)varchar`, with a length restriction of 4000 (2000 for Oracle). Depending on the database in use and the
-configured charset, this length restriction can result in different quantities of real characters. Variable value length is not validated inside the Camunda engine, but
+configured charset, this length restriction can result in different quantities of real characters. Variable value length is not validated inside the EximeeBPMS engine, but
  the values are sent to the database 'as is' and, in case the length restriction is exceeded, a database level exception will be thrown. If validation is needed, 
- it may be implemented separately and must happen before the Camunda API to set the variables is called.
+ it may be implemented separately and must happen before the EximeeBPMS API to set the variables is called.
 {{< /note >}}
 
-Process variables can be stored in formats like JSON and XML provided by the [Camunda Spin plugin]({{< ref "/user-guide/data-formats/_index.md" >}}). Spin provides serializers for the variables of type `object` such that Java variables can be persisted in these formats to the database. Furthermore, it is possible to store JSON and XML documents directly as a Spin object by the value types `xml` and `json`. Opposed to plain `string` variables, Spin objects provide a fluent API to perform common operations on such documents like reading and writing properties.
+Process variables can be stored in formats like JSON and XML provided by the [EximeeBPMS Spin plugin]({{< ref "/user-guide/data-formats/_index.md" >}}). Spin provides serializers for the variables of type `object` such that Java variables can be persisted in these formats to the database. Furthermore, it is possible to store JSON and XML documents directly as a Spin object by the value types `xml` and `json`. Opposed to plain `string` variables, Spin objects provide a fluent API to perform common operations on such documents like reading and writing properties.
 
 
 ## Object Value Serialization
@@ -164,7 +164,7 @@ execution.setVariable("someVariable", customerDataValue);
 {{< /note >}}
 
 {{< note title="Serializing Objects to XML and JSON" class="info" >}}
-  The [Camunda Spin plugin]({{< ref "/user-guide/data-formats/_index.md" >}}) provides serializers that are capable of serializing object values to XML and JSON. They can be used when it is desired that the serialized objects values can be interpreted by humans or when the serialized value should be meaningful without having the corresponding Java class. When using a pre-built Camunda distribution, Camunda Spin is already preconfigured and you can try these formats without further configuration.
+  The [EximeeBPMS Spin plugin]({{< ref "/user-guide/data-formats/_index.md" >}}) provides serializers that are capable of serializing object values to XML and JSON. They can be used when it is desired that the serialized objects values can be interpreted by humans or when the serialized value should be meaningful without having the corresponding Java class. When using a pre-built EximeeBPMS distribution, EximeeBPMS Spin is already preconfigured and you can try these formats without further configuration.
 {{< /note >}}
 
 
@@ -197,7 +197,7 @@ Whenever a variable is set in its Java representation, the process engine automa
 
 In cases in which it is important to access a variable's serialized representation or in which the engine has to be hinted to serialize a value in a certain format, the typed-value-based API can be used. In comparison to the Java-Object-based API, it wraps a variable value in a so-called *Typed Value*. Such a typed value allows richer representation of variable values.
 
-In order to easily construct typed values, Camunda 7 offers the class `org.camunda.bpm.engine.variable.Variables`. This class contains static methods that allow creation of single typed values as well as creation of a map of typed values in a fluent way.
+In order to easily construct typed values, EximeeBPMS offers the class `org.eximeebpms.bpm.engine.variable.Variables`. This class contains static methods that allow creation of single typed values as well as creation of a map of typed values in a fluent way.
 
 
 ## Primitive Values
@@ -319,7 +319,7 @@ com.example.Order retrievedOrder = (com.example.Order) retrievedTypedObjectValue
 
 ## JSON and XML Values
 
-The Camunda Spin plugin provides an abstraction for JSON and XML documents that facilitate their processing and manipulation. This is often more convenient than storing such documents as plain `string` variables. See the documentation on Camunda SPIN for [storing JSON documents]({{< ref "/user-guide/data-formats/json.md#native-json-variable-value" >}}) and [storing XML documents]({{< ref "/user-guide/data-formats/xml.md#native-xml-variable-value" >}}) for details.
+The EximeeBPMS Spin plugin provides an abstraction for JSON and XML documents that facilitate their processing and manipulation. This is often more convenient than storing such documents as plain `string` variables. See the documentation on EximeeBPMS SPIN for [storing JSON documents]({{< ref "/user-guide/data-formats/json.md#native-json-variable-value" >}}) and [storing XML documents]({{< ref "/user-guide/data-formats/xml.md#native-xml-variable-value" >}}) for details.
 
 ## Transient variables
 
@@ -370,10 +370,10 @@ Which API should you use? The one that fits your purpose best. When you are cert
 
 # Input/Output Variable Mapping
 
-To improve the reusability of source code and business logic, Camunda 7 offers input/output
+To improve the reusability of source code and business logic, EximeeBPMS offers input/output
 mapping of process variables. This can be used for tasks, events and subprocesses.
 
-In order to use the variable mapping, the Camunda extension element [inputOutput][] has to be added
+In order to use the variable mapping, the EximeeBPMS extension element [inputOutput][] has to be added
 to the element. It can contain multiple [inputParameter][] and [outputParameter][] elements that
 specify which variables should be mapped. The `name` attribute of an [inputParameter][] denotes
 the variable name inside the activity (a local variable to be created), whereas the `name` attribute of an [outputParameter][]
@@ -384,42 +384,42 @@ variable. It can be a simple constant string or an expression. An empty body set
 to the value `null`.
 
 ```xml
-<camunda:inputOutput>
-  <camunda:inputParameter name="x">foo</camunda:inputParameter>
-  <camunda:inputParameter name="willBeNull"/>
-  <camunda:outputParameter name="y">${x}</camunda:outputParameter>
-  <camunda:outputParameter name="z">${willBeNull == null}</camunda:outputParameter>
-</camunda:inputOutput>
+<eximeebpms:inputOutput>
+  <eximeebpms:inputParameter name="x">foo</eximeebpms:inputParameter>
+  <eximeebpms:inputParameter name="willBeNull"/>
+  <eximeebpms:outputParameter name="y">${x}</eximeebpms:outputParameter>
+  <eximeebpms:outputParameter name="z">${willBeNull == null}</eximeebpms:outputParameter>
+</eximeebpms:inputOutput>
 ```
 
 Even complex structures like [lists][list] and [maps][map] can be used. Both can also
 be nested.
 
 ```xml
-<camunda:inputOutput>
-  <camunda:inputParameter name="x">
-    <camunda:list>
-      <camunda:value>a</camunda:value>
-      <camunda:value>${1 + 1}</camunda:value>
-      <camunda:list>
-        <camunda:value>1</camunda:value>
-        <camunda:value>2</camunda:value>
-        <camunda:value>3</camunda:value>
-      </camunda:list>
-    </camunda:list>
-  </camunda:inputParameter>
-  <camunda:outputParameter name="y">
-    <camunda:map>
-      <camunda:entry key="foo">bar</camunda:entry>
-      <camunda:entry key="map">
-        <camunda:map>
-          <camunda:entry key="hello">world</camunda:entry>
-          <camunda:entry key="camunda">bpm</camunda:entry>
-        </camunda:map>
-      </camunda:entry>
-    </camunda:map>
-  </camunda:outputParameter>
-</camunda:inputOutput>
+<eximeebpms:inputOutput>
+  <eximeebpms:inputParameter name="x">
+    <eximeebpms:list>
+      <eximeebpms:value>a</eximeebpms:value>
+      <eximeebpms:value>${1 + 1}</eximeebpms:value>
+      <eximeebpms:list>
+        <eximeebpms:value>1</eximeebpms:value>
+        <eximeebpms:value>2</eximeebpms:value>
+        <eximeebpms:value>3</eximeebpms:value>
+      </eximeebpms:list>
+    </eximeebpms:list>
+  </eximeebpms:inputParameter>
+  <eximeebpms:outputParameter name="y">
+    <eximeebpms:map>
+      <eximeebpms:entry key="foo">bar</eximeebpms:entry>
+      <eximeebpms:entry key="map">
+        <eximeebpms:map>
+          <eximeebpms:entry key="hello">world</eximeebpms:entry>
+          <eximeebpms:entry key="eximeebpms">bpm</eximeebpms:entry>
+        </eximeebpms:map>
+      </eximeebpms:entry>
+    </eximeebpms:map>
+  </eximeebpms:outputParameter>
+</eximeebpms:inputOutput>
 ```
 
 A script can also be used to provide the variable value. Please see the corresponding
@@ -432,19 +432,19 @@ An input mapping is used to map the different process variables to
 the required input parameters of the complex calculation activity. Accordingly, an output mapping allows to utilize the
 calculation result in the further process execution.
 
-In more detail, let us assume such a calculation is implemented by a Java Delegate class `org.camunda.bpm.example.ComplexCalculation`.
+In more detail, let us assume such a calculation is implemented by a Java Delegate class `org.eximeebpms.bpm.example.ComplexCalculation`.
 This delegate requires a `userId` and a `costSum` variable as input
 parameters. It then calculates three values, `pessimisticForecast`, `realisticForecast` and `optimisticForecast`,
 which are different forecasts of the future costs a customer faces. In a first process, both input variables are available as process variables but with different names (`id`, `sum`). From the three results, the process only uses `realisticForecast` which it depends on by the name `forecast` in follow-up activities. A corresponding input/output mapping looks as follows:
 
 ```xml
-<serviceTask camunda:class="org.camunda.bpm.example.ComplexCalculation">
+<serviceTask eximeebpms:class="org.eximeebpms.bpm.example.ComplexCalculation">
   <extensionElements>
-    <camunda:inputOutput>
-      <camunda:inputParameter name="userId">${id}</camunda:inputParameter>
-      <camunda:inputParameter name="costSum">${sum}</camunda:inputParameter>
-      <camunda:outputParameter name="forecast">${realisticForecast}</camunda:outputParameter>
-    </camunda:inputOutput>
+    <eximeebpms:inputOutput>
+      <eximeebpms:inputParameter name="userId">${id}</eximeebpms:inputParameter>
+      <eximeebpms:inputParameter name="costSum">${sum}</eximeebpms:inputParameter>
+      <eximeebpms:outputParameter name="forecast">${realisticForecast}</eximeebpms:outputParameter>
+    </eximeebpms:inputOutput>
   </extensionElements>
 </serviceTask>
 ```
@@ -453,17 +453,17 @@ In a second process, let us assume the `costSum` variable has to be calculated f
 depends on a variable `avgForecast` as the average value of the three forecasts. In this case, the mapping looks as follows:
 
 ```xml
-<serviceTask camunda:class="org.camunda.bpm.example.ComplexCalculation">
+<serviceTask eximeebpms:class="org.eximeebpms.bpm.example.ComplexCalculation">
   <extensionElements>
-    <camunda:inputOutput>
-      <camunda:inputParameter name="userId">${id}</camunda:inputParameter>
-      <camunda:inputParameter name="costSum">
+    <eximeebpms:inputOutput>
+      <eximeebpms:inputParameter name="userId">${id}</eximeebpms:inputParameter>
+      <eximeebpms:inputParameter name="costSum">
         ${mapA[costs] + mapB[costs] + mapC[costs]}
-      </camunda:inputParameter>
-      <camunda:outputParameter name="avgForecast">
+      </eximeebpms:inputParameter>
+      <eximeebpms:outputParameter name="avgForecast">
         ${(pessimisticForecast + realisticForecast + optimisticForecast) / 3}
-      </camunda:outputParameter>
-    </camunda:inputOutput>
+      </eximeebpms:outputParameter>
+    </eximeebpms:inputOutput>
   </extensionElements>
 </serviceTask>
 ```
