@@ -11,7 +11,7 @@ menu:
 ---
 
 We provide several project templates for Maven, which are also called Archetypes.
-They enable a quickstart for developing production-ready process applications using Camunda 7.
+They enable a quickstart for developing production-ready process applications using EximeeBPMS.
 We incorporated best practices for different application types into the templates to help you start off with a solid base.
 
 The Archetypes can be used to generate projects as detailed in the different usage sections.
@@ -19,7 +19,7 @@ In case generating a project from an Archetype on your own is not feasible, we a
 
 # Overview of Available Maven Archetypes
 
-The following archetypes are currently provided. They are distributed via our Maven repository: https://artifacts.camunda.com/artifactory/camunda-bpm/
+The following archetypes are currently provided. They are distributed via our Maven repository: https://repo1.maven.org/maven2/org/eximeebpms/
 
 <table class="table table-bordered">
   <thead>
@@ -62,12 +62,12 @@ The following archetypes are currently provided. They are distributed via our Ma
 
 # Template repositories
 
-We provide a template repository for every Camunda Archetype. 
+We provide a template repository for every EximeeBPMS Archetype. 
 Every repository contains a project generated from one specific template.
 You can find the whole list on [GitHub](https://github.com/camunda?q=%22camunda-bpm-archetype-%22).
 
 With every new release of the Archetypes, we will update those repositories with a new version as well.
-This allows to investigate possible update paths from one Camunda version to another and also enables you to simply update your existing project by pulling in the latest changes.
+This allows to investigate possible update paths from one EximeeBPMS version to another and also enables you to simply update your existing project by pulling in the latest changes.
 
 In case you need more flexibility and customization for your project, you can generate a project on your own using one of the methods detailed in the next sections.
 
@@ -88,7 +88,7 @@ In case you need more flexibility and customization for your project, you can ge
 
     Catalog File: **https://artifacts.camunda.com/artifactory/camunda-bpm/**
 
-    Description: **Camunda 7**
+    Description: **EximeeBPMS**
 {{< img src="../img/eclipse-01-add-remote-archetype-catalog.png" title="Eclipse Preferences: Add Maven Archetype Catalog" >}}
 
 Now you should be able to use the archetypes when creating a new Maven project in Eclipse:
@@ -99,7 +99,7 @@ Now you should be able to use the archetypes when creating a new Maven project i
 {{< img src="../img/eclipse-03-select-maven-project-location.png" title="Eclipse: Select Maven project location" >}}
 3. Select the archetype from the catalog that you created before.
 {{< img src="../img/eclipse-04-select-archetype-from-catalog.png" title="Eclipse: Select Maven archetype from catalog" >}}
-4. Specify Maven coordinates and Camunda version and finish the project creation.
+4. Specify Maven coordinates and EximeeBPMS version and finish the project creation.
 {{< img src="../img/eclipse-05-specify-maven-coordinates-and-camunda-version.png" title="Eclipse: Specify Maven coordinates and Camunda version" >}}
 
 The resulting project should look like this:
@@ -123,7 +123,7 @@ Sometimes the creation of the very first Maven project fails in Eclipse. If that
    modal window add the  URL of the catalog file: https://artifacts.camunda.com/artifactory/camunda-bpm/archetype-catalog.xml.
 8. To create a Maven project from an archetype, click on the "Welcome to IntelliJ IDEA" screen on "Create New Project".
 9. In the new project dialog, click on the left side on "Maven", check "Create from archetype" 
-   and select any `org.camunda.bpm.archetype` entry.
+   and select any `org.eximeebpms.bpm.archetype` entry.
 
 # Usage on Command Line
 
@@ -132,7 +132,7 @@ Sometimes the creation of the very first Maven project fails in Eclipse. If that
 Run the following command in a terminal to generate a project. Maven will allow you to select an archetype and ask you for all parameters needed to configure it:
 
 <pre class="console">
-mvn archetype:generate -Dfilter=org.camunda.bpm.archetype:
+mvn archetype:generate -Dfilter=org.eximeebpms.bpm.archetype:
 </pre>
 
 
@@ -142,13 +142,13 @@ The following command completely automates the project generation and can be use
 <pre class="console">
 mvn archetype:generate \
   -DinteractiveMode=false \
-  -DarchetypeGroupId=org.camunda.bpm.archetype \
-  -DarchetypeArtifactId=camunda-archetype-ejb-war \
+  -DarchetypeGroupId=org.eximeebpms.bpm.archetype \
+  -DarchetypeArtifactId=eximeebpms-archetype-ejb-war \
   -DarchetypeVersion=7.10.0 \
-  -DgroupId=org.example.camunda.bpm \
-  -DartifactId=camunda-bpm-ejb-project \
+  -DgroupId=org.example.eximeebpms.bpm \
+  -DartifactId=eximeebpms-bpm-ejb-project \
   -Dversion=0.0.1-SNAPSHOT \
-  -Dpackage=org.example.camunda.bpm.ejb
+  -Dpackage=org.example.eximeebpms.bpm.ejb
 </pre>
 
 
