@@ -33,7 +33,7 @@ Every Camunda installation requires a database schema update. Check our [databas
 
 # Full Distribution
 
-This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-camunda.md#full-distribution" >}}) with a **shared process engine**.
+This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}) with a **shared process engine**.
 
 The following steps are required:
 

@@ -573,7 +573,7 @@ More information on how to do this can be found in the official [GraalVM documen
 
 # Full Distribution
 
-This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-camunda.md#full-distribution" >}}) with a **shared process engine**. In this case you need to update the libraries and applications installed inside the application server.
+This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}) with a **shared process engine**. In this case you need to update the libraries and applications installed inside the application server.
 
 Please note that the following procedure may differ for cluster scenarios. Contact our [support team](https://app.camunda.com/jira/browse/SUPPORT) if you need further assistance.
 
@@ -594,10 +594,10 @@ In case you use an embedded process engine inside your Java Application, you nee
 {{< note title="Camunda discontinues the support of the Standalone Web Application Distribution." class="warning" >}}
 Camunda Automation Platform 7.19 is the last release providing support for Standalone Web Application Distribution.
 
-Please consider migrating to [another supported]({{< ref "/introduction/downloading-camunda.md#download-the-runtime" >}}) setup.
+Please consider migrating to [another supported]({{< ref "/introduction/downloading-eximeebpms.md#download-the-runtime" >}}) setup.
 {{< /note >}}
 
-In case you installed the [Standalone Webapplication Distribution]({{< ref "/introduction/downloading-camunda.md#download-the-runtime" >}}) you need to
+In case you installed the [Standalone Webapplication Distribution]({{< ref "/introduction/downloading-eximeebpms.md#download-the-runtime" >}}) you need to
 
 1. undeploy the previous version of the webapplication,
 2. deploy the new version of the webapplication.
