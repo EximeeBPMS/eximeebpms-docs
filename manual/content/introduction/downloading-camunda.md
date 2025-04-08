@@ -5,7 +5,7 @@ weight: 10
 
 menu:
   main:
-    identifier: "user-guide-introduction-downloading-eximeebpms"
+    identifier: "user-guide-introduction-downloading-camunda"
     parent: "user-guide-introduction"
 
 ---
