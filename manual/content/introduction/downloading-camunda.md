@@ -13,7 +13,7 @@ menu:
 
 # Prerequisites
 
-Before downloading Camunda, make sure you have a JRE (Java Runtime Environment), or better, a JDK
+Before downloading EximeeBPMS, make sure you have a JRE (Java Runtime Environment), or better, a JDK
 (Java Development Kit) installed. Please check the supported [Java versions]({{< ref "/introduction/supported-environments.md#java" >}}).
 
 [Download JDK][get-jdk]
@@ -21,25 +21,15 @@ Before downloading Camunda, make sure you have a JRE (Java Runtime Environment),
 
 # Download the Runtime
 
-Camunda is a flexible framework which can be used in different contexts. See [Architecture Overview]
+EximeeBPMS is a flexible framework which can be used in different contexts. See [Architecture Overview]
 ({{< ref "/introduction/architecture.md" >}}) for more details. Based on how you want
-to use Camunda, you can choose a different distribution.
-
-
-## Community vs. Enterprise Edition
-
-Camunda provides separate runtime downloads for community users and enterprise subscription customers:
-
-* [Community download page][community-download-page]
-* [Enterprise download page][enterprise-download-page]
-
-It is also possible to run Camunda with [Spring Boot][run-with-spring-boot] and [Docker][run-with-docker].
+to use EximeeBPMS, you can choose a different distribution.
 
 
 ## Full Distribution
 
 Download the full distribution if you want to use a [shared process engine][shared-engine] or if you
-want to get to know Camunda quickly, without any additional setup or installation steps required.
+want to get to know EximeeBPMS quickly, without any additional setup or installation steps required.
 
 The full distribution bundles
 
@@ -51,7 +41,7 @@ The full distribution bundles
 {{< note title="Server/Container" class="info" >}}
   If you download the full distribution for an open-source application
   server/container, the container itself is included. For example, if you download the Tomcat
-  distribution, Tomcat itself is included and the Camunda binaries (process engine and
+  distribution, Tomcat itself is included and the EximeeBPMS binaries (process engine and
   web apps) are pre-installed in the container.
 {{< /note >}}
 
