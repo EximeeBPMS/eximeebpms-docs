@@ -1,13 +1,13 @@
 ---
 
-title: 'Camunda 7 License Book'
+title: 'EximeeBPMS License Book'
 weight: 20
 
 menu:
   main:
     identifier: "user-guide-introduction-third-party-libraries-license-book-platform"
     parent: "user-guide-introduction-third-party-libraries"
-    pre: "All third-party dependencies distributed with Camunda 7 artifacts"
+    pre: "All third-party dependencies distributed with EximeeBPMS artifacts"
 
 ---
 
