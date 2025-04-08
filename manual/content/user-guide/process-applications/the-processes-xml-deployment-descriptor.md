@@ -15,7 +15,7 @@ The processes.xml deployment descriptor contains the deployment metadata for a p
 
 ```xml
 <process-application
-  xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+  xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-archive name="loan-approval">
@@ -43,7 +43,7 @@ The processes.xml may optionally be empty (left blank). In this case default val
 
 ```xml
 <process-application
-  xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+  xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-archive>
@@ -91,11 +91,11 @@ The processes.xml file can also be used for configuring one or multiple process 
 
 ```xml
 <process-application
-xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-engine name="my-engine">
-    <configuration>org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration</configuration>
+    <configuration>org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration</configuration>
   </process-engine>
 
   <process-archive name="loan-approval">
@@ -117,7 +117,7 @@ For [Multi-Tenancy with Tenant-Identifiers]({{< ref "/user-guide/process-engine/
 
 ```xml
 <process-application
-xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-archive name="loan-approval" tenantId="tenant1">
@@ -175,7 +175,7 @@ To activate this behavior you have set the property `isResumePreviousVersions` t
 
 ```xml
 <process-application
-  xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+  xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-archive name="loan-approval">
@@ -194,7 +194,7 @@ If you want to deactivate this feature, you have to set the property to `false` 
 
 ```xml
 <process-application
-  xmlns="http://www.camunda.org/schema/1.0/ProcessApplication"
+  xmlns="http://eximeebpms.org/schema/1.0/ProcessApplication"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <process-archive name="loan-approval">
