@@ -1,7 +1,7 @@
 ---
 baseURL: "/eximeebpms-docs/enterprise/"
 languageCode: "en-us"
-title: "Eximee BPMS Enterprise"
+title: "EximeeBPMS Enterprise"
 themesDir: "../themes"
 theme: "eximiee"
 

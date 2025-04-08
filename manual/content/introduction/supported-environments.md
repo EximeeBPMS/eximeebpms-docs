@@ -11,10 +11,10 @@ menu:
 ---
 
 
-Run Camunda in every Java-runnable environment. Camunda is supported with our QA infrastructure in the following environments. Here you can find more information about our [enterprise support](http://camunda.com/platform-7/editions/).
+Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with our QA infrastructure in the following environments.
 
 {{< note title="Supported Environments" class="info" >}}
-  Please note that the environments listed in this section depend on the version of Camunda. Please select the corresponding version of this documentation to see the environment that fits to your version of Camunda. e.g., [supported environments for version 7.15](http://docs.camunda.org/7.15/guides/user-guide/#introduction-supported-environments)
+  Please note that the environments listed in this section depend on the version of EximeeBPMS. Please select the corresponding version of this documentation to see the environment that fits to your version of EximeeBPMS. e.g., [supported environments for version 1.00](http://docs.camunda.org/7.15/guides/user-guide/#introduction-supported-environments)
 {{< /note >}}
 
 
@@ -23,14 +23,14 @@ Run Camunda in every Java-runnable environment. Camunda is supported with our QA
 ## Application-Embedded Process Engine
 
 * All Java application servers
-* Camunda Spring Boot Starter: Embedded Tomcat
+* EximeeBPMS Spring Boot Starter: Embedded Tomcat
   * [Supported versions]({{< ref "/user-guide/spring-boot-integration/version-compatibility.md" >}})
   * [Deployment scenarios]({{< ref "/user-guide/spring-boot-integration/_index.md#supported-deployment-scenarios" >}})
-* Camunda Engine Quarkus Extension
+* EximeeBPMS Engine Quarkus Extension
   * [Supported versions]({{< ref "/user-guide/quarkus-integration/version-compatibility.md" >}})
   * [Deployment scenarios]({{< ref "/user-guide/quarkus-integration/_index.md#supported-deployment-scenarios" >}})
 
-## Container-Managed Process Engine and Camunda Cockpit, Tasklist, Admin
+## Container-Managed Process Engine and EximeeBPMS Cockpit, Tasklist, Admin
 
 * Apache Tomcat 9.0 / 10.1
 * JBoss EAP 7.4 / 8.0
@@ -55,7 +55,7 @@ Run Camunda in every Java-runnable environment. Camunda is supported with our QA
 
 ## Database Clustering & Replication
 
-Clustered or replicated databases are supported given the following conditions. The communication between Camunda and the database cluster has to match with the corresponding non-clustered / non-replicated configuration. It is especially important that the configuration of the database cluster guarantees the equivalent behavior of READ-COMMITTED isolation level.
+Clustered or replicated databases are supported given the following conditions. The communication between EximeeBPMS and the database cluster has to match with the corresponding non-clustered / non-replicated configuration. It is especially important that the configuration of the database cluster guarantees the equivalent behavior of READ-COMMITTED isolation level.
 
 
 # Web Browser
@@ -80,7 +80,7 @@ Check our [Enterprise Announcements page](/enterprise/announcement/) for confirm
 
 ## Adding Environments
 
-Whenever a new version of one of the following environments is released, we target support of that new version with the next minor release of Camunda. A new released environment has to be available three months before the next Camunda minor release to be considered.
+Whenever a new version of one of the following environments is released, we target support of that new version with the next minor release of EximeeBPMS. A new released environment has to be available three months before the next EximeeBPMS minor release to be considered.
 
 * Java Language (LTS)
 * Spring Boot
