@@ -1,7 +1,7 @@
 ---
 baseURL: "/eximeebpms-docs/manual/"
 languageCode: "en-us"
-title: "Eximee BPMS documentation "
+title: "EximeeBPMS documentation "
 themesDir: "../themes"
 theme: "eximiee"
 
