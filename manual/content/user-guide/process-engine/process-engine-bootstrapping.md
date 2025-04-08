@@ -134,9 +134,9 @@ The `<process-engine ... />` xml tag allows you to define a process engine:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<bpm-platform xmlns="http://www.eximeebpms.org/schema/1.0/BpmPlatform"
+<bpm-platform xmlns="http://eximeebpms.org/schema/1.0/BpmPlatform"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:schemaLocation="http://www.eximeebpms.org/schema/1.0/BpmPlatform http://www.eximeebpms.org/schema/1.0/BpmPlatform">
+              xsi:schemaLocation="http://eximeebpms.org/schema/1.0/BpmPlatform http://eximeebpms.org/schema/1.0/BpmPlatform">
 
   <job-executor>
     <job-acquisition name="default" />
