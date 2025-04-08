@@ -63,7 +63,7 @@ error message, please ignore it and continue with the upgrade procedure.
 
 # Full Distribution
 
-This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-camunda.md#full-distribution" >}}) with a **shared process engine**.
+This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}) with a **shared process engine**.
 
 The following steps are required:
 

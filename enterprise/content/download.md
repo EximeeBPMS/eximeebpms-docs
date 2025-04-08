@@ -3939,7 +3939,7 @@ On this page we provide downloads for the Camunda Platform Enterprise Platform i
 
 This page contains the latest versions of all supported branches. In addition, we provide alpha releases of the current development branch. Please note that an alpha release is not fully tested and just a snapshot of the current development state.
 
-Find more information about the [Full Distribution](/manual/latest/introduction/downloading-camunda/#full-distribution) and the [Standalone Web Application](/manual/latest/introduction/downloading-camunda/#standalone-web-application-distribution) (Discontinued starting from Camunda Platform 7.20) in our user guide.
+Find more information about the [Full Distribution](/manual/latest/introduction/downloading-eximeebpms/#full-distribution) and the [Standalone Web Application](/manual/latest/introduction/downloading-eximeebpms/#standalone-web-application-distribution) (Discontinued starting from Camunda Platform 7.20) in our user guide.
 
 {{< ee-download >}}
 

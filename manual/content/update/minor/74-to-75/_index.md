@@ -66,7 +66,7 @@ Since 7.4.2, the second release (R2) of Oracle WebLogic Server 12c is also a sup
 
 # Full Distribution
 
-This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-camunda.md#full-distribution" >}}) with a **shared process engine**.
+This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}) with a **shared process engine**.
 
 The following steps are required:
 

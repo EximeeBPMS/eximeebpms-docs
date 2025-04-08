@@ -64,7 +64,7 @@ To circumvent that problem you can either update all engines to the version >= 7
 
 # Full Distribution
 
-This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-camunda.md#full-distribution" >}}) with a **shared process engine**.
+This section is applicable if you installed the [Full Distribution]({{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}) with a **shared process engine**.
 
 The following steps are required:
 

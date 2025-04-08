@@ -70,4 +70,4 @@ Additionally, you need the following maven dependency:
 ```
 
 [1]: https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator
-[2]: {{< ref "/introduction/downloading-camunda.md#full-distribution" >}}
+[2]: {{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}
