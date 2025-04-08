@@ -10,15 +10,15 @@ menu:
 
 ---
 
-Camunda implements three different standards in the Business Process Management scope: BPMN 2.0, CMMN 1.1 and DMN 1.3.
-These three standards are defined by the [Object Management Group][OMG] with active collaboration of Camunda.
+EximeeBPMS implements three different standards in the Business Process Management scope: BPMN 2.0, CMMN 1.1 and DMN 1.3.
+These three standards are defined by the [Object Management Group][OMG] with active collaboration of EximeeBPMS.
 
-Camunda provides open source implementations of execution and [modeling tools][modelers].
+EximeeBPMS provides open source implementations of execution and [modeling tools][modelers].
 
 # BPMN
 
 Business Process Model and Notation (BPMN) is a standard for Workflow and Process Automation.
-Camunda supports the 2.0 version of BPMN.
+EximeeBPMS supports the 2.0 version of BPMN.
 
 * Getting started implementing BPMN Processes: [Quick Start (Java / JS)]
 * Getting to Know BPMN as a Modeling Language: [BPMN Modeling Tutorial]
@@ -30,7 +30,7 @@ Camunda supports the 2.0 version of BPMN.
 # CMMN
 
 Case Management Model and Notation (CMMN) is a standard for Case Management.
-Camunda supports the 1.1 version of CMMN.
+EximeeBPMS supports the 1.1 version of CMMN.
 
 * Implementing CMMN Cases: [CMMN Implementation Reference]
 * Executing CMMN: [Process Engine]
