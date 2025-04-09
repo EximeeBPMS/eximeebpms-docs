@@ -1,3 +1,5 @@
+# Jeśli zastanawiasz się, jak uruchomić Hugo, [zerknij tu](./Hugo.md).
+
 # The Camunda 7 Documentation Sources
 
 This repository contains the sources of the Camunda 7 documentation.
