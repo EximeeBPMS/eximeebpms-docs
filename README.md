@@ -1,4 +1,4 @@
-# Jeśli zastanawiasz się, jak uruchomić Hugo, [zerknij tu](./Hugo.md).
+Jeśli zastanawiasz się, jak uruchomić Hugo, [zerknij tu](./Hugo.md).
 
 # The Camunda 7 Documentation Sources
 
