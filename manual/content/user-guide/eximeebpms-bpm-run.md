@@ -1,40 +1,40 @@
 ---
 
-title: 'Camunda 7 Run'
+title: 'EximeeBPMS 7 Run'
 weight: 50
 
 menu:
   main:
-    identifier: "camunda-bpm-run-guide"
+    identifier: "eximeebpms-bpm-run-guide"
     parent: "user-guide"
 
 ---
 
-This guide gives an introduction to Camunda Run, a pre-packaged, lightweight distribution of Camunda 7. Camunda Run is easy to configure and does not require Java knowledge.
+This guide gives an introduction to EximeeBPMS Run, a pre-packaged, lightweight distribution of EximeeBPMS. EximeeBPMS Run is easy to configure and does not require Java knowledge.
 
 # Prerequisites and audience
 
-To use this guide, you should at least know what Camunda 7 is and what it does. Check out the [Get Started guides](https://eximeebpms.github.io/eximeebpms-docs/get-started/quick-start/) if you have never used Camunda 7 before. The [Installation guide]({{< ref "/installation/camunda-bpm-run.md" >}}) is also worth looking at if you are completely new to Camunda 7.
+To use this guide, you should at least know what EximeeBPMS is and what it does. Check out the [Get Started guides](https://eximeebpms.github.io/eximeebpms-docs/get-started/quick-start/) if you have never used EximeeBPMS before. The [Installation guide]({{< ref "/installation/eximeebpms-bpm-run.md" >}}) is also worth looking at if you are completely new to EximeeBPMS.
 
-This guide will teach you about Camunda Run and how to configure it. It can serve as a reference page for configuration and operation options. It will not give you a step-by-step guide on how to install Camunda Run. Head over to the [Installation guide]({{< ref "/installation/camunda-bpm-run.md" >}}) for details on how to install and start Camunda Run.
+This guide will teach you about EximeeBPMS Run and how to configure it. It can serve as a reference page for configuration and operation options. It will not give you a step-by-step guide on how to install EximeeBPMS Run. Head over to the [Installation guide]({{< ref "/installation/eximeebpms-bpm-run.md" >}}) for details on how to install and start EximeeBPMS Run.
 
-# What is Camunda Run?
+# What is EximeeBPMS Run?
 
-Camunda Run is a full distribution of Camunda 7. It includes:
+EximeeBPMS Run is a full distribution of EximeeBPMS. It includes:
 
-* Camunda web applications
+* EximeeBPMS web applications
   * Cockpit
   * Tasklist
   * Admin
 * [REST API]({{< ref "/reference/rest/overview/_index.md" >}})
 * [An example application](#example-application)
 
-# Starting with Camunda Run
+# Starting with EximeeBPMS Run
 
-To start with Camunda Run, download the [distribution](https://downloads.camunda.cloud/release/camunda-bpm/run/) ([enterprise](https://downloads.camunda.cloud/enterprise-release/camunda-bpm/run/)) and unpacking it. You will find the following structure:
+To start with EximeeBPMS Run, download the [distribution](https://downloads.camunda.cloud/release/camunda-bpm/run/) ([enterprise](https://downloads.camunda.cloud/enterprise-release/camunda-bpm/run/)) and unpacking it. You will find the following structure:
 
 ```
-camunda-bpm-run
+eximeebpms-bpm-run
 ├── configuration/
 │   ├── keystore/
 │   │   └── put your SSL key store here if you want to use HTTPS
@@ -54,15 +54,15 @@ camunda-bpm-run
 ```
 
 Execute one of the two start scripts (`start.bat` for Windows, `start.sh` for Linux/Mac). After a few seconds, you can 
-access the Camunda web apps via http://localhost:8080/camunda/app/, the REST API via 
+access the EximeeBPMS web apps via http://localhost:8080/eximeebpms/app/, the REST API via 
 http://localhost:8080/engine-rest/.
 
-When executing one of the two start scripts without any arguments, Camunda Run will start with a default configuration 
-as a detached process. To shut down Camunda Run in "detached" mode, use one of the two shutdown scripts (`shutdown.bat` 
+When executing one of the two start scripts without any arguments, EximeeBPMS Run will start with a default configuration 
+as a detached process. To shut down EximeeBPMS Run in "detached" mode, use one of the two shutdown scripts (`shutdown.bat` 
 for Windows, `shutdown.sh` for Linux/Mac).
 
-By explicitly passing arguments to one of the two Camunda Run start scripts, the default detached mode is disabled and
-you can configure Camunda Run according to your needs. Furthermore, Camunda Run will start as a foreground process
+By explicitly passing arguments to one of the two EximeeBPMS Run start scripts, the default detached mode is disabled and
+you can configure EximeeBPMS Run according to your needs. Furthermore, EximeeBPMS Run will start as a foreground process
 unless the `--detached` argument is explicitly passed to the `start.bat` or `start.sh` script.
 
 ## Start script arguments
@@ -77,7 +77,7 @@ The start scripts (`start.bat` for Windows, `start.sh` for Linux/Mac) accept the
   </tr>
   <tr>
       <td><code>--webapps</code></td>
-      <td>Enables the Camunda web apps</td>
+      <td>Enables the EximeeBPMS web apps</td>
       <td><code>enabled</code></td>
   </tr>
   <tr>
@@ -98,7 +98,7 @@ The start scripts (`start.bat` for Windows, `start.sh` for Linux/Mac) accept the
   <tr>
       <td><code>--detached</code></td>
       <td>
-        Starts Camunda Run as a detached process. This is the default behavior of the start scripts. To disable it, 
+        Starts EximeeBPMS Run as a detached process. This is the default behavior of the start scripts. To disable it, 
         explicitly pass a valid argument to the script.
       </td>
       <td><code>enabled</code></td>
@@ -118,40 +118,40 @@ The start scripts (`start.bat` for Windows, `start.sh` for Linux/Mac) accept the
   </tr>
 </table>
 
-## Starting Camunda Run using Docker
+## Starting EximeeBPMS Run using Docker
 
-Camunda Run is also available as a Docker image. Please see the Camunda Run section of the Camunda Docker documentation [here]({{< ref "/installation/docker.md#start-camunda-bpm-run-using-docker" >}}) for more details.
+EximeeBPMS Run is also available as a Docker image. Please see the EximeeBPMS Run section of the EximeeBPMS Docker documentation [here]({{< ref "/installation/docker.md#start-eximeebpms-bpm-run-using-docker" >}}) for more details.
 
 ## Optional components
 
-By default, Camunda Run launches with the web apps, REST API and example modules. If you want to enable only a subset of them, execute the start script through a command-line interface with any of the `--webapps`, `--rest` or `--example` properties to enable the specific modules.
+By default, EximeeBPMS Run launches with the web apps, REST API and example modules. If you want to enable only a subset of them, execute the start script through a command-line interface with any of the `--webapps`, `--rest` or `--example` properties to enable the specific modules.
 
 ### Example application
 
-By default, Camunda Run deploys and launches an example application on startup.
+By default, EximeeBPMS Run deploys and launches an example application on startup.
 When launched, this application creates deployments with multiple BPMN and DMN definitions as well as form resources
 and starts instances of the defined processes.
 
 You can disable the *deployment* of the example application itself by enabling any combination of the other modules with the `--webapps` and `--rest` properties of the start script.
-That way, the example application will not be launched and its resources will not be present on the classpath of Camunda Run.
+That way, the example application will not be launched and its resources will not be present on the classpath of EximeeBPMS Run.
 
-You can also disable the *launch* of the example application by setting the application property `camunda.bpm.run.example.enabled` to `false`
+You can also disable the *launch* of the example application by setting the application property `eximeebpms.bpm.run.example.enabled` to `false`
 or removing it from the application properties.
-That way, the example application and its resources will be present on the classpath of Camunda Run.
+That way, the example application and its resources will be present on the classpath of EximeeBPMS Run.
 However, the example application will not be started.
 
-Disabling the example application with any of those mechanisms will **NOT** delete any deployments or process instances from Camunda Run once they are created.
+Disabling the example application with any of those mechanisms will **NOT** delete any deployments or process instances from EximeeBPMS Run once they are created.
 You have to delete this data manually through the [web apps]({{< ref "/webapps/cockpit/deployment-view.md#delete" >}}), the 
 {{< restref page="deleteDeployment" text="REST API" tag="Deployment" >}}, or by cleaning the database 
 [configured in the application properties](#database).
 
 ## Choose between default and production configuration
 
-Camunda Run ships with two different configuration files which are both located in the `configuration` folder. 
+EximeeBPMS Run ships with two different configuration files which are both located in the `configuration` folder. 
 
 * The `default.yml` configuration only contains necessary configuration like the H2 database, a demo user and [CORS](#cross-origin-resource-sharing) for REST calls from a client application.
 * The `production.yml` configuration is intended to provide the recommended properties according to the [Security Instructions]({{< ref "/user-guide/security.md" >}}). 
-  When using Camunda Run in a production environment, make sure to base your custom configuration on this one and carefully read through the security instructions.
+  When using EximeeBPMS Run in a production environment, make sure to base your custom configuration on this one and carefully read through the security instructions.
 
 By default, Run launches with the `default.yml` configuration. To enable the `production.yml` configuration, execute the start script with the `--production` property.
 Using `--production` disables the example application. It can be enabled by explicitly passing `--example` to the start script.
@@ -159,36 +159,36 @@ However, we do not recommended to use the example application in production.
 
 ## Connect to a Database
 
-Camunda Run is pre-configured to use a file-based H2 database for testing. The database schema and all required tables are automatically created when the engine starts up for the first time. If you want to use a custom standalone database, follow these steps:
+EximeeBPMS Run is pre-configured to use a file-based H2 database for testing. The database schema and all required tables are automatically created when the engine starts up for the first time. If you want to use a custom standalone database, follow these steps:
 
 1. Make sure your database is among the [supported database systems]({{< ref "/introduction/supported-environments.md#supported-database-products" >}}).
-2. Create a database schema for Camunda 7 yourself.
+2. Create a database schema for EximeeBPMS yourself.
 3. Install the database schema to create all required tables and default indices using our [database schema installation guide]({{< ref "/installation/database-schema.md" >}}).
 4. Drop a JDBC driver jar for your database system in the `configuration/userlib` folder.
 5. Add the JDBC URL and login credentials to the configuration file like described [below](#database).
-6. Restart Camunda Run
+6. Restart EximeeBPMS Run
 
 ## Deploy BPMN Models
 
-In the unpacked distro, you will find a `resources` folder. All files (including BPMN, DMN, CMMN, form, and script files) will be deployed when you start Camunda Run.
+In the unpacked distro, you will find a `resources` folder. All files (including BPMN, DMN, CMMN, form, and script files) will be deployed when you start EximeeBPMS Run.
 
-You can reference forms and scripts in the BPMN diagram with `embedded:deployment:/my-form.html`, `camunda-forms:deployment:/myform.form`, or `deployment:/my-script.js`. The deployment requires adding an extra `/` as a prefix to the filename.
+You can reference forms and scripts in the BPMN diagram with `embedded:deployment:/my-form.html`, `eximeebpms-forms:deployment:/myform.form`, or `deployment:/my-script.js`. The deployment requires adding an extra `/` as a prefix to the filename.
 
 Deployments via the {{< restref page="createDeployment" text="REST API" tag="Deployment" >}} are still possible.
 
 ## Automatic License Pickup
 
-If you downloaded the enterprise version of Camunda Run, you will need a license key to enable the enterprise 
-features. Please see the [dedicated License section]({{< ref "/user-guide/license-use.md#with-the-camunda-spring-boot-starter-camunda-run" >}}) 
+If you downloaded the enterprise version of EximeeBPMS Run, you will need a license key to enable the enterprise 
+features. Please see the [dedicated License section]({{< ref "/user-guide/license-use.md#with-the-eximeebpms-spring-boot-starter-eximeebpms-run" >}}) 
 of the docs, to learn more.
 
-# Configure Camunda Run
+# Configure EximeeBPMS Run
 
-Just like all the other distros, you can tailor Camunda Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.
+Just like all the other distros, you can tailor EximeeBPMS Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.
 
 {{< note title="Note:" class="info" >}}
-Camunda Run is based on the [Camunda Spring Boot Starter](https://github.com/camunda/camunda-bpm-platform/tree/master/spring-boot-starter). 
-All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the camunda-spring-boot-starter are available to customize Camunda Run.
+EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/camunda/camunda-bpm-platform/tree/master/spring-boot-starter). 
+All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the eximeebpms-spring-boot-starter are available to customize EximeeBPMS Run.
 {{< /note >}}
 
 ## Database
@@ -237,7 +237,7 @@ To add authentication to requests against the [REST API]({{< ref "/reference/res
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.auth</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.auth</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable basic authentication for requests to the REST API.</td>
       <td><code>false</code></td>
@@ -260,7 +260,7 @@ If you want to allow cross-origin requests to the [REST API]({{< ref "/reference
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.cors</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.cors</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable CORS.</td>
       <td><code>false</code></td>
@@ -296,7 +296,7 @@ If you want to allow cross-origin requests to the [REST API]({{< ref "/reference
 
 ## REST
 
-Camunda Run can be configured to disable the REST endpoint which exposes the WADL file via a property.
+EximeeBPMS Run can be configured to disable the REST endpoint which exposes the WADL file via a property.
 
 <table class="table desc-table">
   <tr>
@@ -306,7 +306,7 @@ Camunda Run can be configured to disable the REST endpoint which exposes the WAD
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.rest</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.rest</code></td>
       <td><code>.disable-wadl</code></td>
       <td>Disables the REST endpoint <code>/application.wadl</code>. Web Application Description Language (WADL) is an XML description of the deployed RESTful web application.</td>
       <td><code>false</code></td>
@@ -315,7 +315,7 @@ Camunda Run can be configured to disable the REST endpoint which exposes the WAD
 
 ## Deployment
 
-Camunda Run also supports configuration options for customizing the deployment.
+EximeeBPMS Run also supports configuration options for customizing the deployment.
 
 <table class="table desc-table">
   <tr>
@@ -325,7 +325,7 @@ Camunda Run also supports configuration options for customizing the deployment.
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.deployment</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.deployment</code></td>
       <td><code>.deploy-changed-only</code></td>
       <td>
           <ul>
@@ -341,7 +341,7 @@ Camunda Run also supports configuration options for customizing the deployment.
 
 ## LDAP Identity Service
 
-Camunda 7 can manage users and authorizations on its own, but if you want to use an existing LDAP authentication database you can enable the [LDAP Identity Service Plugin]({{< ref "/user-guide/process-engine/identity-service.md#the-ldap-identity-service" >}})
+EximeeBPMS can manage users and authorizations on its own, but if you want to use an existing LDAP authentication database you can enable the [LDAP Identity Service Plugin]({{< ref "/user-guide/process-engine/identity-service.md#the-ldap-identity-service" >}})
 which provides read-only access to the LDAP repository.
 
 Find all available configuration properties in the [LDAP Plugin Guide]({{< ref "/user-guide/process-engine/identity-service.md#configuration-properties-of-the-ldap-plugin" >}})
@@ -354,7 +354,7 @@ Find all available configuration properties in the [LDAP Plugin Guide]({{< ref "
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.ldap</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.ldap</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable the LDAP identity service plugin.</td>
       <td><code>false</code></td>
@@ -368,7 +368,7 @@ to ensure the appropriate LDAP user or group gains administrative access. Review
 configuration options in the [Administrator Authorization plugin section]({{< ref "/user-guide/process-engine/authorization-service.md#the-administrator-authorization-plugin" >}})
 of our documentation.
 
-In the table below, observe the Camunda Run-specific properties for the Administrator Authorization plugin.
+In the table below, observe the EximeeBPMS Run-specific properties for the Administrator Authorization plugin.
 
 <table class="table desc-table">
   <tr>
@@ -378,7 +378,7 @@ In the table below, observe the Camunda Run-specific properties for the Administ
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.admin-auth</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.admin-auth</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable the Administrator Authorization plugin.</td>
       <td><code>false</code></td>
@@ -387,23 +387,23 @@ In the table below, observe the Camunda Run-specific properties for the Administ
 
 ## Plugin registration
 
-Camunda Run supports two types of plugins. 
+EximeeBPMS Run supports two types of plugins. 
 
 * [Process engine plugins][engine-plugins] can be used to extend the process engine configuration to add more functionality.
-* [Webapp plugins][cockpit-plugins] are used to extend one of the Camunda webapps (i.e. Cockpit, Tasklist, Admin, Welcome).
+* [Webapp plugins][cockpit-plugins] are used to extend one of the EximeeBPMS webapps (i.e. Cockpit, Tasklist, Admin, Welcome).
 
-Both types of plugins are supported in Camunda Run but have to be registered differently.
+Both types of plugins are supported in EximeeBPMS Run but have to be registered differently.
 
 ### Process engine plugin registration
 
-Camunda 7 provides a process engine plugin mechanism to enable users to add and adjust
-process engine features by extending the process engine configuration. You can use plugins developed by Camunda, or by
+EximeeBPMS provides a process engine plugin mechanism to enable users to add and adjust
+process engine features by extending the process engine configuration. You can use plugins developed by EximeeBPMS, or by
 third-party developers.
 
 Get more details on how process engine plugins work on the dedicated [process engine plugins][engine-plugins] 
 documentation section.
 
-In the table below, observe the Camunda Run-specific properties for registering process engine plugins.
+In the table below, observe the EximeeBPMS Run-specific properties for registering process engine plugins.
 
 <table class="table desc-table">
   <tr>
@@ -413,13 +413,13 @@ In the table below, observe the Camunda Run-specific properties for registering 
       <th>Default value</th>
   </tr>
   <tr>
-      <td><code>camunda.bpm.run</code></td>
+      <td><code>eximeebpms.bpm.run</code></td>
       <td><code>.process-engine-plugins</code></td>
       <td>Define your process engine plugin configurations under this YAML property.</td>
       <td>Empty <code>List</code></td>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.process-engine-plugins</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.process-engine-plugins</code></td>
       <td><code>.plugin-class</code></td>
       <td>Part of a <code>process-engine-plugins</code> list item. Defines the process engine plugin class.</td>
       <td>none</td>
@@ -434,19 +434,19 @@ In the table below, observe the Camunda Run-specific properties for registering 
   </tr>
 </table>
 
-Perform the following steps in Camunda Run to register process engine plugins:
+Perform the following steps in EximeeBPMS Run to register process engine plugins:
 
 1. Find and read the process engine plugin documentation.
   * Find the canonical name of the process engine plugin Java class that implements the `ProcessEnginePlugin` interface.
   * Find out if the process engine plugin provides any configuration parameters. You will be able to configure your plugin using those parameters. If the plugin does not provide any properties, skip this step.
 1. Download the process engine plugin `.jar` file and place it to the `${RUN_HOME}/configuration/userlib/` directory.
-1. In your Camunda Run configuration file, add the process engine plugin class and any configuration parameters as 
+1. In your EximeeBPMS Run configuration file, add the process engine plugin class and any configuration parameters as 
    list items under the `process-engine-plugins` YAML property.
 
 Once complete, your YAML configuration file should look similar to the following:
 
 ```yaml
-  camunda.bpm.run.process-engine-plugins:
+  eximeebpms.bpm.run.process-engine-plugins:
     - plugin-class: canonical.name.of.the.PluginClass
 ```
 
@@ -455,23 +455,23 @@ Once complete, your YAML configuration file should look similar to the following
 Let's say that you want to register a process engine plugin called `TestPlugin`. The following information is 
 available:
 
-* The plugin is provided in a `.jar` archive called `camunda-bpm-test-plugin.jar`. 
+* The plugin is provided in a `.jar` archive called `eximeebpms-bpm-test-plugin.jar`. 
 * The name of the Java class that implements the `ProcessEnginePlugin` interface is `TestPlugin`. The canonical name of this class is 
-`org.camunda.bpm.run.test.plugins.TestPlugin`.
+`org.eximeebpms.bpm.run.test.plugins.TestPlugin`.
 * The `TestPlugin` exposes the following two configuration parameters:
   * `parameterOne` - a `String` value
   * `parameterTwo` - a `Boolean` value
 
 We'll take the following steps:
 
-1. Place the `camunda-bpm-test-first-plugin.jar` archive in 
+1. Place the `eximeebpms-bpm-test-first-plugin.jar` archive in 
 the `${RUN_HOME}/configuration/userlib/` directory.
 
-2. Add the following content to your Camunda Run YAML configuration file.
+2. Add the following content to your EximeeBPMS Run YAML configuration file.
 
 ```yaml
-camunda.bpm.run.process-engine-plugins:
-  - plugin-class: org.camunda.bpm.run.test.plugins.TestPlugin
+eximeebpms.bpm.run.process-engine-plugins:
+  - plugin-class: org.eximeebpms.bpm.run.test.plugins.TestPlugin
     plugin-parameters:
       parameterOne: valueOne
       parameterTwo: true
@@ -483,27 +483,27 @@ Some process engine plugins don't have configuration parameters. For these, you 
 YAML property, like so:
 
 ```yaml
-camunda.bpm.run.process-engine-plugins:
-  - plugin-class: org.camunda.bpm.run.test.plugins.TestPlugin
-  - plugin-class: org.camunda.bpm.run.test.plugins.AnotherPlugin
+eximeebpms.bpm.run.process-engine-plugins:
+  - plugin-class: org.eximeebpms.bpm.run.test.plugins.TestPlugin
+  - plugin-class: org.eximeebpms.bpm.run.test.plugins.AnotherPlugin
 ```
 
-3. Start Camunda Run. The `TestPlugin` will be read from the YAML configuration and registered with the
+3. Start EximeeBPMS Run. The `TestPlugin` will be read from the YAML configuration and registered with the
 process engine.
 
 ### Webapp plugin registration
 
-Camunda 7 provides a mechanism to extend the Camunda Webapps with your own functionality. You can add plugins at various plugin points. For example, the processes dashboard in Cockpit.
+EximeeBPMS provides a mechanism to extend the EximeeBPMS Webapps with your own functionality. You can add plugins at various plugin points. For example, the processes dashboard in Cockpit.
 
 A webapp plugin is a maven jar project that provides a server-side and a client-side extension to the webapp. You can find more information about how to structure your plugins [here]({{< ref "/webapps/cockpit/extend/plugins.md#the-nature-of-a-cockpit-plugin" >}}).
 
-To register a webapp plugin, simply drop the jar file into the `configuration/userlib` folder. See [the Starting with Camunda Run section](#starting-with-camunda-platform-run) of this guide to find out how to navigate the directories of Camunda Run.
+To register a webapp plugin, simply drop the jar file into the `configuration/userlib` folder. See [the Starting with EximeeBPMS Run section](#starting-with-eximeebpms-platform-run) of this guide to find out how to navigate the directories of EximeeBPMS Run.
 
 ## Example application launch
 
-Camunda Run comes with a [demo application](#example-application) that deploys resources and starts process instances.
+EximeeBPMS Run comes with a [demo application](#example-application) that deploys resources and starts process instances.
 You can disable the start of that application so it does not create deployments and process instances. The resources of the application
-are however still accessible on the classpath of Camunda Run. Consult the [example application section](#example-application) for further details.
+are however still accessible on the classpath of EximeeBPMS Run. Consult the [example application section](#example-application) for further details.
 
 <table class="table desc-table">
   <tr>
@@ -513,7 +513,7 @@ are however still accessible on the classpath of Camunda Run. Consult the [examp
       <th>Default value</th>
   </tr>
   <tr>
-      <td rowspan="15"><code>camunda.bpm.run.example</code></td>
+      <td rowspan="15"><code>eximeebpms.bpm.run.example</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable the example application.</td>
       <td><code>false</code></td>
@@ -522,20 +522,20 @@ are however still accessible on the classpath of Camunda Run. Consult the [examp
 
 ## HTTPS
 
-Camunda Run supports HTTPS over SSL. To enable it, you will need a valid SSL certificate signed by a trusted provider and stored in a key store file (either .jks or .p12).
+EximeeBPMS Run supports HTTPS over SSL. To enable it, you will need a valid SSL certificate signed by a trusted provider and stored in a key store file (either .jks or .p12).
 For testing, we included a self-signed certificate. You should not use this in production. To enable it, add the following properties to your configuration file.
 
 ```yaml
 server:
   ssl:
     key-store: classpath:keystore.p12
-    key-store-password: camunda
+    key-store-password: eximeebpms
     key-store-type: pkcs12
-    key-alias: camunda
-    key-password: camunda
+    key-alias: eximeebpms
+    key-password: eximeebpms
   port: 8443
 ```
-After starting Camunda Run, you can access the webapps via https://localhost:8443/camunda/app/ and the REST API via https://localhost:8443/engine-rest/.
+After starting EximeeBPMS Run, you can access the webapps via https://localhost:8443/eximeebpms/app/ and the REST API via https://localhost:8443/engine-rest/.
 
 <table class="table desc-table">
   <tr>
@@ -574,8 +574,8 @@ After starting Camunda Run, you can access the webapps via https://localhost:844
 
 ## Logging
 
-Camunda 7 provides fine-grained and customizable logging. An overview of the available logging categories can be found in the [Logging User Guide]({{< ref "/user-guide/logging.md#process-engine" >}}).
-To configure the logging behavior in Camunda Run, customize your configuration file with the following properties.
+EximeeBPMS provides fine-grained and customizable logging. An overview of the available logging categories can be found in the [Logging User Guide]({{< ref "/user-guide/logging.md#process-engine" >}}).
+To configure the logging behavior in EximeeBPMS Run, customize your configuration file with the following properties.
 
 For more information on logging configuration visit the [Spring Boot Logging Guide](https://docs.spring.io/spring-boot/docs/2.4.0/reference/html/spring-boot-features.html#boot-features-logging).
 
@@ -600,7 +600,7 @@ For more information on logging configuration visit the [Spring Boot Logging Gui
   </tr>
   <tr>
       <td><code>.file.name</code></td>
-      <td>Specify a log file location. (e.g. <code>logs/camunda-bpm-run-log.txt</code>)</td>
+      <td>Specify a log file location. (e.g. <code>logs/eximeebpms-bpm-run-log.txt</code>)</td>
       <td><code>-</code></td>
   </tr>
 </table>
