@@ -11,11 +11,11 @@ menu:
 ---
 
 
-Welcome to the Camunda Manual! Camunda is a Java-based framework supporting BPMN for workflow and process automation, CMMN for Case Management and DMN for Business Decision Management. Also see: [Implemented Standards]({{< ref "/introduction/implemented-standards.md" >}}).
+Welcome to the EximeeBPMS Manual! EximeeBPMS is a Java-based framework supporting BPMN for workflow and process automation, CMMN for Case Management and DMN for Business Decision Management. Also see: [Implemented Standards]({{< ref "/introduction/implemented-standards.md" >}}).
 
-This document contains information about the features provided by Camunda.
+This document contains information about the features provided by EximeeBPMS.
 
-To give you an overview of Camunda, the following illustration shows the most important components along with some typical user roles.
+To give you an overview of EximeeBPMS, the following illustration shows the most important components along with some typical user roles.
 
 {{< img src="img/architecture-overview.png" title="Camunda Components and Roles" >}}
 
@@ -35,6 +35,6 @@ To give you an overview of Camunda, the following illustration shows the most im
 # Web Applications
 
 * [REST API]({{< ref "/reference/rest/_index.md" >}}) The REST API allows you to use the process engine from a remote application or a JavaScript application. (Note: The documentation of the REST API is factored out into own documents.)
-* [Camunda Tasklist]({{< ref "/webapps/tasklist/_index.md" >}}) A web application for human workflow management and user tasks that allows process participants to inspect their workflow tasks and navigate to task forms in order to work on the tasks and provide data input.
-* [Camunda Cockpit]({{< ref "/webapps/cockpit/_index.md" >}}) A web application for process monitoring and operations that allows you to search for process instances, inspect their state and repair broken instances.
-* [Camunda Admin]({{< ref "/webapps/admin/_index.md" >}}) A web application that allows you to manage users, groups and authorizations.
+* [EximeeBPMS Tasklist]({{< ref "/webapps/tasklist/_index.md" >}}) A web application for human workflow management and user tasks that allows process participants to inspect their workflow tasks and navigate to task forms in order to work on the tasks and provide data input.
+* [EximeeBPMS Cockpit]({{< ref "/webapps/cockpit/_index.md" >}}) A web application for process monitoring and operations that allows you to search for process instances, inspect their state and repair broken instances.
+* [EximeeBPMS Admin]({{< ref "/webapps/admin/_index.md" >}}) A web application that allows you to manage users, groups and authorizations.
