@@ -16,17 +16,17 @@
     .processDefinitionVersion(1).singleResult();
 processEngine.getRuntimeService().startProcessInstanceById(pd.getId());
 </code></pre><p>When you use <a href=/eximeebpms-docs/manual/reference/bpmn20/subprocesses/call-activity/>BPMN CallActivities</a> you can configure which version is used:</p><pre><code class=language-xml>&lt;callActivity id=&quot;callSubProcess&quot; calledElement=&quot;checkCreditProcess&quot;
-  camunda:calledElementBinding=&quot;latest|deployment|version&quot;
-  camunda:calledElementVersion=&quot;17&quot;&gt;
+  eximeebpms:calledElementBinding=&quot;latest|deployment|version&quot;
+  eximeebpms:calledElementVersion=&quot;17&quot;&gt;
 &lt;/callActivity&gt;
 </code></pre><p>or</p><pre><code class=language-xml>&lt;callActivity id=&quot;callSubProcess&quot; calledElement=&quot;checkCreditProcess&quot;
-  camunda:calledElementBinding=&quot;versionTag&quot;
-  camunda:calledElementVersionTag=&quot;ver-tag-1.0.1&quot;&gt;
+  eximeebpms:calledElementBinding=&quot;versionTag&quot;
+  eximeebpms:calledElementVersionTag=&quot;ver-tag-1.0.1&quot;&gt;
 &lt;/callActivity&gt;
 </code></pre><p>The options are</p><ul><li>latest: Use the latest version of the process definition (as with <code>startProcessInstanceByKey</code>).</li><li>deployment: Use the process definition in the version matching the version of the calling process. This works if they are deployed within one deployment - as they are then always versioned together (see <a href=/eximeebpms-docs/manual/user-guide/process-applications/the-processes-xml-deployment-descriptor/#deployment-descriptor-process-application-deployment>Process Application Deployment</a> for more details).</li><li>version: Specify the version hard coded in the XML.</li><li>versionTag: Specify the versionTag hard coded in the XML.</li></ul><h1 id=key-vs-id-of-a-process-definition>Key vs. ID of a Process Definition</h1><p>You might have spotted that two different columns exist in the process definition table with different meanings:</p><ul><li><p>Key: The key is the unique identifier of the process definition in the XML, so its value is read from the id attribute in the XML:</p><pre><code class=language-xml>&lt;bpmn2:process id=&quot;invoice&quot; ...
 </code></pre></li><li><p>Id: The id is the database primary key and an artificial key normally combined out of the key, the version and a generated id (note that the ID may be shortened to fit into the database column, so there is no guarantee that the id is built this way).</p></li></ul><h1 id=version-tag>Version Tag</h1><p>It is possible to tag a process definition with a version tag attribute. This can be done by adding the
-<a href=/eximeebpms-docs/manual/reference/bpmn20/custom-extensions/extension-attributes/#versiontag>camunda:versionTag</a>
-extension attribute to the process:</p><pre><code class=language-xml>&lt;bpmn2:process camunda:versionTag=&quot;1.5-patch2&quot; ..
+<a href=/eximeebpms-docs/manual/reference/bpmn20/custom-extensions/extension-attributes/#versiontag>eximeebpms:versionTag</a>
+extension attribute to the process:</p><pre><code class=language-xml>&lt;bpmn2:process eximeebpms:versionTag=&quot;1.5-patch2&quot; ..
 </code></pre><p>The <code>ProcessDefinition</code> will now provide a versionTag field which you can fetch:</p><pre><code class=language-java>ProcessDefinition pd = processEngine.getRepositoryService().createProcessDefinitionQuery()
     .processDefinitionKey(&quot;invoice&quot;)
     .processDefinitionVersion(1).singleResult();
