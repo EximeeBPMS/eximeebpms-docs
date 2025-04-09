@@ -26,6 +26,16 @@ EximeeBPMS is a flexible framework which can be used in different contexts. See 
 to use EximeeBPMS, you can choose a different distribution.
 
 
+## Community vs. Enterprise Edition
+
+EximeeBPMS provides separate runtime downloads for community users and enterprise subscription customers:
+
+* [Community download page][community-download-page]
+* [Enterprise download page][enterprise-download-page]
+
+It is also possible to run EximeeBPMS with [Spring Boot][run-with-spring-boot] and [Docker][run-with-docker].
+
+
 ## Full Distribution
 
 Download the full distribution if you want to use a [shared process engine][shared-engine] or if you
