@@ -15,7 +15,7 @@ menu:
 This document will guide you through the installation and update of the Camunda 7 [database schema]({{< ref "/user-guide/process-engine/database/database-schema.md" >}}) used by the process engine.
 Regardless of the [architecture of your application setup]({{< ref "/introduction/architecture.md" >}}), the process engine always requires this database schema.
 In a production environment, we recommend setting up this schema yourself and reference the prepared database instance in your application configuration.
-Consult the installation guide related to your setup to configure the database for a [remote engine]({{< ref "/installation/camunda-bpm-run.md" >}}), [shared engine]({{< ref "/installation/full/_index.md" >}}), or [embedded engine]({{< ref "/installation/spring-boot.md" >}}) accordingly.
+Consult the installation guide related to your setup to configure the database for a [remote engine]({{< ref "/installation/eximeebpms-bpm-run.md" >}}), [shared engine]({{< ref "/installation/full/_index.md" >}}), or [embedded engine]({{< ref "/installation/spring-boot.md" >}}) accordingly.
 
 This guide will not detail how to set up an instance of your target database or how to create a schema object on it.
 Consult the documentation of your target database on how to do that.

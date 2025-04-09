@@ -18,7 +18,7 @@ The Community Edition docker images can be found on [GitHub](https://github.com/
 
 ## Start Camunda Run using Docker
 
-To start [Camunda Run]({{< ref "/user-guide/camunda-bpm-run.md" >}}) execute the following commands:
+To start [Camunda Run]({{< ref "/user-guide/eximeebpms-bpm-run.md" >}}) execute the following commands:
 
 ```shell
 docker pull camunda/camunda-bpm-platform:run-latest

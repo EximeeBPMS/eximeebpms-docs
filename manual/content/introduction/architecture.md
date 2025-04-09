@@ -33,7 +33,7 @@ See the section on [third-party libraries]({{< ref "/introduction/third-party-li
 
 # EximeeBPMS Architecture
 
-Camunda is a flexible framework which can be deployed in different scenarios. This section provides an overview of the most common deployment scenarios.
+EximeeBPMS is a flexible framework which can be deployed in different scenarios. This section provides an overview of the most common deployment scenarios.
 
 
 ## Embedded Process Engine

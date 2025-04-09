@@ -196,7 +196,7 @@ If you want to include your Camunda Form as part of the `deployment`, then you n
 {{< note title="Automatic deployment" class="warning" >}}
 Camunda Forms are not automatically deployed as part of a [process archive]({{< ref "/reference/deployment-descriptors/tags/process-archive.md" >}}) by default. 
 You need to configure it accordingly by adding it as a resource directly or by adding `form` to the list of `additionalResourceSuffixes`.
-Using [Camunda Run]({{< ref "/user-guide/camunda-bpm-run.md#starting-with-camunda-platform-run" >}}), all additional resources - including Camunda Forms - 
+Using [Camunda Run]({{< ref "/user-guide/eximeebpms-bpm-run.md#starting-with-camunda-platform-run" >}}), all additional resources - including Camunda Forms - 
 placed inside the `configuration/resources/` directory are automatically deployed.
 {{< /note >}}
 

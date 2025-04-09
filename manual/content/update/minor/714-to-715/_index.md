@@ -354,7 +354,7 @@ By default, Spring Boot serves static content through Spring Web MVC from any di
 `/META-INF/resources` on the classpath. To prevent users from accidentally serving files, we disable this in configuration files `default.yml` and `production.yml` 
 respectively, by setting `spring.web.resources.static-locations` to `NULL`. If you want serve static files, you can add paths there.
 
-[run-documentation]: {{< ref "/user-guide/camunda-bpm-run.md" >}}
+[run-documentation]: {{< ref "/user-guide/eximeebpms-bpm-run.md" >}}
 
 # Java External Task Client: New Version Handling
 

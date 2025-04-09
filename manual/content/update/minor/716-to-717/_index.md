@@ -114,7 +114,7 @@ Version 7.17 of the Camunda Run distribution brings new [CORS configuration prop
 changes in the existing CORS behavior. The new CORS configuration properties rather allow you to set additional parameters on the CORS filter like 
 credentials support.
 
-[cors-properties]: {{< ref "/user-guide/camunda-bpm-run.md#cross-origin-resource-sharing" >}}
+[cors-properties]: {{< ref "/user-guide/eximeebpms-bpm-run.md#cross-origin-resource-sharing" >}}
 
 # Improved Camunda Run library support
 
@@ -128,7 +128,7 @@ is now available within Camunda Run by default. With the Administrator Authoriza
 LDAP user group gains administrative access to configure additional authorizations.
 
 The Administrator Authorization plugin configuration properties are integrated with Camunda Run. You can find them
-in the [LDAP Adminstrator Authorization section]({{< ref "/user-guide/camunda-bpm-run.md#ldap-administrator-authorization" >}})
+in the [LDAP Adminstrator Authorization section]({{< ref "/user-guide/eximeebpms-bpm-run.md#ldap-administrator-authorization" >}})
 of the Camunda Run documentation. You can also find a template LDAP configuration in the Camunda Run `production.yml`.
 
 ## Groovy scripting engine included
@@ -149,14 +149,14 @@ when upgrading to a new Camunda Run version anymore.
 
 # Changed Camunda Run start script behavior
 
-Camunda Run starts with the [provided `start.sh` or `start.bat` scripts]({{< ref "/user-guide/camunda-bpm-run.md#starting-with-camunda-platform-run" >}}).
+Camunda Run starts with the [provided `start.sh` or `start.bat` scripts]({{< ref "/user-guide/eximeebpms-bpm-run.md#starting-with-camunda-platform-run" >}}).
 When you execute one of these scripts, Camunda Run starts and outputs logs to the command line.
 
 With version 7.17, we made a small change to the behavior of these start scripts. If you don't provide any additional
 arguments to the start script, it will start Camunda Run as a detached process. You can then use the new `shutdown.sh`
 or `shutdown.bat` script to stop Camunda Run.
 
-If you want to have the old start script behavior, pass the desired [start script arguments]({{< ref "/user-guide/camunda-bpm-run.md#start-script-arguments" >}})
+If you want to have the old start script behavior, pass the desired [start script arguments]({{< ref "/user-guide/eximeebpms-bpm-run.md#start-script-arguments" >}})
 directly to the script.
 
 # Disabled remote access to H2 console

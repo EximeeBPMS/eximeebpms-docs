@@ -185,7 +185,7 @@ Furthermore, you can also configure the GraalVM JavaScript engine to your needs 
 Please consult the [Configure Script Engine Guide] on how to achieve this.
 
 [Pre-Packaged Distributions]: {{< ref "/installation/full/_index.md" >}}
-[Camunda 7 Run]: {{< ref "/installation/camunda-bpm-run.md" >}}
+[Camunda 7 Run]: {{< ref "/installation/eximeebpms-bpm-run.md" >}}
 [official Nashorn migration guide]: https://www.graalvm.org/reference-manual/js/NashornMigrationGuide/
 [Full Distribution]: #full-distribution
 [Configure Script Engine Guide]: {{< ref "/user-guide/process-engine/scripting.md#configure-script-engine" >}}

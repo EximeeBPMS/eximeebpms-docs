@@ -28,8 +28,8 @@ If you are using the Enterprise Platform, additionally to the Community componen
 EximeeBPMS (Community and Enterprise Edition) includes libraries developed by third parties. See the following resources:
 
 * [Third-Party Libraries][third-party-libraries]: An overview of the dependencies EximeeBPMS distributes. Additionally, this page points out particularly important third-party licenses to be aware of.
-* [HTML License Book Camunda]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS 7 artifacts, including their licenses and notices.
-* [Plain text license book Camunda][license-book]: A plain text version of the license book.
+* [HTML License Book EximeeBPMS]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS 7 artifacts, including their licenses and notices.
+* [Plain text license book EximeeBPMS][license-book]: A plain text version of the license book.
 
 [third-party-libraries]: {{< ref "/introduction/third-party-libraries/_index.md" >}}
 [license-book]: https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/license-book/{{< minor-version >}}.0/license-book-{{< minor-version >}}.0.txt
@@ -51,15 +51,15 @@ The Camunda Modeler is a desktop modeling application.
 
 ## Our Commitment
 
-Before filing or continuing to prosecute any legal proceeding or claim (other than a Defensive Action) arising from termination of a Covered License, Camunda commits to extend to the person or entity (“you”) accused of violating the Covered License the following provisions regarding cure and reinstatement, taken from GPL version 3. As used here, the term ‘this License’ refers to the specific Covered License being enforced.
+Before filing or continuing to prosecute any legal proceeding or claim (other than a Defensive Action) arising from termination of a Covered License, EximeeBPMS commits to extend to the person or entity (“you”) accused of violating the Covered License the following provisions regarding cure and reinstatement, taken from GPL version 3. As used here, the term ‘this License’ refers to the specific Covered License being enforced.
 
 However, if you cease all violation of this License, then your license from a particular copyright holder is reinstated (a) provisionally, unless and until the copyright holder explicitly and finally terminates your license, and (b) permanently, if the copyright holder fails to notify you of the violation by some reasonable means prior to 60 days after the cessation.
 
 Moreover, your license from a particular copyright holder is reinstated permanently if the copyright holder notifies you of the violation by some reasonable means, this is the first time you have received notice of violation of this License (for any work) from that copyright holder, and you cure the violation prior to 30 days after your receipt of the notice.
 
-Camunda intends this Commitment to be irrevocable, and binding and enforceable against Camunda and assignees of or successors to Camunda’s copyrights.
+EximeeBPMS intends this Commitment to be irrevocable, and binding and enforceable against EximeeBPMS and assignees of or successors to EximeeBPMS’s copyrights.
 
-Camunda may modify this Commitment by publishing a new edition on this page or a successor location.
+EximeeBPMS may modify this Commitment by publishing a new edition on this page or a successor location.
 
 ## Definitions
 
