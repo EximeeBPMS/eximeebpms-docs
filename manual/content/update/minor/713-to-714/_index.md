@@ -266,7 +266,7 @@ In case the custom installation id property is not adjusted, the telemetry featu
 
 # Disable Telemetry Reporter in Tests
 
-With the new [telemetry][] feature and on a strict opt-in basis, we are looking to collect environment and usage data to further improve the user experience for you. However, for certain scenarios it will be better to completely disable the telemetry functionality. One of those scenarios is testing, if that includes process engine usage. Therefore we highly recommend to disable the telemetry reporter to prevent sending any requests from your tests:
+With the new telemetry feature and on a strict opt-in basis, we are looking to collect environment and usage data to further improve the user experience for you. However, for certain scenarios it will be better to completely disable the telemetry functionality. One of those scenarios is testing, if that includes process engine usage. Therefore we highly recommend to disable the telemetry reporter to prevent sending any requests from your tests:
 
 * via XML-based configuration file: [example]({{<ref "/user-guide/testing/_index.md#disabling-telemetry">}})
 * via YAML-based configuration file in Spring Boot: [example]({{<ref "/user-guide/spring-boot-integration/develop-and-test.md#disabling-telemetry">}})
@@ -277,8 +277,6 @@ processEngineConfiguration = new StandaloneInMemProcessEngineConfiguration();
 processEngineConfiguration.setTelemetryReporterActivate(false);
 processEngineConfiguration.buildProcessEngine();
 ```
-
-[telemetry]: {{< ref "/introduction/telemetry.md" >}}
 
 # PostgreSQL Support Clarification
 
