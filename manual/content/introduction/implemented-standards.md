@@ -38,7 +38,7 @@ EximeeBPMS supports the 1.1 version of CMMN.
 # DMN
 
 Decision Model and Notation (DMN) is a standard for Business Decision Management.
-Camunda supports the 1.1 version of DMN.
+EximeeBPMS supports the 1.1 version of DMN.
 
 * Getting started implementing DMN decision tables: [DMN Getting Started]
 * Getting to Know DMN: [DMN Modeling Tutorial]
