@@ -12,11 +12,11 @@ menu:
 
 ---
 
-When integrating with Spring, business processes can be tested very easily (in scope 2, see [Testing Scopes]) using the standard Camunda testing facilities. The following example shows how a business process is tested in a typical Spring-based unit test:
+When integrating with Spring, business processes can be tested very easily (in scope 2, see [Testing Scopes]) using the standard EximeeBPMS testing facilities. The following example shows how a business process is tested in a typical Spring-based unit test:
 
 ```java
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:org/camunda/bpm/engine/spring/test/junit4/springTypicalUsageTest-context.xml")
+@ContextConfiguration("classpath:org/eximeebpms/bpm/engine/spring/test/junit4/springTypicalUsageTest-context.xml")
 public class MyBusinessProcessTest {
 
   @Autowired
@@ -43,10 +43,10 @@ public class MyBusinessProcessTest {
 }
 ```
 
-Note that for this to work, you need to define a {{< javadocref page="org/camunda/bpm/engine/test/ProcessEngineRule.html" text="ProcessEngineRule" >}} bean in the Spring configuration (which is injected by auto-wiring in the example above).
+Note that for this to work, you need to define a {{< javadocref page="org/eximeebpms/bpm/engine/test/ProcessEngineRule.html" text="ProcessEngineRule" >}} bean in the Spring configuration (which is injected by auto-wiring in the example above).
 
 ```xml
-<bean id="processEngineRule" class="org.camunda.bpm.engine.test.ProcessEngineRule">
+<bean id="processEngineRule" class="org.eximeebpms.bpm.engine.test.ProcessEngineRule">
   <property name="processEngine" ref="processEngine" />
 </bean>
 ```
