@@ -13,7 +13,7 @@ This chapter is about configuring and using a password policy for engine-managed
 
 Since version 7.11.0, the engine comes with a standard password policy that is disabled by default and must be configured to use.
 
-**Note:** This only applies to users that are managed within the Camunda engine. If you use LDAP for your user management a password policy has no effect on these users.
+**Note:** This only applies to users that are managed within the EximeeBPMS engine. If you use LDAP for your user management a password policy has no effect on these users.
 
 # Built-In Password Policy
 
@@ -28,7 +28,7 @@ The built-in password policy requires all passwords to meet the following criter
 
 # Customize the Password Policy
 
-You can use the process engine configuration to enable / disable the password policy or plug in a custom policy. See [Process Engine Bootstrapping](../process-engine-bootstrapping) on how to set properties for your Camunda environment.
+You can use the process engine configuration to enable / disable the password policy or plug in a custom policy. See [Process Engine Bootstrapping](../process-engine-bootstrapping) on how to set properties for your EximeeBPMS environment.
 
 To enable or disable the password policy checks you need to set the `enablePasswordPolicy` property.
 
