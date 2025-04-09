@@ -46,7 +46,7 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 * PostgreSQL 14 / 15 / 16 / 17
 * Amazon Aurora PostgreSQL compatible with PostgreSQL 14 / 15 / 16
 * Microsoft SQL Server 2017 / 2019 / 2022 (see [Configuration Note]({{< ref "/user-guide/process-engine/database/mssql-configuration.md" >}}))
-* Microsoft Azure SQL with Camunda-supported SQL Server compatibility levels 
+* Microsoft Azure SQL with EximeeBPMS-supported SQL Server compatibility levels 
   (see [Configuration Note]({{< ref "/user-guide/process-engine/database/mssql-configuration.md#azure-sql-compatibility-levels-supported-by-camunda" >}})): 
   * SQL Server on Azure Virtual Machines
   * Azure SQL Managed Instance
