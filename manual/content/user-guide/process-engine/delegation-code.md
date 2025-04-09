@@ -26,7 +26,7 @@ You can create generic Delegation Code and configure this via the BPMN 2.0 XML u
 
 # Java Delegate
 
-To implement a class that can be called during process execution, this class needs to implement the `org.camunda.bpm.engine.delegate.JavaDelegate`
+To implement a class that can be called during process execution, this class needs to implement the `org.eximeebpms.bpm.engine.delegate.JavaDelegate`
 interface and provide the required logic in the `execute`
 method. When process execution arrives at this particular step, it
 will execute this logic defined in that method and leave the activity
@@ -34,7 +34,7 @@ in the default BPMN 2.0 way.
 
 As an example let's create a Java class that can be used to change a
 process variable String to uppercase. This class needs to implement
-the `org.camunda.bpm.engine.delegate.JavaDelegate`
+the `org.eximeebpms.bpm.engine.delegate.JavaDelegate`
 interface, which requires us to implement the `execute(DelegateExecution)`
 method. It's this operation that will be called by the engine and
 which needs to contain the business logic. Process instance
@@ -58,7 +58,7 @@ Each time a delegation class referencing activity is executed, a separate instan
 {{< /note >}}
 
 The classes that are referenced in the process definition (i.e., by using
-`camunda:class`  ) are **NOT instantiated during deployment**.
+`eximeebpms:class`  ) are **NOT instantiated during deployment**.
 Only when a process execution arrives at the point in the process where the class is used for the
 first time, an instance of that class will be created. If the class cannot be found,
 a `ProcessEngineException` will be thrown. The reason for this is that the environment (and
@@ -68,7 +68,7 @@ environment.
 
 # Activity Behavior
 
-Instead of writing a Java Delegate, it is also possible to provide a class that implements the `org.camunda.bpm.engine.impl.pvm.delegate.ActivityBehavior`
+Instead of writing a Java Delegate, it is also possible to provide a class that implements the `org.eximeebpms.bpm.engine.impl.pvm.delegate.ActivityBehavior`
 interface. Implementations then have access to the more powerful `ActivityExecution` that for example also allows to influence the control flow of the process. However, note that this is not a very good practice and should be avoided as much as possible. So, it is advised to only use the `ActivityBehavior` interface for advanced use cases and if you know exactly what you're doing.
 
 
@@ -86,7 +86,7 @@ If no setter is available for that field, the value of private
 member will be set on the delegate (but using private fields is **not** recommended - see warning below).
 
 **Regardless of the type of value declared in the process-definition, the type of the
-setter/private field on the injection target should always be `org.camunda.bpm.engine.delegate.Expression`**.
+setter/private field on the injection target should always be `org.eximeebpms.bpm.engine.delegate.Expression`**.
 
 {{< note title="" class="warning" >}}
   Private fields cannot always be modified! It does **not work** with e.g.,
@@ -102,31 +102,31 @@ declarations, which is a requirement of the BPMN 2.0 XML Schema.
 ```xml
   <serviceTask id="javaService"
                name="Java service invocation"
-               camunda:class="org.camunda.bpm.examples.bpmn.servicetask.ToUpperCaseFieldInjected">
+               eximeebpms:class="org.eximeebpms.bpm.examples.bpmn.servicetask.ToUpperCaseFieldInjected">
     <extensionElements>
-        <camunda:field name="text" stringValue="Hello World" />
+        <eximeebpms:field name="text" stringValue="Hello World" />
     </extensionElements>
   </serviceTask>
 ```
 
 The class `ToUpperCaseFieldInjected` has a field
-`text` which is of type `org.camunda.bpm.engine.delegate.Expression`.
+`text` which is of type `org.eximeebpms.bpm.engine.delegate.Expression`.
 When calling `text.getValue(execution)`, the configured string value
 `Hello World` will be returned.
 
-Alternatively, for longs texts (e.g., an inline e-mail) the `camunda:string` sub element can be
+Alternatively, for longs texts (e.g., an inline e-mail) the `eximeebpms:string` sub element can be
 used:
 
 ```xml
   <serviceTask id="javaService"
                name="Java service invocation"
-               camunda:class="org.camunda.bpm.examples.bpmn.servicetask.ToUpperCaseFieldInjected">
+               eximeebpms:class="org.eximeebpms.bpm.examples.bpmn.servicetask.ToUpperCaseFieldInjected">
     <extensionElements>
-      <camunda:field name="text">
-          <camunda:string>
+      <eximeebpms:field name="text">
+          <eximeebpms:string>
             Hello World
-        </camunda:string>
-      </camunda:field>
+        </eximeebpms:string>
+      </eximeebpms:field>
     </extensionElements>
   </serviceTask>
 ```
@@ -142,15 +142,15 @@ passed in the `execute` method.
 
 ```xml
   <serviceTask id="javaService" name="Java service invocation"
-               camunda:class="org.camunda.bpm.examples.bpmn.servicetask.ReverseStringsFieldInjected">
+               eximeebpms:class="org.eximeebpms.bpm.examples.bpmn.servicetask.ReverseStringsFieldInjected">
 
     <extensionElements>
-      <camunda:field name="text1">
-        <camunda:expression>${genderBean.getGenderString(gender)}</camunda:expression>
-      </camunda:field>
-      <camunda:field name="text2">
-         <camunda:expression>Hello ${gender == 'male' ? 'Mr.' : 'Mrs.'} ${name}</camunda:expression>
-      </camunda:field>
+      <eximeebpms:field name="text1">
+        <eximeebpms:expression>${genderBean.getGenderString(gender)}</eximeebpms:expression>
+      </eximeebpms:field>
+      <eximeebpms:field name="text2">
+         <eximeebpms:expression>Hello ${gender == 'male' ? 'Mr.' : 'Mrs.'} ${name}</eximeebpms:expression>
+      </eximeebpms:field>
     </extensionElements>
   </serviceTask>
 ```
@@ -177,8 +177,8 @@ them using the current `DelegateExecution`.
 Alternatively, you can also set the expressions as an attribute instead of a child-element, to make the XML less verbose.
 
 ```xml
-  <camunda:field name="text1" expression="${genderBean.getGenderString(gender)}" />
-  <camunda:field name="text2" expression="Hello ${gender == 'male' ? 'Mr.' : 'Mrs.'} ${name}" />
+  <eximeebpms:field name="text1" expression="${genderBean.getGenderString(gender)}" />
+  <eximeebpms:field name="text2" expression="Hello ${gender == 'male' ? 'Mr.' : 'Mrs.'} ${name}" />
 ```
 
 {{< note title="Note!" class="info" >}}
@@ -191,7 +191,7 @@ Alternatively, you can also set the expressions as an attribute instead of a chi
 
 # Delegate Variable Mapping
 
-To implement a class that delegates the input and output variable mapping for a call activity, this class needs to implement the `org.camunda.bpm.engine.delegate.DelegateVariableMapping`
+To implement a class that delegates the input and output variable mapping for a call activity, this class needs to implement the `org.eximeebpms.bpm.engine.delegate.DelegateVariableMapping`
 interface. The implementation must provide the methods `mapInputVariables(DelegateExecution, VariableMap)` and `mapOutputVariables(DelegateExecution, VariableScope)`.
 See the following example:
 
@@ -233,9 +233,9 @@ The following process definition contains 3 execution listeners:
 ```xml
   <process id="executionListenersProcess">
     <extensionElements>
-      <camunda:executionListener
+      <eximeebpms:executionListener
           event="start"
-          class="org.camunda.bpm.examples.bpmn.executionlistener.ExampleExecutionListenerOne" />
+          class="org.eximeebpms.bpm.examples.bpmn.executionlistener.ExampleExecutionListenerOne" />
     </extensionElements>
 
     <startEvent id="theStart" />
@@ -246,17 +246,17 @@ The following process definition contains 3 execution listeners:
 
     <sequenceFlow sourceRef="firstTask" targetRef="secondTask">
       <extensionElements>
-        <camunda:executionListener>
-          <camunda:script scriptFormat="groovy">
+        <eximeebpms:executionListener>
+          <eximeebpms:script scriptFormat="groovy">
             println execution.eventName
-          </camunda:script>
-        </camunda:executionListener>
+          </eximeebpms:script>
+        </eximeebpms:executionListener>
       </extensionElements>
     </sequenceFlow>
 
     <userTask id="secondTask">
       <extensionElements>
-        <camunda:executionListener expression="${myPojo.myMethod(execution.eventName)}" event="end" />
+        <eximeebpms:executionListener expression="${myPojo.myMethod(execution.eventName)}" event="end" />
       </extensionElements>
     </userTask>
 
@@ -270,7 +270,7 @@ The following process definition contains 3 execution listeners:
   </process>
 ```
 
-The first execution listener is notified when the process starts. The listener is an external Java-class (like ExampleExecutionListenerOne) and should implement the `org.camunda.bpm.engine.delegate.ExecutionListener` interface. When the event occurs (in this case end event) the method `notify(DelegateExecution execution)` is called.
+The first execution listener is notified when the process starts. The listener is an external Java-class (like ExampleExecutionListenerOne) and should implement the `org.eximeebpms.bpm.engine.delegate.ExecutionListener` interface. When the event occurs (in this case end event) the method `notify(DelegateExecution execution)` is called.
 
 ```java
   public class ExampleExecutionListenerOne implements ExecutionListener {
@@ -282,12 +282,12 @@ The first execution listener is notified when the process starts. The listener i
   }
 ```
 
-It is also possible to use a delegation class that implements the `org.camunda.bpm.engine.delegate.JavaDelegate` interface. These delegation classes can then be reused in other constructs, such as a delegation for a service task.
+It is also possible to use a delegation class that implements the `org.eximeebpms.bpm.engine.delegate.JavaDelegate` interface. These delegation classes can then be reused in other constructs, such as a delegation for a service task.
 
 The second execution listener is called when the transition is taken. Note that the listener element
 doesn't define an event, since only take events are fired on transitions. Values in the event
 attribute are ignored when a listener is defined on a transition. Also it contains a
-[camunda:script][camunda-script] child element which defines a script which
+[eximeebpms:script][camunda-script] child element which defines a script which
 will be executed as execution listener. Alternatively it is possible to specify the script source
 code as external resources (see the documentation about [script sources][script-sources] of script
 tasks).
@@ -295,7 +295,7 @@ tasks).
 The last execution listener is called when activity secondTask ends. Instead of using the class on the listener declaration, a expression is defined instead which is evaluated/invoked when the event is fired.
 
 ```xml
-  <camunda:executionListener expression="${myPojo.myMethod(execution.eventName)}" event="end" />
+  <eximeebpms:executionListener expression="${myPojo.myMethod(execution.eventName)}" event="end" />
 ```
 
 {{< note title="Note!" class="info" >}}
@@ -310,18 +310,18 @@ As with other expressions, execution variables are resolved and can be used. Bec
 Execution listeners also support using a delegateExpression, similar to a service task.
 
 ```xml
-  <camunda:executionListener event="start" delegateExpression="${myExecutionListenerBean}" />
+  <eximeebpms:executionListener event="start" delegateExpression="${myExecutionListenerBean}" />
 ```
 
 
 # Task Listener
 
-A task listener is used to execute custom Java logic or an expression upon the occurrence of a certain task-related event. It can only be added in the process definition as a child element of a user task. Note that this also must happen as a child of the BPMN 2.0 extensionElements and in the Camunda namespace, since a task listener is a construct specifically for the Camunda engine.
+A task listener is used to execute custom Java logic or an expression upon the occurrence of a certain task-related event. It can only be added in the process definition as a child element of a user task. Note that this also must happen as a child of the BPMN 2.0 extensionElements and in the EximeeBPMS namespace, since a task listener is a construct specifically for the EximeeBPMS engine.
 
 ```xml
   <userTask id="myTask" name="My Task" >
     <extensionElements>
-      <camunda:taskListener event="create" class="org.camunda.bpm.MyTaskCreateListener" />
+      <eximeebpms:taskListener event="create" class="org.eximeebpms.bpm.MyTaskCreateListener" />
     </extensionElements>
   </userTask>
 ```
@@ -401,7 +401,7 @@ A task listener supports the following attributes:
     Note that the **timeout** event requires a [timerEventDefinition][timerEventDefinition] child
     element in the task listener and will only be fired if the [Job Executor][job-executor] is enabled.
 
-* **class**: the delegation class that must be called. This class must implement the `org.camunda.bpm.engine.impl.pvm.delegate.TaskListener` interface.
+* **class**: the delegation class that must be called. This class must implement the `org.eximeebpms.bpm.engine.impl.pvm.delegate.TaskListener` interface.
 
     ```java
     public class MyTaskCreateListener implements TaskListener {
@@ -419,32 +419,32 @@ A task listener supports the following attributes:
 * **expression**: (cannot be used together with the class attribute): specifies an expression that will be executed when the event happens. It is possible to pass the DelegateTask object and the name of the event (using task.eventName) to the called object as parameters.
 
     ```xml
-    <camunda:taskListener event="create" expression="${myObject.callMethod(task, task.eventName)}" />
+    <eximeebpms:taskListener event="create" expression="${myObject.callMethod(task, task.eventName)}" />
     ```
 
 * **delegateExpression**: allows to specify an expression that resolves to an object implementing the TaskListener interface, similar to a service task.
 
     ```xml
-    <camunda:taskListener event="create" delegateExpression="${myTaskListenerBean}" />
+    <eximeebpms:taskListener event="create" delegateExpression="${myTaskListenerBean}" />
     ```
 
 * **id**: a unique identifier of the listener within the scope of the user task, only required if the `event` is set to `timeout`.
 
 
 Besides the `class`, `expression` and `delegateExpression` attributes, a
-[camunda:script][camunda-script] child element can be used to specify a script as task listener.
+[eximeebpms:script][camunda-script] child element can be used to specify a script as task listener.
 An external script resource can also be declared with the resource attribute of the
-`camunda:script` element (see the documentation about [script sources][script-sources] of script
+`eximeebpms:script` element (see the documentation about [script sources][script-sources] of script
 tasks).
 
 ```xml
   <userTask id="task">
     <extensionElements>
-      <camunda:taskListener event="create">
-        <camunda:script scriptFormat="groovy">
+      <eximeebpms:taskListener event="create">
+        <eximeebpms:script scriptFormat="groovy">
           println task.eventName
-        </camunda:script>
-      </camunda:taskListener>
+        </eximeebpms:script>
+      </eximeebpms:taskListener>
     </extensionElements>
   </userTask>
 ```
@@ -456,11 +456,11 @@ The execution of the user task will **not** be interrupted by this.
 ```xml
   <userTask id="task">
     <extensionElements>
-      <camunda:taskListener event="timeout" delegateExpression="${myTaskListenerBean}" id="friendly-reminder" >
+      <eximeebpms:taskListener event="timeout" delegateExpression="${myTaskListenerBean}" id="friendly-reminder" >
         <timerEventDefinition>
           <timeDuration xsi:type="tFormalExpression">PT1H</timeDuration>
         </timerEventDefinition>
-      </camunda:taskListener>
+      </eximeebpms:taskListener>
     </extensionElements>
   </userTask>
 ```
@@ -474,10 +474,10 @@ The fragment below shows a simple example process with an execution listener wit
 ```xml
   <process id="executionListenersProcess">
     <extensionElements>
-      <camunda:executionListener class="org.camunda.bpm.examples.bpmn.executionListener.ExampleFieldInjectedExecutionListener" event="start">
-        <camunda:field name="fixedValue" stringValue="Yes, I am " />
-        <camunda:field name="dynamicValue" expression="${myVar}" />
-      </camunda:executionListener>
+      <eximeebpms:executionListener class="org.eximeebpms.bpm.examples.bpmn.executionListener.ExampleFieldInjectedExecutionListener" event="start">
+        <eximeebpms:field name="fixedValue" stringValue="Yes, I am " />
+        <eximeebpms:field name="dynamicValue" expression="${myVar}" />
+      </eximeebpms:executionListener>
     </extensionElements>
 
     <startEvent id="theStart" />
@@ -513,7 +513,7 @@ The class `ExampleFieldInjectedExecutionListener` concatenates the 2 injected fi
 
 ```java
   @Deployment(resources = {
-    "org/camunda/bpm/examples/bpmn/executionListener/ExecutionListenersFieldInjectionProcess.bpmn20.xml"
+    "org/eximeebpms/bpm/examples/bpmn/executionListener/ExecutionListenersFieldInjectionProcess.bpmn20.xml"
   })
   public void testExecutionListenerFieldInjection() {
     Map<String, Object> variables = new HashMap<String, Object>();
@@ -640,7 +640,7 @@ public class MyJavaDelegate implements JavaDelegate {
 ```
 
 Setting a custom error code via Delegation Code allows your business logic to react to it by getting 
-the code via `ProcessEngineException#getCode` when calling Camunda Java API or by evaluating the 
+the code via `ProcessEngineException#getCode` when calling EximeeBPMS Java API or by evaluating the 
 `code` property in the response of an [erroneous REST API call]({{< ref "/reference/rest/overview/_index.md#exception-codes" >}}).
 
 If you don't set any code, the engine assigns `0`, which a custom or built-in error code provider can override.

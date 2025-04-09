@@ -48,10 +48,6 @@ Process `exampleProcess:2`:
 
 <div data-bpmn-diagram="../bpmn/process-instance-migration/example2"></div>
 
-{{< enterprise >}}
-  The Camunda enterprise edition provides a user interface to migrate process instances in [Camunda Cockpit]({{< ref "/webapps/cockpit/bpmn/process-instance-migration.md" >}})
-{{< /enterprise >}}
-
 # Process Instance Migration by Example
 
 We can define a migration plan using the API entrance point `RuntimeService#createMigrationPlan`.
@@ -431,7 +427,7 @@ Depending on the type of the activities a process model contains, migration has 
 
 ### User Task
 
-When a user task is migrated, all properties of the task instance (i.e., `org.camunda.bpm.engine.task.Task`) are preserved apart
+When a user task is migrated, all properties of the task instance (i.e., `org.eximeebpms.bpm.engine.task.Task`) are preserved apart
 from the process definition id and task definition key. The task is not reinitialized: Attributes like assignee or name do not change.
 
 #### Timeout Task Listeners
@@ -452,7 +448,7 @@ The considerations for [intermediate catch events]({{< relref "#events" >}}) app
 
 ### External Task
 
-When an active [external task]({{< relref "external-tasks.md" >}}) is migrated, all properties of the external task instance (i.e., `org.camunda.bpm.engine.externaltask.ExternalTask`) are preserved
+When an active [external task]({{< relref "external-tasks.md" >}}) is migrated, all properties of the external task instance (i.e., `org.eximeebpms.bpm.engine.externaltask.ExternalTask`) are preserved
 apart from activity id, process definition key, and process definition id. In particular, this means that attributes like topic and lock state do not change.
 
 It is possible to map activities that are implemented as external tasks to each other even if they have different types. For example, an external send task can be mapped to an external service task.

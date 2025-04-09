@@ -50,13 +50,13 @@ To work with external tasks they have to be declared in the BPMN XML. At runtime
 
 ## BPMN
 
-In the BPMN XML of a process definition, a service task can be declared to be performed by an external worker by using the attributes `camunda:type` and `camunda:topic`. For example, a service task *Validate Address* can be configured to provide an external task instance for the topic `AddressValidation` as follows:
+In the BPMN XML of a process definition, a service task can be declared to be performed by an external worker by using the attributes `eximeebpms:type` and `eximeebpms:topic`. For example, a service task *Validate Address* can be configured to provide an external task instance for the topic `AddressValidation` as follows:
 
 ```xml
 <serviceTask id="validateAddressTask"
   name="Validate Address"
-  camunda:type="external"
-  camunda:topic="AddressValidation" />
+  eximeebpms:type="external"
+  eximeebpms:topic="AddressValidation" />
 ```
 
 It is possible to define the topic name by using an [expression]({{< ref "/user-guide/process-engine/expression-language/unified-expression-language.md#delegation-code" >}}) instead of a constant value.
@@ -65,7 +65,7 @@ In addition, other *service-task-like* elements such as send tasks, business rul
 
 ### Error Event Definitions
 
-External tasks allow for the definition of error events that throw a specified BPMN error. This can be done by adding a [camunda:errorEventDefinition]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}}) extension element to the task's definition. Compared to the `bpmn:errorEventDefinition`, the `camunda:errorEventDefinition` elements accept an additional `expression` attribute which supports any JUEL expression. Within the expression, you have access to the {{< javadocref page="org/camunda/bpm/engine/externaltask/ExternalTask.html" text="ExternalTaskEntity" >}} object via the key `externalTask` which provides getter methods
+External tasks allow for the definition of error events that throw a specified BPMN error. This can be done by adding a [eximeebpms:errorEventDefinition]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}}) extension element to the task's definition. Compared to the `bpmn:errorEventDefinition`, the `eximeebpms:errorEventDefinition` elements accept an additional `expression` attribute which supports any JUEL expression. Within the expression, you have access to the {{< javadocref page="org/camunda/bpm/engine/externaltask/ExternalTask.html" text="ExternalTaskEntity" >}} object via the key `externalTask` which provides getter methods
 for `errorMessage`, `errorDetails`, `workerId`, `retries` and more. 
 
 The expression is evaluated on invocations of `ExternalTaskService#complete` and
@@ -75,10 +75,10 @@ The expression is evaluated on invocations of `ExternalTaskService#complete` and
 ```xml
 <serviceTask id="validateAddressTask"
   name="Validate Address"
-  camunda:type="external"
-  camunda:topic="AddressValidation" >
+  eximeebpms:type="external"
+  eximeebpms:topic="AddressValidation" >
   <extensionElements>
-    <camunda:errorEventDefinition id="addressErrorDefinition" 
+    <eximeebpms:errorEventDefinition id="addressErrorDefinition" 
       errorRef="addressError" 
       expression="${externalTask.getErrorDetails().contains('address error found')}" />
   </extensionElements>
@@ -276,7 +276,7 @@ External task priorities can be specified in the BPMN model as well as overridde
 
 #### Priorities in BPMN XML
 
-External task priorities can be assigned at the process or the activity level. To achieve this, the Camunda extension attribute `camunda:taskPriority` can be used.
+External task priorities can be assigned at the process or the activity level. To achieve this, the EximeeBPMS extension attribute `eximeebpms:taskPriority` can be used.
 
 For specifying the priority, both constant values and [expressions]({{< ref "/user-guide/process-engine/expression-language/_index.md" >}}) are supported. 
 When using a constant value, the same priority is assigned to all instances of the process or activity. 
@@ -286,10 +286,10 @@ The concrete value can be the result of a complex calculation and be based on us
 
 #### Priorities at the Process Level
 
-When configuring external task priorities at the process instance level, the `camunda:taskPriority` attribute needs to be applied to the bpmn `<process ...>` element:
+When configuring external task priorities at the process instance level, the `eximeebpms:taskPriority` attribute needs to be applied to the bpmn `<process ...>` element:
 
 ```xml
-<bpmn:process id="Process_1" isExecutable="true" camunda:taskPriority="8">
+<bpmn:process id="Process_1" isExecutable="true" eximeebpms:taskPriority="8">
   ...
 </bpmn:process>
 ```
@@ -299,7 +299,7 @@ The above example shows how a constant value can be used for setting the priorit
 If different process instances need to be executed with different priorities, an expression can be used:
 
 ```xml
-<bpmn:process id="Process_1" isExecutable="true" camunda:taskPriority="${order.priority}">
+<bpmn:process id="Process_1" isExecutable="true" eximeebpms:taskPriority="${order.priority}">
   ...
 </bpmn:process>
 ```
@@ -308,15 +308,15 @@ In the above example the priority is determined based on the property `priority`
 
 #### Priorities at the Service Task Level
 
-When configuring external task priorities at the service task level, the `camunda:taskPriority` attribute needs to be applied to the bpmn `<serviceTask ...>` element.
-The service task must be an external task with the attribute `camunda:type="external"`.
+When configuring external task priorities at the service task level, the `eximeebpms:taskPriority` attribute needs to be applied to the bpmn `<serviceTask ...>` element.
+The service task must be an external task with the attribute `eximeebpms:type="external"`.
 
 ```xml
   ...
   <serviceTask id="externalTaskWithPrio" 
-               camunda:type="external" 
-			   camunda:topic="externalTaskTopic" 
-			   camunda:taskPriority="8"/>
+               eximeebpms:type="external" 
+			   eximeebpms:topic="externalTaskTopic" 
+			   eximeebpms:taskPriority="8"/>
   ...
 ```
 
@@ -327,9 +327,9 @@ If different process instances need to be executed with different external task 
 ```xml
   ...
   <serviceTask id="externalTaskWithPrio" 
-               camunda:type="external" 
-			   camunda:topic="externalTaskTopic" 
-			   camunda:taskPriority="${order.priority}"/>
+               eximeebpms:type="external" 
+			   eximeebpms:topic="externalTaskTopic" 
+			   eximeebpms:taskPriority="${order.priority}"/>
   ...
 ```
 

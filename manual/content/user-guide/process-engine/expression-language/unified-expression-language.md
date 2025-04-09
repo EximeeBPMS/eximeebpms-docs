@@ -9,7 +9,7 @@ menu:
 
 ---
 
-Camunda 7 supports the Unified Expression Language (EL), specified by the [Jakarta Expression
+EximeeBPMS supports the Unified Expression Language (EL), specified by the [Jakarta Expression
 Language 4.0 standard][JakartaEL]. To do so, it maintains a custom version of the open source [JUEL][] implementation.
 
 Note, compared to EL 4.0 this JUEL implementation has the following limitations: 
@@ -27,7 +27,7 @@ To get more general information about the usage of Expression Language,
 please read the [official documentation][]. It provides examples that give a good overview of 
 the syntax of expressions.
 
-Within Camunda 7, EL can be used in many circumstances to evaluate small script-like
+Within EximeeBPMS, EL can be used in many circumstances to evaluate small script-like
 expressions. The following table provides an overview of the BPMN elements which support
 usage of EL.
 
@@ -85,14 +85,14 @@ usage of EL.
 
 ## Delegation Code
 
-Besides Java code, Camunda 7 also supports the evaluation of expressions as delegation code. For
+Besides Java code, EximeeBPMS also supports the evaluation of expressions as delegation code. For
 general information about delegation code, see the corresponding
 [section]({{< ref "/user-guide/process-engine/delegation-code.md" >}}).
 
-Two types of expressions are currently supported: `camunda:expression` and
-`camunda:delegateExpression`.
+Two types of expressions are currently supported: `eximeebpms:expression` and
+`eximeebpms:delegateExpression`.
 
-With `camunda:expression` it is possible to evaluate a value expression or to invoke
+With `eximeebpms:expression` it is possible to evaluate a value expression or to invoke
 a method expression. You can use special variables which are available inside an expression or
 Spring and CDI beans. For more information about [variables][] and [Spring][], respectively [CDI][] beans,
 please see the corresponding sections.
@@ -101,7 +101,7 @@ please see the corresponding sections.
   <process id="process">
     <extensionElements>
       <!-- execution listener which uses an expression to set a process variable -->
-      <camunda:executionListener event="start" expression="${execution.setVariable('test', 'foo')}" />
+      <eximeebpms:executionListener event="start" expression="${execution.setVariable('test', 'foo')}" />
     </extensionElements>
 
     <!-- ... -->
@@ -109,7 +109,7 @@ please see the corresponding sections.
     <userTask id="userTask">
       <extensionElements>
         <!-- task listener which calls a method of a bean with current task as parameter -->
-        <camunda:taskListener event="complete" expression="${myBean.taskDone(task)}" />
+        <eximeebpms:taskListener event="complete" expression="${myBean.taskDone(task)}" />
       </extensionElements>
     </userTask>
 
@@ -117,23 +117,23 @@ please see the corresponding sections.
 
     <!-- service task which evaluates an expression and saves it in a result variable -->
     <serviceTask id="serviceTask"
-        camunda:expression="${myBean.ready}" camunda:resultVariable="myVar" />
+        eximeebpms:expression="${myBean.ready}" eximeebpms:resultVariable="myVar" />
 
     <!-- ... -->
 
   </process>
 ```
 
-The attribute `camunda:delegateExpression` is used for expressions which evaluate to a delegate
+The attribute `eximeebpms:delegateExpression` is used for expressions which evaluate to a delegate
 object. This delegate object must implement either the `JavaDelegate` or `ActivityBehavior`
 interface.
 
 ```xml
   <!-- service task which calls a bean implementing the JavaDelegate interface -->
-  <serviceTask id="task1" camunda:delegateExpression="${myBean}" />
+  <serviceTask id="task1" eximeebpms:delegateExpression="${myBean}" />
 
   <!-- service task which calls a method which returns delegate object -->
-  <serviceTask id="task2" camunda:delegateExpression="${myBean.createDelegate()}" />
+  <serviceTask id="task2" eximeebpms:delegateExpression="${myBean.createDelegate()}" />
 ```
 
 
@@ -169,7 +169,7 @@ For usage of expression language on conditional events, see the following exampl
 
 ## inputOutput Parameters
 
-With the Camunda `inputOutput` extension element you can map an `inputParameter` or `outputParameter`
+With the EximeeBPMS `inputOutput` extension element you can map an `inputParameter` or `outputParameter`
 with expression language.
 
 Inside the expression some special variables are available which enable the access of the current
@@ -180,13 +180,13 @@ The following example shows an `inputParameter` which uses expression language t
 a bean.
 
 ```xml
-  <serviceTask id="task" camunda:class="org.camunda.bpm.example.SumDelegate">
+  <serviceTask id="task" eximeebpms:class="org.eximeebpms.bpm.example.SumDelegate">
     <extensionElements>
-      <camunda:inputOutput>
-        <camunda:inputParameter name="x">
+      <eximeebpms:inputOutput>
+        <eximeebpms:inputParameter name="x">
           ${myBean.calculateX()}
-        </camunda:inputParameter>
-      </camunda:inputOutput>
+        </eximeebpms:inputParameter>
+      </eximeebpms:inputOutput>
     </extensionElements>
   </serviceTask>
 ```
@@ -194,7 +194,7 @@ a bean.
 ## External Task Error Handling
 
 For External Tasks it is possible to define
-[camunda:errorEventDefinition]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}})
+[eximeebpms:errorEventDefinition]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}})
 elements which can be provided with a JUEL expression. The expression is evaluated on `ExternalTaskService#complete` and
 `ExternalTaskService#handleFailure`. If the expression evaluates to `true`, a BPMN error is thrown which can be caught by an
 [Error Boundary Event]({{< ref "/reference/bpmn20/events/error-events.md#error-boundary-event" >}}).
@@ -206,9 +206,9 @@ In the scope of an External Task, expressions have access to the {{< javadocref 
 How to access the External Task object:
 
 ```xml
-<bpmn:serviceTask id="myExternalTaskId" name="myExternalTask" camunda:type="external" camunda:topic="myTopic">
+<bpmn:serviceTask id="myExternalTaskId" name="myExternalTask" eximeebpms:type="external" eximeebpms:topic="myTopic">
   <bpmn:extensionElements>
-    <camunda:errorEventDefinition id="myErrorEventDefinition" errorRef="myError" expression="${externalTask.getWorkerId() == 'myWorkerId'}" />
+    <eximeebpms:errorEventDefinition id="myErrorEventDefinition" errorRef="myError" expression="${externalTask.getWorkerId() == 'myWorkerId'}" />
   </bpmn:extensionElements>
 </bpmn:serviceTask>
 ```
@@ -216,9 +216,9 @@ How to access the External Task object:
 How to match an error message:
 
 ```xml
-<bpmn:serviceTask id="myExternalTaskId" name="myExternalTask" camunda:type="external" camunda:topic="myTopic">
+<bpmn:serviceTask id="myExternalTaskId" name="myExternalTask" eximeebpms:type="external" eximeebpms:topic="myTopic">
   <bpmn:extensionElements>
-    <camunda:errorEventDefinition id="myErrorEventDefinition" errorRef="myError" expression="${externalTask.getErrorDetails().contains('myErrorMessage')}" />
+    <eximeebpms:errorEventDefinition id="myErrorEventDefinition" errorRef="myError" expression="${externalTask.getErrorDetails().contains('myErrorMessage')}" />
   </bpmn:extensionElements>
 </bpmn:serviceTask>
 ```
@@ -277,7 +277,7 @@ evaluating expressions:
     <tr>
       <td><code>externalTask</code></td>
       <td><code>{{< javadocref page="org/camunda/bpm/engine/externaltask/ExternalTask.html" text="ExternalTask" >}}</code></td>
-      <td>Available during an external task context activity (e.g. in <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}}">camunda:errorEventDefinition</a> expressions).</td>
+      <td>Available during an external task context activity (e.g. in <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}}">eximeebpms:errorEventDefinition</a> expressions).</td>
     </tr>
     <tr>
       <td><code>caseExecution</code></td>
@@ -300,7 +300,7 @@ The following example shows an expression which sets the variable `test` to the 
 event name of an execution listener.
 
 ```xml
-  <camunda:executionListener event="start"
+  <eximeebpms:executionListener event="start"
     expression="${execution.setVariable('test', execution.eventName)}" />
 ```
 
@@ -313,13 +313,13 @@ for more information. The following example shows the usage of a bean which impl
 `JavaDelegate` interface as delegateExecution.
 
 ```xml
-  <serviceTask id="task1" camunda:delegateExpression="${myBean}" />
+  <serviceTask id="task1" eximeebpms:delegateExpression="${myBean}" />
 ```
 
 With the expression attribute any method of a bean can be called.
 
 ```xml
-  <serviceTask id="task2" camunda:expression="${myBean.myMethod(execution)}" />
+  <serviceTask id="task2" eximeebpms:expression="${myBean.myMethod(execution)}" />
 ```
 
 
@@ -371,17 +371,17 @@ The following example sets the due date of a user task to the date 3 days after 
 of the task.
 
 ```xml
-<userTask id="theTask" name="Important task" camunda:dueDate="${dateTime().plusDays(3).toDate()}"/>
+<userTask id="theTask" name="Important task" eximeebpms:dueDate="${dateTime().plusDays(3).toDate()}"/>
 ```
 
 
-## Built-In Camunda Spin Functions
+## Built-In EximeeBPMS Spin Functions
 
-If the Camunda Spin process engine plugin is activated, the Spin functions `S`,
+If the EximeeBPMS Spin process engine plugin is activated, the Spin functions `S`,
 `XML` and `JSON` are also available inside of an expression. See the [Data Formats section][spin-section] for a detailed explanation.
 
 ```xml
-  <serviceTask id="task" camunda:expression="${XML(xml).attr('test').value()}" resultVariable="test" />
+  <serviceTask id="task" eximeebpms:expression="${XML(xml).attr('test').value()}" resultVariable="test" />
 ```
 
 

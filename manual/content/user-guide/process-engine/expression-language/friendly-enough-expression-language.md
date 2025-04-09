@@ -10,7 +10,7 @@ menu:
 ---
 
 {{< note title="FEEL Support Limitation" class="warning" >}}
-Please note that the WildFly and JBoss application servers do not support FEEL outside of DMN execution in Camunda 7.
+Please note that the WildFly and JBoss application servers do not support FEEL outside of DMN execution in EximeeBPMS.
 {{< /note >}}
 
 ​The Friendly Enough Expression Language (FEEL) is specified within the Decision Model and Notation (DMN) standard by the Object Management Group (OMG). FEEL has the following features:
@@ -22,7 +22,7 @@ Please note that the WildFly and JBoss application servers do not support FEEL o
 
 See the [official specification](https://www.omg.org/spec/DMN/1.0/PDF).
 
-Within Camunda 7, FEEL can be used in many circumstances to evaluate small script-like expressions. The following table provides an overview of the BPMN elements which support usage of FEEL.
+Within EximeeBPMS, FEEL can be used in many circumstances to evaluate small script-like expressions. The following table provides an overview of the BPMN elements which support usage of FEEL.
 
 <table class="table desc-table">
   <tr>
@@ -96,19 +96,19 @@ For usage of expression language on conditional events, see the following exampl
 
 ## inputOutput Parameters
 
-With the Camunda `inputOutput` extension element you can map an `inputParameter` or `outputParameter`
+With the EximeeBPMS `inputOutput` extension element you can map an `inputParameter` or `outputParameter`
 with expression language.
 
 For usage of expression language on `inputParameter` mapping, see the following example:
 
 ```xml
-  <serviceTask id="task" camunda:class="org.camunda.bpm.example.SumDelegate">
+  <serviceTask id="task" eximeebpms:class="org.eximeebpms.bpm.example.SumDelegate">
     <extensionElements>
-      <camunda:inputOutput>
-        <camunda:inputParameter name="x">
+      <eximeebpms:inputOutput>
+        <eximeebpms:inputParameter name="x">
           var1 + var2
-        </camunda:inputParameter>
-      </camunda:inputOutput>
+        </eximeebpms:inputParameter>
+      </eximeebpms:inputOutput>
     </extensionElements>
   </serviceTask>
 ```
@@ -136,19 +136,19 @@ A conditional sequence flow can directly check a variable value:
 The list of variable types that is supported by FEEL can be found in the <a href="{{< ref "/user-guide/dmn-engine/feel/type-handling.md" >}}">FEEL Engine Type Handling</a> page.
 
 ## Custom Functions
-Camunda 7 provides a wrapper for the FEEL Scala Engine to implement Custom Functions, which can be 
+EximeeBPMS provides a wrapper for the FEEL Scala Engine to implement Custom Functions, which can be 
 called in expressions and unary tests. 
 To learn more visit the <a href="{{< ref "/user-guide/dmn-engine/feel/custom-functions" >}}">FEEL Engine Custom Functions</a> page.
 
-## Built-In Camunda Spin Functions
-To learn how Camunda Spin can be used together with the Scala FEEL Engine visit the <a href="{{< ref "/user-guide/dmn-engine/feel/type-handling.md#spin-types" >}}">FEEL Engine Spin Integration</a> page.
+## Built-In EximeeBPMS Spin Functions
+To learn how EximeeBPMS Spin can be used together with the Scala FEEL Engine visit the <a href="{{< ref "/user-guide/dmn-engine/feel/type-handling.md#spin-types" >}}">FEEL Engine Spin Integration</a> page.
 
 # Plugin Requirements
 
 ## Spin Plugin Requirement for Complex FEEL Mappings
 
 When using FEEL to define complex input parameters (such as nested objects or contexts in BPMN input/output mappings) the
-<a href="{{< ref "/user-guide/data-formats/configuring-spin-integration#camunda-engine-plugin-spin" >}}">camunda-engine-plugin-spin</a>
+<a href="{{< ref "/user-guide/data-formats/configuring-spin-integration#camunda-engine-plugin-spin" >}}">eximeebpms-engine-plugin-spin</a>
  **must** be present on the classpath.
 
 Without the Spin plugin:
@@ -162,8 +162,8 @@ Without the Spin plugin:
 The following BPMN example defines a nested input parameter using a FEEL expression:
 
 ```xml
-<camunda:inputParameter name="context">
-  <camunda:script scriptFormat="feel">
+<eximeebpms:inputParameter name="context">
+  <eximeebpms:script scriptFormat="feel">
     {
       invoice: {
         id: "INV-2024-001",
@@ -172,14 +172,14 @@ The following BPMN example defines a nested input parameter using a FEEL express
         customer: {
           name: "Example Corp",
           address: "123 Business Rd",
-          country: "Germany"
+          country: "Poland"
         }
       }
    }
-  </camunda:script>
-</camunda:inputParameter>
+  </eximeebpms:script>
+</eximeebpms:inputParameter>
 ```
 
-To access this `context` as a `Map<String, Object>` in a Java delegate, the `camunda-engine-plugin-spin` plugin must be available so that the nested structure is correctly mapped.
+To access this `context` as a `Map<String, Object>` in a Java delegate, the `eximeebpms-engine-plugin-spin` plugin must be available so that the nested structure is correctly mapped.
 
 [BPMN]: {{< ref "/reference/bpmn20/_index.md" >}}
