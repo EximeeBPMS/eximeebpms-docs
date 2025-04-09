@@ -69,7 +69,7 @@ from the [community download page][community-download-page].
 
 
 
-[get-jdk]: https://www.oracle.com/technetwork/java/javase/downloads/index.html
+[get-jdk]: https://adoptium.net/temurin/releases/
 [community-download-page]: https://camunda.com/download/
 [enterprise-download-page]: /enterprise/download
 [shared-engine]: {{< ref "/introduction/architecture.md#shared-container-managed-process-engine" >}}
