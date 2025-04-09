@@ -1,6 +1,6 @@
 ---
 
-title: 'The Camunda WildFly Subsystem'
+title: 'The EximeeBPMS WildFly Subsystem'
 weight: 50
 
 menu:
@@ -12,12 +12,12 @@ menu:
 ---
 
 {{< note title="Installation Guide" class="info" >}}
-  If you [download a full distribution](http://camunda.org/download/), the Camunda Wildfly subsystem is readily installed into the application server.
+  If you [download a full distribution](http://camunda.org/download/), the EximeeBPMS Wildfly subsystem is readily installed into the application server.
 
-  [Read the installation guide]({{< ref "/installation/full/jboss/_index.md" >}}) to learn how to install the Camunda Wildfly subsystem into your Wildfly Server.
+  [Read the installation guide]({{< ref "/installation/full/jboss/_index.md" >}}) to learn how to install the EximeeBPMS Wildfly subsystem into your Wildfly Server.
 {{< /note >}}
 
-Camunda 7 provides advanced integration for Wildfly in the form of a custom [Wildfly Subsystem](https://docs.wildfly.org/23/Extending_WildFly.html).
+EximeeBPMS provides advanced integration for Wildfly in the form of a custom [Wildfly Subsystem](https://docs.wildfly.org/23/Extending_WildFly.html).
 
 The most prominent features are:
 
@@ -25,12 +25,11 @@ The most prominent features are:
 * Configure the process engine in `standalone.xml` / `domain.xml` and administer it though the JBoss Management System.
 * Process Engines are native JBoss Services with service lifecycles and dependencies.
 * Automatic deployment of BPMN 2.0 processes (through the Process Application API).
-* Use a managed Thread Pool for the Job Executor configured through the Camunda 7 Subsystem.
+* Use a managed Thread Pool for the Job Executor configured through the EximeeBPMS Subsystem.
 
 # Configure the Job Executor in standalone.xml/domain.xml
 
-Since Camunda 7.5, the configuration of the thread pool used by the Job Executor is done in the Camunda subsystem, not in the JBoss Threads subsystem, as it was done before 7.5.  
-The thread pool creation and shutdown is now controlled through the Camunda subsystem.  
+The configuration of the thread pool used by the Job Executor is done in the EximeeBPMS subsystem, not in the JBoss Threads subsystem, as it was done before. The thread pool creation and shutdown is now controlled through the EximeeBPMS subsystem.  
 You are able to configure it through the following new configuration elements below the `job-executor` element of the subsystem XML configuration.
 
 Mandatory configuration elements are:  
@@ -50,12 +49,10 @@ For a complete list of all configuration options, please refer to the [Job Execu
 
 # Configure a Process Engine in standalone.xml/domain.xml
 
-
-
-Using the Camunda Wildfly subsystem, it is possible to configure and manage the process engine through the JBoss Management Model. The most straightforward way is to add the process engine configuration to the `standalone.xml` file of the Wildfly Server:
+Using the EximeeBPMS Wildfly subsystem, it is possible to configure and manage the process engine through the JBoss Management Model. The most straightforward way is to add the process engine configuration to the `standalone.xml` file of the Wildfly Server:
 
 ```xml
-<subsystem xmlns="urn:org.camunda.bpm.jboss:1.1">
+<subsystem xmlns="urn:org.eximeebpms.bpm.jboss:1.1">
     <process-engines>
         <process-engine name="default" default="true">
             <datasource>java:jboss/datasources/ProcessEngine</datasource>
@@ -108,7 +105,7 @@ It is possible to provide a custom Process Engine Configuration class on a Wildf
 </process-engine>
 ```
 
-The class `org.my.custom.ProcessEngineConfiguration` must be a subclass of `org.camunda.bpm.engine.impl.cfg.JtaProcessEngineConfiguration`.
+The class `org.my.custom.ProcessEngineConfiguration` must be a subclass of `org.eximeebpms.bpm.engine.impl.cfg.JtaProcessEngineConfiguration`.
 
 The properties map can be used for invoking primitive valued setters (Integer, String, Boolean) that follow the Java Bean conventions. In the case of the example above, the
 class would provide a method named
@@ -120,15 +117,15 @@ public void setMyCustomProperty(boolean boolean) {
 ```
 
 {{< note title="Module dependency of custom configuration class" class="warning" >}}
-  If you configure the process engine in `standalone.xml` and provide a custom configuration class packaged inside an own module, the camunda-wildfly-subsystem module needs to have a module dependency on the module providing the class.
+  If you configure the process engine in `standalone.xml` and provide a custom configuration class packaged inside an own module, the eximeebpms-wildfly-subsystem module needs to have a module dependency on the module providing the class.
 
   If you fail to do this, you will see the following error log:
 
   ```console
-  Caused by: org.camunda.bpm.engine.ProcessEngineException: Could not load 'foo.bar': the class must be visible from the camunda-wildfly-subsystem module.
-      at org.camunda.bpm.container.impl.jboss.service.MscManagedProcessEngineController.createProcessEngineConfiguration(MscManagedProcessEngineController.java:187) [camunda-wildfly-subsystem-{{< minor-version >}}.0.jar:]
-      at org.camunda.bpm.container.impl.jboss.service.MscManagedProcessEngineController.startProcessEngine(MscManagedProcessEngineController.java:138) [camunda-wildfly-subsystem-{{< minor-version >}}.0.jar:]
-      at org.camunda.bpm.container.impl.jboss.service.MscManagedProcessEngineController$3.run(MscManagedProcessEngineController.java:126) [camunda-wildfly-subsystem-{{< minor-version >}}.0.jar:]
+  Caused by: org.eximeebpms.bpm.engine.ProcessEngineException: Could not load 'foo.bar': the class must be visible from the eximeebpms-wildfly-subsystem module.
+      at org.eximeebpms.bpm.container.impl.jboss.service.MscManagedProcessEngineController.createProcessEngineConfiguration(MscManagedProcessEngineController.java:187) [eximeebpms-wildfly-subsystem-{{< minor-version >}}.0.jar:]
+      at org.eximeebpms.bpm.container.impl.jboss.service.MscManagedProcessEngineController.startProcessEngine(MscManagedProcessEngineController.java:138) [eximeebpms-wildfly-subsystem-{{< minor-version >}}.0.jar:]
+      at org.eximeebpms.bpm.container.impl.jboss.service.MscManagedProcessEngineController$3.run(MscManagedProcessEngineController.java:126) [eximeebpms-wildfly-subsystem-{{< minor-version >}}.0.jar:]
   ```
 
 {{< /note >}}
@@ -140,7 +137,7 @@ It is possible to extend a process engine using the process engine plugins conce
 You specify the process engine plugins in `standalone.xml`/`domain.xml` for each process engine separately as shown below:
 
 ```xml
-<subsystem xmlns="urn:org.camunda.bpm.jboss:1.1">
+<subsystem xmlns="urn:org.eximeebpms.bpm.jboss:1.1">
     <process-engines>
         <process-engine name="default" default="true">
             <datasource>java:jboss/datasources/ProcessEngine</datasource>
@@ -150,7 +147,7 @@ You specify the process engine plugins in `standalone.xml`/`domain.xml` for each
             </properties>
             <plugins>
                 <plugin>
-                    <class>org.camunda.bpm.engine.MyCustomProcessEnginePlugin</class>
+                    <class>org.eximeebpms.bpm.engine.MyCustomProcessEnginePlugin</class>
                     <properties>
                         <property name="boost">10</property>
                         <property name="maxPerformance">true</property>
@@ -167,7 +164,7 @@ You specify the process engine plugins in `standalone.xml`/`domain.xml` for each
 You have to provide the fully qualified classname between the `<class>` tags. Additional properties can be specified using the `<properties>` element.
 The restrictions which apply for [providing a custom process engine configuration class]({{< relref "#provide-a-custom-process-engine-configuration-class" >}}) are also valid for process engine plugins:
 
- * Plugin class must be visible in the classpath for the Camunda subsystem.
+ * Plugin class must be visible in the classpath for the EximeeBPMS subsystem.
  * Properties map can be used for invoking primitive valued setters (Integer, String, Boolean) that follow the Java Bean conventions.
 
 
@@ -182,9 +179,9 @@ System properties may be set via command line (`-D`option). Read more on express
 ```xml
 <!-- ... -->
 <plugin>
-  <class>org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
+  <class>org.eximeebpms.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
   <properties>
-    <property name="administratorUserName">${camunda.administratorUserName}</property>
+    <property name="administratorUserName">${eximeebpms.administratorUserName}</property>
   </properties>
 </plugin>
 <!-- ... -->
@@ -193,25 +190,25 @@ System properties may be set via command line (`-D`option). Read more on express
 
 # Look Up a Process Engine in JNDI
 
-The Camunda Wildfly subsystem provides the same [JNDI bindings for the ProcessApplicationService and the ProcessEngineService]({{< ref "/user-guide/runtime-container-integration/jndi-bindings-for-bpmn-platform-services.md" >}}) as provided on other containers. In addition, the Camunda Wildfly subsystem creates JNDI Bindings for all managed process engines, allowing us to look them up directly.
+The EximeeBPMS Wildfly subsystem provides the same [JNDI bindings for the ProcessApplicationService and the ProcessEngineService]({{< ref "/user-guide/runtime-container-integration/jndi-bindings-for-bpmn-platform-services.md" >}}) as provided on other containers. In addition, the EximeeBPMS Wildfly subsystem creates JNDI Bindings for all managed process engines, allowing us to look them up directly.
 
 The global JNDI bindings for process engines follow the pattern
 
 ```java
-java:global/camunda-bpm-platform/process-engine/$PROCESS_ENGINE_NAME
+java:global/eximeebpms-bpm-platform/process-engine/$PROCESS_ENGINE_NAME
 ```
 
-If a process engine is named "engine1", it will be available using the name `java:global/camunda-bpm-platform/process-engine/engine1`.
+If a process engine is named "engine1", it will be available using the name `java:global/eximeebpms-bpm-platform/process-engine/engine1`.
 
 Note that when looking up the process engine, using a declarative mechanism (like `@Resource` or referencing the resource in a deployment descriptor) is preferred over a programmatic way. The declarative mechanism makes the application server aware of our dependency on the Process Engine Service and allows it to manage that dependency for us. See also: [Managing Service Dependencies]({{< relref "#explicit-service-dependencies" >}}).
 A declarative mechanism like `@Resource` could be
 
 ```java
-@Resource(mappedName = "java:global/camunda-bpm-platform/process-engine/$PROCESS_ENGINE_NAME")
+@Resource(mappedName = "java:global/eximeebpms-bpm-platform/process-engine/$PROCESS_ENGINE_NAME")
 ```
 
 {{< note title="Look Up a Process Engine From JNDI Using Spring" class="warning" >}}
-  On Wildfly, Spring users should always [create a resource-ref for the process engine in web.xml]({{< relref "#manage-service-dependencies" >}})</a> and then lookup the local name in the `java:comp/env/` namespace. [For an example, see this Quickstart](https://github.com/camunda/camunda-bpm-examples/tree/master/deployment/spring-wildfly-non-pa)</a>
+  On Wildfly, Spring users should always [create a resource-ref for the process engine in web.xml]({{< relref "#manage-service-dependencies" >}})</a> and then lookup the local name in the `java:comp/env/` namespace. [For an example, see this Quickstart](https://github.com/eximeebpms/eximeebpms-bpm-examples/tree/master/deployment/spring-wildfly-non-pa)</a>
 {{< /note >}}
 
 
@@ -227,8 +224,8 @@ It is possible to inspect the configuration using the CLI (Command Line Interfac
 ```console
 You are disconnected at the moment. Type 'connect' to connect to the server or 'help' for the list of supported commands.
 [disconnected /] connect
-[standalone@localhost:9999 /] cd /subsystem=camunda-bpm-platform
-[standalone@localhost:9999 subsystem=camunda-bpm-platform] :read-resource(recursive=true)
+[standalone@localhost:9999 /] cd /subsystem=eximeebpms-bpm-platform
+[standalone@localhost:9999 subsystem=eximeebpms-bpm-platform] :read-resource(recursive=true)
 {
     "outcome" => "success",
     "result" => {
@@ -245,7 +242,7 @@ You are disconnected at the moment. Type 'connect' to connect to the server or '
             }}
         }},
         "process-engines" => {"default" => {
-            "configuration" => "org.camunda.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration",
+            "configuration" => "org.eximeebpms.bpm.container.impl.jboss.config.ManagedJtaProcessEngineConfiguration",
             "datasource" => "java:jboss/datasources/ProcessEngine",
             "default" => true,
             "history-level" => "full",
@@ -265,7 +262,7 @@ You are disconnected at the moment. Type 'connect' to connect to the server or '
 Once the process engine is registered in the JBoss Management Model, it is possible to control it through the management API. For example, you can stop it through the CLI:
 
 ```console
-[standalone@localhost:9999 subsystem=camunda-bpm-platform] cd process-engines=default
+[standalone@localhost:9999 subsystem=eximeebpms-bpm-platform] cd process-engines=default
 [standalone@localhost:9999 process-engines=default] :remove
 {"outcome" => "success"}
 ```
@@ -282,7 +279,7 @@ This removes the process engine and all dependent services. This means that if y
 It is also possible to start a new process engine at runtime:
 
 ```console
-[standalone@localhost:9999 subsystem=camunda-bpm-platform] /subsystem=camunda-bpm-platform/process-engines=my-process-engine/:add(name=my-process-engine,datasource=java:jboss/datasources/ExampleDS)
+[standalone@localhost:9999 subsystem=eximeebpms-bpm-platform] /subsystem=eximeebpms-bpm-platform/process-engines=my-process-engine/:add(name=my-process-engine,datasource=java:jboss/datasources/ExampleDS)
 {"outcome" => "success"}
 ```
 
@@ -307,15 +304,15 @@ The JConsole plugin allows you to inspect the management model graphically and b
    Classpath dependencies are automatically managed for you if you use the [Process Application API]({{< ref "/user-guide/process-applications/_index.md" >}}).
 {{< /note >}}
 
-When using the Camunda Wildfly subsystem, the process engine classes are deployed as WildFly module. The module is named
-`org.camunda.bpm.camunda-engine` and is deployed in the folder `$WILDFLY_HOME/modules/org/camunda/bpm/camunda-engine`.
+When using the EximeeBPMS Wildfly subsystem, the process engine classes are deployed as WildFly module. The module is named
+`org.eximeebpms.bpm.eximeebpms-engine` and is deployed in the folder `$WILDFLY_HOME/modules/org/eximeebpms/bpm/eximeebpms-engine`.
 
 By default, the application server will not add this module to the classpath of applications. If an application needs to interact with the process engine, we must declare a module dependency in the application. This can be achieved using either an implicit or an explicit module dependency.
 
 
 ## Implicit Module Dependencies with the Process Application API
 
-When using the Process Application API (i.e., when deploying either a servlet process application or an EJB process application), the Camunda Wildfly subsystem will detect the `@ProcessApplication` class in the deployment and automatically add a module dependency between the application and the process engine module. As a result, we don't have to declare the dependency ourselves. It is called an [implicit module dependency](https://docs.wildfly.org/23/Developer_Guide.html#Implicit_module_dependencies_for_deployments) because it is not explicitly declared but can be derived by inspecting the application and seeing that it provides a `@ProcessApplication` class.
+When using the Process Application API (i.e., when deploying either a servlet process application or an EJB process application), the EximeeBPMS Wildfly subsystem will detect the `@ProcessApplication` class in the deployment and automatically add a module dependency between the application and the process engine module. As a result, we don't have to declare the dependency ourselves. It is called an [implicit module dependency](https://docs.wildfly.org/23/Developer_Guide.html#Implicit_module_dependencies_for_deployments) because it is not explicitly declared but can be derived by inspecting the application and seeing that it provides a `@ProcessApplication` class.
 
 
 ## Explicit Module Dependencies
@@ -333,7 +330,7 @@ Wildfly offers multiple [different mechanisms for achieving this](https://docs.w
        <configuration>
           <archive>
              <manifestEntries>
-                <Dependencies>org.camunda.bpm.camunda-engine</Dependencies>
+                <Dependencies>org.eximeebpms.bpm.eximeebpms-engine</Dependencies>
              </manifestEntries>
           </archive>
        </configuration>
@@ -351,7 +348,7 @@ As a result, the Application Service will add the process engine module to the c
    Service dependencies are automatically managed for you if you use the [Process Application API]({{< ref "/user-guide/process-applications/_index.md" >}}).
 {{< /note >}}
 
-The Camunda Wildfly subsystem manages process engines as JBoss Services in the JBoss Module Service Container. For the Module Service Container to provide the process engine service(s) to the deployed applications, it is important that the dependencies are known. Consider the following example:
+The EximeeBPMS Wildfly subsystem manages process engines as JBoss Services in the JBoss Module Service Container. For the Module Service Container to provide the process engine service(s) to the deployed applications, it is important that the dependencies are known. Consider the following example:
 
 {{< img src="../img/jboss-service-dependencies.png" title="JBoss Service Dependencies" >}}
 
@@ -360,7 +357,7 @@ There are three applications deployed and two process engine services exist. App
 
 ## Implicit Service Dependencies
 
-When using the Process Application API (i.e., when deploying either a servlet process application or an EJB process application), the Camunda Wildfly subsystem will detect the `@ProcessApplication` class in the deployment and automatically add a service dependency between the process application component and the process engine module. This ensures that the process engine is available when the process application is deployed.
+When using the Process Application API (i.e., when deploying either a servlet process application or an EJB process application), the EximeeBPMS Wildfly subsystem will detect the `@ProcessApplication` class in the deployment and automatically add a service dependency between the process application component and the process engine module. This ensures that the process engine is available when the process application is deployed.
 
 
 ## Explicit Service Dependencies
@@ -375,12 +372,12 @@ The simplest way to add an explicit dependency on the process engine is to bind 
 ```xml
 <resource-ref>
   <res-ref-name>processEngine/default</res-ref-name>
-  <res-type>org.camunda.bpm.engine.ProcessEngine</res-type>
-  <mapped-name>java:global/camunda-bpm-platform/process-engine/default</mapped-name>
+  <res-type>org.eximeebpms.bpm.engine.ProcessEngine</res-type>
+  <mapped-name>java:global/eximeebpms-bpm-platform/process-engine/default</mapped-name>
 </resource-ref>
 ```
 
-This way, the global process engine resource `java:global/camunda-bpm-platform/process-engine/default` is available locally under the name `processEngine/default`. Since the application server is aware of this dependency, it will make sure the Process Engine Service exists before starting the application and it will stop the application if the process engine is removed.
+This way, the global process engine resource `java:global/eximeebpms-bpm-platform/process-engine/default` is available locally under the name `processEngine/default`. Since the application server is aware of this dependency, it will make sure the Process Engine Service exists before starting the application and it will stop the application if the process engine is removed.
 
 The same effect can be achieved using the `@Resource` Annotation:
 
@@ -388,7 +385,7 @@ The same effect can be achieved using the `@Resource` Annotation:
 @Stateless
 public class PaComponent {
 
-  @Resource(mappedName="java:global/camunda-bpm-platform/process-engine/default")
+  @Resource(mappedName="java:global/eximeebpms-bpm-platform/process-engine/default")
   private ProcessEngine processEngine;
 
   @Produces

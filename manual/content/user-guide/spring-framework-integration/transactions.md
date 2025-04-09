@@ -14,9 +14,9 @@ menu:
 
 # Transaction Integration by Example
 
-The following explains the [SpringTransactionIntegrationTest](https://github.com/camunda/camunda-bpm-platform/blob/{{< minor-version >}}.0/engine-spring/core/src/test/java/org/camunda/bpm/engine/spring/test/transaction/SpringTransactionIntegrationTest.java) of the core codebase step by step. Below is the Spring configuration file that we use in this example (you can find it in [SpringTransactionIntegrationTest-context.xml](https://github.com/camunda/camunda-bpm-platform/blob/{{< minor-version >}}.0/engine-spring/core/src/test/resources/org/camunda/bpm/engine/spring/test/transaction/SpringTransactionIntegrationTest-context.xml)). The section shown below contains the `dataSource`, `transactionManager`, `processEngine` and the process engine services.
+The following explains the [SpringTransactionIntegrationTest](https://github.com/eximeebpms/eximeebpms-bpm-platform/blob/{{< minor-version >}}.0/engine-spring/core/src/test/java/org/eximeebpms/bpm/engine/spring/test/transaction/SpringTransactionIntegrationTest.java) of the core codebase step by step. Below is the Spring configuration file that we use in this example (you can find it in [SpringTransactionIntegrationTest-context.xml](https://github.com/eximeebpms/eximeebpms-bpm-platform/blob/{{< minor-version >}}.0/engine-spring/core/src/test/resources/org/eximeebpms/bpm/engine/spring/test/transaction/SpringTransactionIntegrationTest-context.xml)). The section shown below contains the `dataSource`, `transactionManager`, `processEngine` and the process engine services.
 
-When passing the DataSource to the `SpringProcessEngineConfiguration` (using property "dataSource"), the Camunda engine uses a `org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy` internally, which wraps the passed DataSource. This is done to make sure the SQL connections retrieved from the DataSource and the Spring transactions play well together. This implies that it's no longer needed to proxy the dataSource yourself in Spring configuration, although it's still allowed to pass a `TransactionAwareDataSourceProxy` into the `SpringProcessEngineConfiguration`. In this case no additional wrapping will occur.
+When passing the DataSource to the `SpringProcessEngineConfiguration` (using property "dataSource"), the EximeeBPMS engine uses a `org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy` internally, which wraps the passed DataSource. This is done to make sure the SQL connections retrieved from the DataSource and the Spring transactions play well together. This implies that it's no longer needed to proxy the dataSource yourself in Spring configuration, although it's still allowed to pass a `TransactionAwareDataSourceProxy` into the `SpringProcessEngineConfiguration`. In this case no additional wrapping will occur.
 
 Make sure when declaring a `TransactionAwareDataSourceProxy` in Spring configuration yourself, that you don't use it for resources that are already aware of Spring-transactions (e.g., `DataSourceTransactionManager` and `JPATransactionManager` need the un-proxied dataSource).
 
@@ -29,7 +29,7 @@ Make sure when declaring a `TransactionAwareDataSourceProxy` in Spring configura
 
   <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
     <property name="driverClass" value="org.h2.Driver" />
-    <property name="url" value="jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000" />
+    <property name="url" value="jdbc:h2:mem:eximeebpms;DB_CLOSE_DELAY=1000" />
     <property name="username" value="sa" />
     <property name="password" value="" />
   </bean>
@@ -38,14 +38,14 @@ Make sure when declaring a `TransactionAwareDataSourceProxy` in Spring configura
     <property name="dataSource" ref="dataSource" />
   </bean>
 
-  <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration">
+  <bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration">
     <property name="dataSource" ref="dataSource" />
     <property name="transactionManager" ref="transactionManager" />
     <property name="databaseSchemaUpdate" value="true" />
     <property name="jobExecutorActivate" value="false" />
   </bean>
 
-  <bean id="processEngine" class="org.camunda.bpm.engine.spring.ProcessEngineFactoryBean">
+  <bean id="processEngine" class="org.eximeebpms.bpm.engine.spring.ProcessEngineFactoryBean">
     <property name="processEngineConfiguration" ref="processEngineConfiguration" />
   </bean>
 
@@ -71,11 +71,11 @@ The remainder of that Spring configuration file contains the beans and configura
   ...
   <tx:annotation-driven transaction-manager="transactionManager"/>
 
-  <bean id="userBean" class="org.camunda.bpm.engine.spring.test.UserBean">
+  <bean id="userBean" class="org.eximeebpms.bpm.engine.spring.test.UserBean">
     <property name="runtimeService" ref="runtimeService" />
   </bean>
 
-  <bean id="printer" class="org.camunda.bpm.engine.spring.test.Printer" />
+  <bean id="printer" class="org.eximeebpms.bpm.engine.spring.test.Printer" />
 
 </beans>
 ```
@@ -143,7 +143,7 @@ transaction behavior). This doesn't play well with how the Process Engine
 Context is used to separate transaction data described in detail in
 [Transactions and the Process Engine Context][transactions-and-engine-context]. 
 Due to this, if the inner transaction fails, the changes made by the engine 
-API calls are still committed to the Camunda database.
+API calls are still committed to the EximeeBPMS database.
 
 A solution for this is to explicitly declare to the Process Engine that
 a new Process Engine Context is to be created, where all the following
@@ -200,7 +200,7 @@ from the started Process Instance data will be committed with the outer
 transaction.
 
 The described problem can be solved through the static methods of the 
-`org.camunda.bpm.engine.context.ProcessEngineContext` class. First, we 
+`org.eximeebpms.bpm.engine.context.ProcessEngineContext` class. First, we 
 call the `ProcessEngineContext.requiresNew()` method to  declare that a 
 new Context is required. Finally, we call the `ProcessEngineContext.clear()` 
 method to clear the declaration for a new Process Engine Context. This

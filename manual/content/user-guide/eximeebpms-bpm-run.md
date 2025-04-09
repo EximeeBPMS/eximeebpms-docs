@@ -1,6 +1,6 @@
 ---
 
-title: 'EximeeBPMS 7 Run'
+title: 'EximeeBPMS Run'
 weight: 50
 
 menu:

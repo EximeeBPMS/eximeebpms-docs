@@ -56,7 +56,7 @@ The full distribution bundles
 {{< /note >}}
 
 {{< note title="Wildfly Application Server" class="info" >}}
-  Wildfly Application Server is provided as part of the archives as a convenience. For a copy of the source code, the full set of attribution notices, and other relevant information please see https://github.com/wildfly/wildfly. We will also provide you with a copy of the source code if you [contact our Open-Source Compliance Team](https://docs.camunda.org/manual/latest/introduction/licenses/#contact) at any time within three years of you downloading an archive (for which we may charge a nominal sum). Wildfly Application Server is copyright © JBoss, Home of Professional Open Source, 2010, Red Hat Middleware LLC [..and contributors].
+  Wildfly Application Server is provided as part of the archives as a convenience. For a copy of the source code, the full set of attribution notices, and other relevant information please see https://github.com/wildfly/wildfly. We will also provide you with a copy of the source code if you [contact our Open-Source Compliance Team][contact-our-team] at any time within three years of you downloading an archive (for which we may charge a nominal sum). Wildfly Application Server is copyright © JBoss, Home of Professional Open Source, 2010, Red Hat Middleware LLC [..and contributors].
 {{< /note >}}
 
 See the [Installation Guide][installation-guide-full] for additional details.
@@ -69,10 +69,11 @@ from the [community download page][community-download-page].
 
 
 
-[get-jdk]: https://www.oracle.com/technetwork/java/javase/downloads/index.html
+[get-jdk]: https://adoptium.net/temurin/releases/
 [community-download-page]: https://camunda.com/download/
 [enterprise-download-page]: /enterprise/download
 [shared-engine]: {{< ref "/introduction/architecture.md#shared-container-managed-process-engine" >}}
 [installation-guide-full]: {{< ref "/installation/_index.md" >}}
 [run-with-spring-boot]: {{< ref "/user-guide/spring-boot-integration/_index.md" >}}
 [run-with-docker]: {{< ref "/installation/docker.md" >}}
+[contact-our-team]: {{< ref "/introduction/licenses.md#contact" >}}

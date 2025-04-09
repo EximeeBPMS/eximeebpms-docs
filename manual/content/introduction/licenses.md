@@ -28,7 +28,7 @@ If you are using the Enterprise Platform, additionally to the Community componen
 EximeeBPMS (Community and Enterprise Edition) includes libraries developed by third parties. See the following resources:
 
 * [Third-Party Libraries][third-party-libraries]: An overview of the dependencies EximeeBPMS distributes. Additionally, this page points out particularly important third-party licenses to be aware of.
-* [HTML License Book EximeeBPMS]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS 7 artifacts, including their licenses and notices.
+* [HTML License Book EximeeBPMS]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS artifacts, including their licenses and notices.
 * [Plain text license book EximeeBPMS][license-book]: A plain text version of the license book.
 
 [third-party-libraries]: {{< ref "/introduction/third-party-libraries/_index.md" >}}
