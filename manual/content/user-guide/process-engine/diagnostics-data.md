@@ -114,7 +114,7 @@ The counts are collected from the start of the engine or the last reported time 
         "data-collection-start-date": "2022-11-320T15:53:20.386+0100",
         "camunda-integration": [
           "spring-boot-starter",
-          "camunda-bpm-run"
+          "eximeebpms-bpm-run"
         ],
         "license-key": {
           "customer": "customer name",
