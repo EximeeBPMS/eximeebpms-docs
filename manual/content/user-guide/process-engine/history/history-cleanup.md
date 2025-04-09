@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/57a4d648-c7ea-417e-ab42-526cee4daa61)---
+---
 
 title: 'History cleanup'
 weight: 30
