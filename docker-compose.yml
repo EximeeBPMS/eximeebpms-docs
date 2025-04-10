@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  hugo:
+    image: klakegg/hugo:0.56.0
+    command: server --baseUrl=${BASE_URL}
+    volumes:
+      - "${LOCAL_PATH}:/src"
+    ports:
+      - "${PORT}:1313"
+    working_dir: /src/${WORKING_DIR}

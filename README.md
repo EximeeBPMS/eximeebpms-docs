@@ -1,3 +1,6 @@
+
+Take a look at [this description](./Hugo.md) to run Hugo with Docker.
+
 # The Camunda 7 Documentation Sources
 
 This repository contains the sources of the Camunda 7 documentation.
