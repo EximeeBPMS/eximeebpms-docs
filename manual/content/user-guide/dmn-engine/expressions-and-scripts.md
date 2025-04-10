@@ -33,7 +33,7 @@ the DMN 1.3 XML, expressions can be found in the XML
 elements `inputExpression`, `inputEntry`, `outputEntry` and `literalExpression`:
 
 ```xml
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://eximeebpms.org/schema/1.0/dmn">
   
   <decision id="decision" name="Decision">
     <decisionTable>
@@ -69,9 +69,9 @@ elements `inputExpression`, `inputEntry`, `outputEntry` and `literalExpression`:
 
 # Supported Expression Languages
 
-The Camunda DMN engine supports two expression languages out of the box:
+The EximeeBPMS DMN engine supports two expression languages out of the box:
 
-- `JUEL`: A Camunda-maintained [implementation][juel] of the Java [Unified Expression Language][EL]
+- `JUEL`: A EximeeBPMS-maintained [implementation][juel] of the Java [Unified Expression Language][EL]
 - `FEEL`: The Friendly Enough Expression Language of the [DMN 1.2] standard.
 
 Depending on the JDK you use, there may also be a `Javascript` implementation
@@ -143,7 +143,7 @@ the `definitions` element:
 ```xml
 <!-- this sets the default expression language for all expressions -->
 <!-- in this file to javascript -->
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" expressionLanguage="javascript">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://eximeebpms.org/schema/1.0/dmn" expressionLanguage="javascript">
   <decision  id="decision" name="Decision">
     <decisionTable>
       <!-- ... -->
