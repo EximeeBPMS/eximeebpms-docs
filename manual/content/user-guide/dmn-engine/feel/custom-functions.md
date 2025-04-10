@@ -12,7 +12,7 @@ menu:
 
 ---
 
-Camunda 7 provides a wrapper for the FEEL Scala Engine to implement Custom Functions, which can be 
+EximeeBPMS provides a wrapper for the FEEL Scala Engine to implement Custom Functions, which can be 
 called in expressions and unary tests. 
 
 {{< note title="Custom Function Behavior" class="warning" >}}
@@ -30,8 +30,8 @@ To implement a Custom Function, create a sub-class of `FeelCustomFunctionProvide
 The following code example shows how to implement a Custom Function:
 
 ```java
-import org.camunda.bpm.dmn.feel.impl.scala.function.CustomFunction;
-import org.camunda.bpm.dmn.feel.impl.scala.function.FeelCustomFunctionProvider;
+import org.eximeebpms.bpm.dmn.feel.impl.scala.function.CustomFunction;
+import org.eximeebpms.bpm.dmn.feel.impl.scala.function.FeelCustomFunctionProvider;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -116,7 +116,7 @@ passed into a Custom Function.
 ### Return Types
 
 All Java types listed in the "Return Types" section of the [FEEL Type Handling] documentation plus 
-the types listed in the [FEEL Data Types] documentation can be returned by a Custom Function.
+the types listed in the FEEL Data Types documentation can be returned by a Custom Function.
 
 [FEEL Type Handling]: {{< ref "/user-guide/dmn-engine/feel/type-handling.md#return-types" >}}
 [FEEL Data Types]: https://camunda.github.io/feel-scala/1.11/feel-data-types
