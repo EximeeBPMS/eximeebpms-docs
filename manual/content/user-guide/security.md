@@ -413,7 +413,7 @@ Please find below external documentation on how to configure your application se
 * JBoss EAP 7.0+: Official Documentation
     * [Servlet Container Configuration](https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/7.0/html/configuration_guide/reference_material#idm139812627222560)
     * [Model Refernce](https://wildscribe.github.io/JBoss%20EAP/7.0/subsystem/undertow/servlet-container/index.html#attr-stack-trace-on-error)
-* Camunda Run/Spring Boot 2.3+
+* EximeeBPMS Run/Spring Boot 2.3+
     * Official Documentation
         * [Javadocs about ErrorProperties.IncludeStacktrace](https://docs.spring.io/spring-boot/docs/2.3.0.RELEASE/api/org/springframework/boot/autoconfigure/web/ErrorProperties.IncludeStacktrace.html)
     * Alternative Resources
