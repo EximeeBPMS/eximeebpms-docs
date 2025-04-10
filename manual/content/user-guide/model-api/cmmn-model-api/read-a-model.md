@@ -67,7 +67,7 @@ Consider the following simple CMMN model:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions targetNamespace="http://eximeebpms.org/examples"
+<definitions targetNamespace="http://camunda.com/bpmn/examples"
              xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL">
   <case id="case-with-one-task">
     <casePlanModel id="CasePlanModel_1">
