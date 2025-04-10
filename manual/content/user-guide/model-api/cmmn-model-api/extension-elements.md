@@ -32,7 +32,7 @@ Collection<ModelElementInstance> elements = extensionElements.getElements();
 After that you can add or remove extension elements to the collection.
 
 ```java
-EximeeBPMSCaseExecutionListener listener = modelInstance.newInstance(EximeeBPMSCaseExecutionListener.class);
+CamundaCaseExecutionListener listener = modelInstance.newInstance(CamundaCaseExecutionListener.class);
 extensionElements.getElements().add(listener);
 extensionElements.getElements().remove(listener);
 ```
@@ -43,7 +43,7 @@ You can also access a query-like interface to filter the extension elements.
 extensionElements.getElementsQuery().count();
 extensionElements.getElementsQuery().list();
 extensionElements.getElementsQuery().singleResult();
-extensionElements.getElementsQuery().filterByType(EximeeBPMSCaseExecutionListener.class).singleResult();
+extensionElements.getElementsQuery().filterByType(CamundaCaseExecutionListener.class).singleResult();
 ```
 
 Additionally, there are some shortcuts to add new extension elements. You can use
@@ -54,5 +54,5 @@ so that you can set attributes or add child elements.
 
 ```java
 ModelElementInstance element = extensionElements.addExtensionElement("http://example.com/cmmn", "myExtensionElement");
-EximeeBPMSCaseExecutionListener listener = extensionElements.addExtensionElement(EximeeBPMSCaseExecutionListener.class);
+CamundaCaseExecutionListener listener = extensionElements.addExtensionElement(CamundaCaseExecutionListener.class);
 ```
