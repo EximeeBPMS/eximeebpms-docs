@@ -22,7 +22,7 @@ to the newly created empty model instance.
 
 ```java
 Definitions definitions = modelInstance.newInstance(Definitions.class);
-definitions.setTargetNamespace("http://eximeebpms.org/examples");
+definitions.setTargetNamespace("http://camunda.com/bpmn/examples");
 modelInstance.setDefinitions(definitions);
 ```
 
@@ -99,7 +99,7 @@ The following code creates this process using the helper methods from above (wit
 // create an empty model
 BpmnModelInstance modelInstance = Bpmn.createEmptyModel();
 Definitions definitions = modelInstance.newInstance(Definitions.class);
-definitions.setTargetNamespace("http://eximeebpms.org/examples");
+definitions.setTargetNamespace("http://camunda.com/bpmn/examples");
 modelInstance.setDefinitions(definitions);
 
 // create the process
@@ -132,7 +132,7 @@ Even more complex processes can be created with a few lines of code with the sta
 // create an empty model
 BpmnModelInstance modelInstance = Bpmn.createEmptyModel();
 Definitions definitions = modelInstance.newInstance(Definitions.class);
-definitions.setTargetNamespace("http://eximeebpms.org/examples");
+definitions.setTargetNamespace("http://camunda.com/bpmn/examples");
 modelInstance.setDefinitions(definitions);
 
 // create elements
