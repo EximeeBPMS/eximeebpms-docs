@@ -82,7 +82,7 @@ Create a JSF page in `src/main/webapp/WEB-INF` representing a form used for User
 </html>
 ```
 
-Note that you need `camunda-engine-cdi` in order to have the `camundaTaskForm` bean available.
+Note that you need `eximeebpms-engine-cdi` in order to have the `camundaTaskForm` bean available.
 
 
 # How does this work?
@@ -116,7 +116,7 @@ Note that the command button doesn't have to be on the same form, you might have
 
 # Access Process Variables
 
-In the forms you can access your own CDI beans as usual and also access the Camunda CDI beans. This makes it easy to access process variables, e.g., via the `processVariables` CDI bean:
+In the forms you can access your own CDI beans as usual and also access the EximeeBPMS CDI beans. This makes it easy to access process variables, e.g., via the `processVariables` CDI bean:
 
 ```xml
 <h:form id="someForm">
