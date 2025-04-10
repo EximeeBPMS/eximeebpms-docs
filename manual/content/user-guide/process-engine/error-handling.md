@@ -84,7 +84,7 @@ for (Job failedJob : failedJobs) {
 
 ## Explicit Modeling
 
-Of course you can always explicitly model a retry mechanism as pointed out in [Where is the retry in BPMN 2.0](http://www.bpm-guide.de/2012/06/15/where-is-the-retry-in-bpmn-2-0/):
+Of course you can always explicitly model a retry mechanism as pointed out in [Where is the retry in BPMN 2.0]([http://www.bpm-guide.de/2012/06/15/where-is-the-retry-in-bpmn-2-0/](https://camunda.com/blog/2021/04/where-is-the-retry-in-bpmn-20/)):
 
 {{< img src="../img/retry.png" title="Retry Mechanism" >}}
 
@@ -134,7 +134,7 @@ error code to the exception. You can look up the built-in codes in the [Categori
 
 ## Custom codes
 
-Sometimes you may want to assign codes to specific errors Camunda hasn't covered so far.
+Sometimes you may want to assign codes to specific errors EximeeBPMS hasn't covered so far.
 You can either define custom codes from delegation code or by [registering your custom `ExceptionCodeProvider`](#register-a-custom-code-provider).
 
 ### Delegation code
