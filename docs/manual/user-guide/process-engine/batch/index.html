@@ -136,7 +136,7 @@ operation type individually with the help of the process engine configuration pr
 <a href=/eximeebpms-docs/manual/reference/deployment-descriptors/tags/process-engine/#invocations-per-batch-job-by-batch-type><code>invocationsPerBatchJobByBatchType</code></a>. In case you haven&rsquo;t
 specified the invocations per batch job by type, the configuration falls back to the global
 configuration specified via <code>invocationsPerBatchJob</code>.</p><p>You can configure the property in three ways:</p><ol><li>Programmatically with the help of a <a href=/eximeebpms-docs/manual/user-guide/process-engine/process-engine-plugins/>Process Engine Plugin</a></li><li><p>In Spring-based environments via <a href=/eximeebpms-docs/manual/user-guide/spring-framework-integration/configuration/>Spring XML Configuration</a></p><pre><code class=language-xml>&lt;bean id=&quot;processEngineConfiguration&quot; 
-      class=&quot;org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration&quot;&gt;
+      class=&quot;org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration&quot;&gt;
     
   &lt;!-- ... --&gt;
     
@@ -150,7 +150,7 @@ configuration specified via <code>invocationsPerBatchJob</code>.</p><p>You can c
     &lt;/map&gt;
   &lt;/property&gt;
 &lt;/bean&gt;
-</code></pre></li><li><p>In Spring Boot environment via the <a href=/eximeebpms-docs/manual/user-guide/spring-boot-integration/configuration/#camunda-engine-properties><code>application.yaml</code></a> file</p><pre><code class=language-yaml>camunda.bpm.generic-properties.properties:
+</code></pre></li><li><p>In Spring Boot environment via the <a href=/eximeebpms-docs/manual/user-guide/spring-boot-integration/configuration/#camunda-engine-properties><code>application.yaml</code></a> file</p><pre><code class=language-yaml>eximeebpms.bpm.generic-properties.properties:
   invocations-per-batch-job-by-batch-type:
     process-set-removal-time:     10
     historic-instance-deletion:   3

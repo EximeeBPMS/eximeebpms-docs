@@ -25,15 +25,15 @@ processEngineConfiguration.setDmnEngineConfiguration(dmnEngineConfiguration);
 
 // build the process engine which includes the DMN engine
 processEngineConfiguration.buildProcessEngine();
-</code></pre><h1 id=configure-the-dmn-engine-using-spring-xml>Configure the DMN Engine using Spring XML</h1><p>Follow the <a href=/eximeebpms-docs/manual/user-guide/process-engine/process-engine-bootstrapping/#configure-process-engine-using-spring-xml>instructions</a> to create a base <code>camunda.cfg.xml</code> XML configuration for the process engine.</p><p>Add a new configuration bean of class <code>org.camunda.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration</code>. Configure the DMN engine using the bean and set it as <code>dmnEngineConfiguration</code> property on the <code>processEngineConfiguration</code> bean.</p><pre><code class=language-xml>&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; 
+</code></pre><h1 id=configure-the-dmn-engine-using-spring-xml>Configure the DMN Engine using Spring XML</h1><p>Follow the <a href=/eximeebpms-docs/manual/user-guide/process-engine/process-engine-bootstrapping/#configure-process-engine-using-spring-xml>instructions</a> to create a base <code>eximeebpms.cfg.xml</code> XML configuration for the process engine.</p><p>Add a new configuration bean of class <code>org.eximeebpms.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration</code>. Configure the DMN engine using the bean and set it as <code>dmnEngineConfiguration</code> property on the <code>processEngineConfiguration</code> bean.</p><pre><code class=language-xml>&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; 
        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
        xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
 
   &lt;bean id=&quot;processEngineConfiguration&quot; 
-        class=&quot;org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration&quot;&gt;
+        class=&quot;org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration&quot;&gt;
   
     &lt;property name=&quot;dmnEngineConfiguration&quot;&gt;
-      &lt;bean class=&quot;org.camunda.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration&quot;&gt;
+      &lt;bean class=&quot;org.eximeebpms.bpm.dmn.engine.impl.DefaultDmnEngineConfiguration&quot;&gt;
         
         &lt;!-- configure the DMN engine ... --&gt; 
         &lt;!-- e.g. set the default expression language for input expressions to `groovy` --&gt;

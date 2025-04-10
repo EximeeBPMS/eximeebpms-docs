@@ -13,15 +13,15 @@
 Ids. These Ids uniquely identify an individual task, process instance, etc. When these entities are
 persisted to the database, the ids are used as primary keys in the corresponding database tables.</p><p>Out of the box, the process engine provides two Id generator implementations.</p><h1 id=the-database-id-generator>The Database Id Generator</h1><p>The Database Id Generator is implemented using a sequence Generator on top of the <code>ACT_GE_PROPERTY</code>
 table.</p><p>This id generator is good for debugging and testing since it generates human readable ids.</p><div class="note bg-warning docs-warning"><h3></h3><p>The Database Id Generator should <strong>never</strong> be used in production since it cannot handle high levels of concurrency.</p></div><h1 id=the-uuid-generator>The UUID Generator</h1><p>The StrongUuidGenerator uses a UUID generator which uses the <a href=https://mvnrepository.com/artifact/com.fasterxml.uuid/java-uuid-generator>Java UUID Generator (JUG)</a> library
-internally.</p><div class="note bg-warning docs-warning"><h3></h3><p>Always use the StrongUuidGenerator for production setups.</p></div><p>In the <a href=/eximeebpms-docs/manual/introduction/downloading-eximeebpms/#full-distribution>Camunda Full Distributions</a>, the
+internally.</p><div class="note bg-warning docs-warning"><h3></h3><p>Always use the StrongUuidGenerator for production setups.</p></div><p>In the <a href=/eximeebpms-docs/manual/introduction/downloading-eximeebpms/#full-distribution>EximeeBPMS Full Distributions</a>, the
 StrongUuidGenerator is preconfigured and the default Id Generator used by the process engine.</p><p>If you use an embedded process engine configuration and configure the process engine using Spring,
 you need to add the following lines to the Spring configuration to enable the
-<code>StrongUuidGenerator</code>:</p><pre><code class=language-xml>&lt;bean id=&quot;processEngineConfiguration&quot; class=&quot;org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration&quot;&gt;
+<code>StrongUuidGenerator</code>:</p><pre><code class=language-xml>&lt;bean id=&quot;processEngineConfiguration&quot; class=&quot;org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration&quot;&gt;
 
   [...]
 
   &lt;property name=&quot;idGenerator&quot;&gt;
-    &lt;bean class=&quot;org.camunda.bpm.engine.impl.persistence.StrongUuidGenerator&quot; /&gt;
+    &lt;bean class=&quot;org.eximeebpms.bpm.engine.impl.persistence.StrongUuidGenerator&quot; /&gt;
   &lt;/property&gt;
 
 &lt;/bean&gt;

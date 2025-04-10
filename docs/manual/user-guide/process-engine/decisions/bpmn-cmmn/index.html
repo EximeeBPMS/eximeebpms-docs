@@ -12,7 +12,7 @@
 <option selected>0.9.0</option></select></div></div></nav><div class=page-wrapper><div class=page-content><div class=container-fluid><div class="col-xs-12 content-header"><ul class=social><li><a target=_blank title="Camunda on Twitter" href=//twitter.com/camunda><span class=cam-docs-twitter></span></a></li><li><a target=_blank title="Camunda related topics on Stackoverflow" href=//stackoverflow.com/questions/tagged/camunda><span class=cam-docs-stackoverflow></span></a></li><li><a target=_blank title="Camunda Forum" href=//forum.camunda.org><span class=cam-docs-chat></span></a></li></ul><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/master/manual/content/user-guide/process-engine/decisions/bpmn-cmmn.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Invoke Decisions from Processes and Cases</h1></div><div class="col-xs-12 content-text"><h1 id=bpmn-cmmn-integration>BPMN &amp; CMMN Integration</h1><p>This section explains how to invoke DMN decision from BPMN and CMMN.</p><h2 id=bpmn-business-rule-task>BPMN Business Rule Task</h2><p>The BPMN business rule task can reference a <a href=/eximeebpms-docs/manual/user-guide/process-engine/decisions/repository/>deployed</a> decision
 definition. The decision definition is evaluated when the task is executed.</p><pre><code class=language-xml>&lt;definitions id=&quot;taskAssigneeExample&quot;
   xmlns=&quot;http://www.omg.org/spec/BPMN/20100524/MODEL&quot;
-  xmlns:camunda=&quot;http://camunda.org/schema/1.0/bpmn&quot;
+  xmlns:eximeebpms=&quot;http://eximeebpms.org/schema/1.0/bpmn&quot;
   targetNamespace=&quot;Examples&quot;&gt;
 
   &lt;process id=&quot;process&quot;&gt;
@@ -20,9 +20,9 @@ definition. The decision definition is evaluated when the task is executed.</p><
     &lt;!-- ... --&gt;
 
     &lt;businessRuleTask id=&quot;businessRuleTask&quot;
-                      camunda:decisionRef=&quot;myDecision&quot;
-                      camunda:mapDecisionResult=&quot;singleEntry&quot;
-                      camunda:resultVariable=&quot;result&quot; /&gt;
+                      eximeebpms:decisionRef=&quot;myDecision&quot;
+                      eximeebpms:mapDecisionResult=&quot;singleEntry&quot;
+                      eximeebpms:resultVariable=&quot;result&quot; /&gt;
 
     &lt;!-- ... --&gt;
 
@@ -32,15 +32,15 @@ definition. The decision definition is evaluated when the task is executed.</p><
 rule task, please refer to the <a href=/eximeebpms-docs/manual/reference/bpmn20/tasks/business-rule-task/>BPMN 2.0 reference</a>.</p><h2 id=dmn-decision-task>DMN Decision Task</h2><p>The CMMN decision task references a <a href=/eximeebpms-docs/manual/user-guide/process-engine/decisions/repository/>deployed</a> decision definition.
 The decision definition is invoked when the task is activated.</p><pre><code class=language-xml>&lt;definitions id=&quot;definitions&quot;
                   xmlns=&quot;http://www.omg.org/spec/CMMN/20151109/MODEL&quot;
-                  xmlns:camunda=&quot;http://camunda.org/schema/1.0/cmmn&quot;
+                  xmlns:eximeebpms=&quot;http://eximeebpms.org/schema/1.0/cmmn&quot;
                   targetNamespace=&quot;Examples&quot;&gt;
   &lt;case id=&quot;case&quot;&gt;
     &lt;casePlanModel id=&quot;CasePlanModel_1&quot;&gt;
       &lt;planItem id=&quot;PI_DecisionTask_1&quot; definitionRef=&quot;DecisionTask_1&quot; /&gt;
       &lt;decisionTask id=&quot;DecisionTask_1&quot;
                     decisionRef=&quot;myDecision&quot;
-                    camunda:mapDecisionResult=&quot;singleEntry&quot;
-                    camunda:resultVariable=&quot;result&quot;&gt;
+                    eximeebpms:mapDecisionResult=&quot;singleEntry&quot;
+                    eximeebpms:resultVariable=&quot;result&quot;&gt;
       &lt;/decisionTask&gt;
     &lt;/casePlanModel&gt;
   &lt;/case&gt;
@@ -77,14 +77,14 @@ as normal Java objects without additional type information.</p><p>Note that the 
 suitable. For example, the <code>singleEntry</code> mapper throws an exception if the
 decision result contains more than one matched rule.</p><div class="note bg-warning docs-warning"><h3>Limitations of Serialization</h3><p>If you are using one of the predefined mappers <code>singleResult</code>, <code>collectEntries</code>
 or <code>resultList</code> then you should consider the <a href=#limitations-of-the-serialization-of-the-mapping-result>limitations of serialization</a>.</p></div><p>To specify the name of the process/case variable to store the result of the
-mapping, the <code>camunda:resultVariable</code> attribute is used.</p><p>BPMN:</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot;
-                  camunda:decisionRef=&quot;myDecision&quot;
-                  camunda:mapDecisionResult=&quot;singleEntry&quot;
-                  camunda:resultVariable=&quot;result&quot; /&gt;
+mapping, the <code>eximeebpms:resultVariable</code> attribute is used.</p><p>BPMN:</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot;
+                  eximeebpms:decisionRef=&quot;myDecision&quot;
+                  eximeebpms:mapDecisionResult=&quot;singleEntry&quot;
+                  eximeebpms:resultVariable=&quot;result&quot; /&gt;
 </code></pre><p>CMMN:</p><pre><code class=language-xml>&lt;decisionTask id=&quot;DecisionTask_1&quot;
               decisionRef=&quot;myDecision&quot;
-              camunda:mapDecisionResult=&quot;singleEntry&quot;
-              camunda:resultVariable=&quot;result&quot;&gt;
+              eximeebpms:mapDecisionResult=&quot;singleEntry&quot;
+              eximeebpms:resultVariable=&quot;result&quot;&gt;
 </code></pre><div class="note bg-warning docs-warning"><h3>Name of the Result Variable</h3><p>The result variable should not have the name <code>decisionResult</code> since the
 decision result itself is saved in a variable with this name. Otherwise an
 exception is thrown while saving the result variable.</p></div><h2 id=custom-mapping-of-the-decision-result>Custom Mapping of the Decision Result</h2><p>Instead of a predefined mapping, a custom decision result mapping can be used
@@ -93,23 +93,23 @@ consider the <a href=#limitations-of-the-serialization-of-the-mapping-result>lim
 then the decision result can be passed into process variables by using an
 <a href=/eximeebpms-docs/manual/user-guide/process-engine/variables/#input-output-variable-mapping>output variable mapping</a>.</p><p>For example, if the decision result has multiple output values which should be
 saved in separate process variables this can be done achieved by defining an
-output mapping on the business rule task.</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot; camunda:decisionRef=&quot;myDecision&quot;&gt;
+output mapping on the business rule task.</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot; eximeebpms:decisionRef=&quot;myDecision&quot;&gt;
   &lt;extensionElements&gt;
-    &lt;camunda:inputOutput&gt;
-      &lt;camunda:outputParameter name=&quot;result&quot;&gt;
+    &lt;eximeebpms:inputOutput&gt;
+      &lt;eximeebpms:outputParameter name=&quot;result&quot;&gt;
         ${decisionResult.getSingleResult().result}
-      &lt;/camunda:outputParameter&gt;
-      &lt;camunda:outputParameter name=&quot;reason&quot;&gt;
+      &lt;/eximeebpms:outputParameter&gt;
+      &lt;eximeebpms:outputParameter name=&quot;reason&quot;&gt;
         ${decisionResult.getSingleResult().reason}
-      &lt;/camunda:outputParameter&gt;
-    &lt;/camunda:inputOutput&gt;
+      &lt;/eximeebpms:outputParameter&gt;
+    &lt;/eximeebpms:inputOutput&gt;
   &lt;/extensionElements&gt;
 &lt;/businessRuleTask&gt;
 </code></pre><p>In addition to an output variable mapping, the decision result can also be
 processed by an <a href=/eximeebpms-docs/manual/user-guide/process-engine/delegation-code/#execution-listener>execution listener</a>, which is attached to the business rule
-task.</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot; camunda:decisionRef=&quot;myDecision&quot;&gt;
+task.</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRuleTask&quot; eximeebpms:decisionRef=&quot;myDecision&quot;&gt;
   &lt;extensionElements&gt;
-    &lt;camunda:executionListener event=&quot;end&quot;
+    &lt;eximeebpms:executionListener event=&quot;end&quot;
       delegateExpression=&quot;${myDecisionResultListener}&quot; /&gt;
   &lt;/extensionElements&gt;
 &lt;/businessRuleTask&gt;
@@ -128,8 +128,8 @@ task.</p><pre><code class=language-xml>&lt;businessRuleTask id=&quot;businessRul
 decision result can be passed to a case variable by using a case execution
 listener which is attached to the decision task.</p><pre><code class=language-xml>&lt;decisionTask id=&quot;decisionTask&quot; decisionRef=&quot;myDecision&quot;&gt;
   &lt;extensionElements&gt;
-    &lt;camunda:caseExecutionListener event=&quot;complete&quot;
-      class=&quot;org.camunda.bpm.example.MyDecisionResultListener&quot; /&gt;
+    &lt;eximeebpms:caseExecutionListener event=&quot;complete&quot;
+      class=&quot;org.eximeebpms.bpm.example.MyDecisionResultListener&quot; /&gt;
   &lt;/extensionElements&gt;
 &lt;/decisionTask&gt;
 </code></pre><pre><code class=language-java>public class MyDecisionResultListener implements CaseExecutionListener {
@@ -160,7 +160,7 @@ default.</p><p>The same problems can occur by using a custom output variable map
 <code>DmnDecisionResult</code> has methods that return the same collections as the
 predefined mappers. Additionally, it is not recommended to save a
 <code>DmnDecisionResult</code> or a <code>DmnDecisionResultEntries</code> as process/case variable because
-the underlying implementation can change in a new version of Camunda 7.</p><p>To prevent any of these problems, you should use primitive variables only.
+the underlying implementation can change in a new version of EximeeBPMS.</p><p>To prevent any of these problems, you should use primitive variables only.
 Alternatively, you can use a custom object for serialization that you control
 by yourself.</p><h1 id=accessing-variables-from-decisions>Accessing Variables from Decisions</h1><p>DMN Decision tables and Decision Literal Expressions contain multiple expressions which will be evaluated by the
 DMN engine. For more information about the expressions of a decision
@@ -197,8 +197,8 @@ its unwrapped value.</p><pre><code class=language-xml>&lt;input id=&quot;input&q
 </code></pre><h1 id=expression-language-integration>Expression Language Integration</h1><p>By default, the DMN engine uses <a href=/eximeebpms-docs/manual/reference/dmn/feel/>FEEL</a> as expression language for input
 expressions, input entries, output entries and literal expressions.
 Please see the <a href=/eximeebpms-docs/manual/user-guide/dmn-engine/expressions-and-scripts/>DMN engine</a> guide for more
-information about expression languages.</p><h2 id=accessing-beans>Accessing Beans</h2><p>If the DMN engine is invoked by Camunda 7, it uses the same
-JUEL configuration as the Camunda 7 engine. Therefore, it is also
+information about expression languages.</p><h2 id=accessing-beans>Accessing Beans</h2><p>If the DMN engine is invoked by EximeeBPMS, it uses the same
+JUEL configuration as the EximeeBPMS engine. Therefore, it is also
 possible to access Spring and CDI Beans from JUEL expressions in decisions.
 For more information on this integration, please see the corresponding
 section in the <a href=/eximeebpms-docs/manual/user-guide/spring-framework-integration/#expression-resolving>Spring</a> and <a href=/eximeebpms-docs/manual/user-guide/cdi-java-ee-integration/expression-resolving/>CDI</a> guides.</p><div class="note bg-info docs-info"><h3>Heads-up!</h3><p>Beans cannot be accessed when using FEEL as expression language.</p></div><h2 id=extending-the-expression-language>Extending the Expression Language</h2><div class="note bg-warning docs-warning"><h3>Use of Internal API</h3><p>These APIs are <strong>not</strong> part of the <a href=/eximeebpms-docs/manual/introduction/public-api/>public API</a> and may change in later releases.</p></div><p>It is possible to add own functions which can be used inside JUEL expressions.
