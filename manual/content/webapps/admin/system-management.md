@@ -72,7 +72,7 @@ This part has been truncated in the example.
 {{< /enterprise >}}
 
 Some features of the Camunda Webapps (e.g. enterprise plugins) require a license key. To read more about the Camunda
-license key, please see the [dedicated section]({{< ref "/user-guide/license-use.md" >}}) of the docs. The following 
+license key, please see the dedicated section of the docs. The following 
 section explains how to activate a license through the Camunda Admin Webapp UI.
 
 Whenever you see one of the following messages, a valid license key must be entered.

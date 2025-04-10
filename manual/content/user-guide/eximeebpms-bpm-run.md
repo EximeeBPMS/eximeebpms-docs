@@ -176,12 +176,6 @@ You can reference forms and scripts in the BPMN diagram with `embedded:deploymen
 
 Deployments via the {{< restref page="createDeployment" text="REST API" tag="Deployment" >}} are still possible.
 
-## Automatic License Pickup
-
-If you downloaded the enterprise version of EximeeBPMS Run, you will need a license key to enable the enterprise 
-features. Please see the [dedicated License section]({{< ref "/user-guide/license-use.md#with-the-eximeebpms-spring-boot-starter-eximeebpms-run" >}}) 
-of the docs, to learn more.
-
 # Configure EximeeBPMS Run
 
 Just like all the other distros, you can tailor EximeeBPMS Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.

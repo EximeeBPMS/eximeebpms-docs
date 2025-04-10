@@ -281,7 +281,7 @@ The available properties are as follows:
   <li>from path <i>${user.home}/.eximeebpms/license.txt</i> (if present)</li>
  </ol>
  The license must be exactly in the format as we sent it to you including the header and footer line. Bear in mind
- that for some licenses there is a minimum <a href="{{<ref "/user-guide/license-use.md#license-compatibility" >}}">version requirement</a>.
+ that for some licenses there is a minimum version requirement</a>.
 </td>
 </tr>
 
