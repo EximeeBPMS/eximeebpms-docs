@@ -11,12 +11,12 @@ menu:
 
 ---
 
-This section of the Camunda Quarkus extension documentation covers the configuration options for the process engine
+This section of the EximeeBPMS Quarkus extension documentation covers the configuration options for the process engine
 within a Quarkus application.
 
-The documentation on the Camunda Quarkus Extension Configuration is intended for Quarkus application developers. It 
+The documentation on the EximeeBPMS Quarkus Extension Configuration is intended for Quarkus application developers. It 
 requires some knowledge on [Quarkus CDI support][quarkus-cdi], [Quarkus configuration][quarkus-config], as well as
-Camunda Process Engine Configuration properties.
+EximeeBPMS Process Engine Configuration properties.
 
 ## Process Engine Configuration
 
@@ -58,7 +58,7 @@ A `QuarkusProcessEngineConfiguration` instance provides the following defaults:
   <tr>
     <td><code>idGenerator</code></td>
     <td>
-      An instance of {{< javadocref page="org/camunda/bpm/engine/impl/persistence/StrongUuidGenerator.html" text="StrongUuidGenerator" >}}
+      An instance of {{< javadocref page="org/eximeebpms/bpm/engine/impl/persistence/StrongUuidGenerator.html" text="StrongUuidGenerator" >}}
       is used.
     </td>
     <td><code>StrongUuidGenerator</code></td>
@@ -82,7 +82,7 @@ A `QuarkusProcessEngineConfiguration` instance provides the following defaults:
       <code>history</code>
     </td>
     <td>
-      Camunda Cockpit works best with history level 
+      EximeeBPMS Cockpit works best with history level 
       <a href="{{< ref "/user-guide/process-engine/history/history-configuration.md#choose-a-history-level">}}">FULL</a>.
     </td>
     <td><code>full</code></td>
@@ -91,17 +91,17 @@ A `QuarkusProcessEngineConfiguration` instance provides the following defaults:
 </table>
 
 Quarkus allows to configure a Quarkus application via a [MicroProfile Config][mp-config] source. You can read more about 
-configuring a Quarkus application in the [Quarkus configuration][quarkus-config] page. The Camunda Quarkus extension 
+configuring a Quarkus application in the [Quarkus configuration][quarkus-config] page. The EximeeBPMS Quarkus extension 
 docs use the `application.properties` format in the examples, but you can use any supported Quarkus config source.
 
-You can set any process engine configuration properties under the `quarkus.camunda` prefix. The 
+You can set any process engine configuration properties under the `quarkus.eximeebpms` prefix. The 
 [Process Engine Configuration Properties][engine-properties] page documents all the available properties. Please 
 convert any property names from `camelCase` to the `kebab-case` format, like in the following example:
 
 ```properties
-quarkus.camunda.generic-config.cmmn-enabled=false
-quarkus.camunda.generic-config.dmn-enabled=false
-quarkus.camunda.generic-config.history=none
+quarkus.eximeebpms.generic-config.cmmn-enabled=false
+quarkus.eximeebpms.generic-config.dmn-enabled=false
+quarkus.eximeebpms.generic-config.history=none
 ```
 
 ### Programmatic Configuration
@@ -125,7 +125,7 @@ In the above example, a `QuarkusProcessEngineConfiguration` CDI bean defines "cu
 However, if you define the following in an `application.properties` file
 
 ```properties
-quarkus.camunda.generic-config.process-engine-name=quarkusEngine
+quarkus.eximeebpms.generic-config.process-engine-name=quarkusEngine
 ```
 
 then "quarkusEngine" will be used as the process engine name since Quarkus config sources have a higher ordinal than a 
@@ -134,21 +134,21 @@ then "quarkusEngine" will be used as the process engine name since Quarkus confi
 ## Job Executor Configuration
 
 As with the process engine configuration properties [above](#process-engine-configuration), you can set any job executor 
-configuration properties under the `quarkus.camunda.job-executor` prefix. The [Job Executor Configuration Properties][executor-properties] 
+configuration properties under the `quarkus.eximeebpms.job-executor` prefix. The [Job Executor Configuration Properties][executor-properties] 
 page documents all the available properties. Convert any property names you intend to use from `camelCase` to the 
 `kebab-case` format, like in the following example:
 
 ```properties
-quarkus.camunda.job-executor.generic-config.max-jobs-per-acquisition=5
-quarkus.camunda.job-executor.generic-config.lock-time-in-millis=500000
-quarkus.camunda.job-executor.generic-config.wait-time-in-millis=7000
-quarkus.camunda.job-executor.generic-config.max-wait=65000
+quarkus.eximeebpms.job-executor.generic-config.max-jobs-per-acquisition=5
+quarkus.eximeebpms.job-executor.generic-config.lock-time-in-millis=500000
+quarkus.eximeebpms.job-executor.generic-config.wait-time-in-millis=7000
+quarkus.eximeebpms.job-executor.generic-config.max-wait=65000
 ```
 
 ## Quarkus Extension Configuration
 
 In addition to the general process engine and job executor configuration properties mentioned in the previous 
-sections, the Camunda Quarkus extension provides some Quarkus-specific configuration properties. They can be set
+sections, the EximeeBPMS Quarkus extension provides some Quarkus-specific configuration properties. They can be set
 through a Quarkus config source, but not through the `QuarkusProcessEngineConfiguration` class. You can find all
 the Quarkus-specific properties in the following table:
 
@@ -163,7 +163,7 @@ the Quarkus-specific properties in the following table:
   <tr><td colspan="4"><b>Data Source</b></td></tr>
   
   <tr>
-    <td rowspan="1"><code>quarkus.camunda</code></td>
+    <td rowspan="1"><code>quarkus.eximeebpms</code></td>
     <td><code>.datasource</code></td>
     <td>
       Specifies which Quarkus datasource to use. If not defined, the primary Quarkus datasource will be used. 
@@ -176,7 +176,7 @@ the Quarkus-specific properties in the following table:
   <tr><td colspan="4"><b>Job Executor</b></td></tr>
 
   <tr>
-    <td rowspan="2"><code>quarkus.camunda.job-executor.thread-pool</code></td>
+    <td rowspan="2"><code>quarkus.eximeebpms.job-executor.thread-pool</code></td>
     <td><code>.max-pool-size</code></td>
     <td>Sets the maximum number of threads that can be present in the thread pool.</td>
     <td><code>10</code></td>
@@ -194,12 +194,12 @@ the Quarkus-specific properties in the following table:
 The Engine Extension integrates with a JDBC Connection Pool and a Jakarta Transaction Manager provided 
 by [Quarkus][quarkus-datasource]. The latter allows you to integrate your business logic into database 
 transactions of the Engine. Read more about it under [JTA Transaction Integration][jta-transaction-integration]. 
-A datasource is required to run the Camunda process engine.
+A datasource is required to run the EximeeBPMS process engine.
 
 ### Choose from multiple datasources
 
 When multiple datasources are available in your application, you can choose the one the Engine Extension
-should use by its name via the `camunda.datasource` configuration property. Consider the example configuration below:
+should use by its name via the `eximeebpms.datasource` configuration property. Consider the example configuration below:
 
 ```properties
 quarkus.datasource.engine-datasource.db-kind=oracle
@@ -207,7 +207,7 @@ quarkus.datasource.engine-datasource.username=my-username
 quarkus.datasource.engine-datasource.password=my-password
 quarkus.datasource.engine-datasource.jdbc.url=jdbc:oracle:thin:@localhost:1521:ORCL
 
-quarkus.camunda.datasource=engine-datasource
+quarkus.eximeebpms.datasource=engine-datasource
 ```
 
 ## Example
@@ -217,25 +217,25 @@ engine configuration, job executor and data source:
 
 ```properties
 # process engine configuration
-quarkus.camunda.generic-config.cmmn-enabled=false
-quarkus.camunda.generic-config.dmn-enabled=false
-quarkus.camunda.generic-config.history=none
+quarkus.eximeebpms.generic-config.cmmn-enabled=false
+quarkus.eximeebpms.generic-config.dmn-enabled=false
+quarkus.eximeebpms.generic-config.history=none
 
 # job executor configuration
-quarkus.camunda.job-executor.thread-pool.max-pool-size=12
-quarkus.camunda.job-executor.thread-pool.queue-size=5
-quarkus.camunda.job-executor.generic-config.max-jobs-per-acquisition=5
-quarkus.camunda.job-executor.generic-config.lock-time-in-millis=500000
-quarkus.camunda.job-executor.generic-config.wait-time-in-millis=7000
-quarkus.camunda.job-executor.generic-config.max-wait=65000
-quarkus.camunda.job-executor.generic-config.backoff-time-in-millis=5
+quarkus.eximeebpms.job-executor.thread-pool.max-pool-size=12
+quarkus.eximeebpms.job-executor.thread-pool.queue-size=5
+quarkus.eximeebpms.job-executor.generic-config.max-jobs-per-acquisition=5
+quarkus.eximeebpms.job-executor.generic-config.lock-time-in-millis=500000
+quarkus.eximeebpms.job-executor.generic-config.wait-time-in-millis=7000
+quarkus.eximeebpms.job-executor.generic-config.max-wait=65000
+quarkus.eximeebpms.job-executor.generic-config.backoff-time-in-millis=5
 
 # custom data source configuration and selection
 quarkus.datasource.my-datasource.db-kind=h2
-quarkus.datasource.my-datasource.username=camunda
-quarkus.datasource.my-datasource.password=camunda
-quarkus.datasource.my-datasource.jdbc.url=jdbc:h2:mem:camunda;TRACE_LEVEL_FILE=0;DB_CLOSE_ON_EXIT=FALSE
-quarkus.camunda.datasource=my-datasource
+quarkus.datasource.my-datasource.username=eximeebpms
+quarkus.datasource.my-datasource.password=eximeebpms
+quarkus.datasource.my-datasource.jdbc.url=jdbc:h2:mem:eximeebpms;TRACE_LEVEL_FILE=0;DB_CLOSE_ON_EXIT=FALSE
+quarkus.eximeebpms.datasource=my-datasource
 ```
 
 [engine-properties]: {{< ref "/reference/deployment-descriptors/tags/process-engine.md#configuration-properties" >}}

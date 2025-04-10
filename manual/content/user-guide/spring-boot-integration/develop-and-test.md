@@ -52,19 +52,19 @@ in your `@SpringBootTest` annotation:
 @SpringBootTest(
   // ...other parameters...
   properties = {
-    "camunda.bpm.generate-unique-process-engine-name=true",
+    "eximeebpms.bpm.generate-unique-process-engine-name=true",
     // this is only needed if a SpringBootProcessApplication 
     // is used for the test
-    "camunda.bpm.generate-unique-process-application-name=true",
+    "eximeebpms.bpm.generate-unique-process-application-name=true",
     "spring.datasource.generate-unique-name=true",
     // additional properties...
   }
 )
 ```
 
-* The `camunda.bpm.generate-unique-process-engine-name=true` property will generate
+* The `eximeebpms.bpm.generate-unique-process-engine-name=true` property will generate
 a unique name for the Process Engine (ex. 'processEngine2Sc4bg2s1g').
-* The `camunda.bpm.generate-unique-process-application-name=true` property will generate
+* The `eximeebpms.bpm.generate-unique-process-application-name=true` property will generate
 a unique name for the Process Application (ex. 'processApplication2Sc4bg2s1g'). This is useful
 if you want to deploy and test a Process Application multiple times with multiple configurations.
 * The `spring.datasource.generate-unique-name=true` property will generate a new datasource for
@@ -80,30 +80,30 @@ If a static accessor needs to be used (e.g. processEngines.getProcessEngine(name
 @SpringBootTest(
   // other parameters
   properties = {
-    "camunda.bpm.process-engine-name=foo",
+    "eximeebpms.bpm.process-engine-name=foo",
     // this is only needed if a SpringBootProcessApplication 
     // is used for the test
-    "camunda.bpm.generate-unique-process-application-name=true",
+    "eximeebpms.bpm.generate-unique-process-application-name=true",
     "spring.datasource.generate-unique-name=true",
     // additional properties
   }
 )
 ```
-Here, the `camunda.bpm.process-engine-name=foo` will set (a unique name) "foo" as the Process Engine name.
+Here, the `eximeebpms.bpm.process-engine-name=foo` will set (a unique name) "foo" as the Process Engine name.
 
-## Camunda Assertions
+## EximeeBPMS Assertions
 
-The [Camunda 7 Assertions]({{< ref 
-"/user-guide/testing/_index.md#camunda-assertions" >}}) library is 
-integrated with the Camunda Spring Boot Starter in
+The [EximeeBPMS Assertions]({{< ref 
+"/user-guide/testing/_index.md#eximeebpms-assertions" >}}) library is 
+integrated with the EximeeBPMS Spring Boot Starter in
 order to make testing processes in your Spring Boot application easier.
 
 ### Using Assertions with Context Caching
 
-Out of the box, the Camunda 7 Assertions library tries to use the
+Out of the box, the EximeeBPMS Assertions library tries to use the
 default engine or the (single) one that is available. Since when using
 Context Caching multiple engines are used in different contexts, binding
-the correct Process Engine to the Camunda Assertions library is required
+the correct Process Engine to the EximeeBPMS Assertions library is required
 for both caching and assertions to work correctly. This can be done
 through the following initialization code in the test class:
 

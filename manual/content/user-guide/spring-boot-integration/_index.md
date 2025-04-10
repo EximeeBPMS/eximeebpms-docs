@@ -35,18 +35,6 @@ Other starters that can be used are:
 * [`eximeebpms-bpm-spring-boot-starter-webapp`](webapps)
 * [`eximeebpms-bpm-spring-boot-starter-external-task-client`]({{< ref "/user-guide/ext-client/spring-boot-starter.md" >}})
 
-# Using Enterprise Edition
-
-To use EximeeBPMS Spring Boot Starter with EximeeBPMS EE you need to define the EE version of the webapp (`eximeebpms-bpm-spring-boot-starter-webapp-ee` instead of `eximeebpms-bpm-spring-boot-starter-webapp`), see also [Web Applications](webapps/):
-
-```xml
-<dependency>
-  <groupId>org.eximeebpms.bpm.springboot</groupId>
-  <artifactId>eximeebpms-bpm-spring-boot-starter-webapp-ee</artifactId>
-  <version>{{< minor-version >}}.0-ee</version>
-</dependency>
-```
-
 # Requirements
 
 EximeeBPMS Spring Boot Starter requires Java 17.
