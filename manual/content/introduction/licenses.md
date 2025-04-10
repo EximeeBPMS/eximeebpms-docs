@@ -73,4 +73,4 @@ This work is available under a [Creative Commons Attribution-ShareAlike 4.0 Inte
 
 # Contact
 
-If you have a question specifically about the licensing or distribution of EximeeBPMS’s software and it has not been answered by this page, please contact the Open Source Compliance team at [foss@camunda.com](mailto:foss@camunda.com).
+If you have a question specifically about the licensing or distribution of EximeeBPMS’s software and it has not been answered by this page, please contact the Open Source Compliance team at [licenses@eximeebpms.org](mailto:licenses@eximeebpms.org).
