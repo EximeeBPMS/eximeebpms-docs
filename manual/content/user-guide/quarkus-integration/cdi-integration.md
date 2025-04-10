@@ -1,4 +1,5 @@
 ---
+![image](https://github.com/user-attachments/assets/5c34b9fd-2941-4966-a108-3e6ec1c2c9ce)
 
 title: "Engine CDI Integration"
 weight: 20
@@ -15,28 +16,28 @@ Quarkus comes with a built-in solution for CDI (short for "Context and Dependenc
 which is based on the [Java CDI 4.0 standard][java-cdi-40-standard]. Quarkus ArC does not entirely cover 
 the CDI 4.0 standard but only implements a subset of it.
 
-The Camunda Engine offers CDI 4 integration with the `camunda-engine-cdi-jakarta` module. This module is integrated 
+The EximeeBPMS Engine offers CDI 4 integration with the `eximeebpms-engine-cdi-jakarta` module. This module is integrated 
 directly into the Quarkus Extension. You can learn more about the features and the programming model 
 at [CDI and Java EE Integration][cdi-and-java-ee-integration].
 
 ## Limitations
 
 Since Quarkus ArC does not aim to implement CDI 4.0 fully, you cannot use the full range of features 
-the `camunda-engine-cdi-jakarta` module provides. Some features documented under 
+the `eximeebpms-engine-cdi-jakarta` module provides. Some features documented under 
 [CDI and Java EE Integration][cdi-and-java-ee-integration] are unsupported or only work with restrictions. 
 The limitations and differences are explained in more detail below.
 
 {{< note title="Heads-up!" class="info" >}}
 Quarkus ArC has more limitations not described in this section, as only those restrictions are highlighted 
-that affect the functionality of the `camunda-engine-cdi-jakarta` module. For your individual application development, 
+that affect the functionality of the `eximeebpms-engine-cdi-jakarta` module. For your individual application development, 
 we highly recommend you consider the <a href="https://quarkus.io/guides/cdi-reference#limitations">limitations</a> and 
 <a href="https://quarkus.io/guides/cdi-reference#supported_features">supported features</a> of the Quarkus version you are using.
 {{< /note >}}
 
 ### Limited support of JUEL Expression Resolution
 
-The `camunda-engine-cdi-jakarta` module allows referencing CDI beans and calling methods on CDI beans in 
-model expression properties (e.g., `camunda:expression`, `camunda:delegateExpression`, etc.). 
+The `eximeebpms-engine-cdi-jakarta` module allows referencing CDI beans and calling methods on CDI beans in 
+model expression properties (e.g., `eximeebpms:expression`, `eximeebpms:delegateExpression`, etc.). 
 Quarkus ArC currently doesn't support the CDI API method `javax.enterprise.inject.spi.BeanManager#getELResolver`, 
 which the engine uses to resolve method calls on CDI beans. This is why currently, only referencing 
 CDI beans is supported.
@@ -48,13 +49,13 @@ Examples:
 
 ### Limited support of scopes in the Contextual Programming Model
 
-While the `camunda-engine-cdi-jakarta` module supports associating a process instance with 
+While the `eximeebpms-engine-cdi-jakarta` module supports associating a process instance with 
 [Conversational Scope][cdi-conversational-scope] or [Request Scope][cdi-request-scope], Quarkus ArC 
 only supports the **Request Scope**.
 
 ### Configure Quarkus to allow setting variables when a `@StartProcess` annotated method is called
 
-The `camunda-engine-cdi-jakarta` module allows setting variables when assigning a value to a class field
+The `eximeebpms-engine-cdi-jakarta` module allows setting variables when assigning a value to a class field
 annotated with `@ProcessVariableTyped` or `@ProcessVariable` inside a method annotated 
 with `@StartProcess`, as shown in the following example:
 
@@ -98,7 +99,7 @@ public class ProcessController {
 
 ### `@BusinessProcessScoped` Beans
 
-The `camunda-engine-cdi-jakarta` module stores [`@BusinessProcessScoped`][business-process-scoped] beans as 
+The `eximeebpms-engine-cdi-jakarta` module stores [`@BusinessProcessScoped`][business-process-scoped] beans as 
 process variables in the context of the current process instance.
 
 #### Passivation is unsupported
@@ -129,9 +130,9 @@ Associating beans with [Conversational Scope][cdi-conversational-scope] is curre
 Furthermore, Quarkus does not allow to set a different default scope for beans that are outside of the extension's control.
 As a result, the following conversational scoped beans are not available in a Quarkus application out of the box:
 
-* `org.camunda.bpm.engine.cdi.jsf.TaskForm`
-* `org.camunda.bpm.engine.cdi.compat.FoxTaskForm`
-* `org.camunda.bpm.engine.cdi.compat.CamundaTaskForm`
+* `org.eximeebpms.bpm.engine.cdi.jsf.TaskForm`
+* `org.eximeebpms.bpm.engine.cdi.compat.FoxTaskForm`
+* `org.eximeebpms.bpm.engine.cdi.compat.EximeeBPMSTaskForm`
 
 In general, you can use these beans in [custom JSF forms][jsf-task-forms] to interact with the process engine, for example, to render and complete user tasks.
 To include such functionality in your Quarkus application, provide custom beans with appropriate scopes and functionality.
