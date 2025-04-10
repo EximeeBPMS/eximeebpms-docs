@@ -10,9 +10,9 @@ menu:
 
 ---
 
-For working with JSON, the Spin functions `org.camunda.spin.Spin.S` and `org.camunda.spin.Spin.JSON` can be used as entry points. The latter offers strongly-typed access to Spin's JSON API and is preferable when writing Java code. In scripting environments, only the `S` function is available. The returned Spin wrapper offers methods for manipulating and writing JSON as well as mapping JSON to Java. Furthermore, the entry functions can be provided with Java objects that get implicitly converted to Spin's intermediary JSON format.
+For working with JSON, the Spin functions `org.eximeebpms.spin.Spin.S` and `org.eximeebpms.spin.Spin.JSON` can be used as entry points. The latter offers strongly-typed access to Spin's JSON API and is preferable when writing Java code. In scripting environments, only the `S` function is available. The returned Spin wrapper offers methods for manipulating and writing JSON as well as mapping JSON to Java. Furthermore, the entry functions can be provided with Java objects that get implicitly converted to Spin's intermediary JSON format.
 
-The following provides examples on how Camunda Spin can be used in the process engine to work with JSON data. For illustration purposes, let us assume that a String process variable `customer` containing JSON exists. It has the following content:
+The following provides examples on how EximeeBPMS Spin can be used in the process engine to work with JSON data. For illustration purposes, let us assume that a String process variable `customer` containing JSON exists. It has the following content:
 
 ```json
 {
@@ -26,7 +26,7 @@ The following provides examples on how Camunda Spin can be used in the process e
 
 If you want to learn how to use JSON objects in an embedded form, please take a look at the [Embedded Forms Reference]({{< ref "/reference/forms/embedded-forms/json-data.md" >}}).
 
-Further documentation about the usage of Spin can be found in the [Camunda Spin Dataformat Reference]({{< ref "/reference/spin/_index.md" >}}).
+Further documentation about the usage of Spin can be found in the [EximeeBPMS Spin Dataformat Reference]({{< ref "/reference/spin/_index.md" >}}).
 
 # Expression Language Integration
 
