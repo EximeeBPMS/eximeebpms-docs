@@ -1,6 +1,3 @@
-
-Take a look at [this description](./Hugo.md) to run Hugo with Docker.
-
 # The Camunda 7 Documentation Sources
 
 This repository contains the sources of the Camunda 7 documentation.
@@ -36,6 +33,16 @@ hugo server --baseUrl="http://localhost"
 
 You can then browse the docs under [http://localhost:1313/](http://localhost:1313/).
 Hugo will automatically detect when you change a file and refresh the page in the browser.
+
+## Using Hugo with Docker
+
+To run this documentation using Hugo in Docker
+
+- copy `.env.example` to `.env`
+- adjust the variables if needed
+- run `docker compose up` (uses Hugo image version 0.56)
+
+There is no global config or a main page, run Hugo within a subpage context, e.g. "manual" or configure a default page.
 
 ## License
 
