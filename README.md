@@ -1,4 +1,5 @@
-Jeśli zastanawiasz się, jak uruchomić Hugo, [zerknij tu](./Hugo.md).
+
+Take a look at [this description](./Hugo.md) to run Hugo with Docker.
 
 # The Camunda 7 Documentation Sources
 
