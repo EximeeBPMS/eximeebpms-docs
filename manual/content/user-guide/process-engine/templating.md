@@ -124,7 +124,7 @@ The following example shows a FreeMarker template, of which the result is saved 
 ```
 
 In an inputOutput mapping it can be very useful to use an external template to generate the
-payload of a `camunda:connector`.
+payload of a `eximeebpms:connector`.
 
 ```xml
 <bpmn2:serviceTask id="soapTask" name="Send SOAP request">
