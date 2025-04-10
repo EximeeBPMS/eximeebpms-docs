@@ -11,17 +11,17 @@ menu:
 ---
 
 
-The process engine can be hooked-up to the Spring event bus. We call this the "Spring Eventing Bridge". This allows us to be notified of process events using standard Spring eventing mechanisms. By default, the Spring eventing is enabled by a engine plugin. The eventing is controlled by four `camunda.bpm.eventing` properties. These are:
+The process engine can be hooked-up to the Spring event bus. We call this the "Spring Eventing Bridge". This allows us to be notified of process events using standard Spring eventing mechanisms. By default, the Spring eventing is enabled by a engine plugin. The eventing is controlled by four `eximeebpms.bpm.eventing` properties. These are:
 
 ```
-camunda.bpm.eventing.execution=true
-camunda.bpm.eventing.history=true
-camunda.bpm.eventing.task=true
-camunda.bpm.eventing.skippable=true
+eximeebpms.bpm.eventing.execution=true
+eximeebpms.bpm.eventing.history=true
+eximeebpms.bpm.eventing.task=true
+eximeebpms.bpm.eventing.skippable=true
 ```
 
-The first three properties control three event streams for execution, task and history events respectively. The last property `camunda.bpm.eventing.skippable` is responsible
-for the registration of the event listeners. If its value is `true`, the execution of the listners can be skipped via API or in Camunda Cockpit by activating "skip listners" flag. Otherwise, the listeners are registered as built-in listeners and are executed unconditionally.
+The first three properties control three event streams for execution, task and history events respectively. The last property `eximeebpms.bpm.eventing.skippable` is responsible
+for the registration of the event listeners. If its value is `true`, the execution of the listners can be skipped via API or in EximeeBPMS Cockpit by activating "skip listners" flag. Otherwise, the listeners are registered as built-in listeners and are executed unconditionally.
 
 Listeners can subscribe to streams of mutable or immutable event objects. The latter of those are particularly useful
 in asynchronous listener scenarios - e.g. when using `TransactionalEventListener`.
@@ -37,9 +37,9 @@ The following example gives an overview of how process events can be received in
 providing Spring beans with annotated methods instead of implementing the `TaskListener` and `ExecutionListener` interfaces.
 
 ```java
-import org.camunda.bpm.engine.delegate.DelegateExecution;
-import org.camunda.bpm.engine.delegate.DelegateTask;
-import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
+import org.eximeebpms.bpm.engine.delegate.DelegateExecution;
+import org.eximeebpms.bpm.engine.delegate.DelegateTask;
+import org.eximeebpms.bpm.engine.impl.history.event.HistoryEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
