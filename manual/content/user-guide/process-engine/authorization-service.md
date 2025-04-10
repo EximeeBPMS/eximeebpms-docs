@@ -10,30 +10,30 @@ menu:
 
 ---
 
-Camunda allows users to authorize access to the data it manages. This makes it possible to configure which user can access which process instances, tasks, etc...
+EximeeBPMS allows users to authorize access to the data it manages. This makes it possible to configure which user can access which process instances, tasks, etc...
 
 Authorization has a performance cost and introduces some complexity. It should only be used if required.
 
 # When is Authorization required?
 
-Not every Camunda setup needs to enable authorization. In many scenarios, Camunda is embedded into an application and the application itself ensures that users can only access data they are authorized to access. Generally speaking, authorization is only required if untrusted parties interact with the process engine API directly. If you embed the process engine into a Java application, you usually do not need to enable authorization. The application can control how the API is accessed.
+Not every EximeeBPMS setup needs to enable authorization. In many scenarios, EximeeBPMS is embedded into an application and the application itself ensures that users can only access data they are authorized to access. Generally speaking, authorization is only required if untrusted parties interact with the process engine API directly. If you embed the process engine into a Java application, you usually do not need to enable authorization. The application can control how the API is accessed.
 
 Situations in which authorization is required:
 
-* Camunda Rest API is made accessible to users who should not have full access, even after authentication.
-* Camunda Webapplication is made accessible to users who should not have full access, even after authentication.
+* EximeeBPMS Rest API is made accessible to users who should not have full access, even after authentication.
+* EximeeBPMS Webapplication is made accessible to users who should not have full access, even after authentication.
 * Other situations in which an untrusted user can directly construct the queries and commands executed on the process engine.
 
 Situations in which authorization is *not* required
 
 * An application completely controls the API methods invoked on the process engine.
-* Camunda Webapplication is made accessible to users who can have full access after authentication.
+* EximeeBPMS Webapplication is made accessible to users who can have full access after authentication.
 
 **Example**
 
 Assume that you have the following authorization requirement: *As a regular user, I can only see the tasks that are assigned to me.*
 
-If the engine is embedded into a Java application, the application can easily ensure this by restricting the task query on the `assignee` property. The application can guarantee this since the Camunda API is not directly exposed to the user.
+If the engine is embedded into a Java application, the application can easily ensure this by restricting the task query on the `assignee` property. The application can guarantee this since the EximeeBPMS API is not directly exposed to the user.
 
 By contrast, if the Camunda Rest API is directly exposed over the network to a Javascript application, then a malicious user, once authenticated, can send a request to the server querying all tasks, even the ones that are not assigned to this user. In this case, authorization needs to be turned on to ensure the user only sees the tasks which he is authorized to see, regardless of the query parameters.
 
@@ -51,7 +51,7 @@ An Authorization assigns a set of Permissions to an identity to interact with a 
 
 ## Identities
 
-Camunda 7 distinguishes between two types of identities: users and groups. Authorizations can either range over all users (userId = ANY), an individual user or a group of users.
+EximeeBPMS distinguishes between two types of identities: users and groups. Authorizations can either range over all users (userId = ANY), an individual user or a group of users.
 
 
 ## Permissions
@@ -254,7 +254,7 @@ Authorizations are checked if
 The last item means that even if authorization is enabled, authorization checks are only performed if a user is currently authenticated.
 If no user is authenticated, then the engine does not perform any checks.
 
-When using the Camunda Webapps, it is always ensured that a user is authenticated before the user can access any restricted resources.
+When using the EximeeBPMS Webapps, it is always ensured that a user is authenticated before the user can access any restricted resources.
 When embedding the process engine into a custom application, the application needs to take care of authentication if it needs authorization checks to be performed.
 
 {{< note class="info" title="Authentication vs. Authorization" >}}
@@ -653,7 +653,7 @@ In case of Process Definitions
 ## Application Permissions
 
 The resource "Application" uniquely supports the **Access** permission.
-The **Access** permission controls whether a user has access to a Camunda web application or not. Out of the box, it can be granted for the following applications (resource ids):
+The **Access** permission controls whether a user has access to a EximeeBPMS web application or not. Out of the box, it can be granted for the following applications (resource ids):
 
 * `admin`
 * `cockpit`
@@ -691,7 +691,7 @@ The feature is disabled by default because of two reasons:
    More complex queries may degrade the performance.
 2. When enabled and an Identity Link is added to a Task, the respective User or Group is authorized
    to read the associated history (e. g. for the Task, Variable, or Identity Link History).
-   For Camunda 7 versions <= 7.12, the history is not readable in this case.
+   For Camunda versions <= 7.12, the history is not readable in this case.
 
 ### Historic Task Permissions
 
@@ -874,16 +874,16 @@ The following table gives an overview of the features that the system permission
 
 # Administrators
 
-Camunda 7 has no explicit concept of "administrator" beyond it being a user who has been granted all authorizations on all resources.
+EximeeBPMS has no explicit concept of "administrator" beyond it being a user who has been granted all authorizations on all resources.
 
-## The "camunda-admin" Group
+## The "eximeebpms-admin" Group
 
-When downloading the Camunda 7 distribution, the invoice example application creates a group with id `camunda-admin` and grants all authorizations on all resources to this group.
+When downloading the EximeeBPMS distribution, the invoice example application creates a group with id `eximeebpms-admin` and grants all authorizations on all resources to this group.
 
-In absense of the demo application, this task is performed by the [Camunda Admin Web Application]({{< ref "/webapps/admin/user-management.md#initial-user-setup" >}}). If the Camunda webapplication is started for the first time and no user exists in the database, it asks you to perform the "initial setup". In this process, the `camunda-admin` group is created and granted all permissions on all resources. 
+In absense of the demo application, this task is performed by the [EximeeBPMS Admin Web Application]({{< ref "/webapps/admin/user-management.md#initial-user-setup" >}}). If the EximeeBPMS webapplication is started for the first time and no user exists in the database, it asks you to perform the "initial setup". In this process, the `eximeebpms-admin` group is created and granted all permissions on all resources. 
 
 {{< note title="LDAP" class="info" >}}
-The group "camunda-admin" is not created when using LDAP (since LDAP is only accessed in a read-only way). Also see the below section on the administrator authorization plugin.
+The group "eximeebpms-admin" is not created when using LDAP (since LDAP is only accessed in a read-only way). Also see the below section on the administrator authorization plugin.
 {{< /note >}}
 
 ## The Administrator Authorization Plugin
@@ -899,7 +899,7 @@ The following is an example of how to configure the administrator authorization 
   ...
   <plugins>
     <plugin>
-      <class>org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
+      <class>org.eximeebpms.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
       <properties>
         <property name="administratorUserName">admin</property>
       </properties>
@@ -1014,9 +1014,9 @@ authProcessInstance.addPermission(Permissions.CREATE);
 authorizationService.saveAuthorization(authProcessDefinition);
 authorizationService.saveAuthorization(authProcessInstance);
 ```
-# Camunda Admin Webapp
+# EximeeBPMS Admin Webapp
 
-The Camunda Admin Webapplication provides an out of the box [UI for configuring Authorizations]({{< ref "/webapps/admin/authorization-management.md" >}}).
+The EximeeBPMS Admin Webapplication provides an out of the box [UI for configuring Authorizations]({{< ref "/webapps/admin/authorization-management.md" >}}).
 
 # Performance Considerations
 

@@ -27,7 +27,7 @@ By changing the maximum capacity, the configuration effects all of the following
 In the process engine configuration one can specify the maximum capacity of the cache. The default value is *1000*. When the process engine is created, this property will be set and all resources will be scanned and deployed accordingly. As an example the maximum capacity could be set to *120* as follows:
 
 ```xml
-<bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+<bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
 	<!-- Your property definitions! -->
 					....
 					
@@ -42,7 +42,7 @@ __Note:__ The same capacity is used for all of the components stated above and i
 
 The default implementation of the cache evicts the least recently used entry as soon as the maximum capacity is exceeded. If it is necessary to choose the evicted cache entries by a different criteria, one can provide its own cache implementation.
 
-One can do this by implementing the Cache interface from *org.camunda.util.commons package*. Let's assume for example that the following class has been implemented:
+One can do this by implementing the Cache interface from *org.eximeebpms.util.commons package*. Let's assume for example that the following class has been implemented:
 
 ```java
 public class MyCacheImplementation<K, V> implements Cache<K, V> {
@@ -66,12 +66,12 @@ public class MyCacheFactory extends CacheFactory {
 The factory is used to provide the cache implementation for different cache components such as the process definition or the case definition. Once this is done, one can use the process engine configuration where one can specify a set of resources. When the process engine is created, all those resources will be scanned and deployed. In the given example the custom cache factory could now be deployed as follows:
 
 ```xml
-<bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+<bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
 	<!-- Your property definitions! -->
 					....
 
 	<property name="cacheFactory">
-			<bean class="org.camunda.bpm.engine.test.api.cfg.MyCacheFactory" />
+			<bean class="org.eximeebpms.bpm.engine.test.api.cfg.MyCacheFactory" />
 	</property>
 </bean>
 ```

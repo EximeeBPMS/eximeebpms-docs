@@ -24,7 +24,7 @@ definition. The decision definition is evaluated when the task is executed.
 ```xml
 <definitions id="taskAssigneeExample"
   xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"
   targetNamespace="Examples">
 
   <process id="process">
@@ -32,9 +32,9 @@ definition. The decision definition is evaluated when the task is executed.
     <!-- ... -->
 
     <businessRuleTask id="businessRuleTask"
-                      camunda:decisionRef="myDecision"
-                      camunda:mapDecisionResult="singleEntry"
-                      camunda:resultVariable="result" />
+                      eximeebpms:decisionRef="myDecision"
+                      eximeebpms:mapDecisionResult="singleEntry"
+                      eximeebpms:resultVariable="result" />
 
     <!-- ... -->
 
@@ -53,15 +53,15 @@ The decision definition is invoked when the task is activated.
 ```xml
 <definitions id="definitions"
                   xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL"
-                  xmlns:camunda="http://camunda.org/schema/1.0/cmmn"
+                  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/cmmn"
                   targetNamespace="Examples">
   <case id="case">
     <casePlanModel id="CasePlanModel_1">
       <planItem id="PI_DecisionTask_1" definitionRef="DecisionTask_1" />
       <decisionTask id="DecisionTask_1"
                     decisionRef="myDecision"
-                    camunda:mapDecisionResult="singleEntry"
-                    camunda:resultVariable="result">
+                    eximeebpms:mapDecisionResult="singleEntry"
+                    eximeebpms:resultVariable="result">
       </decisionTask>
     </casePlanModel>
   </case>
@@ -167,22 +167,22 @@ relref "#limitations-of-the-serialization-of-the-mapping-result" >}}).
 {{< /note >}}
 
 To specify the name of the process/case variable to store the result of the
-mapping, the `camunda:resultVariable` attribute is used.
+mapping, the `eximeebpms:resultVariable` attribute is used.
 
 BPMN:
 ```xml
 <businessRuleTask id="businessRuleTask"
-                  camunda:decisionRef="myDecision"
-                  camunda:mapDecisionResult="singleEntry"
-                  camunda:resultVariable="result" />
+                  eximeebpms:decisionRef="myDecision"
+                  eximeebpms:mapDecisionResult="singleEntry"
+                  eximeebpms:resultVariable="result" />
 ```
 
 CMMN:
 ```xml
 <decisionTask id="DecisionTask_1"
               decisionRef="myDecision"
-              camunda:mapDecisionResult="singleEntry"
-              camunda:resultVariable="result">
+              eximeebpms:mapDecisionResult="singleEntry"
+              eximeebpms:resultVariable="result">
 ```
 
 {{< note title="Name of the Result Variable" class="warning" >}}
@@ -217,16 +217,16 @@ saved in separate process variables this can be done achieved by defining an
 output mapping on the business rule task.
 
 ```xml
-<businessRuleTask id="businessRuleTask" camunda:decisionRef="myDecision">
+<businessRuleTask id="businessRuleTask" eximeebpms:decisionRef="myDecision">
   <extensionElements>
-    <camunda:inputOutput>
-      <camunda:outputParameter name="result">
+    <eximeebpms:inputOutput>
+      <eximeebpms:outputParameter name="result">
         ${decisionResult.getSingleResult().result}
-      </camunda:outputParameter>
-      <camunda:outputParameter name="reason">
+      </eximeebpms:outputParameter>
+      <eximeebpms:outputParameter name="reason">
         ${decisionResult.getSingleResult().reason}
-      </camunda:outputParameter>
-    </camunda:inputOutput>
+      </eximeebpms:outputParameter>
+    </eximeebpms:inputOutput>
   </extensionElements>
 </businessRuleTask>
 ```
@@ -236,9 +236,9 @@ processed by an [execution listener], which is attached to the business rule
 task.
 
 ```xml
-<businessRuleTask id="businessRuleTask" camunda:decisionRef="myDecision">
+<businessRuleTask id="businessRuleTask" eximeebpms:decisionRef="myDecision">
   <extensionElements>
-    <camunda:executionListener event="end"
+    <eximeebpms:executionListener event="end"
       delegateExpression="${myDecisionResultListener}" />
   </extensionElements>
 </businessRuleTask>
@@ -267,8 +267,8 @@ listener which is attached to the decision task.
 ```xml
 <decisionTask id="decisionTask" decisionRef="myDecision">
   <extensionElements>
-    <camunda:caseExecutionListener event="complete"
-      class="org.camunda.bpm.example.MyDecisionResultListener" />
+    <eximeebpms:caseExecutionListener event="complete"
+      class="org.eximeebpms.bpm.example.MyDecisionResultListener" />
   </extensionElements>
 </decisionTask>
 ```
@@ -310,7 +310,7 @@ The same problems can occur by using a custom output variable mapping since
 `DmnDecisionResult` has methods that return the same collections as the
 predefined mappers. Additionally, it is not recommended to save a
 `DmnDecisionResult` or a `DmnDecisionResultEntries` as process/case variable because
-the underlying implementation can change in a new version of Camunda 7.
+the underlying implementation can change in a new version of EximeeBPMS.
 
 To prevent any of these problems, you should use primitive variables only.
 Alternatively, you can use a custom object for serialization that you control
@@ -371,8 +371,8 @@ information about expression languages.
 
 ## Accessing Beans
 
-If the DMN engine is invoked by Camunda 7, it uses the same
-JUEL configuration as the Camunda 7 engine. Therefore, it is also
+If the DMN engine is invoked by EximeeBPMS, it uses the same
+JUEL configuration as the EximeeBPMS engine. Therefore, it is also
 possible to access Spring and CDI Beans from JUEL expressions in decisions. 
 For more information on this integration, please see the corresponding
 section in the [Spring] and [CDI] guides.

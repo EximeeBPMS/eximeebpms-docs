@@ -20,7 +20,7 @@ It deletes:
 * Historic case instances plus all related historic data (e.g., historic variable instances, historic task instances, etc.)
 * Historic batches plus all related historic data (historic incidents and job logs)
 
-History cleanup can be triggered manually or scheduled on a regular basis. Only [camunda-admins]({{< ref "/user-guide/process-engine/authorization-service.md#the-camunda-admin-group">}}) have permissions to execute history cleanup manually.
+History cleanup can be triggered manually or scheduled on a regular basis. Only [eximeebpms-admins]({{< ref "/user-guide/process-engine/authorization-service.md#the-camunda-admin-group">}}) have permissions to execute history cleanup manually.
 
 ## Use case example
 
@@ -34,7 +34,7 @@ Note: The exact time at which data is removed depends on a couple of configurati
 
 ### Cleanable instances
 
-The following elements of Camunda history are cleanable:
+The following elements of EximeeBPMS history are cleanable:
 
 * Process Instances
 * Decision Instances
@@ -110,7 +110,7 @@ The *end-time-based cleanup strategy* deletes data whose end time plus TTL has e
 Strengths:
 
 * Changing the TTL of a definition also affects already written history data.
-* Can remove data from any Camunda version.
+* Can remove data from any EximeeBPMS version.
 
 Limitations:
 
@@ -155,7 +155,7 @@ Process instances are only cleaned up if their corresponding definition has a va
 Use the ["historyTimeToLive" extension attribute]({{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#historytimetolive">}}) of the process definition to define the TTL for all its instances:
 
 ```xml
-<process id="oneTaskProcess" name="The One Task Process" isExecutable="true" camunda:historyTimeToLive="5">
+<process id="oneTaskProcess" name="The One Task Process" isExecutable="true" eximeebpms:historyTimeToLive="5">
 ...
 </process>
 ```
@@ -163,7 +163,7 @@ Use the ["historyTimeToLive" extension attribute]({{< ref "/reference/bpmn20/cus
 TTL can also be defined in ISO-8601 date format. The function only accepts the notation to define the number of days.
 
 ```xml
-<process id="oneTaskProcess" name="The One Task Process" isExecutable="true" camunda:historyTimeToLive="P5D">
+<process id="oneTaskProcess" name="The One Task Process" isExecutable="true" eximeebpms:historyTimeToLive="P5D">
 ...
 </process>
 ```

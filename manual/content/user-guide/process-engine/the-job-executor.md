@@ -98,7 +98,7 @@ Job priorities can be specified in the BPMN model as well as overridden at runti
 
 ### Priorities in BPMN XML
 
-Job Priorities can be assigned at the process or the activity level. To achieve this the Camunda extension attribute `camunda:jobPriority` can be used.
+Job Priorities can be assigned at the process or the activity level. To achieve this the EximeeBPMS extension attribute `eximeebpms:jobPriority` can be used.
 
 For specifying the priority, both constant values and [expressions]({{< ref "/user-guide/process-engine/expression-language/_index.md" >}}) are supported. When using a constant value, the same priority is assigned to all instances of the process or activity. Expressions, on the other hand, allow assigning a different priority to each instance of the process or activity. Expression must evaluate to a number in the Java `long` range.
 The concrete value can be the result of a complex calculation and be based on user-provided data (resulting from a task form or other sources).
@@ -106,10 +106,10 @@ The concrete value can be the result of a complex calculation and be based on us
 
 #### Priorities at the Process Level
 
-When configuring job priorities at the process instance level, the `camunda:jobPriority` attribute needs to be applied to the bpmn `<process ...>` element:
+When configuring job priorities at the process instance level, the `eximeebpms:jobPriority` attribute needs to be applied to the bpmn `<process ...>` element:
 
 ```xml
-<bpmn:process id="Process_1" isExecutable="true" camunda:jobPriority="8">
+<bpmn:process id="Process_1" isExecutable="true" eximeebpms:jobPriority="8">
   ...
 </bpmn:process>
 ```
@@ -120,7 +120,7 @@ See also: [Job Priority Precedence Schema]({{< relref "#job-priority-precedence-
 The above example shows how a constant value can be used for setting the priority. This way the same priority is applied to all instances of the process. If different process instances need to be executed with different priorities, an expression can be used:
 
 ```xml
-<bpmn:process id="Process_1" isExecutable="true" camunda:jobPriority="${order.priority}">
+<bpmn:process id="Process_1" isExecutable="true" eximeebpms:jobPriority="${order.priority}">
   ...
 </bpmn:process>
 ```
@@ -130,14 +130,14 @@ In the above example the priority is determined based on the property `priority`
 
 #### Priorities at the Activity Level
 
-When configuring job priorities at the activity level, the `camunda:jobPriority` attribute needs to be applied
+When configuring job priorities at the activity level, the `eximeebpms:jobPriority` attribute needs to be applied
 to the corresponding bpmn element:
 
 ```xml
 <bpmn:serviceTask id="ServiceTask_1"
   name="Prepare Payment"
-  camunda:asyncBefore="true"
-  camunda:jobPriority="100" />
+  eximeebpms:asyncBefore="true"
+  eximeebpms:jobPriority="100" />
 ```
 
 The effect is that the priority is applied to all instances of the given service task.
@@ -148,8 +148,8 @@ When using a constant value, as shown in the above example, the same priority is
 ```xml
 <bpmn:serviceTask id="ServiceTask_1"
   name="Schedule Delivery"
-  camunda:asyncBefore="true"
-  camunda:jobPriority="${customer.status == 'VIP' ? 10 : 0}" />
+  eximeebpms:asyncBefore="true"
+  eximeebpms:jobPriority="${customer.status == 'VIP' ? 10 : 0}" />
 ```
 
 In the above example the priority is determined based on the property `status` of the current customer.
@@ -427,7 +427,7 @@ By default, a failed job will be retried three times and the retries are perform
 
 The configuration follows the [ISO_8601 standard for repeating time intervals](http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals). In the example, `R5/PT5M` means that the maximum number of retries is 5 (`R5`) and the delay of retry is 5 minutes (`PT5M`).
 
-The Camunda engine allows you to configure this setting for the following specific elements:
+The EximeeBPMS engine allows you to configure this setting for the following specific elements:
 
 * [Activities (tasks, call activities, subprocesses)]({{< relref "#use-a-custom-job-retry-configuration-for-activities" >}})
 * [Events]({{< relref "#use-a-custom-job-retry-configuration-for-events" >}})
@@ -436,14 +436,14 @@ The Camunda engine allows you to configure this setting for the following specif
 
 #### Use a Custom Job Retry Configuration for Activities 
 
-As soon as the retry configuration is enabled, it can be applied to tasks, call activities, embedded subprocesses and transactions subprocesses. For instance, the job retry in a task can be configured in the Camunda engine in the BPMN 2.0 XML as follows:
+As soon as the retry configuration is enabled, it can be applied to tasks, call activities, embedded subprocesses and transactions subprocesses. For instance, the job retry in a task can be configured in the EximeeBPMS engine in the BPMN 2.0 XML as follows:
 
 ```xml
-<definitions xmlns:camunda="http://camunda.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
   ...
-  <serviceTask id="failingServiceTask" camunda:asyncBefore="true" camunda:class="org.mycompany.FailingDelegate">
+  <serviceTask id="failingServiceTask" eximeebpms:asyncBefore="true" eximeebpms:class="org.mycompany.FailingDelegate">
     <extensionElements>
-      <camunda:failedJobRetryTimeCycle>R5/PT5M</camunda:failedJobRetryTimeCycle>
+      <eximeebpms:failedJobRetryTimeCycle>R5/PT5M</eximeebpms:failedJobRetryTimeCycle>
     </extensionElements>
   </serviceTask>
   ...
@@ -453,7 +453,7 @@ As soon as the retry configuration is enabled, it can be applied to tasks, call 
 You can also set an expression as in the retry configuration. For example:
 
 ```xml
-  <camunda:failedJobRetryTimeCycle>${retryCycle}</camunda:failedJobRetryTimeCycle>
+  <eximeebpms:failedJobRetryTimeCycle>${retryCycle}</eximeebpms:failedJobRetryTimeCycle>
 ```
 
 The LOCK&#95;EXP&#95;TIME&#95; is used to define when the job can be executed again, meaning the failed job will automatically be retried once the LOCK&#95;EXP&#95;TIME&#95; date is expired.
@@ -470,11 +470,11 @@ The job retries can also be configured for the following events:
 Similar to tasks, the retries can be configured as an extension element of the event. The following example defines three retries after 5 seconds each for a boundary timer event:
 
 ```xml
-<definitions xmlns:camunda="http://camunda.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
   ...
   <boundaryEvent id="BoundaryEvent" name="BoundaryName" attachedToRef="MyActivity">
     <extensionElements>
-      <camunda:failedJobRetryTimeCycle>R3/PT5S</camunda:failedJobRetryTimeCycle>
+      <eximeebpms:failedJobRetryTimeCycle>R3/PT5S</eximeebpms:failedJobRetryTimeCycle>
     </extensionElements>
     <outgoing>SequenceFlow_3</outgoing>
     <timerEventDefinition>
@@ -494,17 +494,17 @@ If the retry configuration is set for a multi-instance activity then the configu
 The following example defines the retries of a multi-instance service task with asynchronous continuation of the multi-instance body and the inner activity. If a failure occur during one of the five parallel instances then the job of the failed instance will be retried up to 3 times with a delay of 5 seconds. In case all instances ended successful and a failure occur during the transaction which follows the task, the job will be retried up to 5 times with a delay of 5 minutes.
 
 ```xml
-<definitions xmlns:camunda="http://camunda.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
   ...
-  <serviceTask id="failingServiceTask" camunda:asyncAfter="true" camunda:class="org.mycompany.FailingDelegate">
+  <serviceTask id="failingServiceTask" eximeebpms:asyncAfter="true" eximeebpms:class="org.mycompany.FailingDelegate">
     <extensionElements>
       <!-- configuration for multi-instance body, e.g. after task ended -->
-      <camunda:failedJobRetryTimeCycle>R5/PT5M</camunda:failedJobRetryTimeCycle>
+      <eximeebpms:failedJobRetryTimeCycle>R5/PT5M</eximeebpms:failedJobRetryTimeCycle>
     </extensionElements>
-    <multiInstanceLoopCharacteristics isSequential="false" camunda:asyncBefore="true">
+    <multiInstanceLoopCharacteristics isSequential="false" eximeebpms:asyncBefore="true">
       <extensionElements>
         <!-- configuration for inner activities, e.g. before each instance started -->
-        <camunda:failedJobRetryTimeCycle>R3/PT5S</camunda:failedJobRetryTimeCycle>
+        <eximeebpms:failedJobRetryTimeCycle>R3/PT5S</eximeebpms:failedJobRetryTimeCycle>
       </extensionElements>
       <loopCardinality>5</loopCardinality>
     </multiInstanceLoopCharacteristics>
@@ -539,7 +539,7 @@ If the user decides to increase the retry number during retries, the last interv
 You can configure an custom retry configuration by adding the `customPostBPMNParseListeners` property and specify your custom `FailedJobParseListener` to the process engine configuration:
 
 ```xml
-<bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
+<bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration">
   <!-- Your defined properties! -->
   ...
   <property name="customPostBPMNParseListeners">
@@ -571,10 +571,10 @@ However, while this is a perfectly fine solution from the point of view of persi
 
 An exclusive job cannot be performed at the same time as another exclusive job from the same process instance. Consider the process shown in the section above: if the jobs corresponding to the service tasks are treated as exclusive, the job executor will try to avoid that they are executed in parallel. Instead, it will ensure that whenever it acquires an exclusive job from a certain process instance, it also acquires all other exclusive jobs from the same process instance and delegates them to the same worker thread. This enforces sequential execution of these jobs and in most cases avoids optimistic locking exceptions. However, this behavior is a heuristic, meaning that the job executor can only enforce sequential execution of the jobs that are available during **lookup time**. If a potentially conflicting job is created after that, is currently running or is already scheduled for execution, the job may be processed by another job execution thread in parallel.
 
-**Exclusive Jobs are the default configuration**. All asynchronous continuations and timer events are thus exclusive by default. In addition, if you want a job to be non-exclusive, you can configure it as such using `camunda:exclusive="false"`. For example, the following service task would be asynchronous but non-exclusive.
+**Exclusive Jobs are the default configuration**. All asynchronous continuations and timer events are thus exclusive by default. In addition, if you want a job to be non-exclusive, you can configure it as such using `eximeebpms:exclusive="false"`. For example, the following service task would be asynchronous but non-exclusive.
 
 ```xml
-<serviceTask id="service" camunda:expression="${myService.performBooking(hotel, dates)}" camunda:asyncBefore="true" camunda:exclusive="false" />
+<serviceTask id="service" eximeebpms:expression="${myService.performBooking(hotel, dates)}" eximeebpms:asyncBefore="true" eximeebpms:exclusive="false" />
 ```
 
 Is this a good solution? We had some people asking whether it was. Their concern was that it would prevent you from *doing things in parallel* and would thus be a performance problem. Again, two things have to be taken into consideration:
@@ -621,7 +621,7 @@ In the case of a single, application-embedded process engine, the job executor s
 
 There is a single job table that the engine adds jobs to and the acquisition consumes from. Creating a second embedded engine would therefore create another acquisition thread and execution thread-pool.
 
-In larger deployments however, this quickly leads to a poorly manageable situation. When running Camunda 7 on Tomcat or an application server, the platform allows to declare multiple process engines shared by multiple process applications. With respect to job execution, one job acquisition may serve multiple job tables (and thus process engines) and a single thread-pool for execution may be used.
+In larger deployments however, this quickly leads to a poorly manageable situation. When running EximeeBPMS on Tomcat or an application server, the platform allows to declare multiple process engines shared by multiple process applications. With respect to job execution, one job acquisition may serve multiple job tables (and thus process engines) and a single thread-pool for execution may be used.
 
 {{< img src="../img/job-executor-multiple-engines.png" title="Multiple Engines" >}}
 
@@ -630,7 +630,7 @@ See the platform-specific information in the [Runtime Container Integration]({{<
 
 Different job acquisitions can also be configured differently, e.g. to meet business requirements like SLAs. For example, the acquisition's timeout when no more executable jobs are present can be configured differently per acquisition.
 
-To which job acquisition a process engine is assigned can be specified in the declaration of the engine, so either in the `processes.xml` deployment descriptor of a process application or in the Camunda 7 descriptor. The following is an example configuration that declares a new engine and assigns it to the job acquisition named `default`, which is created when the platform is bootstrapped.
+To which job acquisition a process engine is assigned can be specified in the declaration of the engine, so either in the `processes.xml` deployment descriptor of a process application or in the EximeeBPMS descriptor. The following is an example configuration that declares a new engine and assigns it to the job acquisition named `default`, which is created when the platform is bootstrapped.
 
 ```xml
 <process-engine name="newEngine">
@@ -639,12 +639,12 @@ To which job acquisition a process engine is assigned can be specified in the de
 </process-engine>
 ```
 
-Job acquisitions have to be declared in Camunda 7's deployment descriptor, see [the container-specific configuration options]({{< ref "/user-guide/runtime-container-integration/_index.md" >}}).
+Job acquisitions have to be declared in EximeeBPMS's deployment descriptor, see [the container-specific configuration options]({{< ref "/user-guide/runtime-container-integration/_index.md" >}}).
 
 
 # Cluster Setups
 
-When running Camunda 7 in a cluster, there is a distinction between *homogeneous* and *heterogeneous* setups. We define a cluster as a set of network nodes that all run Camunda 7 against the same database (at least for one engine on each node). In the *homogeneous* case, the same process applications (and thus custom classes like JavaDelegates) are deployed to all of the nodes, as depicted below.
+When running EximeeBPMS in a cluster, there is a distinction between *homogeneous* and *heterogeneous* setups. We define a cluster as a set of network nodes that all run EximeeBPMS against the same database (at least for one engine on each node). In the *homogeneous* case, the same process applications (and thus custom classes like JavaDelegates) are deployed to all of the nodes, as depicted below.
 
 {{< img src="../img/homogeneous-cluster.png" title="Homogeneous Cluster" >}}
 

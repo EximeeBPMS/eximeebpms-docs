@@ -12,7 +12,7 @@ menu:
 
 ---
 
-To evaluate a DMN decision in Camunda 7, it has to be part of
+To evaluate a DMN decision in EximeeBPMS, it has to be part of
 a [Deployment]. After a decision has been deployed, it can be referenced
 by its key and version. The platform supports [DMN 1.3] XML files.
 
@@ -86,7 +86,7 @@ decision in the DMN XML.
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://eximeebpms.org/schema/1.0/dmn">
   <decision id="my-decision" name="My Decision">
     <decisionTable>
       <output id="output1"/>
@@ -147,7 +147,7 @@ The decision requirements definition key is equivalent to the `id` attribute of 
 <definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" 
              id="my-drg" 
              name="My DRG" 
-             namespace="http://camunda.org/schema/1.0/dmn">
+             namespace="http://eximeebpms.org/schema/1.0/dmn">
   <!-- ... -->
 </definitions>
 ```
