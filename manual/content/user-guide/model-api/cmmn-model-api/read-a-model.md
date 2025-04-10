@@ -52,11 +52,11 @@ humanTask.setName("new name");
 
 // read attributes by generic XML model API (with optional namespace)
 String custom1 = humanTask.getAttributeValue("custom-attribute");
-String custom2 = humanTask.getAttributeValueNs("custom-attribute-2", "http://camunda.org/custom");
+String custom2 = humanTask.getAttributeValueNs("custom-attribute-2", "http://eximeebpms.org/custom");
 
 // edit attributes by generic XML model API (with optional namespace)
 humanTask.setAttributeValue("custom-attribute", "new value");
-humanTask.setAttributeValueNs("custom-attribute", "http://camunda.org/custom", "new value");
+humanTask.setAttributeValueNs("custom-attribute", "http://eximeebpms.org/custom", "new value");
 ```
 
 You can also access the child elements of an element or references to other elements. For example, a plan item
@@ -67,7 +67,7 @@ Consider the following simple CMMN model:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions targetNamespace="http://camunda.org/examples"
+<definitions targetNamespace="http://eximeebpms.org/examples"
              xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL">
   <case id="case-with-one-task">
     <casePlanModel id="CasePlanModel_1">
