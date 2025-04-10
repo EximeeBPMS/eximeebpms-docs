@@ -37,6 +37,16 @@ hugo server --baseUrl="http://localhost"
 You can then browse the docs under [http://localhost:1313/](http://localhost:1313/).
 Hugo will automatically detect when you change a file and refresh the page in the browser.
 
+## Using Hugo with Docker
+
+To run this documentation using Hugo in Docker
+
+- copy `.env.example` to `.env`
+- adjust the variables if needed
+- run `docker compose up` (uses Hugo image version 0.56)
+
+There is no global config or a main page, run Hugo within a subpage context, e.g. "manual" or configure a default page.
+
 ## License
 
 <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/80x15.png"></a> The content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.
