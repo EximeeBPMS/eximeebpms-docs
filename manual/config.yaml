@@ -27,10 +27,10 @@ params:
       url: "/eximeebpms-docs/security"
   section:
     id: "manual"
-    version: "0.9.0"
-    versionAlias: "0.9.0"
+    version: "1.0.0"
+    versionAlias: "1.0.0"
     versions:
-      - "0.9.0"
+      - "1.0.0"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/manual"
