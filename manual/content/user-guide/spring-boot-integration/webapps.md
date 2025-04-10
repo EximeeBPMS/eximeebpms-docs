@@ -43,8 +43,7 @@ Also don't forget to define the appropriate EximeeBPMS engine version (with "ee"
 
 If you are using the enterprise edition, you can also use the [`eximeebpms.bpm.license-file`]({{<ref "/user-guide/spring-boot-integration/configuration.md#license-file">}}) 
 property to provide a license file that is inserted on application start. Or copy your license file under the name 
-`eximeebpms-license.txt` to your `src/main/resources`. See the dedicated [License docs section]({{< ref "/user-guide/license-use.md" >}})
-for more details on how to add a License key to your EximeeBPMS installation.
+`eximeebpms-license.txt` to your `src/main/resources`.
 
 ## Configurations
 
