@@ -58,15 +58,15 @@ When you use [BPMN CallActivities]({{< ref "/reference/bpmn20/subprocesses/call-
 
 ```xml
 <callActivity id="callSubProcess" calledElement="checkCreditProcess"
-  camunda:calledElementBinding="latest|deployment|version"
-  camunda:calledElementVersion="17">
+  eximeebpms:calledElementBinding="latest|deployment|version"
+  eximeebpms:calledElementVersion="17">
 </callActivity>
 ```
 or
 ```xml
 <callActivity id="callSubProcess" calledElement="checkCreditProcess"
-  camunda:calledElementBinding="versionTag"
-  camunda:calledElementVersionTag="ver-tag-1.0.1">
+  eximeebpms:calledElementBinding="versionTag"
+  eximeebpms:calledElementVersionTag="ver-tag-1.0.1">
 </callActivity>
 ```
 
@@ -93,11 +93,11 @@ You might have spotted that two different columns exist in the process definitio
 # Version Tag
 
 It is possible to tag a process definition with a version tag attribute. This can be done by adding the
-[camunda:versionTag]({{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#versiontag" >}})
+[eximeebpms:versionTag]({{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#versiontag" >}})
 extension attribute to the process:
 
 ```xml
-<bpmn2:process camunda:versionTag="1.5-patch2" ..
+<bpmn2:process eximeebpms:versionTag="1.5-patch2" ..
 ```
 
 The `ProcessDefinition` will now provide a versionTag field which you can fetch:

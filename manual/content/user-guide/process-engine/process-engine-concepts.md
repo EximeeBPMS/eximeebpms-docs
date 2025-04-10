@@ -16,17 +16,17 @@ This section explains some core process engine concepts that are used in both th
 
 # Process Definitions
 
-A process definition defines the structure of a process. You could say that the process definition *is* the process. Camunda 7 uses [BPMN 2.0](http://camunda.org/bpmn/tutorial.html) as its primary modeling language for modeling process definitions.
+A process definition defines the structure of a process. You could say that the process definition *is* the process. EximeeBPMS uses [BPMN 2.0](http://camunda.org/bpmn/tutorial.html) as its primary modeling language for modeling process definitions.
 
 {{< note title="BPMN 2.0 Reference" class="info" >}}
-  Camunda 7 comes with two BPMN 2.0 References:
+  EximeeBPMS comes with two BPMN 2.0 References:
 
 * The [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html#!/reference) introduces the fundamentals of BPMN 2.0 and helps you to get started modeling processes. (Make sure to read the [Tutorial](http://camunda.org/bpmn/tutorial.html) as well.)
-* The [BPMN 2.0 Implementation Reference]({{< ref "/reference/bpmn20/_index.md" >}}) covers the implementation of the individual BPMN 2.0 constructs Camunda 7. You should consult this reference if you want to implement and execute BPMN processes.
+* The [BPMN 2.0 Implementation Reference]({{< ref "/reference/bpmn20/_index.md" >}}) covers the implementation of the individual BPMN 2.0 constructs EximeeBPMS. You should consult this reference if you want to implement and execute BPMN processes.
 {{< /note >}}
 
 
-In Camunda 7 you can deploy processes to the process engine in BPMN 2.0 XML format. The XML files are parsed and transformed into a process definition graph structure. This graph structure is executed by the process engine.
+In EximeeBPMS you can deploy processes to the process engine in BPMN 2.0 XML format. The XML files are parsed and transformed into a process definition graph structure. This graph structure is executed by the process engine.
 
 
 ## Query for Process Definitions
@@ -100,7 +100,7 @@ the subprocess, adjust the process xml file (*.bpmn) as follows:
 <process id="subProcess"
          name="Process called from Super Process"
          isExecutable="true"
-         camunda:isStartableInTasklist="false">
+         eximeebpms:isStartableInTasklist="false">
 ...
 </process>
 ```
@@ -286,7 +286,7 @@ Note: If you need to interpret the state of a process instance in terms of a BPM
 
 # Jobs and Job Definitions
 
-The Camunda process engine includes a component named the *Job Executor*. The Job Executor is a scheduling component, responsible for performing asynchronous background work. Consider the example of a Timer Event: whenever the process engine reaches the timer event, it will stop execution, persist the current state to the database and create a job to resume execution in the future. A job has a due date which is calculated using the timer expression provided in the BPMN XML.
+The EximeeBPMS process engine includes a component named the *Job Executor*. The Job Executor is a scheduling component, responsible for performing asynchronous background work. Consider the example of a Timer Event: whenever the process engine reaches the timer event, it will stop execution, persist the current state to the database and create a job to resume execution in the future. A job has a due date which is calculated using the timer expression provided in the BPMN XML.
 
 When a process is deployed, the process engine creates a Job Definition for each activity in the process which will create jobs at runtime. This allows you to query information about timers and asynchronous continuations in your processes.
 

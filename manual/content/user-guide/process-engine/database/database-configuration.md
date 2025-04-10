@@ -9,7 +9,7 @@ menu:
 
 ---
 
-There are two ways to configure the database that the Camunda engine will use. The first option is to define the JDBC properties of the database:
+There are two ways to configure the database that the EximeeBPMS engine will use. The first option is to define the JDBC properties of the database:
 
 * `jdbcUrl`: JDBC URL of the database.
 * `jdbcDriver`: implementation of the driver for the specific database type.
@@ -41,7 +41,7 @@ Known issues with batch processing:
 ## Example database configuration
 
 ```xml
-<property name="jdbcUrl" value="jdbc:h2:mem:camunda;DB_CLOSE_DELAY=1000" />
+<property name="jdbcUrl" value="jdbc:h2:mem:eximeebpms;DB_CLOSE_DELAY=1000" />
 <property name="jdbcDriver" value="org.h2.Driver" />
 <property name="jdbcUsername" value="sa" />
 <property name="jdbcPassword" value="" />
@@ -52,26 +52,26 @@ Alternatively, a `javax.sql.DataSource` implementation can be used (e.g., DBCP f
 ```xml
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
   <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-  <property name="url" value="jdbc:mysql://localhost:3306/camunda?sendFractionalSeconds=false" />
-  <property name="username" value="camunda" />
-  <property name="password" value="camunda" />
+  <property name="url" value="jdbc:mysql://localhost:3306/eximeebpms?sendFractionalSeconds=false" />
+  <property name="username" value="eximeebpms" />
+  <property name="password" value="eximeebpms" />
   <property name="defaultAutoCommit" value="false" />
 </bean>
 
-<bean id="processEngineConfiguration" class="org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration">
+<bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration">
 
     <property name="dataSource" ref="dataSource" />
     ...
 ```
 
-Note that Camunda does not ship with a library that allows to define such a data source. So you have to make sure that the libraries (e.g., from DBCP) are on your classpath.
+Note that EximeeBPMS does not ship with a library that allows to define such a data source. So you have to make sure that the libraries (e.g., from DBCP) are on your classpath.
 
 The following properties can be set, regardless of whether you are using the JDBC or data source approach:
 
 * `databaseType`: It's normally not necessary to specify this property as it is automatically analyzed from the database connection meta data. Should only be specified in case automatic detection fails. Possible values: {h2, mysql, oracle, postgres, mssql, db2}. This setting will determine which create/drop scripts and queries will be used. See the 'supported databases' section for an overview of which types are supported.</li>
 * `databaseSchemaUpdate`: Allows to set the strategy to handle the database schema on process engine boot and shutdown.
-  * `true` (default): Upon building the process engine, a check is performed whether the Camunda tables exist in the database. If they don't exist, they are created. It must be ensured that the version of the DB schema matches the version of the process engine library, unless performing a [Rolling Update]({{< ref "/update/rolling-update.md" >}}). Updates of the database schema have to be done manually as described in the [Update and Migration Guide]({{< ref "/update/_index.md" >}}).
-  * `false`: Does not perform any checks and assumes that the Camunda table exist in the database. It must be ensured that the version of the DB schema matches the version of the process engine library, unless performing a [Rolling Update]({{< ref "/update/rolling-update.md" >}}). Updates of the database schema have to be done manually as described in the [Update and Migration Guide]({{< ref "/update/_index.md" >}}).
+  * `true` (default): Upon building the process engine, a check is performed whether the EximeeBPMS tables exist in the database. If they don't exist, they are created. It must be ensured that the version of the DB schema matches the version of the process engine library, unless performing a [Rolling Update]({{< ref "/update/rolling-update.md" >}}). Updates of the database schema have to be done manually as described in the [Update and Migration Guide]({{< ref "/update/_index.md" >}}).
+  * `false`: Does not perform any checks and assumes that the EximeeBPMS table exist in the database. It must be ensured that the version of the DB schema matches the version of the process engine library, unless performing a [Rolling Update]({{< ref "/update/rolling-update.md" >}}). Updates of the database schema have to be done manually as described in the [Update and Migration Guide]({{< ref "/update/_index.md" >}}).
   * `create-drop`: Creates the schema when the process engine is being created and drops the schema when the process engine is being closed.
 
 {{< note title="Supported Databases" class="info" >}}
@@ -80,12 +80,12 @@ The following properties can be set, regardless of whether you are using the JDB
 
 Here are some sample JDBC urls:
 
-* H2: `jdbc:h2:tcp://localhost/camunda`
-* MySQL: `jdbc:mysql://localhost:3306/camunda?autoReconnect=true&sendFractionalSeconds=false`
+* H2: `jdbc:h2:tcp://localhost/eximeebpms`
+* MySQL: `jdbc:mysql://localhost:3306/eximeebpms?autoReconnect=true&sendFractionalSeconds=false`
 * Oracle: `jdbc:oracle:thin:@localhost:1521:xe`
-* PostgreSQL: `jdbc:postgresql://localhost:5432/camunda`
-* DB2: `jdbc:db2://localhost:50000/camunda`
-* MSSQL: `jdbc:sqlserver://localhost:1433/camunda`
+* PostgreSQL: `jdbc:postgresql://localhost:5432/eximeebpms`
+* DB2: `jdbc:db2://localhost:50000/eximeebpms`
+* MSSQL: `jdbc:sqlserver://localhost:1433/eximeebpms`
 
 
 ## Additional Database Schema Configuration
@@ -172,7 +172,7 @@ Most database management systems provide four different isolation levels to be s
 * REPEATABLE READS
 * SERIALIZABLE 
 
-The required isolation level to run Camunda with is **READ COMMITTED**, which may have a different name according to your database system. Setting the level to REPEATABLE READS is known to cause deadlocks, so one needs to be careful, when changing the isolation level.
+The required isolation level to run EximeeBPMS with is **READ COMMITTED**, which may have a different name according to your database system. Setting the level to REPEATABLE READS is known to cause deadlocks, so one needs to be careful, when changing the isolation level.
 
 When initializing the engine, a check is performed in order to determine if the transaction isolation level set for the database is different from the recommended one. If it is, an exception will be thrown.
 
