@@ -27,33 +27,33 @@ The following archetypes are currently provided. They are distributed via our Ma
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-cockpit-plugin/">Camunda Cockpit Plugin</a></td>
-      <td>Plugin for Camunda Cockpit, contains REST-Backend, MyBatis database query, HTML and JavaScript frontend, Ant build script for one-click deployment</td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">EximeeBPMS Cockpit Plugin</a></td>
+      <td>Plugin for EximeeBPMS Cockpit, contains REST-Backend, MyBatis database query, HTML and JavaScript frontend, Ant build script for one-click deployment</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-ejb-war/">Process Application (EJB, WAR)</a></td>
-      <td>Process application that uses a shared Camunda 7 engine in a Java EE Container, e.g., Wildfly.
-          Contains: Camunda EJB Client, Camunda CDI Integration, BPMN Process, Java Delegate as CDI bean, HTML5- & JSF-based start and task forms,
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">Process Application (EJB, WAR)</a></td>
+      <td>Process application that uses a shared EximeeBPMS engine in a Java EE Container, e.g., Wildfly.
+          Contains: EximeeBPMS EJB Client, EximeeBPMS CDI Integration, BPMN Process, Java Delegate as CDI bean, HTML5- & JSF-based start and task forms,
           configuration for JPA (Hibernate), JUnit Test with in-memory engine and visual process test coverage, Arquillian Test for Wildfly, Maven Plugins or Ant build script for one-click deployment in Eclipse</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-servlet-war/">Process Application (Servlet, WAR)</a></td>
-      <td>Process application that uses a shared Camunda 7 engine in a Servlet Container, e.g., Apache Tomcat.
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">Process Application (Servlet, WAR)</a></td>
+      <td>Process application that uses a shared EximeeBPMS engine in a Servlet Container, e.g., Apache Tomcat.
           Contains: Servlet process application, BPMN Process, Java Delegate, HTML5-based start and task forms,
           JUnit Test with in-memory engine, Maven Plugins or Ant build script for one-click deployment in Eclipse</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-spring-boot/">Camunda Spring Boot Application</a></td>
-      <td>Application that uses the Camunda Spring Boot Starter.
-          Contains: Spring Boot Process Application, Camunda Webapps, BPMN Process, Java Delegate, HTML5-based start and task forms,
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">EximeeBPMS Spring Boot Application</a></td>
+      <td>Application that uses the EximeeBPMS Spring Boot Starter.
+          Contains: Spring Boot Process Application, EximeeBPMS Webapps, BPMN Process, Java Delegate, HTML5-based start and task forms,
           JUnit Test with in-memory engine, Maven Plugins for packing as an executable application.</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-spring-boot-demo/">Camunda Spring Boot Application with Demo Users</a></td>
-      <td>Same as the <i>Spring Boot Application</i> archetype and additionally creates demo users and groups for easy start with the Camunda Webapps (use <code>demo/demo</code> to log in).</td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">EximeeBPMS Spring Boot Application with Demo Users</a></td>
+      <td>Same as the <i>Spring Boot Application</i> archetype and additionally creates demo users and groups for easy start with the EximeeBPMS Webapps (use <code>demo/demo</code> to log in).</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-engine-plugin/">Process Engine Plugin</a></td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/">Process Engine Plugin</a></td>
       <td>An example for a process engine plugin.
       Contains: Process engine plugin, BPMN Parse Listener that is registered via the plugin, Task Listener that is added to every user task, JUnit Test with in-memory engine.</td>
     </tr>
