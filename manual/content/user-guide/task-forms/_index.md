@@ -34,7 +34,7 @@ Form keys that are used in Tasklist have the structure `FORM-TYPE:LOCATION:FORM.
   </tr>
   <tr>
     <td>FORM-TYPE</td>
-    <td>Can be <code>embedded</code> or <code>camunda-forms</code> depending on the form type. If no type is set, the form will be shown as an <a href="#external-task-forms">External Task Form</a>.</td>
+    <td>Can be <code>embedded</code> or <code>eximeebpms-forms</code> depending on the form type. If no type is set, the form will be shown as an <a href="#external-task-forms">External Task Form</a>.</td>
   </tr>
   <tr>
     <td>LOCATION</td>
@@ -191,21 +191,21 @@ If you are about to prototype your application, you can also use the shortcut fo
 ```
 
 ## Deployment
-If you want to include your Camunda Form as part of the `deployment`, then you need to deploy the `.form` file in the same deployment as the respective `.bpmn` diagram - for example using the Camunda Modeler (since Modeler Version 5.0.0).
+If you want to include your EximeeBPMS Form as part of the `deployment`, then you need to deploy the `.form` file in the same deployment as the respective `.bpmn` diagram - for example using the Camunda Modeler (since Modeler Version 5.0.0).
 
 {{< note title="Automatic deployment" class="warning" >}}
-Camunda Forms are not automatically deployed as part of a [process archive]({{< ref "/reference/deployment-descriptors/tags/process-archive.md" >}}) by default. 
+EximeeBPMS Forms are not automatically deployed as part of a [process archive]({{< ref "/reference/deployment-descriptors/tags/process-archive.md" >}}) by default. 
 You need to configure it accordingly by adding it as a resource directly or by adding `form` to the list of `additionalResourceSuffixes`.
-Using [Camunda Run]({{< ref "/user-guide/eximeebpms-bpm-run.md#starting-with-camunda-platform-run" >}}), all additional resources - including Camunda Forms - 
+Using [EximeeBPMS Run]({{< ref "/user-guide/eximeebpms-bpm-run.md#starting-with-eximeebpms-platform-run" >}}), all additional resources - including EximeeBPMS Forms - 
 placed inside the `configuration/resources/` directory are automatically deployed.
 {{< /note >}}
 
-{{< img src="img/deploy-form.png" title="Deploy your Camunda Form file" >}}
+{{< img src="img/deploy-form.png" title="Deploy your EximeeBPMS Form file" >}}
 
-You can also include Camunda Forms from other deployments by using [form references](#form-reference).
+You can also include EximeeBPMS Forms from other deployments by using [form references](#form-reference).
 
 # External Task Forms
-{{< note title="Using Task Forms outside of Camunda Tasklist" class="info" >}}
+{{< note title="Using Task Forms outside of EximeeBPMS Tasklist" class="info" >}}
   When embedding the process engine into a custom application, you can use any value in the form key property as a reference to your custom form. This way, your front-end can ensure to render the correct form for each user task.
 {{< /note >}}
 
@@ -252,12 +252,12 @@ You can also retrieve already existing variables of the process instance by clic
 
 ## Generated Task Forms
 
-{{< note title="Camunda Forms or Generated Task Forms?" class="info" >}}
-  The feature set of Camunda Forms and Generated Task Forms are similar. For new projects, we recommend to use Camunda Forms, as they offer more flexibility and are easier to create.
+{{< note title="EximeeBPMS Forms or Generated Task Forms?" class="info" >}}
+  The feature set of EximeeBPMS Forms and Generated Task Forms are similar. For new projects, we recommend to use EximeeBPMS Forms, as they offer more flexibility and are easier to create.
 {{< /note >}}
 
 
-The Camunda process engine supports generating HTML task forms based on Form Data Metadata provided in the BPMN 2.0 XML. Form Data Metadata is a set of BPMN 2.0 vendor extensions provided by Camunda, allowing you to define form fields directly in the BPMN 2.0 XML:
+The EximeeBPMS process engine supports generating HTML task forms based on Form Data Metadata provided in the BPMN 2.0 XML. Form Data Metadata is a set of BPMN 2.0 vendor extensions provided by EximeeBPMS, allowing you to define form fields directly in the BPMN 2.0 XML:
 
 ```xml
 <userTask id="usertask" name="Task">
@@ -450,7 +450,7 @@ The following built-in validators are supported out of the box:
   </tbody>
 </table>
 
-Camunda 7 supports custom validators. Custom validators are referenced using their fully qualified classname or an expression. Expressions can be used for resolving Spring or CDI @Named beans:
+EximeeBPMS supports custom validators. Custom validators are referenced using their fully qualified classname or an expression. Expressions can be used for resolving Spring or CDI @Named beans:
 
 ```xml
 <camunda:formField
@@ -466,7 +466,7 @@ Camunda 7 supports custom validators. Custom validators are referenced using the
   The name attribute must be set to "validator" in order to use custom form field validator.
 {{< /note >}}
 
-A custom validator implements the `org.camunda.bpm.engine.impl.form.validator.FormFieldValidator` interface:
+A custom validator implements the `org.eximeebpms.bpm.engine.impl.form.validator.FormFieldValidator` interface:
 
 ```java
 public class CustomValidator implements FormFieldValidator {
