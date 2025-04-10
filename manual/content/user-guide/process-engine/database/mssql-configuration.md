@@ -66,7 +66,7 @@ Microsoft associates each SQL Server version with a *Database Compatibility Leve
 of the SQL Server versions, and their associated compatibility level values 
 [at the Microsoft *Alter Compatibility Level* page](https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-database-transact-sql-compatibility-level?view=sql-server-ver15#arguments).
 
-Camunda supports the *Database Compatibility Level* values of the currently supported Microsoft 
+EximeeBPMS supports the *Database Compatibility Level* values of the currently supported Microsoft 
 SQL Server versions documented in our [Supported Database Products section]({{< ref "/introduction/supported-environments.md#supported-database-products" >}}).
 
 ## Configuring a database on Azure SQL

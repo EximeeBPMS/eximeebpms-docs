@@ -16,7 +16,7 @@ This section explains some core process engine concepts that are used in both th
 
 # Process Definitions
 
-A process definition defines the structure of a process. You could say that the process definition *is* the process. EximeeBPMS uses [BPMN 2.0](http://camunda.org/bpmn/tutorial.html) as its primary modeling language for modeling process definitions.
+A process definition defines the structure of a process. You could say that the process definition *is* the process. EximeeBPMS uses BPMN 2.0 as its primary modeling language for modeling process definitions.
 
 {{< note title="BPMN 2.0 Reference" class="info" >}}
   EximeeBPMS comes with two BPMN 2.0 References:

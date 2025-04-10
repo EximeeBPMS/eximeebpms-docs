@@ -12,20 +12,20 @@ menu:
 
 ---
 
-The Camunda DMN engine can be used as a library in a custom application. To achieve this,
-add the `camunda-engine-dmn` artifact to the classpath of the application and then
+The EximeeBPMS DMN engine can be used as a library in a custom application. To achieve this,
+add the `eximeebpms-engine-dmn` artifact to the classpath of the application and then
 configure and build a decision engine instance. This section provides the
 required maven coordinates to add the DMN engine as a dependency to your
 project. It then shows how to configure and build a new DMN engine instance.
 
 # Maven Coordinates
 
-The Camunda DMN engine is released to Maven Central.
+The EximeeBPMS DMN engine is released to Maven Central.
 
-Start by importing the [`camunda-engine-dmn` BOM](/get-started/apache-maven/#camunda-dmn-engine-bom)
+Start by importing the [`eximeebpms-engine-dmn` BOM](/eximeebpms-docs/get-started/apache-maven/#camunda-dmn-engine-bom)
 to ensure correct dependency management.
 
-Next, include the [`camunda-engine-dmn`](/get-started/apache-maven/#camunda-dmn)
+Next, include the [`eximeebpms-engine-dmn`](/eximeebpms-docs/get-started/apache-maven/#camunda-dmn)
 artifact in the `dependencies` section.
 
 # Building a DMN Engine
@@ -344,7 +344,7 @@ configuration.setScriptEngineResolver(new MyScriptEngineResolver());
 
 # Logging
 
-The DMN engine uses [SLF4J] as logging API. The `camunda-dmn-engine` artifact
+The DMN engine uses [SLF4J] as logging API. The `eximeebpms-dmn-engine` artifact
 does not have a dependency to any of the existing [SLF4J] backends. This means that
 you can choose which backend you want to use. One example would be [LOGBack], or
 if you want to use Java util logging, you could use the `slf4j-jdk14` artifact.

@@ -12,7 +12,7 @@ menu:
 
 ---
 
-This page documents how Camunda Spin can be used together with the Scala FEEL Engine. Furthermore, 
+This page documents how EximeeBPMS Spin can be used together with the Scala FEEL Engine. Furthermore, 
 it is shown how Spin data types are mapped to FEEL data types, as well as some rules when the 
 former data structures are transformed into the latter.
 
@@ -20,7 +20,7 @@ former data structures are transformed into the latter.
 
 The Spin integration for the FEEL Engine is implemented into the 
 [Spin Process Engine Plugin][spin plugin] since it is expected that the Process Engine should be 
-capable of using Spin, if another component of Camunda 7 (here, the FEEL Engine) 
+capable of using Spin, if another component of EximeeBPMS (here, the FEEL Engine) 
 supports its usage. 
 
 In the case of a standalone DMN Engine setup, the Spin Process Engine Plugin would need to be added 
@@ -31,9 +31,9 @@ The Maven coordinates for the Spin Process Engine Plugin can be found below:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm</groupId>
-  <artifactId>camunda-engine-plugin-spin</artifactId>
-  <version>${camunda.version}</version>
+  <groupId>org.eximeebpms.bpm</groupId>
+  <artifactId>eximeebpms-engine-plugin-spin</artifactId>
+  <version>${eximeebpms.version}</version>
 </dependency>
 ```
 
@@ -77,8 +77,8 @@ Spin JSON:
   "name": "Kermit", 
   "address": 
   {
-    "city": "Berlin", 
-    "zip-code": 10961
+    "city": "Poznan", 
+    "zip-code": 60001
   }
 }
 ```
@@ -90,8 +90,8 @@ FEEL context:
   name : "Kermit",
   address : 
   {
-    city : "Berlin",
-    zipCode : 10961
+    city : "Poznan",
+    zipCode : 60001
   }
 }
 ```
@@ -110,7 +110,7 @@ Spin XML:
 
 ```xml
 <customer name="Kermit">
-  <address city="Berlin" zipCode="10961" />
+  <address city="Poznan" zipCode="60001" />
 </customer>
 ```
 
@@ -123,8 +123,8 @@ FEEL context:
     @name : "Kermit",
     address : 
     {
-      @city : "Berlin",
-      @zipCode : "10961"
+      @city : "Poznan",
+      @zipCode : "60001"
     }
   }
 }

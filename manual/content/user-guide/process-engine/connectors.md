@@ -132,7 +132,7 @@ As an example, a shortened configuration of the EximeeBPMS SOAP connector implem
 <serviceTask id="soapRequest" name="Simple SOAP Request">
   <extensionElements>
     <eximeebpms:connector>
-      <eximeebpms:connectorId>soap-http-connector</camunda:connectorId>
+      <eximeebpms:connectorId>soap-http-connector</eximeebpms:connectorId>
       <eximeebpms:inputOutput>
         <eximeebpms:inputParameter name="url">
           http://example.com/webservice

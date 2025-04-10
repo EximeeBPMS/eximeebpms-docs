@@ -170,7 +170,7 @@ The following example shows how to use a `VariableMap`.
 ```java
 // create the input variables
 VariableMap variables = Variables.createVariables()
-  .putValue("x", "camunda")
+  .putValue("x", "eximeebpms")
   .putValue("y", 2015);
 
 // evaluate the decision with the input variables
