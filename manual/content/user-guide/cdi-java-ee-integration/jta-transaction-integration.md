@@ -15,9 +15,9 @@ menu:
 The process engine transaction management can integrate with JTA and Jakarta Transactions. 
 To use transaction manager integration, you need to use the
 
-* `org.camunda.bpm.engine.impl.cfg.JtaProcessEngineConfiguration` for JTA integration only.
-* `org.camunda.bpm.engine.impl.cfg.JakartaTransactionProcessEngineConfiguration` for Jakarta Transactions integration only.
-* `org.camunda.bpm.engine.cdi.CdiJtaProcessEngineConfiguration` for additional CDI expression resolution support.
+* `org.eximeebpms.bpm.engine.impl.cfg.JtaProcessEngineConfiguration` for JTA integration only.
+* `org.eximeebpms.bpm.engine.impl.cfg.JakartaTransactionProcessEngineConfiguration` for Jakarta Transactions integration only.
+* `org.eximeebpms.bpm.engine.cdi.CdiJtaProcessEngineConfiguration` for additional CDI expression resolution support.
   
 The process engine requires access to an implementation of `javax.transaction.TransactionManager` or `jakarta.transaction.TransactionManager` respectively.
 To achieve JTA transaction integration on these containers, users should use the Spring Framework Abstraction and configure the process engine using the 

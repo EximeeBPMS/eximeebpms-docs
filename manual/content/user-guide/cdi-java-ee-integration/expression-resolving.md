@@ -10,12 +10,12 @@ menu:
 
 ---
 
-The `camunda-engine-cdi` and `camunda-engine-cdi-jakarta` libraries expose CDI beans via Expression Language, 
+The `eximeebpms-engine-cdi` and `eximeebpms-engine-cdi-jakarta` libraries expose CDI beans via Expression Language, 
 using a custom resolver. This makes it possible to reference beans from the process:
 
 ```xml
 <userTask id="authorizeBusinessTrip" name="Authorize Business Trip"
-                        camunda:assignee="#{authorizingManager.account.username}" />
+                        eximeebpms:assignee="#{authorizingManager.account.username}" />
 ```
 
 Where "authorizingManager" could be a bean provided by a producer method:
@@ -35,5 +35,5 @@ public Employee authorizingManager() {
 }
 ```
 
-We can use the same feature to call a business method of an EJB in a service task, using the `camunda:expression="${myEjb.method()}"`-extension.
+We can use the same feature to call a business method of an EJB in a service task, using the `eximeebpms:expression="${myEjb.method()}"`-extension.
 Note that this requires a `@Named`-annotation on the MyEjb-class.

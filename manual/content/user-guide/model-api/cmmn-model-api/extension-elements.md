@@ -12,7 +12,7 @@ menu:
 
 
 [Custom extension elements]({{< ref "/reference/cmmn11/custom-extensions/_index.md" >}}) are a standardized way to extend the CMMN model.
-The [Camunda extension elements]({{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md" >}}) are fully implemented in the CMMN model API but unknown extension elements can also easily be accessed and added.
+The [EximeeBPMS extension elements]({{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md" >}}) are fully implemented in the CMMN model API but unknown extension elements can also easily be accessed and added.
 
 Every CMMN `CmmnElement` can have a child element of the type `extensionElements`.
 This element can contain all sorts of extension elements. To access the
@@ -48,7 +48,7 @@ extensionElements.getElementsQuery().filterByType(CamundaCaseExecutionListener.c
 
 Additionally, there are some shortcuts to add new extension elements. You can use
 the `namespaceUri` and the `elementName` to add your own extension elements. Or
-you can use the `class` of a known extension element type, e.g., the Camunda
+you can use the `class` of a known extension element type, e.g., the EximeeBPMS
 extension elements. The extension element is added to the CMMN element and returned
 so that you can set attributes or add child elements.
 
