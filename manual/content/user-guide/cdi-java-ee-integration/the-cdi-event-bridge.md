@@ -18,7 +18,7 @@ process engine, enable the corresponding parse listener in the configuration:
 ```xml
 <property name="postParseListeners">
   <list>
-    <bean class="org.camunda.bpm.engine.cdi.impl.event.CdiEventSupportBpmnParseListener" />
+    <bean class="org.eximeebpms.bpm.engine.cdi.impl.event.CdiEventSupportBpmnParseListener" />
   </list>
 </property>
 ```
@@ -32,7 +32,7 @@ Now the engine is configured for publishing events using the CDI event bus.
 {{< /note >}}
 
 The following gives an overview of how process events can be received in CDI beans. In CDI, we can declaratively specify event
-observers using the `@Observes`-annotation. Event notification is type-safe. The type of process events is `org.camunda.bpm.engine.cdi.BusinessProcessEvent`.
+observers using the `@Observes`-annotation. Event notification is type-safe. The type of process events is `org.eximeebpms.bpm.engine.cdi.BusinessProcessEvent`.
 The following is an example of a simple event observer method:
 
 ```java
@@ -131,7 +131,7 @@ If the listener is invoked after the transaction has completed, the `DelegateTas
 # The CDI Event Bridge in a process application
 
 To use the CDI Event Bridge in combination with a multi application deployment and the shared process engine, the
-{{< javadocref page="org/camunda/bpm/engine/cdi/impl/event/CdiEventListener" text="CdiEventListener" >}} needs to be added as a
+{{< javadocref page="org/eximeebpms/bpm/engine/cdi/impl/event/CdiEventListener" text="CdiEventListener" >}} needs to be added as a
 [Process Application Execution Event Listener]({{< ref "/user-guide/process-applications/process-application-event-listeners.md" >}}).
 
 Example configuration for [Servlet Process Application]({{< ref "/user-guide/process-applications/the-process-application-class.md#the-servletprocessapplication" >}}):
