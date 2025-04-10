@@ -67,7 +67,7 @@ For example, the following BPMN model was created by the BPMN model API as an ex
 
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions targetNamespace="http://eximeebpms.org/examples" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<definitions targetNamespace="http://camunda.com/bpmn/examples" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
   <process id="process-with-one-task">
     <startEvent id="start">
       <outgoing>start-task1</outgoing>
