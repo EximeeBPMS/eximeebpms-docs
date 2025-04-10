@@ -11,13 +11,13 @@ menu:
 
 ---
 
-Camunda provides a Spring Boot Starter for the External Task Client. This allows you to easily add 
+EximeeBPMS provides a Spring Boot Starter for the External Task Client. This allows you to easily add 
 the External Task Client to your Spring Boot application by adding the following Maven dependency to 
 your `pom.xml` file:
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm.springboot</groupId>
-  <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
+  <groupId>org.eximeebpms.bpm.springboot</groupId>
+  <artifactId>eximeebpms-bpm-spring-boot-starter-external-task-client</artifactId>
   <version>{{< minor-version >}}.0</version>
 </dependency>
 ```
@@ -50,7 +50,7 @@ The annotation requires at least the topic name. However, you can apply more con
 either referencing the topic name in your `application.yml` file:
 
 ```yaml
-camunda.bpm.client:
+eximeebpms.bpm.client:
   base-url: http://localhost:8080/engine-rest
   subscriptions:
     creditScoreChecker:
@@ -172,12 +172,12 @@ The central configuration point is the `application.yml` file.
 
 #### Client Bootstrapping
 
-Please make sure to configure the properties together with the prefix: `camunda.bpm.client`
+Please make sure to configure the properties together with the prefix: `eximeebpms.bpm.client`
 
 An example configuration could look as follows:
 
 ```yaml
-camunda.bpm.client:
+eximeebpms.bpm.client:
   base-url: http://localhost:8080/engine-rest
   worker-id: spring-boot-worker
   basic-auth:
@@ -199,7 +199,7 @@ Available properties:
     <tr>
       <td><code>base-url</code></td>
       <td>
-        <strong>Mandatory:</strong> Base url of the Camunda 7 Runtime
+        <strong>Mandatory:</strong> Base url of the EximeeBPMS Runtime
         REST API.
       </td>
       <td></td>
@@ -315,12 +315,12 @@ Available properties:
 
 #### Topic Subscription
 
-The properties for topic subscriptions go under: `camunda.bpm.client.subscriptions`
+The properties for topic subscriptions go under: `eximeebpms.bpm.client.subscriptions`
 
 The configuration properties can be applied for each topic name as follows:
 
 ```yaml
-camunda.bpm.client:
+eximeebpms.bpm.client:
   # ADD CLIENT CONFIGURATION HERE
   subscriptions:
     creditScoreChecker:
@@ -475,15 +475,15 @@ Available properties:
 
 #### Logging
 
-To log the Client's internal workings, you can set the level of the logger `org.camunda.bpm.client.spring` to `DEBUG`.
+To log the Client's internal workings, you can set the level of the logger `org.eximeebpms.bpm.client.spring` to `DEBUG`.
 
 You can set the log level in your `application.yml` file as follows:
 
 ```yaml
-logging.level.org.camunda.bpm.client.spring: DEBUG
+logging.level.org.eximeebpms.bpm.client.spring: DEBUG
 ```
 
-For debugging, it might be helpful to increase the level of the logger `org.camunda.bpm.client` as well.
+For debugging, it might be helpful to increase the level of the logger `org.eximeebpms.bpm.client` as well.
 
 ### Request Interceptor
 
@@ -543,7 +543,7 @@ client.serializationFormat=application/json
 Make sure to reference the respective placeholders defined above in your `application.yml` file:
 
 ```yaml
-camunda.bpm.client:
+eximeebpms.bpm.client:
   base-url: ${client.baseUrl}
   worker-id: ${client.workerId}
   date-format: ${client.dateFormat}
@@ -610,8 +610,8 @@ to your `pom.xml` file:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm</groupId>
-  <artifactId>camunda-external-task-client-spring</artifactId>
+  <groupId>org.eximeebpms.bpm</groupId>
+  <artifactId>eximeebpms-external-task-client-spring</artifactId>
   <version>{{< minor-version >}}.0</version>
 </dependency>
 ```
