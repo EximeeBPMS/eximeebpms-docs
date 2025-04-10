@@ -22,35 +22,35 @@ uses a new Process Engine (and Process Application) is to enable to following pr
 in your <code>@SpringBootTest</code> annotation:</p><pre><code class=language-java>@SpringBootTest(
   // ...other parameters...
   properties = {
-    &quot;camunda.bpm.generate-unique-process-engine-name=true&quot;,
+    &quot;eximeebpms.bpm.generate-unique-process-engine-name=true&quot;,
     // this is only needed if a SpringBootProcessApplication 
     // is used for the test
-    &quot;camunda.bpm.generate-unique-process-application-name=true&quot;,
+    &quot;eximeebpms.bpm.generate-unique-process-application-name=true&quot;,
     &quot;spring.datasource.generate-unique-name=true&quot;,
     // additional properties...
   }
 )
-</code></pre><ul><li>The <code>camunda.bpm.generate-unique-process-engine-name=true</code> property will generate
-a unique name for the Process Engine (ex. &lsquo;processEngine2Sc4bg2s1g&rsquo;).</li><li>The <code>camunda.bpm.generate-unique-process-application-name=true</code> property will generate
+</code></pre><ul><li>The <code>eximeebpms.bpm.generate-unique-process-engine-name=true</code> property will generate
+a unique name for the Process Engine (ex. &lsquo;processEngine2Sc4bg2s1g&rsquo;).</li><li>The <code>eximeebpms.bpm.generate-unique-process-application-name=true</code> property will generate
 a unique name for the Process Application (ex. &lsquo;processApplication2Sc4bg2s1g&rsquo;). This is useful
 if you want to deploy and test a Process Application multiple times with multiple configurations.</li><li>The <code>spring.datasource.generate-unique-name=true</code> property will generate a new datasource for
 each new <code>ApplicationContext</code>. Reused (cached) <code>ApplicationContext</code>s will use the same datasource.</li></ul><div class="note bg-warning docs-warning"><h3></h3><p>Be aware that the <code>generate-unique-process-engine-name</code> and <code>process-engine-name</code> properties are mutually exclusive. Setting them both will result in an exception.</p></div><p>If a static accessor needs to be used (e.g. processEngines.getProcessEngine(name)) in a given test, then the following properties can be used:</p><pre><code class=language-java>@SpringBootTest(
   // other parameters
   properties = {
-    &quot;camunda.bpm.process-engine-name=foo&quot;,
+    &quot;eximeebpms.bpm.process-engine-name=foo&quot;,
     // this is only needed if a SpringBootProcessApplication 
     // is used for the test
-    &quot;camunda.bpm.generate-unique-process-application-name=true&quot;,
+    &quot;eximeebpms.bpm.generate-unique-process-application-name=true&quot;,
     &quot;spring.datasource.generate-unique-name=true&quot;,
     // additional properties
   }
 )
-</code></pre><p>Here, the <code>camunda.bpm.process-engine-name=foo</code> will set (a unique name) &ldquo;foo&rdquo; as the Process Engine name.</p><h2 id=camunda-assertions>Camunda Assertions</h2><p>The <a href=/eximeebpms-docs/manual/user-guide/testing/#camunda-assertions>Camunda 7 Assertions</a> library is
-integrated with the Camunda Spring Boot Starter in
-order to make testing processes in your Spring Boot application easier.</p><h3 id=using-assertions-with-context-caching>Using Assertions with Context Caching</h3><p>Out of the box, the Camunda 7 Assertions library tries to use the
+</code></pre><p>Here, the <code>eximeebpms.bpm.process-engine-name=foo</code> will set (a unique name) &ldquo;foo&rdquo; as the Process Engine name.</p><h2 id=eximeebpms-assertions>EximeeBPMS Assertions</h2><p>The <a href=/eximeebpms-docs/manual/user-guide/testing/#eximeebpms-assertions>EximeeBPMS Assertions</a> library is
+integrated with the EximeeBPMS Spring Boot Starter in
+order to make testing processes in your Spring Boot application easier.</p><h3 id=using-assertions-with-context-caching>Using Assertions with Context Caching</h3><p>Out of the box, the EximeeBPMS Assertions library tries to use the
 default engine or the (single) one that is available. Since when using
 Context Caching multiple engines are used in different contexts, binding
-the correct Process Engine to the Camunda Assertions library is required
+the correct Process Engine to the EximeeBPMS Assertions library is required
 for both caching and assertions to work correctly. This can be done
 through the following initialization code in the test class:</p><pre><code class=language-java>  @Autowired
   ProcessEngine processEngine;  
@@ -61,6 +61,6 @@ through the following initialization code in the test class:</p><pre><code class
   }
 </code></pre><p>This needs to be done in addition to the <em>Unique Process
 Engine/Application names</em> requirement described in the
-<a href=#using-unique-process-engine-application-names>section above</a>.</p></div></div></div><div class=page-toc style=display:none><h3>On this Page:</h3><nav id=TableOfContents><ul><li><a href=#developing>Developing</a><ul><li><a href=#spring-developer-tools-and-classloading>Spring Developer Tools and Classloading</a></li></ul></li><li><a href=#testing>Testing</a><ul><li><a href=#context-caching-with-process-engines>Context Caching with Process Engines</a></li><li><a href=#using-unique-process-engine-application-names>Using unique Process Engine/Application names</a></li><li><a href=#camunda-assertions>Camunda Assertions</a><ul><li><a href=#using-assertions-with-context-caching>Using Assertions with Context Caching</a></li></ul></li></ul></li></ul></nav><div class=docs-banner style=display:none><blockquote><p>We are looking for talented people.</p><p>Check out our <a href=https://camunda.com/career/>open positions</a>.</p></blockquote></div></div><footer class=page-footer><div class=row><div class=col-xs-12><p class=pull-right><a href=# target=_self>Back to top</a></p><p><a href=http://camunda.org>camunda.org</a> and <a href=/eximeebpms-docs/manual/>docs.camunda.org</a> are both part of Camunda
+<a href=#using-unique-process-engine-application-names>section above</a>.</p></div></div></div><div class=page-toc style=display:none><h3>On this Page:</h3><nav id=TableOfContents><ul><li><a href=#developing>Developing</a><ul><li><a href=#spring-developer-tools-and-classloading>Spring Developer Tools and Classloading</a></li></ul></li><li><a href=#testing>Testing</a><ul><li><a href=#context-caching-with-process-engines>Context Caching with Process Engines</a></li><li><a href=#using-unique-process-engine-application-names>Using unique Process Engine/Application names</a></li><li><a href=#eximeebpms-assertions>EximeeBPMS Assertions</a><ul><li><a href=#using-assertions-with-context-caching>Using Assertions with Context Caching</a></li></ul></li></ul></li></ul></nav><div class=docs-banner style=display:none><blockquote><p>We are looking for talented people.</p><p>Check out our <a href=https://camunda.com/career/>open positions</a>.</p></blockquote></div></div><footer class=page-footer><div class=row><div class=col-xs-12><p class=pull-right><a href=# target=_self>Back to top</a></p><p><a href=http://camunda.org>camunda.org</a> and <a href=/eximeebpms-docs/manual/>docs.camunda.org</a> are both part of Camunda
 <span class=splitter>|</span>
 Built by <a href=http://www.camunda.com>camunda</a> and contributors &mdash; <a href=https://camunda.com/legal/privacy/>Privacy Statement</a> &mdash; camunda Services GmbH &copy; 2025</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/3.0/><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/3.0/80x15.png></a> The content on this site is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/3.0/>Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p></div></div></footer></div><script type=text/javascript src=/eximeebpms-docs/manual/js/docs.5475e58434acb556d620a23530a5e7d810d99614ce0019dfc36d72ba6700b3c9.js integrity="sha256-VHXlhDSstVbWIKI1MKXn2BDZlhTOABnfw21yumcAs8k="></script><script type=text/javascript>var _gaq=_gaq||[];var pluginUrl='//www.google-analytics.com/plugins/ga/inpage_linkid.js';_gaq.push(['_require','inpage_linkid',pluginUrl]);_gaq.push(['_setAccount','UA-39060941-1']);_gaq.push(['_setDomainName','camunda.org']);_gaq.push(['_trackPageview']);(function(){var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;ga.src=('https:'==document.location.protocol?'https://ssl':'http://www')+'.google-analytics.com/ga.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);})();</script><script type=text/javascript id=hs-script-loader async defer src=//js.hs-scripts.com/4513465.js></script></body></html>
