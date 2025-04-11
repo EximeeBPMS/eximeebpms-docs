@@ -1,5 +1,5 @@
 ---
-baseURL: "/eximeebpms-docs/enterprise/"
+baseURL: "/enterprise/"
 languageCode: "en-us"
 title: "EximeeBPMS Enterprise"
 themesDir: "../themes"
@@ -11,24 +11,24 @@ blackfriday:
   plainIDAnchors: true
 
 params:
-  canonicalBasePath: "https://eximeebpms.github.io/eximeebpms-docs"
+  canonicalBasePath: "https://docs.eximeebpms.org"
   sections:
     - id: "get-started"
       name: "Get Started"
-      url: "/eximeebpms-docs/get-started"
+      url: "/get-started"
     - id: "manual"
       name: "Manual"
-      url: "/eximeebpms-docs/manual"
+      url: "/manual"
     - id: "enterprise"
       name: "Enterprise"
-      url: "/eximeebpms-docs/enterprise"
+      url: "/enterprise"
     - id: "security"
       name: "Security"
-      url: "/eximeebpms-docs/security"
+      url: "/security"
   section:
     id: "enterprise"
   github:
-    repositoryName: "EximeeBPMS/eximeebpms-docs"
+    repositoryName: "EximeeBPMS"
     branch: "master/enterprise"
 
 outputs:

@@ -22,10 +22,10 @@ project. It then shows how to configure and build a new DMN engine instance.
 
 The EximeeBPMS DMN engine is released to Maven Central.
 
-Start by importing the [`eximeebpms-engine-dmn` BOM](/eximeebpms-docs/get-started/apache-maven/#camunda-dmn-engine-bom)
+Start by importing the [`eximeebpms-engine-dmn` BOM](/get-started/apache-maven/#camunda-dmn-engine-bom)
 to ensure correct dependency management.
 
-Next, include the [`eximeebpms-engine-dmn`](/eximeebpms-docs/get-started/apache-maven/#camunda-dmn)
+Next, include the [`eximeebpms-engine-dmn`](/get-started/apache-maven/#camunda-dmn)
 artifact in the `dependencies` section.
 
 # Building a DMN Engine
