@@ -137,7 +137,7 @@ The changes include:
   
 # Camunda DMN Engine Migration
 
-The **Camunda DMN Engine** is another migration to the `camunda-bpm-platform` repository happening in version 7.12.0. The DMN Engine migration doesn't require any adjustments. However, any contributions to the DMN Engine needs to be addressed to the [camunda-bpm-platform repository](https://github.com/camunda/camunda-bpm-platform/tree/master/engine-dmn).
+The **Camunda DMN Engine** is another migration to the `camunda-bpm-platform` repository happening in version 7.12.0. The DMN Engine migration doesn't require any adjustments. However, any contributions to the DMN Engine needs to be addressed to the [camunda-bpm-platform repository](https://github.com/EximeeBPMS/eximeebpms/tree/master/engine-dmn).
 
 # Task Lifecycle State and Task Events
 

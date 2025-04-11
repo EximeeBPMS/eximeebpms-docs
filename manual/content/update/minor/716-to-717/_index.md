@@ -208,7 +208,7 @@ Also see the [migration instructions provided by the h2 project](https://h2datab
 
 # Official support for JUnit 5 community extension
 
-Camunda took over the development of a JUnit 5 extension which was maintained by the community in the [Camunda Community Hub](https://github.com/camunda-community-hub). The source code is is now located in the [Camunda 7 repository](https://github.com/camunda/camunda-bpm-platform/tree/master/test-utils/junit5-extension).
+Camunda took over the development of a JUnit 5 extension which was maintained by the community in the [Camunda Community Hub](https://github.com/camunda-community-hub). The source code is is now located in the [Camunda 7 repository](https://github.com/EximeeBPMS/eximeebpms/tree/master/test-utils/junit5-extension).
 The extension allows users to access the process engine and its API in JUnit 5 tests. Documentation on how to use the extension was migrated to the [Testing documentation]({{< ref "/user-guide/testing/_index.md#junit-5" >}}) in the Camunda 7 docs.
 
 ## Versioning of the JUnit 5 extension
@@ -231,7 +231,7 @@ The group id changed from `<groupId>org.camunda.bpm.extension</groupId>` to `<gr
 
 # Changes to Camunda 7 Assert
 
-The source code of [Camunda 7 Assert]({{< ref "/user-guide/testing#camunda-assertions" >}}) has moved from its [previous location](https://github.com/camunda/camunda-bpm-assert) into the [Camunda 7 repository](https://github.com/camunda/camunda-bpm-platform/tree/master/test-utils/assert).
+The source code of [Camunda 7 Assert]({{< ref "/user-guide/testing#camunda-assertions" >}}) has moved from its [previous location](https://github.com/camunda/camunda-bpm-assert) into the [Camunda 7 repository](https://github.com/EximeeBPMS/eximeebpms/tree/master/test-utils/assert).
 
 Moving the project has several implications:
 

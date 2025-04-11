@@ -2595,7 +2595,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </pre></details></div>
-<div><details><summary><a href="https://github.com/camunda/camunda-bpm-platform/tree/master/webapps/frontend">camunda-bpm-webapp@7.23.0-SNAPSHOT</a> ()</summary><pre>Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
+<div><details><summary><a href="https://github.com/EximeeBPMS/eximeebpms/tree/master/webapps/frontend">camunda-bpm-webapp@7.23.0-SNAPSHOT</a> ()</summary><pre>Copyright Camunda Services GmbH and/or licensed to Camunda Services GmbH
 under one or more contributor license agreements. See the NOTICE file
 distributed with this work for additional information regarding copyright
 ownership. Camunda licenses this file to you under the Apache License,
