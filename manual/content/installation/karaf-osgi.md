@@ -14,4 +14,4 @@ menu:
 
 # Community Edition
 
-If you want to run Camunda with Karaf / OSGi, you can find the corresponding distributions on [GitHub](https://github.com/EximeeBPMS/eximeebpms-osgi/releases).
+If you want to run EximeeBpms with Karaf / OSGi, you can find the corresponding distributions on [GitHub](https://github.com/EximeeBPMS/eximeebpms-osgi/releases).
