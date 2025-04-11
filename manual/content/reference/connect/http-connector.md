@@ -10,7 +10,7 @@ menu:
 
 ---
 
-In Camunda Connect a `Connectors` class exists which automatically detects
+In EximeeBPMS Connect a `Connectors` class exists which automatically detects
 every connector in the classpath. It can be used to get the HTTP connector
 instance by its connector ID, which is `http-connector`.
 
@@ -21,7 +21,7 @@ HttpConnector http = Connectors.getConnector(HttpConnector.ID);
 
 # Configure Apache HTTP Client
 
-Camunda Connect HTTP client uses the Apache HTTP client to make HTTP requests. Accordingly, it supports the same configuration options.
+EximeeBPMS Connect HTTP client uses the Apache HTTP client to make HTTP requests. Accordingly, it supports the same configuration options.
 
 ## Default Configuration
 
@@ -77,7 +77,7 @@ A simple GET request:
 ```java
 http.createRequest()
   .get()
-  .url("http://camunda.org")
+  .url("http://eximeebpms.org")
   .execute();
 ```
 
@@ -86,7 +86,7 @@ A POST request with a content type and payload set:
 ```java
 http.createRequest()
   .post()
-  .url("http://camunda.org")
+  .url("http://eximeebpms.org")
   .contentType("text/plain")
   .payload("Hello World!")
   .execute();
@@ -105,7 +105,7 @@ available.
 HttpResponse response = http.createRequest()
   .get()
   .header("Accept", "application/json")
-  .url("http://camunda.org")
+  .url("http://eximeebpms.org")
   .execute();
 ```
 
@@ -118,7 +118,7 @@ To activate the handling of these errors without additional scripting, set the `
 HttpResponse response = http.createRequest()
   .get()
   .configOption("throw-http-error", "TRUE")
-  .url("http://camunda.org")
+  .url("http://eximeebpms.org")
   .execute();
 ```
 
@@ -156,7 +156,7 @@ This can be used as follows:
 ```java
 HttpRequest request = http.createRequest();
 request.setRequestParameter("method", "GET");
-request.setRequestParameter("url", "http://camunda.org");
+request.setRequestParameter("url", "http://eximeebpms.org");
 request.setRequestParameter("payload", "hello world!");
 ```
 
