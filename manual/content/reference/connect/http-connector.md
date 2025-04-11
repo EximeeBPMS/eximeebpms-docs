@@ -32,12 +32,12 @@ If you want to reconfigure the client going beyond the default configuration opt
 a new connector configurator.
 
 ```java
-package org.camunda.connect.example;
+package org.eximeebpms.connect.example;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.camunda.connect.httpclient.impl.AbstractHttpConnector;
-import org.camunda.connect.spi.ConnectorConfigurator;
+import org.eximeebpms.connect.httpclient.impl.AbstractHttpConnector;
+import org.eximeebpms.connect.spi.ConnectorConfigurator;
 
 public class HttpConnectorConfigurator implements ConnectorConfigurator<HttpConnector> {
 
@@ -57,12 +57,12 @@ public class HttpConnectorConfigurator implements ConnectorConfigurator<HttpConn
 ```
 
 To enable auto detection of your new configurator please add a file called
-`org.camunda.connect.spi.ConnectorConfigurator` to your
+`org.eximeebpms.connect.spi.ConnectorConfigurator` to your
 `resources/META-INF/services` directory with class name as content. For more
 information see the [extending Connect]({{< ref "/reference/connect/extending-connect.md" >}}) section.
 
 ```
-org.camunda.connect.example.HttpConnectorConfigurator
+org.eximeebpms.connect.example.HttpConnectorConfigurator
 ```
 
 # Requests
