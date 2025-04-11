@@ -1,5 +1,5 @@
 ---
-baseURL: "/manual/"
+baseURL: "/eximeebpms-docs/manual/"
 languageCode: "en-us"
 title: "EximeeBPMS documentation "
 themesDir: "../themes"
@@ -15,16 +15,16 @@ params:
   sections:
     - id: "get-started"
       name: "Get Started"
-      url: "/get-started"
+      url: "/eximeebpms-docs/get-started"
     - id: "manual"
       name: "Manual"
-      url: "/manual"
+      url: "/eximeebpms-docs/manual"
     - id: "enterprise"
       name: "Enterprise"
-      url: "/enterprise"
+      url: "/eximeebpms-docs/enterprise"
     - id: "security"
       name: "Security"
-      url: "/security"
+      url: "/eximeebpms-docs/security"
   section:
     id: "manual"
     version: "1.0.0"
@@ -32,7 +32,7 @@ params:
     versions:
       - "1.0.0"
   github:
-    repositoryName: "EximeeBPMS"
+    repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/manual"
 
 outputs:
