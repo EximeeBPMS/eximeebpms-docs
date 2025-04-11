@@ -3,7 +3,7 @@ baseURL: "/eximeebpms-docs/get-started/"
 languageCode: "en-us"
 title: "Getting started with EximeeBPMS"
 themesDir: "../themes"
-theme: "eximiee"
+theme: "eximee"
 
 relativeURLs: false
 

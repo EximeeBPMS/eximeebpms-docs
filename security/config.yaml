@@ -3,7 +3,7 @@ baseURL: "/eximeebpms-docs/security/"
 languageCode: "en-us"
 title: "Product Security Guide"
 themesDir: "../themes"
-theme: "eximiee"
+theme: "eximee"
 
 relativeURLs: false
 
