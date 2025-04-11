@@ -92,8 +92,7 @@ Here are some sample JDBC urls:
 
 ### Business Key
 
-Since the release of Camunda 7.0.0-alpha9, the unique constraint for the business key is removed in the runtime and history tables and the database schema create and drop scripts.
-If you rely on the constraint, you can add it manually to your schema by issuing following sql statements:
+The unique constraint on the business key has been removed from both runtime and history tables, as well as from the database schema creation and deletion scripts. If your solution requires this constraint, you can manually add it by executing the following sql statements:
 
 DB2
 
