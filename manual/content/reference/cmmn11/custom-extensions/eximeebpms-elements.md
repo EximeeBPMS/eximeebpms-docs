@@ -34,21 +34,21 @@ The following elements are extension elements for the `camunda` namespace `http:
     <td></td>
     <td><code>class</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#class" >}}">camunda:class</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#class" >}}">camunda:class</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>expression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#expression" >}}">camunda:expression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#expression" >}}">camunda:expression</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>delegateExpression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
     </td>
   </tr>
   <tr>
@@ -77,8 +77,8 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#field" >}}">camunda:field</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#script" >}}">camunda:script</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#field" >}}">camunda:field</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#script" >}}">camunda:script</a>
     </td>
   </tr>
 </table>
@@ -113,7 +113,7 @@ The following elements are extension elements for the `camunda` namespace `http:
 <tr>
   <th>Parent elements</th>
   <td colspan="2">
-    <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#field" >}}">camunda:field</a>
+    <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#field" >}}">camunda:field</a>
   </td>
 </tr>
 <tr>
@@ -159,15 +159,15 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Parent elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">camunda:variableListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">camunda:variableListener</a>,
       camunda:caseExecutionListener
     </td>
   </tr>
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#expression" >}}">camunda:expression</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#string" >}}">camunda:string</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#expression" >}}">camunda:expression</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#string" >}}">camunda:string</a>
     </td>
   </tr>
 </table>
@@ -335,7 +335,7 @@ The following elements are extension elements for the `camunda` namespace `http:
     <td></td>
     <td><code>resource</code></td>
     <td>
-      equivalent to <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#resource" >}}">
+      equivalent to <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#resource" >}}">
       camunda:resource</a>
     </td>
   </tr>
@@ -354,7 +354,7 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Parent elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">
         camunda:variableListener</a>,
       camunda:caseExecutionListener
     </td>
@@ -398,7 +398,7 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Parent elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#field" >}}">camunda:field</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#field" >}}">camunda:field</a>
     </td>
   </tr>
   <tr>
@@ -429,21 +429,21 @@ The following elements are extension elements for the `camunda` namespace `http:
     <td></td>
     <td><code>class</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#class" >}}">camunda:class</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#class" >}}">camunda:class</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>expression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#expression" >}}">camunda:expression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#expression" >}}">camunda:expression</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>delegateExpression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
     </td>
   </tr>
   <tr>
@@ -467,8 +467,8 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#field" >}}">camunda:field</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#script" >}}">camunda:script</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#field" >}}">camunda:field</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#script" >}}">camunda:script</a>
     </td>
   </tr>
 </table>
@@ -493,21 +493,21 @@ The following elements are extension elements for the `camunda` namespace `http:
     <td></td>
     <td><code>class</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#class" >}}">camunda:class</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#class" >}}">camunda:class</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>expression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#expression" >}}">camunda:expression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#expression" >}}">camunda:expression</a>
     </td>
   </tr>
   <tr>
     <td></td>
     <td><code>delegateExpression</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#delegateexpression" >}}">camunda:delegateExpression</a>
     </td>
   </tr>
   <tr>
@@ -535,8 +535,8 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#field" >}}">camunda:field</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#script" >}}">camunda:script</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#field" >}}">camunda:field</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#script" >}}">camunda:script</a>
     </td>
   </tr>
 </table>
@@ -554,7 +554,7 @@ The following elements are extension elements for the `camunda` namespace `http:
     <th>Attributes</th>
     <td><code>variableName</code></td>
     <td>
-      see <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#variablename" >}}">camunda:variableName
+      see <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#variablename" >}}">camunda:variableName
     </td>
   </tr>
   <tr>
@@ -572,7 +572,7 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Child element</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variableevent" >}}">camunda:variableEvent</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variableevent" >}}">camunda:variableEvent</a>
     </td>
   </tr>
 </table>
@@ -595,7 +595,7 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Parent element</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variableonpart" >}}">VariableOnPart</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variableonpart" >}}">VariableOnPart</a>
     </td>
   </tr>
 </table>

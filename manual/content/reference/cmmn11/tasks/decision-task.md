@@ -144,18 +144,18 @@ To evaluate a referenced decision, the integration of the Camunda DMN engine is 
   <tr>
     <th>Attributes</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#decisionbinding" >}}">camunda:decisionBinding</a>,
-            <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#decisiontenantid" >}}">camunda:decisionTenantId</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#decisionversion" >}}">camunda:decisionVersion</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#mapdecisionresult" >}}">camunda:mapDecisionResult</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#resultvariable" >}}">camunda:resultVariable</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#decisionbinding" >}}">camunda:decisionBinding</a>,
+            <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#decisiontenantid" >}}">camunda:decisionTenantId</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#decisionversion" >}}">camunda:decisionVersion</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#mapdecisionresult" >}}">camunda:mapDecisionResult</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#resultvariable" >}}">camunda:resultVariable</a>
     </td>
   </tr>
   <tr>
     <th>Extension Elements</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">camunda:variableListener</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">camunda:variableListener</a>
     </td>
   </tr>
   <tr>
