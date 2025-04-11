@@ -283,7 +283,7 @@ the AssertJ dependency will be present in your project already.
 Each version of EximeeBPMS Assert is bound to a specific version of EximeeBPMS and AssertJ. Only these default combinations are recommended (and supported) by EximeeBPMS.
 Nevertheless, each version of EximeeBPMS Assert can be combined with newer patch versions of the EximeeBPMS engine, though such combinations must be thoroughly tested before being used in production.
 All versions prior to 3.0.0 belong to the community extension are not part of the official EximeeBPMS product support.
-With Camunda 7.17.0 the project was moved into the [Camunda 7 repository](https://github.com/EximeeBPMS/eximeebpms) and will use the same versioning as Camunda 7 in the future.
+With Camunda 7.17.0 the project was moved into the [Camunda 7 repository](https://github.com/camunda/camunda-bpm-platform) and will use the same versioning as Camunda 7 in the future.
 
 <table class="table table-striped">
   <tr>
