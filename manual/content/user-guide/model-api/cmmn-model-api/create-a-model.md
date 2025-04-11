@@ -22,7 +22,7 @@ to the newly created empty model instance.
 
 ```java
 Definitions definitions = modelInstance.newInstance(Definitions.class);
-definitions.setTargetNamespace("http://camunda.org/examples");
+definitions.setTargetNamespace("http://camunda.com/bpmn/examples");
 modelInstance.setDefinitions(definitions);
 ```
 

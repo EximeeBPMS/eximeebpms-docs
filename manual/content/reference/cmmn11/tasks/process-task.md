@@ -198,18 +198,18 @@ If the business key of the called process instance should be different than the 
   <tr>
     <th>Attributes</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#processbinding" >}}">camunda:processBinding</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#processtenantid" >}}">camunda:processTenantId</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#processversion" >}}">camunda:processVersion</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#processbinding" >}}">camunda:processBinding</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#processtenantid" >}}">camunda:processTenantId</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#processversion" >}}">camunda:processVersion</a>
     </td>
   </tr>
   <tr>
     <th>Extension Elements</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#in" >}}">camunda:in</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#out" >}}">camunda:out</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">camunda:variableListener</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#in" >}}">camunda:in</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#out" >}}">camunda:out</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">camunda:variableListener</a>
     </td>
   </tr>
   <tr>
