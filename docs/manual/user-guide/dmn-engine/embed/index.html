@@ -13,8 +13,8 @@
 add the <code>eximeebpms-engine-dmn</code> artifact to the classpath of the application and then
 configure and build a decision engine instance. This section provides the
 required maven coordinates to add the DMN engine as a dependency to your
-project. It then shows how to configure and build a new DMN engine instance.</p><h1 id=maven-coordinates>Maven Coordinates</h1><p>The EximeeBPMS DMN engine is released to Maven Central.</p><p>Start by importing the <a href=/eximeebpms-docs/get-started/apache-maven/#camunda-dmn-engine-bom><code>eximeebpms-engine-dmn</code> BOM</a>
-to ensure correct dependency management.</p><p>Next, include the <a href=/eximeebpms-docs/get-started/apache-maven/#camunda-dmn><code>eximeebpms-engine-dmn</code></a>
+project. It then shows how to configure and build a new DMN engine instance.</p><h1 id=maven-coordinates>Maven Coordinates</h1><p>The EximeeBPMS DMN engine is released to Maven Central.</p><p>Start by importing the <a href=/get-started/apache-maven/#camunda-dmn-engine-bom><code>eximeebpms-engine-dmn</code> BOM</a>
+to ensure correct dependency management.</p><p>Next, include the <a href=/get-started/apache-maven/#camunda-dmn><code>eximeebpms-engine-dmn</code></a>
 artifact in the <code>dependencies</code> section.</p><h1 id=building-a-dmn-engine>Building a DMN Engine</h1><p>To build a new DMN engine, create a DMN engine configuration.
 Configure it as needed and then build a new DMN engine from it.</p><pre><code class=language-java>// create default DMN engine configuration
 DmnEngineConfiguration configuration = DmnEngineConfiguration
