@@ -11,7 +11,7 @@ blackfriday:
   plainIDAnchors: true
 
 params:
-  canonicalBasePath: "https://docs.eximeebpms.org"
+  canonicalBasePath: "https://eximeebpms.github.io/eximeebpms-docs"
   sections:
     - id: "get-started"
       name: "Get Started"
