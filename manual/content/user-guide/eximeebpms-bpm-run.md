@@ -181,7 +181,7 @@ Deployments via the {{< restref page="createDeployment" text="REST API" tag="Dep
 Just like all the other distros, you can tailor EximeeBPMS Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.
 
 {{< note title="Note:" class="info" >}}
-EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/camunda/camunda-bpm-platform/tree/master/spring-boot-starter). 
+EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/EximeeBPMS/eximeebpms/tree/master/spring-boot-starter). 
 All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the eximeebpms-spring-boot-starter are available to customize EximeeBPMS Run.
 {{< /note >}}
 
