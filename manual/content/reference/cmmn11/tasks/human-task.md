@@ -171,22 +171,22 @@ make sure the form keys are initialized.
   <tr>
     <th>Attributes</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#assignee" >}}">camunda:assignee</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#candidategroups" >}}">camunda:candidateGroups</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#candidateusers" >}}">camunda:candidateUsers</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#duedate" >}}">camunda:dueDate</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#formkey" >}}">camunda:formKey</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#priority" >}}">camunda:priority</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#assignee" >}}">camunda:assignee</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#candidategroups" >}}">camunda:candidateGroups</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#candidateusers" >}}">camunda:candidateUsers</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#duedate" >}}">camunda:dueDate</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#formkey" >}}">camunda:formKey</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#priority" >}}">camunda:priority</a>
     </td>
   </tr>
   <tr>
     <th>Extension Elements</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#in" >}}">camunda:in</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#out" >}}">camunda:out</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#tasklistener" >}}">camunda:taskListener</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">camunda:variableListener</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#in" >}}">camunda:in</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#out" >}}">camunda:out</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#tasklistener" >}}">camunda:taskListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">camunda:variableListener</a>
     </td>
   </tr>
   <tr>

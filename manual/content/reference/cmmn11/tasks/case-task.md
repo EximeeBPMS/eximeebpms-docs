@@ -200,18 +200,18 @@ If the business key of the called case instance should be different from the bus
   <tr>
     <th>Attributes</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#casebinding" >}}">camunda:caseBinding</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#casetenantid" >}}">camunda:caseTenantId</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-attributes.md#caseversion" >}}">camunda:caseVersion</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#casebinding" >}}">camunda:caseBinding</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#casetenantid" >}}">camunda:caseTenantId</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-attributes.md#caseversion" >}}">camunda:caseVersion</a>
     </td>
   </tr>
   <tr>
     <th>Extension Elements</th>
     <td>
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#in" >}}">camunda:in</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#out" >}}">camunda:out</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
-      <a href="{{< ref "/reference/cmmn11/custom-extensions/camunda-elements.md#variablelistener" >}}">camunda:variableListener</a>
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#in" >}}">camunda:in</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#out" >}}">camunda:out</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#caseexecutionlistener" >}}">camunda:caseExecutionListener</a>,
+      <a href="{{< ref "/reference/cmmn11/custom-extensions/eximeebpms-elements.md#variablelistener" >}}">camunda:variableListener</a>
     </td>
   </tr>
   <tr>
