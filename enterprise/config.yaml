@@ -3,7 +3,7 @@ baseURL: "/eximeebpms-docs/enterprise/"
 languageCode: "en-us"
 title: "EximeeBPMS Enterprise"
 themesDir: "../themes"
-theme: "eximiee"
+theme: "eximee"
 
 relativeURLs: false
 
