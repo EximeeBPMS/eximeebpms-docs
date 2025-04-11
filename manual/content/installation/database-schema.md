@@ -103,9 +103,6 @@ Updating to a newer Camunda 7 minor version also requires a database schema upda
 If you are switching from one option to another, you might need to perform additional preparation work to update reliably.
 The individual sections on the mechanisms will provide details if necessary.
 
-In case you are just updating to a newer patch level of your Camunda 7 installation, a schema update might not be necessary.
-Section [patch level update](#patch-level-update) provides details on how this can be achieved depending on the mechanism you want to apply.
-
 ## Liquibase update
 
 This section assumes you are already set up with Liquibase as described in the [installation section](#liquibase-installation).
@@ -123,9 +120,6 @@ In case you are using a [pre-packaged distribution], the Liquibase resources alr
 1. Run Liquibase's [update command](https://docs.liquibase.com/commands/community/update.html) referencing the new `camunda-changelog.xml` of version `$Y`.
 Liquibase takes care of determining the necessary changes and applying them to your database according to the new changelog.
 You can pass on the connection details to your database instance via parameters as described in the Liquibase documentation or [create a properties file](https://docs.liquibase.com/workflows/liquibase-community/creating-config-properties.html).
-1. We highly recommend updating to the latest patch version that is within the bounds of the new minor version you are updating to (`$Y`).
-
-    _Attention_: This step is only relevant when you are using an enterprise version of Camunda 7, e.g., `7.16.X` where `X > 0`.
 
 {{< note title="Do I need to apply every minor version if I missed a few?" class="warning" >}}
 Liquibase takes care of determining which upgrade scripts to apply automatically according to the changelog of your target version (`$Y`).
@@ -170,21 +164,13 @@ The naming pattern is `$DATABASENAME_engine_$X_patch_*.sql`.
 1. Execute the corresponding update scripts named `$DATABASENAME_engine_$X_to_$Y.sql`.
 The scripts update the database from one minor version to the next and change the underlying database structure. So make sure to backup your database in case there are any failures during the update process.
 
-1. We highly recommend checking for any existing patch scripts for your database that are within the bounds of the new minor version you are updating to (`$Y`). Execute them in ascending order by version number. The procedure is the same as in step 1, only for the new minor version.
-
-    _Attention_: This step is only relevant when you are using an enterprise version of Camunda 7, e.g., `7.16.X` where `X > 0`.
-
 {{< note title="Do I need to apply every minor version if I missed a few?" class="warning" >}}
 If you need to apply multiple minor versions, you MUST execute the database alteration scripts in minor version order as they are NOT cumulative.
 {{< /note >}}
 
 ## Patch level update
 
-This section explains how to perform a [patch-level update]({{< ref "/update/patch-level.md" >}}) for your database schema. The *patch level* is the version number "after the second dot". For example, update from `7.14.2` to `7.14.3`.
-
-{{< enterprise >}}
-Please note that Patch Level Updates are only provided to enterprise customers. They are not available in the community edition.
-{{< /enterprise >}}
+This section explains how to perform a patch-level update for your database schema. The *patch level* is the version number "after the second dot". For example, update from `7.14.2` to `7.14.3`.
 
 Between patch levels, the structure of the database schema does not change. The database structure of all patch releases is backward compatible with the corresponding minor version. For example, the database schema of all `7.14.x` versions are backward compatible with the `7.14.0` schema.
 

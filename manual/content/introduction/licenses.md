@@ -17,15 +17,11 @@ EximeeBPMS is a Java-based framework.
 
 ## Community Edition
 
-If you are using the community edition, the entire software is provided under various open source licenses (mainly Apache 2.0 and MIT). Which components are published under an open source license is clearly stated in the licensing header of a source file or a LICENSE file present in the root directory of the software source code repository.
-
-## Enterprise Edition
-
-If you are using the Enterprise Platform, additionally to the Community components, the software contains additional Enterprise components that are protected by intellectual property laws and provided to you under a license agreement containing restrictions on use and disclosure. Except as expressly permitted in your license agreement or allowed by law, you may not use, copy, reproduce, translate, broadcast, modify, license, transmit, distribute, exhibit, perform, publish the Enterprise components, or display any part in any form, or by any means. Reverse engineering, disassembly, or decompilation of the Enterprise components, unless required by law for interoperability, is prohibited.
+The entire software is provided under various open source licenses (mainly Apache 2.0 and MIT). Which components are published under an open source license is clearly stated in the licensing header of a source file or a LICENSE file present in the root directory of the software source code repository.
 
 ## Third-Party Libraries
 
-EximeeBPMS (Community and Enterprise Edition) includes libraries developed by third parties. See the following resources:
+EximeeBPMS (Community Edition) includes libraries developed by third parties. See the following resources:
 
 * [Third-Party Libraries][third-party-libraries]: An overview of the dependencies EximeeBPMS distributes. Additionally, this page points out particularly important third-party licenses to be aware of.
 * [HTML License Book EximeeBPMS]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}}): A list of all dependencies EximeeBPMS distributes with the EximeeBPMS artifacts, including their licenses and notices.

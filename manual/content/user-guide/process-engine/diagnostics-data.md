@@ -47,7 +47,7 @@ The "General Data" category contains information about the process engine:
 * Installation - an id that is stored as process engine configuration property
 * Product name - the name of the product (i.e., `EximeeBPMS BPM Runtime`)
 * Product version - the version of the process engine (i.e., `7.X.Y`)
-* Product edition - the edition of the product (i.e., either `community` or `enterprise`)
+* Product edition - the edition of the product
 * License key - the customer name, expiry date and enabled features as well as the raw license info
 
 License key data does not contain any protected data like the signature. License data is only transmitted if any of the following holds true
@@ -87,7 +87,7 @@ The counts are collected from the start of the engine or the last reported time 
     "product": {
       "name": "EximeeBPMS BPM Runtime",
       "version": "7.14.0",
-      "edition": "enterprise",
+      "edition": "community",
       "internals": {
         "database": {  
           "vendor": "h2",
