@@ -1,6 +1,6 @@
 ---
 
-title: 'Camunda Connector Reference'
+title: 'EximeeBPMS Connector Reference'
 weight: 70
 layout: "single"
 
@@ -12,13 +12,13 @@ menu:
 
 ---
 
-Camunda Connect provides a simple API for connecting HTTP services and other
+EximeeBPMS Connect provides a simple API for connecting HTTP services and other
 things. It aims at two usage scenarios: usage in a generic system such as the
-Camunda 7 process engine and standalone usage via API.
+EximeeBPMS process engine and standalone usage via API.
 
 # Connectors
 
-Camunda Connect provides a HTTP and a SOAP HTTP connector. If you want to
+EximeeBPMS Connect provides a HTTP and a SOAP HTTP connector. If you want to
 add an own connector to Connect please have a look at the [extending Connect]({{< ref "/reference/connect/extending-connect.md" >}})
 section. This section also describes the usage of a `ConnectorConfigurator` to
 configure the connector instances.
@@ -36,21 +36,21 @@ connector.addRequestInterceptor(interceptor).createRequest();
 Connect can be used in any Java-based application by adding the following maven
 dependency to your `pom.xml` file:
 
-{{< note title="Camunda BOM" class="info" >}}
-If you use other Camunda 7 projects please import the
-[Camunda BOM](/get-started/apache-maven/)
-to ensure correct versions for every Camunda project.
+{{< note title="EximeeBPMS BOM" class="info" >}}
+If you use other EximeeBPMS projects please import the
+[EximeeBPMS BOM](/get-started/apache-maven/)
+to ensure correct versions for every EximeeBPMS project.
 {{< /note >}}
 
 ```xml
 <dependencyManagement>
   <dependencies>
     <dependency>
-      <groupId>org.camunda.connect</groupId>
-      <artifactId>camunda-connect-bom</artifactId>
+      <groupId>org.eximeebpms.connect</groupId>
+      <artifactId>eximeebpms-connect-bom</artifactId>
       <scope>import</scope>
       <type>pom</type>
-      <version>${version.camunda}</version>
+      <version>${version.eximeebpms}</version>
     </dependency>
   </dependencies>
 </dependencyManagement>
@@ -59,26 +59,26 @@ to ensure correct versions for every Camunda project.
 ```xml
 <dependencies>
   <dependency>
-    <groupId>org.camunda.connect</groupId>
-    <artifactId>camunda-connect-core</artifactId>
+    <groupId>org.eximeebpms.connect</groupId>
+    <artifactId>eximeebpms-connect-core</artifactId>
   </dependency>
 
   <dependency>
-    <groupId>org.camunda.connect</groupId>
-    <artifactId>camunda-connect-connectors-all</artifactId>
+    <groupId>org.eximeebpms.connect</groupId>
+    <artifactId>eximeebpms-connect-connectors-all</artifactId>
   </dependency>
 </dependencies>
 ```
 
-Camunda Connect is published to [maven central](http://search.maven.org/#search%7Cga%7C1%7Ccamunda-connect).
+EximeeBPMS Connect is published to [maven central](http://search.maven.org/#search%7Cga%7C1%7Ceximeebpms-connect).
 
 {{< note title="Process engine plugin" class="info" >}}
-If you are using Connect in the Camunda 7 process engine, you also need the `camunda-engine-plugin-connect` dependency. For more information, refer to the [Connectors guide]({{< ref "/user-guide/process-engine/connectors.md" >}}).
+If you are using Connect in the EximeeBPMS process engine, you also need the `eximeebpms-engine-plugin-connect` dependency. For more information, refer to the [Connectors guide]({{< ref "/user-guide/process-engine/connectors.md" >}}).
 {{< /note >}}
 
 # Logging
 
-Camunda Connect uses [camunda-commons-logging](https://github.com/camunda/camunda-bpm-platform/tree/master/commons/logging) which itself uses [SLF4J](http://slf4j.org) as
+EximeeBPMS Connect uses [eximeebpms-commons-logging](https://github.com/EximeeBPMS/eximeebpms/tree/camunda-to-eximeebpms/commons/logging) which itself uses [SLF4J](http://slf4j.org) as
 a logging backend. To enable logging a SLF4J implementation has to be part of
 your classpath. For example `slf4j-simple`, `log4j12` or `logback-classic`.
 
