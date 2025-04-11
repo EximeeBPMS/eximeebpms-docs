@@ -10,7 +10,7 @@ menu:
 
 ---
 
-In Camunda Connect a `Connectors` class exists which automatically detects
+In EximeeBPMS Connect a `Connectors` class exists which automatically detects
 every connector in the classpath. It can be used to get the SOAP connector
 instance by its connector ID, which is `soap-http-connector`.
 
@@ -18,7 +18,7 @@ instance by its connector ID, which is `soap-http-connector`.
 SoapHttpConnector soap = Connectors.getConnector(SoapHttpConnector.ID);
 ```
 
-The SOAP connector extends the Camunda Connect HTTP connector which uses
+The SOAP connector extends the EximeeBPMS Connect HTTP connector which uses
 the Apache HTTP client in the default implementation. To read about default and custom client configuration,
 please see the corresponding section in the [HTTP connector docs]({{< ref "/reference/connect/http-connector.md" >}}).
 
@@ -32,7 +32,7 @@ and payload.
 
 ```java
 connector.createRequest()
-  .url("http://camunda.org/soap")
+  .url("http://eximeebpms.org/soap")
   .soapAction("doIt")
   .contentType("application/soap+xml")
   .payload(soap_envelope)
@@ -46,7 +46,7 @@ available.
 
 ```java
 connector.createRequest()
-  .url("http://camunda.org/soap")
+  .url("http://eximeebpms.org/soap")
   .soapAction("doIt")
   .contentType("application/soap+xml")
   .header("Accept", "application/xml")
@@ -88,7 +88,7 @@ This can be used as follows:
 ```java
 HttpRequest request = http.createRequest();
 request.setRequestParameter("method", "GET");
-request.setRequestParameter("url", "http://camunda.org");
+request.setRequestParameter("url", "http://eximeebpms.org");
 request.setRequestParameter("payload", "hello world!");
 ```
 
