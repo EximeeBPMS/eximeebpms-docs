@@ -55,7 +55,7 @@ The name describes the DRG. It is set as the `name` attribute on the `definition
 
 The id is the technical identifier of the DRG. It is set in the `id` attribute on the `definitions` element.
 
-Each DRG should have an unique id when it is [deployed] to Camunda 7.
+Each DRG should have an unique id when it is [deployed] to EximeeBPMS.
 The engine uses the id as the decision requirements definition key of the deployed
 `DecisionRequirementsDefinition`.
 
@@ -124,7 +124,7 @@ It is represented by an `inputData` element inside the `definitions` element.
 </definitions>
 ```
 
-Note that an input data has no execution semantics and is ignored by the Camunda DMN engine.
+Note that an input data has no execution semantics and is ignored by the EximeeBPMS DMN engine.
 
 # Knowledge Source
 
@@ -146,7 +146,7 @@ It is represented by a `knowledgeSource` element inside the `definitions` elemen
 </definitions>
 ```
 
-Note that a knowledge source has no execution semantics and is ignored by the Camunda DMN engine.
+Note that a knowledge source has no execution semantics and is ignored by the EximeeBPMS DMN engine.
 
 
 
