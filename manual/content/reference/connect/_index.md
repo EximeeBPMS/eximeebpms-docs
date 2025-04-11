@@ -78,7 +78,7 @@ If you are using Connect in the EximeeBPMS process engine, you also need the `ex
 
 # Logging
 
-EximeeBPMS Connect uses [eximeebpms-commons-logging](https://github.com/EximeeBPMS/eximeebpms/camunda-to-eximeebpms/commons/logging) which itself uses [SLF4J](http://slf4j.org) as
+EximeeBPMS Connect uses [eximeebpms-commons-logging](https://github.com/EximeeBPMS/eximeebpms/tree/camunda-to-eximeebpms/commons/logging) which itself uses [SLF4J](http://slf4j.org) as
 a logging backend. To enable logging a SLF4J implementation has to be part of
 your classpath. For example `slf4j-simple`, `log4j12` or `logback-classic`.
 
