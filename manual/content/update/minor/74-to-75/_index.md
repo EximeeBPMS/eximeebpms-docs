@@ -105,7 +105,7 @@ If a database other than the default H2 database is used, the following steps mu
 1. Undeploy the current version of the standalone web application
 2. Update the database to the new schema as described in the [database
    update](#database-updates) section
-3. Reconfigure the database as described in the [installation]({{< ref "/installation/standalone-webapplication.md#database-configuration" >}})
+3. Reconfigure the database as described in the [installation]({{< ref "/#database-configuration" >}})
    section
 4. **Important:** The configured history level of the embedded process engine
    was changed to `full` with 7.5.0.
