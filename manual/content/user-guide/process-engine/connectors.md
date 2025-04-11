@@ -46,7 +46,7 @@ The following `connect` artifacts exist:
 # Maven Coordinates
 
 {{< note title="" class="info" >}}
-  Please import the [EximeeBPMS BOM](/eximeebpms-docs/get-started/apache-maven/) to ensure correct versions for every EximeeBPMS project.
+  Please import the [EximeeBPMS BOM](/get-started/apache-maven/) to ensure correct versions for every EximeeBPMS project.
 {{< /note >}}
 
 
