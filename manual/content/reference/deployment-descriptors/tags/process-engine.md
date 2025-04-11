@@ -13,7 +13,7 @@ menu:
 ---
 
 
-The process engine configuration can be placed in both [processes.xml]({{< ref "/reference/deployment-descriptors/descriptors/processes-xml.md" >}}) and the [bpm-platform.xml]({{< ref "/reference/deployment-descriptors/descriptors/bpm-platform-xml.md" >}}) files. If the process engine is configured in either or both of those files, it will be bootstrapped by the Camunda 7 infrastructure and be made available through `BpmPlatform.getProcessEngineService().getProcessEngine("name of process engine")`.
+The process engine configuration can be placed in both [processes.xml]({{< ref "/reference/deployment-descriptors/descriptors/processes-xml.md" >}}) and the [bpm-platform.xml]({{< ref "/reference/deployment-descriptors/descriptors/bpm-platform-xml.md" >}}) files. If the process engine is configured in either or both of those files, it will be bootstrapped by the EximeeBPMS infrastructure and be made available through `BpmPlatform.getProcessEngineService().getProcessEngine("name of process engine")`.
 
 
 # Example
@@ -23,7 +23,7 @@ The following example shows an XML snippet which can be placed in both [processe
 ```xml
 <process-engine name="default">
   <job-acquisition>default</job-acquisition>
-  <configuration>org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
+  <configuration>org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
   <datasource>java:jdbc/ProcessEngine</datasource>
 
   <properties>
