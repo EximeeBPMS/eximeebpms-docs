@@ -76,7 +76,7 @@ Take the following steps to complete the update:
 
 1. Undeploy the current version of the standalone web application.
 2. Update the database to the new schema as described in the [database update](#database-updates) section.
-3. Configure the database as described in the [installation]({{< ref "/installation/standalone-webapplication.md#database-configuration" >}}) section.
+3. Configure the database as described in the [installation]({{< ref "/#database-configuration" >}}) section.
 4. Deploy the new and configured standalone web application to the server.
 
 # Groovy version update
