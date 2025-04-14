@@ -26,8 +26,8 @@ XML element.</p><pre><code class=language-xml>&lt;definitions xmlns=&quot;https:
   &lt;/decision&gt;
 &lt;/definitions&gt;
 </code></pre><h1 id=input-id>Input Id</h1><p>The input id is a unique identifier of the decision table input. It is used by
-Camunda 7 to reference the input in the history of evaluated
-decisions. Therefore, it is required by the Camunda DMN engine. It is set as
+EximeeBPMS to reference the input in the history of evaluated
+decisions. Therefore, it is required by the EximeeBPMS DMN engine. It is set as
 the <code>id</code> attribute of the <code>input</code> XML element.</p><pre><code class=language-xml>&lt;input id=&quot;input1&quot; label=&quot;Season&quot;&gt;
   &lt;inputExpression id=&quot;inputExpression1&quot; typeRef=&quot;string&quot;&gt;
     &lt;text&gt;season&lt;/text&gt;
@@ -80,7 +80,7 @@ Please refer to the <a href=/manual/user-guide/dmn-engine/expressions-and-script
 languages.</p><h1 id=input-variable-name>Input Variable Name</h1><p>When the input expression is evaluated then the return value is stored in a variable.
 The name of the variable can be specified by the <code>camunda:inputVariable</code>
 <a href=/manual/reference/dmn/custom-extensions/eximeebpms-attributes/#inputvariable>extension attribute</a> on the <code>input</code> element. By default, the
-name is <code>cellInput</code>.</p><p>To use the attribute you have to define the Camunda DMN namespace
+name is <code>cellInput</code>.</p><p>To use the attribute you have to define the EximeeBPMS DMN namespace
 <code>xmlns:camunda=&quot;http://camunda.org/schema/1.0/dmn</code> in the XML.</p><pre><code class=language-xml>&lt;definitions id=&quot;definitions&quot;
              name=&quot;definitions&quot;
              xmlns=&quot;https://www.omg.org/spec/DMN/20191111/MODEL/&quot;
