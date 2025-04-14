@@ -43,7 +43,7 @@ Add an End Event named *Payment Received*.
 
 ## Configure the Service Task
 
-There are different ways to [execute service tasks](https://docs.camunda.org/manual/latest/latest/reference/bpmn20/tasks/service-task/) using Camunda Platform. In this guide, we'll use the external [task pattern](https://docs.camunda.org/manual/latest/latest/user-guide/process-engine/external-tasks/).
+There are different ways to [execute service tasks](https://docs.camunda.org/manual/latest/reference/bpmn20/tasks/service-task/) using Camunda Platform. In this guide, we'll use the external [task pattern](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/).
 Open the Properties Panel within the Camunda Modeler and click on the Service Task you just created. Change the Implementation to `External` and use `charge-card` as the Topic.
 
 {{< img src="../img/modeler-step4.png" >}}
@@ -81,7 +81,7 @@ In this quick start, we'll show you how to use Camunda's ready-to-go task client
 If you've never worked with Java before, we recommend using the JavaScript (NodeJS) task client in this tutorial.
 
 {{< note title="Hint" class="info" >}}
-If you prefer a different programming language, you can also use Camunda's [REST API](/manual/latest/latest/user-guide/process-engine/external-tasks/#rest-api) to access API operations via HTTP.
+If you prefer a different programming language, you can also use Camunda's [REST API](/manual/latest/user-guide/process-engine/external-tasks/#rest-api) to access API operations via HTTP.
 {{< /note >}}
 
 ## a) Using Java
@@ -154,7 +154,7 @@ Your pom.xml file of your project should look like this:
 Next, we will create a new ExternalTaskClient which subscribes to the `charge-card` topic.
 
 When the process engine encounters a service task that is configured to be externally handled, it creates an external task instance on which our handler will react.
-We are using [Long Polling](https://docs.camunda.org/manual/latest/latest/user-guide/process-engine/external-tasks/#long-polling-to-fetch-and-lock-external-tasks) in the ExternalTaskClient to make the communication more efficient.
+We are using [Long Polling](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/#long-polling-to-fetch-and-lock-external-tasks) in the ExternalTaskClient to make the communication more efficient.
 
 Next, you need to create a package, e.g., *org.camunda.bpm.getstarted.chargecard* and add a Java class, e.g. *ChargeCardWorker*, to it.
 
@@ -260,7 +260,7 @@ npm install -D open
 Next, we'll create a new ExternalTaskClient that subscribes to the `charge-card` topic.
 
 When the process engine encounters a service task that's configured to be externally handled, it creates an external task instance on which our handler will react.
-We use [Long Polling](https://docs.camunda.org/manual/latest/latest/user-guide/process-engine/external-tasks/#long-polling-to-fetch-and-lock-external-tasks) in the ExternalTaskClient to make the communication more efficient.
+We use [Long Polling](https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/#long-polling-to-fetch-and-lock-external-tasks) in the ExternalTaskClient to make the communication more efficient.
 
 Next, you need to create a new JavaScript file, e.g. `worker.js`, that looks like the following:
 

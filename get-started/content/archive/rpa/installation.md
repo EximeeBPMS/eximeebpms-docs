@@ -72,7 +72,7 @@ start.bat
 ./start.sh
 ```
 
-Learn more about [Installing Camunda Platform](https://docs.camunda.org/manual/latest/latest/installation/).
+Learn more about [Installing Camunda Platform](https://docs.camunda.org/manual/latest/installation/).
 
 # Camunda RPA Bridge
 
@@ -155,7 +155,7 @@ logging.level.org.camunda.bpm.rpa.bridge: DEBUG
 ```
 
 
-Learn more about [configuring the RPA Bridge](https://docs.camunda.org/manual/latest/7.19/user-guide/camunda-bpm-rpa-bridge).
+Learn more about [configuring the RPA Bridge](https://docs.camunda.org/manual/7.19/user-guide/camunda-bpm-rpa-bridge).
 
 # Cawemo Catalog
 

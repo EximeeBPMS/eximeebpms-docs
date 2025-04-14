@@ -13,15 +13,15 @@ menu:
 ---
 
 
-This section describes how you can install Camunda 7 and its components on a vanilla [Apache Tomcat](http://tomcat.apache.org/), if you are not able to use the pre-packaged Tomcat distribution. In addition, download a [Tomcat distribution](https://downloads.camunda.cloud/release/camunda-bpm/tomcat/) or [Enterprise Edition Tomcat distribution](https://downloads.camunda.cloud/enterprise-release/camunda-bpm/tomcat/) to fetch the required Camunda modules.
+This section describes how you can install EximeeBPMS and its components on a vanilla [Apache Tomcat](http://tomcat.apache.org/), if you are not able to use the pre-packaged Tomcat distribution. In addition, download a [Tomcat distribution](https://downloads.camunda.cloud/release/camunda-bpm/tomcat/) to fetch the required EximeeBPMS modules.
 
 {{< note title="Reading the Guide" class="info" >}}
 Throughout this guide we will use a number of variables to denote common path names and constants:
 
 * `$TOMCAT_HOME` points to the main directory of the tomcat server.
 * `$TOMCAT_VERSION` denotes the version of Tomcat server.
-* `$PLATFORM_VERSION` denotes the version of Camunda 7 you want to install or already have installed, e.g. `7.0.0`.
-* `$TOMCAT_DISTRIBUTION` represents the downloaded pre-packaged Camunda 7 distribution for Tomcat, e.g. `camunda-bpm-tomcat-$PLATFORM_VERSION.zip` or `camunda-bpm-tomcat-$PLATFORM_VERSION.tar.gz`.
+* `$PLATFORM_VERSION` denotes the version of EximeeBPMS you want to install or already have installed, e.g. `1.0.0`.
+* `$TOMCAT_DISTRIBUTION` represents the downloaded pre-packaged EximeeBPMS distribution for Tomcat, e.g. `eximeebpms-bpm-tomcat-$PLATFORM_VERSION.zip` or `eximeebpms-bpm-tomcat-$PLATFORM_VERSION.tar.gz`.
 
 {{< /note >}}
 
@@ -43,14 +43,14 @@ The following test scenarios fail on Tomcat 10:
 
 # Setup
 
-Before you can install the Camunda 7 components, you need to perform a number of required setup steps.
+Before you can install the EximeeBPMS components, you need to perform a number of required setup steps.
 
 
 ## Create the Database Schema and Tables
 
 In the default configuration of the distribution, the database schema and all required tables are automatically created in an H2 database when the engine starts up for the first time. If you do not want to use the H2 database, you have to
 
-* Create a database schema for Camunda 7 yourself.
+* Create a database schema for EximeeBPMS yourself.
 * Install the database schema to create all required tables and default indices using our [database schema installation guide]({{< ref "/installation/database-schema.md" >}}).
 
 When you create the tables manually, then you have to configure the engine to **not** create tables at startup by setting the `databaseSchemaUpdate` property to `false` (or, in case you are using Oracle, to `noop`). In Tomcat, this is done in the `bpm-platform.xml`, located in the `$TOMCAT_DISTRIBUTION\server\apache-tomcat-$VERSION\conf\` folder.
@@ -58,12 +58,12 @@ When you create the tables manually, then you have to configure the engine to **
 
 ## Add BPM Bootstrap Server Listener
 
-Add the entry `org.camunda.bpm.container.impl.tomcat.TomcatBpmPlatformBootstrap` as Listener before the `GlobalResourcesLifecycleListener` in your `$TOMCAT_HOME/conf/server.xml`. This class is responsible for starting and stopping Camunda as Tomcat is started and stopped.
+Add the entry `org.eximeebpms.bpm.container.impl.tomcat.TomcatBpmPlatformBootstrap` as Listener before the `GlobalResourcesLifecycleListener` in your `$TOMCAT_HOME/conf/server.xml`. This class is responsible for starting and stopping EximeeBPMS as Tomcat is started and stopped.
 
 ```xml
 <Server port="8005" shutdown="SHUTDOWN">
   ...
-  <Listener className="org.camunda.bpm.container.impl.tomcat.TomcatBpmPlatformBootstrap" />
+  <Listener className="org.eximeebpms.bpm.container.impl.tomcat.TomcatBpmPlatformBootstrap" />
   ...
 ```
 
@@ -104,15 +104,15 @@ Copy the following blocks from `${TOMCAT_DISTRIBUTION}/server/apache-tomcat-${TO
   into `${TOMCAT_HOME}/conf/server.xml`:
 
 ```xml
-     <Resource name="global/camunda-bpm-platform/process-engine/ProcessEngineService!org.camunda.bpm.ProcessEngineService" auth="Container"
-              type="org.camunda.bpm.ProcessEngineService"
-              description="Camunda Platform Process Engine Service"
+     <Resource name="global/camunda-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService" auth="Container"
+              type="org.eximeebpms.bpm.ProcessEngineService"
+              description="EximeeBPMS Platform Process Engine Service"
               factory="org.camunda.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory" />
 
-    <Resource name="global/camunda-bpm-platform/process-engine/ProcessApplicationService!org.camunda.bpm.ProcessApplicationService" auth="Container"
-              type="org.camunda.bpm.ProcessApplicationService"
-              description="Camunda Platform Process Application Service"
-              factory="org.camunda.bpm.container.impl.jndi.ProcessApplicationServiceObjectFactory" />
+    <Resource name="global/camunda-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService" auth="Container"
+              type="org.eximeebpms.bpm.ProcessApplicationService"
+              description="EximeeBPMS Platform Process Application Service"
+              factory="org.eximeebpms.bpm.container.impl.jndi.ProcessApplicationServiceObjectFactory" />
 ```
 
 
@@ -139,7 +139,7 @@ You have to add the file `bpm-platform.xml` to the folder `$TOMCAT_HOME/conf` or
 
   <process-engine name="default">
     <job-acquisition>default</job-acquisition>
-    <configuration>org.camunda.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
+    <configuration>org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration</configuration>
     <datasource>java:jdbc/ProcessEngine</datasource>
 
     <properties>
@@ -167,21 +167,21 @@ In particular, go to `${TOMCAT_HOME}/webapps/` and remove the directories
 
 # Optional Components
 
-This section describes how to install optional Camunda 7 dependencies onto a Tomcat server. None of these are required to work with the core platform.
+This section describes how to install optional EximeeBPMS dependencies onto a Tomcat server. None of these are required to work with the core platform.
 
 
 ## Cockpit, Tasklist and Admin
 
 The following steps are required to deploy the applications:
 
-1. Download the Camunda 7 web application that contains both applications from our [Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/).
+1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/).
    Or switch to the private repository for the enterprise version (User and password from license required).
-    * For [Tomcat 10](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat-jakarta/), the name of the artifact is `$PLATFORM_VERSION/camunda-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
-    * For [Tomcat 9](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/camunda-webapp-tomcat-$PLATFORM_VERSION.war`.
-2. Copy the war file to `$TOMCAT_HOME/webapps/camunda.war`.
+    * For [Tomcat 10](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
+    * For [Tomcat 9](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
+2. Copy the war file to `$TOMCAT_HOME/webapps/eximeebpms.war`.
    Optionally you may name it differently or extract it to a folder to deploy it to a different context path.
 3. Startup Tomcat.
-4. Access Cockpit and Tasklist via `/camunda/app/cockpit` and `/camunda/app/tasklist` or under the context path you configured.
+4. Access Cockpit and Tasklist via `/eximeebpms/app/cockpit` and `/eximeebpms/app/tasklist` or under the context path you configured.
 
 
 ## REST API
@@ -190,9 +190,9 @@ The following steps are required to deploy the REST API:
 
 1. Download the REST API web application archive from our [Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/camunda-engine-rest/).
     Or switch to the private repository for the enterprise version (User and password from license required).
-    Choose the correct version named `$PLATFORM_VERSION/camunda-engine-rest-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 10](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/camunda-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 9](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest/), the name of the artifact is `$PLATFORM_VERSION/camunda-engine-rest-$PLATFORM_VERSION-tomcat.war`.
+    Choose the correct version named `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
+    * For [Tomcat 10](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
+    * For [Tomcat 9](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
 2. Copy the war file to `$TOMCAT_HOME/webapps`.
    Optionally you may rename it or extract it to a folder to deploy it to a specific context like `/engine-rest`.
 3. Startup Tomcat.
@@ -201,14 +201,14 @@ The following steps are required to deploy the REST API:
 5. Enable authentication as described in the [REST API documentation]({{< ref "/reference/rest/overview/authentication.md" >}})
 
 
-## Camunda Connect Plugin
+## EximeeBPMS Connect Plugin
 
 Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUTION/lib/` to the folder `$TOMCAT_HOME/lib/`:
 
-* `camunda-engine-plugin-connect-$PLATFORM_VERSION.jar`
-* `camunda-commons-utils-$PLATFORM_VERSION.jar`
+* `eximeebpms-engine-plugin-connect-$PLATFORM_VERSION.jar`
+* `eximeebpms-commons-utils-$PLATFORM_VERSION.jar`
 
-In order to activate Camunda Connect functionality for a process engine, a process engine plugin has to be registered in `$TOMCAT_HOME/conf/bpm-platform.xml` as follows:
+In order to activate EximeeBPMS Connect functionality for a process engine, a process engine plugin has to be registered in `$TOMCAT_HOME/conf/bpm-platform.xml` as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -218,7 +218,7 @@ In order to activate Camunda Connect functionality for a process engine, a proce
     <plugins>
       ... existing plugins ...
       <plugin>
-        <class>org.camunda.connect.plugin.impl.ConnectProcessEnginePlugin</class>
+        <class>org.eximeebpms.connect.plugin.impl.ConnectProcessEnginePlugin</class>
       </plugin>
     </plugins>
     ...
@@ -228,16 +228,16 @@ In order to activate Camunda Connect functionality for a process engine, a proce
 ```
 
 
-## Camunda Spin
+## EximeeBPMS Spin
 
 Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUTION/lib/` to the folder `$TOMCAT_HOME/lib/`:
 
-* `camunda-spin-dataformat-all-$PLATFORM_VERSION.jar`
-* `camunda-spin-core-$PLATFORM_VERSION.jar`
-* `camunda-engine-plugin-spin-$PLATFORM_VERSION.jar`
-* `camunda-commons-utils-$PLATFORM_VERSION.jar`
+* `eximeebpms-spin-dataformat-all-$PLATFORM_VERSION.jar`
+* `eximeebpms-spin-core-$PLATFORM_VERSION.jar`
+* `eximeebpms-engine-plugin-spin-$PLATFORM_VERSION.jar`
+* `eximeebpms-commons-utils-$PLATFORM_VERSION.jar`
 
-In order to activate Camunda Spin functionality for a process engine, a process engine plugin has to be registered in `$TOMCAT_HOME/conf/bpm-platform.xml` as follows:
+In order to activate EximeeBPMS Spin functionality for a process engine, a process engine plugin has to be registered in `$TOMCAT_HOME/conf/bpm-platform.xml` as follows:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -248,7 +248,7 @@ In order to activate Camunda Spin functionality for a process engine, a process 
     <plugins>
       ... existing plugins ...
       <plugin>
-        <class>org.camunda.spin.plugin.impl.SpinProcessEnginePlugin</class>
+        <class>org.eximeebpms.spin.plugin.impl.SpinProcessEnginePlugin</class>
       </plugin>
     </plugins>
     ...
@@ -275,9 +275,9 @@ Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUT
 
 Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUTION/lib/` to the folder `$TOMCAT_HOME/lib/`:
 
-* `camunda-template-engines-freemarker-$PLATFORM_VERSION.jar`
+* `eximeebpms-template-engines-freemarker-$PLATFORM_VERSION.jar`
 * `freemarker-2.3.31.jar`
-* `camunda-commons-utils-$PLATFORM_VERSION.jar`
+* `eximeebpms-commons-utils-$PLATFORM_VERSION.jar`
 
 ## GraalVM JavaScript Integration
 

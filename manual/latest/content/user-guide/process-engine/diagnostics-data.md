@@ -54,7 +54,7 @@ License key data does not contain any protected data like the signature. License
 
 * it is present in the database on engine startup
 * it is set to the engine via  [ManagementService#setLicenseKey ](https://docs.camunda.org/javadoc/camunda-bpm-platform/7.14/org/camunda/bpm/engine/ManagementService.html#setLicenseKey-java.lang.String-)
-* it is set to the engine via [Admin Webapp](https://docs.camunda.org/manual/latest/latest/webapps/admin/system-management/#camunda-license-key)
+* it is set to the engine via [Admin Webapp](https://docs.camunda.org/manual/latest/webapps/admin/system-management/#camunda-license-key)
 
 Please note that only in case of setting the license key through the Admin Webapp the diagnostics data will contain structured metadata from the license key. In all other cases, unstructed raw data will be sent. If the license key is removed from the engine, it is removed from diagnostics data as well.
 

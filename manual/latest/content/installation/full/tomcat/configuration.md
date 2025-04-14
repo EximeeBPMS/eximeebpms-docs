@@ -22,7 +22,7 @@ In order to setup LDAP for the Tomcat distribution, you have to perform the foll
 
 ### Add the LDAP Library
 
-Make sure the `camunda-identity-ldap-$PLATFORM_VERSION.jar` is present in the
+Make sure the `eximeebpms-identity-ldap-$PLATFORM_VERSION.jar` is present in the
 `$TOMCAT_DISTRIBUTION/lib/` folder.
 
 {{< note title="Pre packaged distribution" class="info" >}}
@@ -43,14 +43,14 @@ Edit the file `bpm-platform.xml` located inside the folder `$TOMCAT_HOME/conf` a
     <properties>...</properties>
     <plugins>
       <plugin>
-        <class>org.camunda.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin</class>
+        <class>org.eximeebpms.bpm.identity.impl.ldap.plugin.LdapIdentityProviderPlugin</class>
         <properties>
 
           <property name="serverUrl">ldap://localhost:4334/</property>
-          <property name="managerDn">uid=jonny,ou=office-berlin,o=camunda,c=org</property>
+          <property name="managerDn">uid=jonny,ou=office-berlin,o=eximeebpms,c=org</property>
           <property name="managerPassword">s3cr3t</property>
 
-          <property name="baseDn">o=camunda,c=org</property>
+          <property name="baseDn">o=eximeebpms,c=org</property>
 
           <property name="userSearchBase"></property>
           <property name="userSearchFilter">(objectclass=person)</property>
@@ -71,7 +71,7 @@ Edit the file `bpm-platform.xml` located inside the folder `$TOMCAT_HOME/conf` a
         </properties>
       </plugin>
       <plugin>
-        <class>org.camunda.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
+        <class>org.eximeebpms.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
         <properties>
           <property name="administratorUserName">admin</property>
         </properties>
@@ -89,9 +89,9 @@ See our user guide for complete documentation on the [LDAP Identity Provider Plu
 ## HAL Resource Caching
 
 If you use LDAP as Indentity Provider, you should consider [activating caching]({{< ref "/reference/rest/overview/hal.md#caching-of-hal-relations" >}}) of
-Users and Groups in the Camunda webapplication. In order to activate this, add the following
-configuration to the `web.xml` file of Camunda webapplication
-(`camunda-webapp-tomcat-$PLATFORM_VERSION.war/WEB-INF/web.xml`):
+Users and Groups in the EximeeBPMS webapplication. In order to activate this, add the following
+configuration to the `web.xml` file of EximeeBPMS webapplication
+(`eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war/WEB-INF/web.xml`):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -102,20 +102,20 @@ configuration to the `web.xml` file of Camunda webapplication
   <!-- ... -->
 
   <listener>
-    <listener-class>org.camunda.bpm.engine.rest.hal.cache.HalRelationCacheBootstrap</listener-class>
+    <listener-class>org.eximeebpms.bpm.engine.rest.hal.cache.HalRelationCacheBootstrap</listener-class>
   </listener>
 
   <context-param>
-    <param-name>org.camunda.bpm.engine.rest.hal.cache.config</param-name>
+    <param-name>org.eximeebpms.bpm.engine.rest.hal.cache.config</param-name>
     <param-value>
       {
-        "cacheImplementation": "org.camunda.bpm.engine.rest.hal.cache.DefaultHalResourceCache",
+        "cacheImplementation": "org.eximeebpms.bpm.engine.rest.hal.cache.DefaultHalResourceCache",
         "caches": {
-          "org.camunda.bpm.engine.rest.hal.user.HalUser": {
+          "org.eximeebpms.bpm.engine.rest.hal.user.HalUser": {
             "capacity": 100,
             "secondsToLive": 900
           },
-          "org.camunda.bpm.engine.rest.hal.group.HalGroup": {
+          "org.eximeebpms.bpm.engine.rest.hal.group.HalGroup": {
             "capacity": 100,
             "secondsToLive": 900
           }
@@ -154,7 +154,7 @@ You can find it in the `WEB-INF/web.xml` as well in the following section:
 ...
 <filter>
   <filter-name>SessionCookieFilter</filter-name>
-  <filter-class>org.camunda.bpm.webapp.impl.security.filter.SessionCookieFilter</filter-class>
+  <filter-class>org.eximeebpms.bpm.webapp.impl.security.filter.SessionCookieFilter</filter-class>
 </filter>
 <filter-mapping>
   <filter-name>SessionCookieFilter</filter-name>
@@ -170,7 +170,7 @@ You can change the default behavior by adding configuration parameters to the se
 ...
 <filter>
   <filter-name>SessionCookieFilter</filter-name>
-  <filter-class>org.camunda.bpm.webapp.impl.security.filter.SessionCookieFilter</filter-class>
+  <filter-class>org.eximeebpms.bpm.webapp.impl.security.filter.SessionCookieFilter</filter-class>
   <init-param>
     <param-name>sameSiteCookieValue</param-name>
     <param-value>Strict</param-value>
@@ -256,7 +256,7 @@ Please watch out for the following section:
 <filter>
   <filter-name>HttpHeaderSecurity</filter-name>
   <filter-class>
-    org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
+    org.eximeebpms.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
   </filter-class>
 </filter>
 
@@ -274,7 +274,7 @@ You can change the default behavior by adding configuration parameters to the se
 <filter>
   <filter-name>HttpHeaderSecurity</filter-name>
   <filter-class>
-    org.camunda.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
+    org.eximeebpms.bpm.webapp.impl.security.filter.headersec.HttpHeaderSecurityFilter
   </filter-class>
   
   <init-param>

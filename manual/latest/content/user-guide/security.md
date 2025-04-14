@@ -24,7 +24,7 @@ There are different ways of using EximeeBPMS and different components are provid
 * Web applications (Cockpit, Tasklist, ...): similar considerations to the REST API apply.
 
 
-Keep in mind that it is not recommended to use the pre-packaged distribution in production environment rather install the full distribution manually (for example [Tomcat manual installation](https://docs.camunda.org/manual/latest/latest/installation/full/tomcat/manual/latest/)).
+Keep in mind that it is not recommended to use the pre-packaged distribution in production environment rather install the full distribution manually (for example [Tomcat manual installation](https://docs.camunda.org/manual/latest/installation/full/tomcat/manual/)).
 
 {{< note title="Security Consideration" class="warning" >}}
   The pre-packaged distribution is intended for users who want a getting started experience. In case

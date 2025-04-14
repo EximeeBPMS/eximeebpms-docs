@@ -1243,7 +1243,7 @@ The Camunda web applications had a [path traversal vulnerability](https://owasp.
 
 **Solution**
 
-Camunda has provided the releases 7.20.0-alpha2, 7.19.3, 7.18.9, 7.17.14 which contain a fix. Note that the fix introduces a change that [requires migrating Java-based web application plugins](https://docs.camunda.org/manual/latest/7.19/update/patch-level/#7-19-2-to-7-19-3-7-18-8-to-7-18-9-7-17-13-to-7-17-14).
+Camunda has provided the releases 7.20.0-alpha2, 7.19.3, 7.18.9, 7.17.14 which contain a fix. Note that the fix introduces a change that [requires migrating Java-based web application plugins](https://docs.camunda.org/manual/7.19/update/patch-level/#7-19-2-to-7-19-3-7-18-8-to-7-18-9-7-17-13-to-7-17-14).
 
 ## Notice 90
 
@@ -1431,7 +1431,7 @@ In previous versions of Camunda, it was possible that a user remained logged in 
 
 Camunda has provided the releases 7.19.0-alpha5, 7.18.6, 7.17.11, 7.16.18 which contain a fix.
 
-You can find details on the solution and how to configure it in [our security guide](https://docs.camunda.org/manual/latest/7.18/user-guide/security/#authentication-cache).
+You can find details on the solution and how to configure it in [our security guide](https://docs.camunda.org/manual/7.18/user-guide/security/#authentication-cache).
 
 ## Notice 84
 
@@ -2585,7 +2585,7 @@ Camunda Platform
 
 **Impact:**
 
-The Camunda Platform web applications did not set the [SameSite attribute](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) on the session cookie. This enabled Cross-Site Request Forgery (CSRF) attacks if the [token-based CSRF prevention mechanism](https://docs.camunda.org/manual/latest/7.16/webapps/shared-options/csrf-prevention/) was compromised (e.g. by another cross-site scripting vulnerability). Adding the `SameSite` attribute to the session cookie hardens Camunda against CSRF attacks.
+The Camunda Platform web applications did not set the [SameSite attribute](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite) on the session cookie. This enabled Cross-Site Request Forgery (CSRF) attacks if the [token-based CSRF prevention mechanism](https://docs.camunda.org/manual/7.16/webapps/shared-options/csrf-prevention/) was compromised (e.g. by another cross-site scripting vulnerability). Adding the `SameSite` attribute to the session cookie hardens Camunda against CSRF attacks.
 
 
 **How to determine if the installation is affected**
@@ -2596,7 +2596,7 @@ The Camunda Platform web applications did not set the [SameSite attribute](https
 
 Camunda has provided the releases 7.17.0-alpha2, 7.16.2, 7.15.8, 7.14.14 which contain a fix.
 
-Note that on the servers Oracle Weblogic, IBM Websphere, and JBoss EAP/Wildfly, the `SameSite` attribute is not enabled by default and needs server configuration as described in the guides on [how to configure the session cookie](https://docs.camunda.org/manual/latest/7.16/webapps/shared-options/cookie-security/#session-cookie).
+Note that on the servers Oracle Weblogic, IBM Websphere, and JBoss EAP/Wildfly, the `SameSite` attribute is not enabled by default and needs server configuration as described in the guides on [how to configure the session cookie](https://docs.camunda.org/manual/7.16/webapps/shared-options/cookie-security/#session-cookie).
 
 ## Notice 49
 
@@ -2692,7 +2692,7 @@ The version of Apache Tomcat shipped with the Camunda distributions, shipped wit
 
 Camunda has provided the releases 7.16.0-alpha5, 7.15.6, 7.14.12, 7.13.18, RPA Bridge 1.1.6 which contain a fix.
 
-The Camunda Spring Boot starter versions 7.13 work with Spring Boot 2.2 and 2.3, for which no patches are available that resolve this problem. We recommend to either update the Tomcat dependencies manually or moving to a higher version of Spring Boot in accordance with [Camunda's compatibility matrix](https://docs.camunda.org/manual/latest/7.15/user-guide/spring-boot-integration/version-compatibility/).
+The Camunda Spring Boot starter versions 7.13 work with Spring Boot 2.2 and 2.3, for which no patches are available that resolve this problem. We recommend to either update the Tomcat dependencies manually or moving to a higher version of Spring Boot in accordance with [Camunda's compatibility matrix](https://docs.camunda.org/manual/7.15/user-guide/spring-boot-integration/version-compatibility/).
 
 Other solutions:
 
@@ -2811,7 +2811,7 @@ The version of Apache Tomcat shipped with the Camunda distributions and transiti
 
 Camunda has provided the releases 7.15.0, 7.14.6, 7.13.12, 7.12.19 which contain a fix.
 
-The Camunda Spring Boot starter versions 7.13 and 3.4 work with Spring Boot 2.2, for which no patch is available that resolves this problem. We recommend to either update the Tomcat dependencies manually or moving to a higher version of Spring Boot in accordance with [Camunda's compatibility matrix](https://docs.camunda.org/manual/latest/7.15/user-guide/spring-boot-integration/version-compatibility/).
+The Camunda Spring Boot starter versions 7.13 and 3.4 work with Spring Boot 2.2, for which no patch is available that resolves this problem. We recommend to either update the Tomcat dependencies manually or moving to a higher version of Spring Boot in accordance with [Camunda's compatibility matrix](https://docs.camunda.org/manual/7.15/user-guide/spring-boot-integration/version-compatibility/).
 
 Other solutions:
 
@@ -2864,7 +2864,7 @@ The version of the MySQL JDBC driver used by the Camunda Platform Docker contain
 
 Camunda has provided the releases 7.15.0-alpha3, 7.14.4, 7.13.10, 7.12.17 which contain a fix.
 
-Please have a look at the patch update guide for the potential implications of using a higher version of the MySQL JDBC driver: https://docs.camunda.org/manual/latest/7.14/update/patch-level/#update-of-mysql-jdbc-driver-in-camunda-docker-images.
+Please have a look at the patch update guide for the potential implications of using a higher version of the MySQL JDBC driver: https://docs.camunda.org/manual/7.14/update/patch-level/#update-of-mysql-jdbc-driver-in-camunda-docker-images.
 
 ## Notice 40
 
@@ -2886,7 +2886,7 @@ The version of Jackson used by Camunda Spin was vulnerable to XML external entit
   - Camunda distributions are used (e.g. Run, Tomcat, Wildfly)
   - Spin is used as a project dependency
 - An attacker is able to access the REST API or web applications and has permissions to submit process variables
-- The recommended configuration for type whitelisting is not applied: https://docs.camunda.org/manual/latest/7.14/user-guide/security/#variable-values-from-untrusted-sources
+- The recommended configuration for type whitelisting is not applied: https://docs.camunda.org/manual/7.14/user-guide/security/#variable-values-from-untrusted-sources
 
 **Solution**
 
@@ -3143,7 +3143,7 @@ Camunda Platform
 
 **Impact:**
 
-In the case where [variable-specific permissions](https://docs.camunda.org/manual/latest/7.12/user-guide/process-engine/authorization-service/#default-read-variable-permissions) were enabled, it was possible for a user to access historic variable details having only the `READ_HISTORY` permission. The check for `READ_HISTORY_VARIABLE` was not enforced.
+In the case where [variable-specific permissions](https://docs.camunda.org/manual/7.12/user-guide/process-engine/authorization-service/#default-read-variable-permissions) were enabled, it was possible for a user to access historic variable details having only the `READ_HISTORY` permission. The check for `READ_HISTORY_VARIABLE` was not enforced.
 
 **How to determine if the installation is affected**
 
@@ -3249,7 +3249,7 @@ Camunda Platform's APIs are susceptible to object deserialization vulnerabilitie
 
 Camunda has provided the releases v7.12.0, v7.11.7, v7.10.13 and 7.9.19 which contain a feature to whitelist allowed classes for object values.
 
-We strongly recommend to activate whitelisting in any Camunda installation that is accessible by untrusted parties. See the user guide for details: https://docs.camunda.org/manual/latest/7.12/user-guide/security/#variable-values-from-untrusted-sources
+We strongly recommend to activate whitelisting in any Camunda installation that is accessible by untrusted parties. See the user guide for details: https://docs.camunda.org/manual/7.12/user-guide/security/#variable-values-from-untrusted-sources
 
 ## Notice 24
 
@@ -3272,7 +3272,7 @@ A user could send an unlimited query to the Camunda REST API or web applications
 
 Camunda has provided the releases v7.12.0, v7.11.7, v7.10.13 and 7.9.19 which contain a feature to enforce pagination of queries.
 
-We strongly recommend to activate the pagination limit in any Camunda installation that is accessible by untrusted parties. See the user guide for details: https://docs.camunda.org/manual/latest/7.12/user-guide/security/#maximum-results-limit-in-queries
+We strongly recommend to activate the pagination limit in any Camunda installation that is accessible by untrusted parties. See the user guide for details: https://docs.camunda.org/manual/7.12/user-guide/security/#maximum-results-limit-in-queries
 
 ## Notice 23
 
@@ -3447,7 +3447,7 @@ Note that with older versions, XML processing limits can already be enforced via
 
 **Related Documentation**
 
-* [Security Instructions for XML Processing](https://docs.camunda.org/manual/latest/7.11/user-guide/security/#xml-security)
+* [Security Instructions for XML Processing](https://docs.camunda.org/manual/7.11/user-guide/security/#xml-security)
 
 ## Notice 16
 
@@ -3544,7 +3544,7 @@ Camunda has provided the following releases which contain a fix:
 - Camunda Platform 7.12.0-alpha1, 7.11.1, 7.10.7, 7.9.13
 - Camunda Spring Boot Starter 3.3.2, 3.2.4, 3.1.4, 3.0.4
 
-Please see the [Cookie Security documentation](https://docs.camunda.org/manual/latest/7.11/webapps/shared-options/cookie-security/) for details and configuration required to activate both flags.
+Please see the [Cookie Security documentation](https://docs.camunda.org/manual/7.11/webapps/shared-options/cookie-security/) for details and configuration required to activate both flags.
 
 ## Notice 12
 
@@ -3704,7 +3704,7 @@ There is a single usage scenario which is affected:
 Camunda has provided the patches v7.10.0, v7.9.7, v7.8.12, v7.7.10 which provide the fix:
 
 - [CAM-9285](https://app.camunda.com/jira/browse/CAM-9285): Prevention of External Entity Processing.
-  This fixes the security vulnerability described [here](<https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>). Further configuration options are documented [here](https://docs.camunda.org/manual/latest/latest/reference/deployment-descriptors/tags/process-engine/#configuration-properties).
+  This fixes the security vulnerability described [here](<https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing>). Further configuration options are documented [here](https://docs.camunda.org/manual/latest/reference/deployment-descriptors/tags/process-engine/#configuration-properties).
 
 ## Notice 3
 
@@ -3726,9 +3726,9 @@ There are two usage scenarios which are affected:
 Camunda has provided the patches v7.10.0, v7.9.2, v7.8.8, v7.7.9 which provide two fixes:
 
 - [CAM-9107](https://app.camunda.com/jira/browse/CAM-9107): Prevention of Cross-Site-Request-Forgery
-  This fixes the security vulnerability described [here](<https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)>). Further configuration options are documented [here](https://docs.camunda.org/manual/latest/latest/update/minor/79-to-710/#support-for-csrf-prevention-in-the-webapps).
+  This fixes the security vulnerability described [here](<https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)>). Further configuration options are documented [here](https://docs.camunda.org/manual/latest/update/minor/79-to-710/#support-for-csrf-prevention-in-the-webapps).
 - [CAM-9109](https://app.camunda.com/jira/browse/CAM-9109): When a user, group, or tenant is created, the given id is validated against a whitelist.
-  This provides support for defining custom regular expression patterns for whitelisting User/Group/Tenant ID values. Further configuration options can be found [here](https://docs.camunda.org/manual/latest/latest/reference/deployment-descriptors/tags/process-engine/#resource-whitelist-pattern-parameters).
+  This provides support for defining custom regular expression patterns for whitelisting User/Group/Tenant ID values. Further configuration options can be found [here](https://docs.camunda.org/manual/latest/reference/deployment-descriptors/tags/process-engine/#resource-whitelist-pattern-parameters).
 
 ## Notice 2
 
@@ -3789,7 +3789,7 @@ The following fixes are provided by the patches v7.8.1, v7.7.6, v7.6.11 and the 
   This fix updates the Groovy patch level version to a version which does not exhibit [the vulnerability described in this article](https://www.thezdi.com/blog/2017/12/19/apache-groovy-deserialization-a-cunning-exploit-chain-to-bypass-a-patch).
 
 - [CAM-8704](https://app.camunda.com/jira/browse/CAM-8704): Configuration to prevent submission of Java Object values in serialized form.
-  This fix allows configuring the process engine in a way that it completely prevents submission of Java Object values in serialized form. [The documentation explains how to use this option](https://docs.camunda.org/manual/latest/7.8/update/patch-level/#7-6-10-to-7-6-11-7-7-5-to-7-7-6-7-8-0-to-7-8-1).
+  This fix allows configuring the process engine in a way that it completely prevents submission of Java Object values in serialized form. [The documentation explains how to use this option](https://docs.camunda.org/manual/7.8/update/patch-level/#7-6-10-to-7-6-11-7-7-5-to-7-7-6-7-8-0-to-7-8-1).
   Note that upcoming version of Camunda (7.9+) will prevent submission of serialized java objects by default (while allowing users to explicitly enable it for backwards compatibility).
 
 Customers are advised to apply these patches, particularly if they use Camunda in one for the scenarios described above.

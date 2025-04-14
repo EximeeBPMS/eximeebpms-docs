@@ -49,7 +49,7 @@ Every Camunda installation requires a database schema update.
 
 ## Procedure
 
-1. Check for [available database patch scripts]({{< ref "/update/patch-level.md#database-patches" >}}) for your database that are within the bounds of your update path.
+1. Check for [available database patch scripts]({{< ref "//#database-patches" >}}) for your database that are within the bounds of your update path.
  Locate the scripts at `$DISTRIBUTION_PATH/sql/upgrade` in the pre-packaged distribution (where `$DISTRIBUTION_PATH` is the path of an unpacked distribution) or in the [Camunda Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/distro/camunda-sql-scripts/).
  We highly recommend executing these patches before updating. Execute them in ascending order by version number.
  The naming pattern is `$DATABASENAME_engine_7.13_patch_?.sql`.
@@ -236,7 +236,7 @@ Camunda directives, such as search widgets (`cam-widget-search`) or variable tab
 <!-- If you used Angular services -->
 As with directives, services you could inject into your AngularJS component are no longer available. Only the services included in documented in the [AngularJS documentation](https://docs.angularjs.org/api) are available by default. Services such as `camAPI` and `Uri` can no longer be injected. You can still make requests against the REST API using the [$http service](https://docs.angularjs.org/api/ng/service/$http) and the API Urls that get passed into the render function. 
 
-If you changed the CSRF-cookie name or use other HTTP-clients such as the `fetch` API, you'll also need to set the headers appropriately. The current CSRF token is always passed into the render function in the second argument as `api.CSRFToken`. The `api.engineApi` corresponds to the root of our [REST API](https://docs.camunda.org/manual/latest/develop/reference/rest/). Check out the [documentation]({{< ref "/webapps/cockpit/extend/plugins.md#attributes-in-detail" >}}) for more details on the render function.
+If you changed the CSRF-cookie name or use other HTTP-clients such as the `fetch` API, you'll also need to set the headers appropriately. The current CSRF token is always passed into the render function in the second argument as `api.CSRFToken`. The `api.engineApi` corresponds to the root of our [REST API](https://docs.camunda.org/manual/develop/reference/rest/). Check out the [documentation]({{< ref "/webapps/cockpit/extend/plugins.md#attributes-in-detail" >}}) for more details on the render function.
 
 ### Diagram Interaction
 <!-- If you used `DataDepend` for your diagram Interactions -->
