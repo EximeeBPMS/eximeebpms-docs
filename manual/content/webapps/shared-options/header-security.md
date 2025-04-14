@@ -8,7 +8,7 @@ menu:
   main:
     identifier: "http-header-security"
     parent: "webapps-shared-options"
-    pre: "A HTTP Header Security Filter for the Camunda Web Applications"
+    pre: "A HTTP Header Security Filter for the EximeeBPMS Web Applications"
 ---
 
 The HTTP Header Security mechanism allows you to add security-related response headers which enable browser-side security mechanisms.
@@ -30,7 +30,7 @@ If the **XSS Protection** header is enabled some cross-site scripting (XSS) atta
 
 The **Content Security Policy** is a mighty tool to prevent cross-site scripting and code injection attacks.
 
-It is a common practice to extend Camunda 7 web applications by custom scripts and forms.
+It is a common practice to extend EximeeBPMS web applications by custom scripts and forms.
 Our default **Content Security Policy** defines some exceptions to ensure our web apps, your embedded forms, and embedded form scripts work out of the box.
 
 #### Default Policy
