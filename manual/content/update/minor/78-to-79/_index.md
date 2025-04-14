@@ -96,19 +96,9 @@ If a database other than the default H2 database is used, the following steps mu
 
 1. Undeploy the current version of the standalone web application
 2. Update the database to the new schema as described in the [database update](#database-updates) section
-3. Reconfigure the database as described in the [installation]({{< ref "/installation/standalone-webapplication.md#database-configuration" >}})
+3. Reconfigure the database as described in the [installation]({{< ref "/#database-configuration" >}})
    section
 4. Deploy the new and configured standalone web application to the server
-
-# Spring Boot Starter Update
-
-If you are using Camunda Spring Boot Starter(s) within you Spring Boot application, then you would need to:
-
-1. Check [Version compatibility]({{< ref "/user-guide/spring-boot-integration/version-compatibility.md" >}}) matrix in the docs. 
-2. Update Spring Boot Starter and, when required, Spring Boot versions in your `pom.xml`.
-3. Update Camunda version in your `pom.xml` in case you override it before (e.g. when using enterprise version or patch releases).
-
-Please also check [Spring Boot Starter update guide]({{< ref "/update/spring-boot-starter/_index.md" >}}).
 
 # Base Delegate Execution
 

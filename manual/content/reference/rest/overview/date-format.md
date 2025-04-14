@@ -21,7 +21,7 @@ A custom date format can be configured in the `web.xml`
 file of the REST API. To do so, the ServletContextListener
 `CustomJacksonDateFormatListener` has to be added. The custom date format
 can be specified by the context parameter
-`org.camunda.bpm.engine.rest.jackson.dateFormat`.
+`org.eximeebpms.bpm.engine.rest.jackson.dateFormat`.
 
 For example, if the date format should not contain milliseconds and timezone
 information (`yyyy-MM-dd'T'HH:mm:ss`) the following configuration can be
@@ -39,12 +39,12 @@ To achieve this, you can edit the `WEB-INF/web.xml` file as follows:
 
   <listener>
     <listener-class>
-      org.camunda.bpm.engine.rest.CustomJacksonDateFormatListener
+      org.eximeebpms.bpm.engine.rest.CustomJacksonDateFormatListener
     </listener-class>
   </listener>
 
   <context-param>
-    <param-name>org.camunda.bpm.engine.rest.jackson.dateFormat</param-name>
+    <param-name>org.eximeebpms.bpm.engine.rest.jackson.dateFormat</param-name>
     <param-value>yyyy-MM-dd'T'HH:mm:ss</param-value>
   </context-param>
 
@@ -57,7 +57,7 @@ precision and timezone information. Also, new dates with milliseconds and timezo
 can be submitted to the REST API without losing these details.
 
 {{< note title="Webapps compatibility" class="warning" >}}
-Be aware that, to be able to use the Camunda webapps, the date format must correspond to the following:
+Be aware that, to be able to use the EximeeBPMS webapps, the date format must correspond to the following:
 
 `yyyy-MM-dd['T'HH:mm[:ss[.SSS[Z]]]]`
 

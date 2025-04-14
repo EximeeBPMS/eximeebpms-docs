@@ -48,7 +48,7 @@ EximeeBPMS supports the 1.1 version of DMN.
 
 
 [OMG]: http://www.omg.org/
-[modelers]: {{< ref "/modeler/_index.md" >}}
+[modelers]: https://camunda.com/platform/modeler/
 [BPMN Modeling Tutorial]: https://camunda.org/bpmn/tutorial/
 [BPMN Modeling Reference]: https://camunda.org/bpmn/reference/
 [Quick Start (Java / JS)]: /get-started/quick-start/

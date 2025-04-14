@@ -70,7 +70,7 @@ A User Task can be directly assigned to a single user, a list of users or a list
 
 ## Assignment using BPMN Resource Assignments
 
-BPMN defines some native assignment concepts which can be used in camunda.
+BPMN defines some native assignment concepts which can be used in EximeeBPMS.
 As a more powerful alternative, Camunda also defines a set of custom extension elements (see below).
 
 ### Human Performer
@@ -231,7 +231,7 @@ It is also possible to use [task listeners]({{< ref "/user-guide/process-engine/
 ```xml
 <userTask id="task1" name="My task" >
   <extensionElements>
-    <camunda:taskListener event="create" class="org.camunda.bpm.MyAssignmentHandler" />
+    <camunda:taskListener event="create" class="org.eximeebpms.bpm.MyAssignmentHandler" />
   </extensionElements>
 </userTask>
 ```
@@ -259,7 +259,7 @@ is intentional, in order to avoid creating event loops.
 
 ## Assignments and Identity Service
 
-Although the Camunda engine provides an identity management component, which is exposed through the IdentityService, it does not check whether a provided user is known by the identity component. This allows integration of the engine with existing identity management solutions when it is embedded into an application.
+Although the EximeeBPMS engine provides an identity management component, which is exposed through the IdentityService, it does not check whether a provided user is known by the identity component. This allows integration of the engine with existing identity management solutions when it is embedded into an application.
 
 However, note that you can use the identity service in a service / bean or listener to query your user repository if this is useful to you.
 

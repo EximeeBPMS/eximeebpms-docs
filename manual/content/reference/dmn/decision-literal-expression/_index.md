@@ -52,7 +52,7 @@ decision logic. It is set as the `name` attribute on the `decision` element.
 The id is the technical identifier of the decision. It is set in the `id`
 attribute on the `decision` element.
 
-Each decision should have an unique id when it is [deployed] to Camunda 7.
+Each decision should have an unique id when it is [deployed] to EximeeBPMS.
 The engine uses the id as the decision key of the deployed
 `DecisionDefinition`.
 

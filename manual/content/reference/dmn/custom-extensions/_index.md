@@ -12,4 +12,4 @@ menu:
 aliases: [reference/dmn11/custom-extensions/]
 ---
 
-Camunda extends DMN with custom Extension Elements and Attributes defined in the `http://camunda.org/schema/1.0/dmn` namespace.
+EximeeBPMS extends DMN with custom Extension Elements and Attributes defined in the `http://camunda.org/schema/1.0/dmn` namespace.
