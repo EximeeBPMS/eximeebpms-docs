@@ -44,10 +44,6 @@ You can also switch to the preview tab which displays the rendered process model
 
 # Process Instances Search
 
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
 {{< img src="../../img/cockpit-search.png" title="cockpit Search" >}}
 
 At the top of the dashboard, you can search for process instances and incidents which fulfill certain search criteria. To do so, click in the search box and select the parameters to search for. You can also begin typing to find the required parameter faster. Depending on the selected property, you have to specify the value of the property. Some properties also allow operators other than equal, e.g., 'like', which allows searching for process instances where the entered value is a substring of the property value. To search for process variables, you also have to enter the variable name you want to search for. You can search for variable values with the type `String`, `Number`, or `Boolean`. To search for a variable of type string, which has a numeric, boolean or null value, you have to wrap the value in single quotes (e.g., `'93288'` or `'NULL'`). You can combine multiple search pills to narrow down the search results.
@@ -167,10 +163,6 @@ button to open a modal dialog.
 {{< img src="../../img/cockpit-edit-not-in-criterion-modal.png" title="IN Operator Modal" >}}
 
 # Delete process definitions
-
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
 
 {{< img src="../../img/cockpit-delete-process-definition.png" title="Delete Process Definition" >}}
 
