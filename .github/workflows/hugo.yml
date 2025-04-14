@@ -61,20 +61,11 @@ jobs:
           rm -rf gh-pages/docs/*
           mkdir -p gh-pages/docs
           for dir in enterprise security get-started manual; do
-            if [ "$dir" = "manual" ]; then
-              for subdir in "$dir"/*/; do
-                if [ -d "$subdir" ]; then
-                  mkdir -p gh-pages/docs/manual-${subdir}
-                  cp -r public-manual-${subdir}/* gh-pages/docs/manual-${subdir}/
-                fi
-              done
-            else
-              mkdir -p gh-pages/docs/${dir}
-              cp -r public-${dir}/* gh-pages/docs/${dir}/
-            fi
+            mkdir -p gh-pages/docs/${dir}
+            cp -r public-${dir}/* gh-pages/docs/${dir}/
           done
-          cp -r public-manual-latest/* gh-pages/docs/
-          # cp -r javadoc/* gh-pages/docs/manual/latest/reference/javadoc/
+          cp -r public-manual/* gh-pages/docs/
+          # cp -r javadoc/* gh-pages/docs/manual/reference/javadoc/
           cp -r CNAME gh-pages/docs/
 
       - name: Commit and push changes
