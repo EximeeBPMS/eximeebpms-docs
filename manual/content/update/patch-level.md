@@ -516,7 +516,7 @@ The following test scenarios fail on Tomcat 10:
 
 ## 7.22.0 to 7.22.1 / 7.21.5 to 7.21.6 / 7.20.8 to 7.20.9
 
-The 7.22.0 release [replaced the runtime with the historic process instance query]({{< ref "/update/minor/721-to-722/_index.md#cockpit-process-instance-batch-modification" >}}) in Cockpit when performing a [Process Instance Batch Modification][process-instance-modification].
+The 7.22.0 release [replaced the runtime with the historic process instance query]({{< ref "/update/minor/721-to-722/_index.md#cockpit-process-instance-batch-modification" >}}) in Cockpit when performing a Process Instance Batch Modification.
 
 {{< note title="Heads-up!" class="warning" >}}
 After migrating to 7.22.1, the behavior of the `Activity ID` filter when batch modifying process instances will change back to the old behavior you are used to from Camunda versions <= 7.21.X.
@@ -526,8 +526,6 @@ The 7.22.0 release introduced a limitation for the `Activity ID` filter: Filteri
 
 After some user feedback, we understood that there are use cases that cannot be catered with this limitation in place leading to undesired behavior.
 With this patch release, we lifted this limitation by opting for a different solution approach which restored the previous behavior.
-
-[process-instance-modification]: {{< ref "/webapps/cockpit/bpmn/process-instance-modification.md#perform-a-batch-modification" >}}
 
 ### Set Variables Async API
 
