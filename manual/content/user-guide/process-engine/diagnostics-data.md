@@ -137,5 +137,5 @@ The counts are collected from the start of the engine or the last reported time 
 
 ## Source code 
 
-In case you want further details, you can have a look at the implementation of the diagnostics topic in [our codebase](https://github.com/EximeeBPMS/eximeebpms/blob/master/engine/src/main/java/org/eximeebpms/bpm/engine/impl/diagnostics/DiagnosticsCollector.java). The link leads you to the current `master` version of the feature.
+In case you want further details, you can have a look at the implementation of the diagnostics topic in [our codebase](https://github.com/camunda/camunda-bpm-platform/blob/master/engine/src/main/java/org/camunda/bpm/engine/impl/diagnostics/DiagnosticsCollector.java). The link leads you to the current `master` version of the feature.
 

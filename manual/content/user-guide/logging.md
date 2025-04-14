@@ -314,7 +314,7 @@ Here is an example of how the server log will look like:
 25-Nov-2019 15:17:17.076 FINE [thread-2] o.a.i.l.j.BaseJdbcLogger.debug ==> Parameters: 2(Integer), Dev-Department(String), DEV(String), development(String), 1(Integer)
 ```
 
-To enable the logging for a specific database entity, please provide the namespace of the MyBatis mapper ([all mappers](https://github.com/EximeeBPMS/eximeebpms/tree/master/engine/src/main/resources/org/eximeebpms/bpm/engine/impl/mapping/entity)). Usually it is the full class name of that entity, e.g.:
+To enable the logging for a specific database entity, please provide the namespace of the MyBatis mapper ([all mappers](https://github.com/camunda/camunda-bpm-platform/tree/master/engine/src/main/resources/org/camunda/bpm/engine/impl/mapping/entity)). Usually it is the full class name of that entity, e.g.:
 
 * `org.eximeebpms.bpm.engine.impl.batch.BatchEntity`
 * `org.eximeebpms.bpm.engine.impl.persistence.entity.JobEntity`

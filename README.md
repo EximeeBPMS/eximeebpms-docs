@@ -10,7 +10,7 @@ Instead, change the [theme](//github.com/camunda/camunda-docs-theme).
 
 ## Contributing
 
-Have a look at our [contribution guide](https://github.com/EximeeBPMS/eximeebpms/blob/master/CONTRIBUTING.md) for our general contribution guidelines. See the following sections for how to work with the docs.
+Have a look at our [contribution guide](https://github.com/camunda/camunda-bpm-platform/blob/master/CONTRIBUTING.md) for our general contribution guidelines. See the following sections for how to work with the docs.
 
 ## Installing Hugo
 

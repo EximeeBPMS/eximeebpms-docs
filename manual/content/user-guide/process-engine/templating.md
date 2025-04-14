@@ -43,7 +43,7 @@ application deployment. When using the process engine in a maven `war` project, 
 dependencies must be added as dependencies to the maven `pom.xml` file:
 
 {{< note title="" class="info" >}}
-  The [EximeeBPMS BOM](/get-started/apache-maven/) only contains the officially supported freemarker template engine.
+  The [EximeeBPMS BOM](/eximeebpms-docs/get-started/apache-maven/) only contains the officially supported freemarker template engine.
   For the community-driven template engines, please check the Maven coordinates below. 
 {{< /note >}}
 
