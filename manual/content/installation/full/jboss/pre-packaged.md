@@ -17,4 +17,4 @@ menu:
 1. Download the pre-packaged distribution for [WildFly](https://downloads.camunda.cloud/release/camunda-bpm/wildfly/).
 2. Unpack the distro to a directory.
 3. Adjust the datasource according to your needs (see [Manual Installation]({{<ref "/installation/full/jboss/manual.md" >}})).
-4. Startup the server by running `camunda-welcome.bat` or by using the `$WILDFLY_HOME/bin/standalone.{bat/sh}` script.
+4. Startup the server by running `eximeebpms-welcome.bat` or by using the `$WILDFLY_HOME/bin/standalone.{bat/sh}` script.
