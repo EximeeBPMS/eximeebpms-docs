@@ -65,7 +65,7 @@ jobs:
               for subdir in "$dir"/*/; do
                 if [ -d "$subdir" ]; then
                   mkdir -p gh-pages/docs/manual-${subdir}
-                  cp -r public-manual-${subdir}/* gh-pages/docs/manual-${dir}/
+                  cp -r public-manual-${subdir}/* gh-pages/docs/manual-${subdir}/
                 fi
               done
             else
