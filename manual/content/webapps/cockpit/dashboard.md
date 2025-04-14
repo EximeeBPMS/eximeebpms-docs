@@ -24,10 +24,6 @@ Additional [plugins]({{< ref "/webapps/cockpit/extend/plugins.md" >}}) can be ad
 
 # Metrics
 
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
 {{< img src="../img/dashboard-metrics.png" title="Cockpit Dashboard Metrics" >}}
 
 At the bottom of the dashboard, the metrics plugin displays graphs with metrics for executed activity instances, evaluated decision instances and executed jobs. 
