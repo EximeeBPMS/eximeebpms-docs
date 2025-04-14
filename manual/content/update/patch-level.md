@@ -99,7 +99,7 @@ This feature can be configured in two ways:
 1. The default timer period can be changed to 'this week', 'this month' or 'complete'
 2. The manual selection of the time period within cockpit can be disabled.   
 
-These attributes can be modified in the [configuration file]({{< ref "/webapps/cockpit/extend/configuration.md#historic-activity-instance-metrics" >}})
+These attributes can be modified in the configuration file.
 
 ## 7.8.6 to 7.8.7
 
