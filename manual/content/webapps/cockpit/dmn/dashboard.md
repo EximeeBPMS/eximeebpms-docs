@@ -31,5 +31,3 @@ This plugin provides you with a list of deployed decision requirements definitio
 
 [decision-definition-view]: {{< ref "/webapps/cockpit/dmn/decision-definition-view.md" >}}
 [decision-instance-view]: {{< ref "/webapps/cockpit/dmn/decision-instance-view.md" >}}
-[decision-requirements-definition-view]: {{< ref "/webapps/cockpit/dmn/decision-requirements-definition-view.md" >}}
-[decision-requirements-definition-instance-view]: {{< ref "/webapps/cockpit/dmn/decision-requirements-instance-view.md" >}}
