@@ -42,12 +42,12 @@ java -version
 If you need to install Java Runtime Environment, you can [find the download from Oracle here](https://www.oracle.com/technetwork/java/javase/downloads/index.html). 
 
 {{< note class="info" title="Supported Java versions" >}}
-Make sure to use a Java version from [Camunda's list of supported environments](/manual/latest/latest/introduction/supported-environments/#java-runtime).
+Make sure to use a Java version from [Camunda's list of supported environments](/manual/latest/introduction/supported-environments/#java-runtime).
 {{< /note >}}
 
 # Camunda Platform
 
-First, download a distribution of the Camunda Platform. You can choose from different distributions for [various application servers](/manual/latest/latest/installation/full/). In this tutorial, we'll use Camunda Platform Run. Download it from [the download page](https://camunda.com/download/).
+First, download a distribution of the Camunda Platform. You can choose from different distributions for [various application servers](/manual/latest/installation/full/). In this tutorial, we'll use Camunda Platform Run. Download it from [the download page](https://camunda.com/download/).
 
 After downloading the distribution, unpack it inside a directory of your choice.
 

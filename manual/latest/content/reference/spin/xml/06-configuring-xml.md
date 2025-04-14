@@ -15,10 +15,10 @@ Therefore, the XML data format uses instances of `javax.xml.parsers.DocumentBuil
 `javax.xml.transform.TransformerFactory`, and `javax.xml.bind.JAXBContext` that can be configured using Spin's 
 [configuration mechanism]({{< ref "/reference/spin/extending-spin.md#configuring-data-formats" >}}).
 
-For example, a custom application may provide an implementation of `org.camunda.spin.spi.DataFormatConfigurator` that exchanges 
+For example, a custom application may provide an implementation of `org.eximeebpms.spin.spi.DataFormatConfigurator` that exchanges 
 the `JAXBContext`. Spin uses and caches the context to improve performance.
 
-The data format class to register a configurator for is `org.camunda.spin.impl.xml.dom.format.DomXmlDataFormat`. 
+The data format class to register a configurator for is `org.eximeebpms.spin.impl.xml.dom.format.DomXmlDataFormat`. 
 An instance of this class provides setter methods (for the entities mentioned above) that can be used to replace the 
 default object mapper. Refer to the [JDK documentation](http://docs.oracle.com/javase/8/docs/api/) on what 
 configuration can be applied.

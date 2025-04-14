@@ -18,7 +18,7 @@ Now you are ready to set up your first process application project in the IDE of
 
 {{< note title="Fancy to save work and use a project template instead?" class="info" >}}
 
-You don't have to setup the project manually but can also use a Maven Archetype (which is like a project template), see [Maven Archetypes](/manual/latest/latest/user-guide/process-applications/maven-archetypes/) for details. The archetype will create a project according to our best practices.
+You don't have to setup the project manually but can also use a Maven Archetype (which is like a project template), see [Maven Archetypes](/manual/latest/user-guide/process-applications/maven-archetypes/) for details. The archetype will create a project according to our best practices.
 
 {{< /note >}}
 

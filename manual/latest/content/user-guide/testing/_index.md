@@ -275,7 +275,7 @@ Also, you will have to add the AssertJ library to your dependencies. Make sure t
 ```
 
 If EximeeBPMS Assert is used in combination with [Spring Boot](https://spring.io/projects/spring-boot) or the 
-[EximeeBPMS Spring Boot Starter](https://docs.eximeebpms.org/manual/latest/latest/user-guide/spring-boot-integration/), 
+[EximeeBPMS Spring Boot Starter](https://docs.eximeebpms.org/manual/latest/user-guide/spring-boot-integration/), 
 the AssertJ dependency will be present in your project already.
 
 ## Assertions Version Compatibility

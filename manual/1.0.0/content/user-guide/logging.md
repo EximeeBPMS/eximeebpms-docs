@@ -126,7 +126,7 @@ An example using Logback could look as follows
 ```
 
 By adding the `context:[%X]` to your configuration, all values that are present in the MDC at the time the log statement is created will be displayed.
-Please refer to the manual of your logging framework for further information on how to access the MDC, e.g. the [Logback documentation](http://logback.qos.ch/manual/latest/layouts.html#mdc).
+Please refer to the manual of your logging framework for further information on how to access the MDC, e.g. the [Logback documentation](http://logback.qos.ch/manual/layouts.html#mdc).
 
 
 # Logging Categories

@@ -42,7 +42,7 @@ Select the User Task on the canvas. This will update the selection in the proper
 
 Click on the Tab `Forms` in the properties panel.
 
-This guide uses [Camunda Forms](/manual/latest/latest/user-guide/task-forms/#camunda-forms) to add a form to the process. 
+This guide uses [Camunda Forms](/manual/latest/user-guide/task-forms/#camunda-forms) to add a form to the process. 
 We will create a form file called `payment.form`. 
 Set the following fields to link this process to the form you are about to create:
 

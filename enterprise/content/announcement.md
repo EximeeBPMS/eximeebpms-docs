@@ -101,8 +101,8 @@ __Changes in Supported Environments:__
 
 Other changes:
 
-* Deactivating Camunda [Telemetry](https://docs.camunda.org/manual/latest/7.21/introduction/telemetry/)
-* Removing Swagger from Camunda 7 Run [Getting Started Experience](https://docs.camunda.org/manual/latest/7.21/reference/rest/openapi/#getting-started-experience)
+* Deactivating Camunda [Telemetry](https://docs.camunda.org/manual/7.21/introduction/telemetry/)
+* Removing Swagger from Camunda 7 Run [Getting Started Experience](https://docs.camunda.org/manual/7.21/reference/rest/openapi/#getting-started-experience)
 
 ## Camunda Platform 7.21
 
@@ -811,7 +811,7 @@ We understand that change can be challenging, and our team is dedicated to ensur
 
 # What does End of Maintenance Mean?
 End of maintenance means that Camunda will not perform any maintenance or release any bug fixes and patch releases related to the mentioned version after the specified date.
-In case you are planning to migrate to a more recent version of Camunda Platform, check our [Update & Migration Guide](/manual/latest/latest/update/).
+In case you are planning to migrate to a more recent version of Camunda Platform, check our [Update & Migration Guide](/manual/latest/update/).
 
 Please let us know if you have any concerns or if you need help migrating to a new version.
 

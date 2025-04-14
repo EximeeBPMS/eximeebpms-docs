@@ -212,8 +212,8 @@ curl -LO https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/c
 
 # Other Camunda Modules:
 
-* [DMN Engine](/manual/latest/latest/user-guide/dmn-engine/embed/#maven-coordinates)
-* [Camunda Spin](/manual/latest/latest/reference/spin)
-* [Camunda Connect](/manual/latest/latest/reference/connect/#maven-coordinates)
-* [Templating Engines](/manual/latest/latest/user-guide/process-engine/templating/#install-a-template-engine-for-an-embedded-process-engine)
-* [Spring Boot Integration](/manual/latest/latest/user-guide/spring-boot-integration/)
+* [DMN Engine](/manual/latest/user-guide/dmn-engine/embed/#maven-coordinates)
+* [Camunda Spin](/manual/latest/reference/spin)
+* [Camunda Connect](/manual/latest/reference/connect/#maven-coordinates)
+* [Templating Engines](/manual/latest/user-guide/process-engine/templating/#install-a-template-engine-for-an-embedded-process-engine)
+* [Spring Boot Integration](/manual/latest/user-guide/spring-boot-integration/)
