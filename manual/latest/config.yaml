@@ -1,5 +1,5 @@
 ---
-baseURL: "/manual/"
+baseURL: "/manual/latest"
 languageCode: "en-us"
 title: "EximeeBPMS documentation "
 themesDir: "../../themes"
