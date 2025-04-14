@@ -29,7 +29,7 @@ Now also name the new elements accordingly:
 
 Next, open the properties panel and select the `<1000 €` Sequence Flow after the Gateway on the canvas. This will update the selection in the properties panel.
 Scroll to the property named `Condition Type` and change it to `Expression`. Then input `${amount<1000}` as the Expression.
-We are using the [Java Unified Expression Language](https://docs.camunda.org/manual/latest/user-guide/process-engine/expression-language/) to evaluate the Gateway.
+We are using the [Java Unified Expression Language](https://docs.camunda.org/manual/latest/latest/user-guide/process-engine/expression-language/) to evaluate the Gateway.
 
 {{< img src="../img/modeler-gateway3.png" >}}
 
@@ -60,7 +60,7 @@ Next, set variables for the process instance using the generic form as we learne
 Fill in the form as shown in the screenshot and make sure you use an amount that is larger or equal to 1000 in order to see the User Task *Approve Payment*.
 When you are done, click *Start*.
 
-You should see the *Approve Payment* task when you click on *All Tasks*. In this quick start, we're logged into Tasklist as an admin user, and so we can see all tasks associated with our processes. However, it's possible to create [filters in Tasklist](/manual/latest/webapps/tasklist/filters/) to determine which users can see which tasks based on [user authorization](/manual/latest/webapps/admin/authorization-management/) as well as other criteria.
+You should see the *Approve Payment* task when you click on *All Tasks*. In this quick start, we're logged into Tasklist as an admin user, and so we can see all tasks associated with our processes. However, it's possible to create [filters in Tasklist](/manual/latest/latest/webapps/tasklist/filters/) to determine which users can see which tasks based on [user authorization](/manual/latest/latest/webapps/admin/authorization-management/) as well as other criteria.
 
 To work on the task, select the *Form* tab and check the *approved* checkbox so that our payment retrieval gets approved.
 We should see that our worker prints something to the console.
