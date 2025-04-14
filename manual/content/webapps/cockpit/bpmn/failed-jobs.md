@@ -30,5 +30,4 @@ After clicking on **Retry**, the engine will re-trigger the jobs and increment t
 
 {{< img src="../../img/cockpit-instance-job-retry.png" title="Process instance job retry" >}}
 
-Alternatively, you can change the retries of jobs asynchronously via the [Batch Operation]({{< ref "/webapps/cockpit/batch/batch-operation.md" >}}) "Set retries of Jobs belonging to process instances".
 
