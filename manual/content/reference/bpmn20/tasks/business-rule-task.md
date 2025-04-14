@@ -16,9 +16,9 @@ A Business Rule Task is used to synchronously execute one or more rules. It is a
 {{< bpmn-symbol type="business-rule-task" >}}
 
 
-# Using Camunda DMN Engine
+# Using EximeeBPMS DMN Engine
 
-You can use the Camunda DMN engine integration to evaluate a DMN decision. You have
+You can use the EximeeBPMS DMN engine integration to evaluate a DMN decision. You have
 to specify the decision key to evaluate as the `camunda:decisionRef` attribute. Additionally, 
 the `camunda:decisionRefBinding` specifies which version of the decision should be evaluated.
 Valid values are:

@@ -81,7 +81,7 @@ By using expressions within the message name, you can influence the message name
 
 # Message Api
 
-As an embeddable process engine, the Camunda engine is not concerned with the receiving part of the message. This would be environment dependent and entails platform-specific activities such as connecting to a JMS (Java Messaging Service) Queue/Topic or processing a Webservice or REST request. The reception of messages is therefore something you have to implement as part of the application or infrastructure into which the process engine is embedded.
+As an embeddable process engine, the EximeeBPMS engine is not concerned with the receiving part of the message. This would be environment dependent and entails platform-specific activities such as connecting to a JMS (Java Messaging Service) Queue/Topic or processing a Webservice or REST request. The reception of messages is therefore something you have to implement as part of the application or infrastructure into which the process engine is embedded.
 
 After you have received a message, you can choose whether you employ the engine's built-in correlation or explicitly deliver the message to start a new process instance or trigger a waiting execution.
 
@@ -311,7 +311,7 @@ A Message Intermediate Throwing event sends a message to an external service. Th
 
 ```xml
 <intermediateThrowEvent id="message">
-  <messageEventDefinition camunda:class="org.camunda.bpm.MyMessageServiceDelegate" />
+  <messageEventDefinition camunda:class="org.eximeebpms.bpm.MyMessageServiceDelegate" />
 </intermediateThrowEvent>
 ```
 
@@ -377,7 +377,7 @@ When process execution arrives at a Message End Event, the current path of execu
 
 ```xml
 <endEvent id="end">
-  <messageEventDefinition camunda:class="org.camunda.bpm.MyMessageServiceDelegate" />
+  <messageEventDefinition camunda:class="org.eximeebpms.bpm.MyMessageServiceDelegate" />
 </endEvent>
 ```
 

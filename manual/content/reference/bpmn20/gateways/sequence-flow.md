@@ -84,7 +84,7 @@ on [script source]({{< ref "/user-guide/process-engine/scripting.md#script-sourc
 
 ```xml
 <conditionExpression xsi:type="tFormalExpression" language="groovy"
-  camunda:resource="org/camunda/bpm/exampe/condition.groovy" />
+  camunda:resource="org/eximeebpms/bpm/exampe/condition.groovy" />
 ```
 
 

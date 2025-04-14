@@ -43,8 +43,8 @@ XML element.
 # Input Id
 
 The input id is a unique identifier of the decision table input. It is used by
-Camunda 7 to reference the input in the history of evaluated
-decisions. Therefore, it is required by the Camunda DMN engine. It is set as
+EximeeBPMS to reference the input in the history of evaluated
+decisions. Therefore, it is required by the EximeeBPMS DMN engine. It is set as
 the `id` attribute of the `input` XML element.
 
 ```xml
@@ -149,7 +149,7 @@ The name of the variable can be specified by the `camunda:inputVariable`
 [extension attribute][inputVariable] on the `input` element. By default, the
 name is `cellInput`.
 
-To use the attribute you have to define the Camunda DMN namespace
+To use the attribute you have to define the EximeeBPMS DMN namespace
 `xmlns:camunda="http://camunda.org/schema/1.0/dmn` in the XML.
 
 ```xml

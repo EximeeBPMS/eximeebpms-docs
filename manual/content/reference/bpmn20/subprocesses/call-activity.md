@@ -213,7 +213,7 @@ The first one is to set the Camunda extension property `variableMappingClass` an
 
     <sequenceFlow id="flow1" sourceRef="theStart" targetRef="callSubProcess" />
 
-    <callActivity id="callSubProcess" calledElement="simpleSubProcess" camunda:variableMappingClass="org.camunda.bpm.example.bpm.callactivity.DelegatedVarMapping"/>
+    <callActivity id="callSubProcess" calledElement="simpleSubProcess" camunda:variableMappingClass="org.eximeebpms.bpm.example.bpm.callactivity.DelegatedVarMapping"/>
 
     <sequenceFlow id="flow3" sourceRef="callSubProcess" targetRef="taskAfterSubProcess" />
 

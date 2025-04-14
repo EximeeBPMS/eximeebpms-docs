@@ -162,7 +162,7 @@ Be assured that we have the loop marker in our backlog to be added to the engine
 
 ## JSON Collections with Multi-Instance Collections
 
-JSON Arrays created with [Camunda SPIN]({{< ref "/reference/spin/_index.md">}}) can be used as a collection for multi-instance activities. 
+JSON Arrays created with [EximeeBPMS SPIN]({{< ref "/reference/spin/_index.md">}}) can be used as a collection for multi-instance activities. 
 Consider the following JavaScript example that initializes execution variable `collection`:
 
 ```javascript

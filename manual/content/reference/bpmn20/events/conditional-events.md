@@ -15,7 +15,7 @@ The conditional event defines an event which is triggered if a given condition i
 It can be used as start event of an event sub process, as intermediate event and boundary event.
 The start and boundary event can be interrupting and non interrupting.
 
-In Camunda, conditional events are triggered with the help of process variables.
+In EximeeBPMS, conditional events are triggered with the help of process variables.
 See the [Trigger Conditional Events]({{< relref "#trigger-conditional-events">}}) section for details.
 
 In the following BPMN model, all supported conditional events are used.
