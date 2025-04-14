@@ -28,9 +28,6 @@ This guide covers mandatory migration steps as well as optional considerations f
 
 Noteworthy new Features and Changes in 7.8:
 
-* [Perform a batch modification in Cockpit]({{< ref "/webapps/cockpit/bpmn/process-instance-modification.md#perform-a-batch-modification" >}})
-* [Instance Restart in Cockpit]({{< ref "/webapps/cockpit/bpmn/process-instance-restart.md" >}})
-* [History Cleanup View in Cockpit]({{< ref "/webapps/cockpit/cleanup.md" >}})
 * [Extending of Locks on External Tasks]({{< ref "/user-guide/process-engine/external-tasks.md#extending-of-locks-on-external-tasks" >}})
 * [Full Timezone Support for Webapps]({{< ref "/user-guide/process-engine/time-zones.md" >}})
 * [Default Retry Time Cycle Configuration]({{< ref "/user-guide/process-engine/the-job-executor.md#retry-time-cycle-configuration" >}}) and [Retry Intervals]({{< ref "/user-guide/process-engine/the-job-executor.md#retry-intervals" >}})
