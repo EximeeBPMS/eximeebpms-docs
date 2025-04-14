@@ -28,7 +28,7 @@ params:
   section:
     id: "get-started"
   github:
-    repositoryName: "EximeeBPMS"
+    repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/get-started"
 
 outputs:

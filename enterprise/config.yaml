@@ -28,7 +28,7 @@ params:
   section:
     id: "enterprise"
   github:
-    repositoryName: "EximeeBPMS"
+    repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/enterprise"
 
 outputs:
