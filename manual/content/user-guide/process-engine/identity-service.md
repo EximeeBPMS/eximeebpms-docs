@@ -69,7 +69,7 @@ The LDAP identity service provides read-only access to an LDAP-based user/group 
 To use the LDAP identity service, the `eximeebpms-identity-ldap.jar` library has to be added to the classloader of the process engine.
 
 {{< note title="" class="info" >}}
-  Please import the [EximeeBPMS BOM](/eximeebpms-docs/get-started/apache-maven/) to ensure correct versions for every Camunda project.
+  Please import the [EximeeBPMS BOM](/get-started/apache-maven/) to ensure correct versions for every Camunda project.
 {{< /note >}}
 
 ```xml

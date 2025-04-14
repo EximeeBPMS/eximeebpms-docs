@@ -14,7 +14,7 @@ This guide gives an introduction to EximeeBPMS Run, a pre-packaged, lightweight 
 
 # Prerequisites and audience
 
-To use this guide, you should at least know what EximeeBPMS is and what it does. Check out the [Get Started guides](https://eximeebpms.github.io/eximeebpms-docs/get-started/quick-start/) if you have never used EximeeBPMS before. The [Installation guide]({{< ref "/installation/eximeebpms-bpm-run.md" >}}) is also worth looking at if you are completely new to EximeeBPMS.
+To use this guide, you should at least know what EximeeBPMS is and what it does. Check out the [Get Started guides](https://docs.eximeebpms.org/get-started/quick-start/) if you have never used EximeeBPMS before. The [Installation guide]({{< ref "/installation/eximeebpms-bpm-run.md" >}}) is also worth looking at if you are completely new to EximeeBPMS.
 
 This guide will teach you about EximeeBPMS Run and how to configure it. It can serve as a reference page for configuration and operation options. It will not give you a step-by-step guide on how to install EximeeBPMS Run. Head over to the [Installation guide]({{< ref "/installation/eximeebpms-bpm-run.md" >}}) for details on how to install and start EximeeBPMS Run.
 
@@ -181,7 +181,7 @@ Deployments via the {{< restref page="createDeployment" text="REST API" tag="Dep
 Just like all the other distros, you can tailor EximeeBPMS Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.
 
 {{< note title="Note:" class="info" >}}
-EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/camunda/camunda-bpm-platform/tree/master/spring-boot-starter). 
+EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/EximeeBPMS/eximeebpms/tree/master/spring-boot-starter). 
 All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the eximeebpms-spring-boot-starter are available to customize EximeeBPMS Run.
 {{< /note >}}
 

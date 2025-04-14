@@ -231,7 +231,7 @@ The group id changed from `<groupId>org.camunda.bpm.extension</groupId>` to `<gr
 
 # Changes to Camunda 7 Assert
 
-The source code of [Camunda 7 Assert]({{< ref "/user-guide/testing#camunda-assertions" >}}) has moved from its [previous location](https://github.com/camunda/camunda-bpm-assert) into the [Camunda 7 repository](https://github.com/camunda/camunda-bpm-platform/tree/master/test-utils/assert).
+The source code of [Camunda 7 Assert]({{< ref "/user-guide/testing#camunda-assertions" >}}) has moved from its [previous location](https://github.com/camunda/camunda-bpm-assert) into the [Camunda 7 repository](https://github.com/EximeeBPMS/eximeebpms/tree/master/test-utils/assert).
 
 Moving the project has several implications:
 
