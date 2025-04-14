@@ -37,7 +37,7 @@ public class Customer {
 We can map a JSON object `{"name" : "Kermit"}` to an instance of `Customer` as follows:
 
 ```java
-import static org.camunda.spin.Spin.JSON;
+import static org.eximeebpms.spin.Spin.JSON;
 
 Customer customer = JSON("{\"customer\": \"Kermit\"}").mapTo(Customer.class);
 ```
@@ -47,7 +47,7 @@ Customer customer = JSON("{\"customer\": \"Kermit\"}").mapTo(Customer.class);
 We can map the `customer` back to JSON as follows:
 
 ```java
-import static org.camunda.spin.Spin.JSON;
+import static org.eximeebpms.spin.Spin.JSON;
 
 String json = JSON(customer).toString();
 ```
@@ -60,7 +60,7 @@ You can also map Java primitives like boolean or number values to the correspond
 Assume we have a list of customers that we would declare as `List<Customer>` in Java. For mapping a JSON array `[{"name" : "Kermit"}, {"name" : "Hugo"}]` to such a list, calling `mapTo(ArrayList.class)` is not sufficient as Jackson cannot tell of which type the array's elements are. This case can be handled by providing `mapTo` with a canonical type string, following Jackson's conventions:
 
 ```java
-import static org.camunda.spin.Spin.JSON;
+import static org.eximeebpms.spin.Spin.JSON;
 
 String json = "[{\"customer\": \"Kermit\"}, {\"customer\": \"Kermit\"}]"
 
