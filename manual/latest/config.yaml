@@ -1,5 +1,5 @@
 ---
-baseURL: "/manual/latest"
+baseURL: "/manual/latest/"
 languageCode: "en-us"
 title: "EximeeBPMS documentation "
 themesDir: "../../themes"
@@ -27,8 +27,8 @@ params:
       url: "/security"
   section:
     id: "manual"
-    version: "1.0.0"
-    versionAlias: "1.0.0"
+    version: "latest"
+    versionAlias: "latest"
     versions:
       - "latest"
       - "1.0.0"
