@@ -24,7 +24,7 @@ Furthermore, the engine classes and Jackson's `com.fasterxml.jackson.jaxrs:jacks
 **Step 1:** Add the REST API to your project as a Maven dependency.
 
 {{< note title="" class="info" >}}
-  Please import the [EximeeBPMS BOM](/eximeebpms-docs/get-started/apache-maven/) to ensure correct versions for every EximeeBPMS project.
+  Please import the [EximeeBPMS BOM](/get-started/apache-maven/) to ensure correct versions for every EximeeBPMS project.
 {{< /note >}}
 
 ```xml
