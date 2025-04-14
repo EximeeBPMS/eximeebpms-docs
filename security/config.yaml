@@ -1,9 +1,9 @@
 ---
-baseURL: "/eximeebpms-docs/security/"
+baseURL: "/security/"
 languageCode: "en-us"
 title: "Product Security Guide"
 themesDir: "../themes"
-theme: "eximiee"
+theme: "eximee"
 
 relativeURLs: false
 
@@ -11,24 +11,24 @@ blackfriday:
   plainIDAnchors: true
 
 params:
-  canonicalBasePath: "https://eximeebpms.github.io/eximeebpms-docs"
+  canonicalBasePath: "https://docs.eximeebpms.org"
   sections:
     - id: "get-started"
       name: "Get Started"
-      url: "/eximeebpms-docs/get-started"
+      url: "/get-started"
     - id: "manual"
       name: "Manual"
-      url: "/eximeebpms-docs/manual"
+      url: "/manual"
     - id: "enterprise"
       name: "Enterprise"
-      url: "/eximeebpms-docs/enterprise"
+      url: "/enterprise"
     - id: "security"
       name: "Security"
-      url: "/eximeebpms-docs/security"
+      url: "/security"
   section:
     id: "security"
   github:
-    repositoryName: "EximeeBPMS/eximeebpms-docs"
+    repositoryName: "EximeeBPMS"
     branch: "master/security"
 
 outputs:
