@@ -11,10 +11,6 @@ menu:
 
 ---
 
-{{< note title="Plugin Compatibility" class="info" >}}
-Please note that we updated the frontend plugin interface with Camunda Runtime 7.14. Plugins written for Camunda Runtime 7.13 and earlier might no longer work with Camunda Runtime 7.14. Checkout the [update guide]({{< ref "/update/minor/713-to-714" >}}) for more details.
-{{< /note >}}
-
 Cockpit defines a plugin concept to add own functionality without being forced to extend or hack the Cockpit web application. You can add plugins at various plugin points, e.g., the processes dashboard as shown in the following example:
 
 {{< img src="../../img/cockpit-plugin.png" title="Cockpit Plugin" >}}
@@ -45,7 +41,7 @@ The basic skeleton of a Cockpit plugin looks as follows:
     |   |   |       └── MyPlugin.java                                     (1)
     |   |   └── resources/
     |   |       ├── META-INF/services/
-    |   |       |   └── org.camunda.bpm.cockpit.plugin.spi.CockpitPlugin  (2)
+    |   |       |   └── org.eximeebpms.bpm.cockpit.plugin.spi.CockpitPlugin  (2)
     |   |       ├── org/my/plugin/queries/                                (6)
     |   |       |   └── sample.xml
     |   |       └── plugin-webapp/MyPlugin/                               (7)
@@ -58,7 +54,7 @@ The basic skeleton of a Cockpit plugin looks as follows:
     |       |   └── org/my/plugin/
     |       |       └── MyPluginTest.java
     |       └── resources/
-    |           └── camunda.cfg.xml
+    |           └── eximeebpms.cfg.xml
     └── pom.xml
 
 As runtime relevant resource it defines
@@ -176,7 +172,7 @@ The first argument of the `#result` function is a (`Promise`).
 ### Login Data
 
 **Name:** `cockit.login.data`\
-**REST Endpoint:** `POST /camunda/api/admin/auth/user/default/login/cockpit`
+**REST Endpoint:** `POST /eximeebpms/api/admin/auth/user/default/login/cockpit`
 
 When a user clicks on the **Login** button of the login form, the plugin points `#result` function is called.
 Your [Login Plugin](#login) can react to the data that this data plugin will retrieve.
