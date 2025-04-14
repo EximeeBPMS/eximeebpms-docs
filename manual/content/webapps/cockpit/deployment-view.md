@@ -31,24 +31,6 @@ Independently of the search, ordering for the deployment list can be set using t
 To delete a deployment, hover over the deployment  and click on the deletion icon {{< glyphicon name="trash" >}}. In the dialog that appears, you can choose to cascade the deletion (i.e., also delete running and historic process instances) and you can choose to skip custom listeners and I/O mappings. After you have completed this step, the deployment is deleted.
 
 
-# Redeploy
-
-{{< enterprise >}}
-  Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-You can redeploy an existing deployment to increase the version of all definitions contained in the deployment and therefore overwrite any changes that happened to the definition since the initial deployment. To do so, click on the redeploy icon {{< glyphicon name="open" >}} that appears when hovering over a deployment. All contained resources in this deployment will then be redeployed. For every contained process, case, or decision definition a new version will be created. This new version will then be the latest version of all definitions with the same key.
-
-You can also only redeploy a single resource within the deployment: Navigate to the resource and click the {{< glyphicon name="open" text=" Redeploy">}} button to only redeploy this single resource. This is only possible for resources which contain definitions.
-
-# Create Deployment
-
-{{< enterprise >}}
-  Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-You can create a new deployment. To do so, click on the deploy icon {{< glyphicon name="open" text="deploy" >}} that appears when hovering over a list of deployments. The deploy dialog will open. Specify the name of the deployment and select files for this deployment by clicking on the "choose files" button. Confirm the deployment with the "deploy" button. A confirmation notification with a link to the deployment details appears.
-
 # Definition Resources
 
 For resources that contain definitions (BPMN, DMN and CMMN files), a preview of the diagram or the table is displayed on the right side of the page as well as the version number of the definitions contained in this resource. At the bottom of the page, there is a list of definitions with a link to the respective definition pages. The enterprise version also includes the possibility to [edit DMN tables directly on the page]({{< ref "/webapps/cockpit/dmn/live-editing.md" >}}).
