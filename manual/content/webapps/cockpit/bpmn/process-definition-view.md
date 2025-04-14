@@ -120,8 +120,4 @@ However, the called process definition can only be resolved at runtime and is on
 
 {{< img src="../../img/cockpit-call-activity-definition-navigation.png" title="Navigate to called processes definition" >}}
 
-For more drill down options on call activities you can check out the [process instance view][process-instance-view] 
-and the [process history views][process-history-views].
-
-
-[process-history-views]: {{< ref "/webapps/cockpit/bpmn/process-history-views.md" >}}
+For more drill down options on call activities you can check out the [process instance view][process-instance-view].
