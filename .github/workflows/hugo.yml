@@ -32,8 +32,19 @@ jobs:
           HUGO_BIN="${{ runner.temp }}/hugo"
           for dir in enterprise security get-started manual; do
             if [ -d "$dir" ]; then
-              echo "Building site for $dir..."
-              "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+              if [ "$dir" = "manual" ]; then
+                echo "Processing subdirectories of $dir..."
+                for subdir in "$dir"/*/; do
+                  if [ -d "$subdir" ]; then
+                    subname=$(basename "$subdir")
+                    echo "Building site for $subdir..."
+                    "$HUGO_BIN" --minify -s "$subdir" -d "../public-manual-${subname}"
+                  fi
+                done
+              else
+                echo "Building site for $dir..."
+                "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+              fi
             else
               echo "Skipping $dir, directory does not exist."
             fi
