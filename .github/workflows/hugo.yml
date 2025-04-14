@@ -54,6 +54,7 @@ jobs:
             cp -r public-${dir}/* gh-pages/docs/${dir}/
           done
           cp -r public-manual/* gh-pages/docs/
+          cp -r javadoc/* gh-pages/docs/manual/reference/javadoc/
 
       - name: Commit and push changes
         run: |
