@@ -70,6 +70,7 @@ jobs:
                     version=$(basename "$subdir")
                     mkdir -p gh-pages/docs/manual/${version}
                     cp -r public-manual-${version}/* gh-pages/docs/manual/${version}/
+                    cp -r ${dir}/${version}/javadoc/* gh-pages/docs/manual/${version}/reference/javadoc/
                   fi
                 done
               else
@@ -83,7 +84,6 @@ jobs:
           done
           cp -r public-manual-latest/* gh-pages/docs/
           rm -rf public-manual-*
-          # cp -r javadoc/* gh-pages/docs/manual/reference/javadoc/
           cp -r CNAME gh-pages/docs/
 
       - name: Commit and push changes
