@@ -61,12 +61,13 @@ See the [Installation Guide][installation-guide-full] for additional details.
 # Download Camunda Modeler
 
 Camunda Modeler is a modeling Tool for BPMN 2.0 and DMN 1.3. Camunda Modeler can be downloaded
-from the [community download page][community-download-page].
+from the [community download page][community-download-page-camunda-modeler].
 
 
 
 [get-jdk]: https://adoptium.net/temurin/releases/
-[community-download-page]: https://camunda.com/download/
+[community-download-page]: https://eximeebpms.org/download/
+[community-download-page-camunda-modeler]: https://camunda.com/download/modeler/
 [shared-engine]: {{< ref "/introduction/architecture.md#shared-container-managed-process-engine" >}}
 [installation-guide-full]: {{< ref "/installation/_index.md" >}}
 [run-with-spring-boot]: {{< ref "/user-guide/spring-boot-integration/_index.md" >}}
