@@ -85,6 +85,8 @@ jobs:
           cp -r public-manual-latest/* gh-pages/docs/
           rm -rf public-manual-*
           cp -r CNAME gh-pages/docs/
+          mkdir -p gh-pages/docs/rest
+          cp -r rest/* gh-pages/docs/rest/
 
       - name: Commit and push changes
         run: |
