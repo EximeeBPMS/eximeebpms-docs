@@ -1,9 +1,9 @@
 ---
-baseURL: "/eximeebpms-docs/get-started/"
+baseURL: "/get-started/"
 languageCode: "en-us"
 title: "Getting started with EximeeBPMS"
 themesDir: "../themes"
-theme: "eximiee"
+theme: "eximee"
 
 relativeURLs: false
 
@@ -11,17 +11,20 @@ blackfriday:
   plainIDAnchors: true
 
 params:
-  canonicalBasePath: "https://eximeebpms.github.io/eximeebpms-docs"
+  canonicalBasePath: "https://docs.eximeebpms.org"
   sections:
     - id: "get-started"
       name: "Get Started"
-      url: "/eximeebpms-docs/get-started"
+      url: "/get-started"
     - id: "manual"
       name: "Manual"
-      url: "/eximeebpms-docs/manual"
+      url: "/manual/latest"
+    - id: "enterprise"
+      name: "Enterprise"
+      url: "/enterprise"
     - id: "security"
       name: "Security"
-      url: "/eximeebpms-docs/security"
+      url: "/security"
   section:
     id: "get-started"
   github:
