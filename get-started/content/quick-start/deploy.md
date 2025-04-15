@@ -8,14 +8,14 @@ menu:
     name: "Deploy the Process"
     parent: "get-started-quick-start"
     identifier: "get-started-quick-start-deploy"
-    pre: "Deploy the Process to Camunda and start your first process instance."
+    pre: "Deploy the Process to EximeeBPMS and start your first process instance."
 
 ---
 
 In the next step, you'll deploy the Process and start a new instance so you can see that your simple process is working correctly.
 
 {{< note class="info" title="Deployment Support" >}}
-BPMN diagrams must be created for the process engine they intend to be deployed on. You cannot run a BPMN diagram modeled for Camunda Platform in Camunda Cloud, or vice versa, at this time. {{< /note >}}
+BPMN diagrams must be created for the process engine they intend to be deployed on. You cannot run a BPMN diagram modeled for EximeeBPMS Platform in Camunda Cloud, or vice versa, at this time. {{< /note >}}
 
 
 # Use the Camunda Modeler to Deploy the Process
