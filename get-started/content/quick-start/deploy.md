@@ -31,15 +31,15 @@ More details regarding the deployment from Camunda Modeler you can find [here](h
 
 # Verify the Deployment with Cockpit
 
-Next, use Cockpit to see if the process was successfully deployed. Go to [http://localhost:8080/camunda/app/cockpit/](http://localhost:8080/camunda/app/cockpit/) and log in with the credentials demo / demo. Your process *Payment Retrieval* should be visible on the dashboard.
+Next, use Cockpit to see if the process was successfully deployed. Go to [http://localhost:8080/eximeebpms/app/cockpit/](http://localhost:8080/eximeebpms/app/cockpit/) and log in with the credentials demo / demo. Your process *Payment Retrieval* should be visible on the dashboard.
 
 {{< img src="../img/cockpit-payment-retrieval.png" >}}
 
 
 # Start a Process Instance
 
-In Camunda, there are different ways to start a new process instance.
-You can leverage the Camunda REST API to start a new process instance by sending a POST Request.
+In EximeeBPMS, there are different ways to start a new process instance.
+You can leverage the EximeeBPMS REST API to start a new process instance by sending a POST Request.
 
 ## a) curl
 
@@ -80,10 +80,6 @@ Here's what the request might look like in Postman:
 
 In your worker console (which we started in the previous section), you should now see an output.
 This means you have successfully started and executed your first simple process.
-
-{{< note title="Hint" class="info" >}}
-If you are running on Camunda Enterprise Edition, you can also check out your completed process instance in the Camunda Cockpit.
-{{< /note >}}
 
 {{< note title="Next Step" class="info" >}}
 In some cases, we'll want to involve humans in our process. Move onto the next step to [learn how you can involve humans in your process](/get-started/quick-start/user-task/).
