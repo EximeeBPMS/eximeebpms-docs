@@ -31,9 +31,20 @@ jobs:
         run: |
           HUGO_BIN="${{ runner.temp }}/hugo"
           for dir in enterprise security get-started manual; do
-            if [ -d "$dir" ]; then
-              echo "Building site for $dir..."
-              "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+          if [ -d "$dir" ]; then
+            if [ "$dir" = "manual" ]; then
+              echo "Processing subdirectories of $dir..."
+              for subdir in "$dir"/*/; do
+                if [ -d "$subdir" ]; then
+                  subname=$(basename "$subdir")
+                  echo "Building site for $subdir..."
+                  "$HUGO_BIN" --minify -s "$subdir" -d "../../public-manual-${subname}"
+                fi
+              done
+              else
+                echo "Building site for $dir..."
+                "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+              fi
             else
               echo "Skipping $dir, directory does not exist."
             fi
@@ -50,10 +61,30 @@ jobs:
           rm -rf gh-pages/docs/*
           mkdir -p gh-pages/docs
           for dir in enterprise security get-started manual; do
-            mkdir -p gh-pages/docs/${dir}
-            cp -r public-${dir}/* gh-pages/docs/${dir}/
+            if [ -d "$dir" ]; then
+              if [ "$dir" = "manual" ]; then
+                echo "Processing subdirectories of $dir..."
+                for subdir in "$dir"/*/; do
+                  echo "Copying content from $subdir..."
+                  if [ -d "$subdir" ]; then
+                    version=$(basename "$subdir")
+                    mkdir -p gh-pages/docs/manual/${version}
+                    cp -r public-manual-${version}/* gh-pages/docs/manual/${version}/
+                    cp -r ${dir}/${version}/javadoc/* gh-pages/docs/manual/${version}/reference/javadoc/
+                  fi
+                done
+              else
+                mkdir -p gh-pages/docs/${dir}
+                cp -r public-${dir}/* gh-pages/docs/${dir}/
+                rm -rf public-${dir}
+              fi
+            else
+              echo "Skipping $dir, directory does not exist."
+            fi
           done
-          cp -r public-manual/* gh-pages/docs/
+          cp -r public-manual-latest/* gh-pages/docs/
+          rm -rf public-manual-*
+          cp -r CNAME gh-pages/docs/
 
       - name: Commit and push changes
         run: |

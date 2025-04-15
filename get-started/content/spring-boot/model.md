@@ -41,16 +41,16 @@ Once it is saved in the application classpath, it will be automatically deployed
 
 ## Create Process Application
 
-We recommend to declare the process application in your Camunda Spring Boot application, which gives additional configuration possibilities and will help us in the current demo
+We recommend to declare the process application in your EximeeBPMS Spring Boot application, which gives additional configuration possibilities and will help us in the current demo
 to catch the "post-deploy" event to start the process instance at that point.
 
 To declare the process application, just add the `@EnableProcessApplication` annotation on your `WebappExampleProcessApplication` class and put the empty `processes.xml` file in the
-`src/main/resources/META-INF` folder. The file is required by the Camunda Engine for every process application, but in our case it will stay empty.
+`src/main/resources/META-INF` folder. The file is required by the EximeeBPMS Engine for every process application, but in our case it will stay empty.
 
 ## Start a Process Instance after Process Application has been Deployed
 
 The next step consists of starting a process instance from our process application class. For this, we will process `PostDeployEvent`, which is fired as soon as
-our process application has been deployed to the Camunda engine.
+our process application has been deployed to the EximeeBPMS engine.
 
 ```java
 ...
@@ -64,7 +64,7 @@ our process application has been deployed to the Camunda engine.
 ...
 ```
 
-Note that we can easily inject the Camunda engine service via the `@Autowired` annotation.
+Note that we can easily inject the EximeeBPMS engine service via the `@Autowired` annotation.
 
 ## Rebuild and test
 

@@ -9,6 +9,5 @@ thumbnails/
 _gen/
 
 .env
-**/resources/
 **/public
 .hugo_build.lock

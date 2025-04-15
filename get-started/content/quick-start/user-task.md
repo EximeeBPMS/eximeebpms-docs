@@ -8,7 +8,7 @@ menu:
     name: "Involve Humans"
     parent: "get-started-quick-start"
     identifier: "get-started-quick-start-model"
-    pre: "Learn the basics of integrating user tasks into a Process and how to build forms with Camunda."
+    pre: "Learn the basics of integrating user tasks into a Process and how to build forms with EximeeBPMS."
 
 ---
 
@@ -83,7 +83,7 @@ Field 3:
 
 {{< img src="../img/modeler-usertask6.png" >}}
 
-Now, select Camunda Platform as the execution platform in the lower left corner of the modeler and hit *Apply*.
+Now, select EximeeBPMS Platform as the execution platform in the lower left corner of the modeler and hit *Apply*.
 {{< img src="../img/modeler-platform-selection.png" >}}
 Finally, save the form as `payment.form`.
 
@@ -99,7 +99,7 @@ Finally, save the form as `payment.form`.
 
 # Work on the Task
 
-Go to Tasklist ([http://localhost:8080/camunda/app/tasklist/](http://localhost:8080/camunda/app/tasklist/)) and log in with the credentials "demo / demo".
+Go to Tasklist ([http://localhost:8080/eximeebpms/app/tasklist/](http://localhost:8080/eximeebpms/app/tasklist/)) and log in with the credentials "demo / demo".
 Click on the {{< glyphicon name="list-alt" text=" Start process" >}} button to start a process instance. This opens a dialog where you can select *Payment Retrieval* from the list. Now you can set variables for the process instance using a generic form.
 
 {{< img src="../img/start-form-generic.png" >}}

@@ -66,7 +66,7 @@ Save your changes and replace the existing DMN file in the `src/main/resources` 
 To evaluate the *Beverages* decision, we extend the existing method in your Application class and add a new variable "guestsWithChildren".
 
 ```java
-package org.camunda.bpm.getstarted.dmn;
+package org.eximeebpms.bpm.getstarted.dmn;
 
 @ProcessApplication("Dinner App DMN")
 public class DinnerApplication extends ServletProcessApplication
@@ -102,35 +102,35 @@ public class DinnerApplication extends ServletProcessApplication
 
 # Build and Deploy the Web Application
 
-Build the web application with Maven and replace the `dinner-dmn-0.1.0-SNAPSHOT.war` in the `$CAMUNDA_HOME/server/apache-tomcat/webapps` folder.
+Build the web application with Maven and replace the `dinner-dmn-0.1.0-SNAPSHOT.war` in the `$EXIMEEBPMS_HOME/server/apache-tomcat/webapps` folder.
 
 Check the log file of the Apache Tomcat server. If you see the following log message, the deployment was successful:
 
 <pre class="console">
-INFO org.camunda.commons.logging.BaseLogger.logInfo
-ENGINE-07015 Detected @ProcessApplication class 'org.camunda.bpm.getstarted.dish.DishApplication'
-INFO org.camunda.commons.logging.BaseLogger.logInfo
+INFO org.eximeebpms.commons.logging.BaseLogger.logInfo
+ENGINE-07015 Detected @ProcessApplication class 'org.eximeebpms.bpm.getstarted.dish.DishApplication'
+INFO org.eximeebpms.commons.logging.BaseLogger.logInfo
 ENGINE-08024 Found processes.xml file at ../webapps/dinner-dmn-0.1.0-SNAPSHOT/WEB-INF/classes/META-INF/processes.xml
-INFO org.camunda.commons.logging.BaseLogger.logInfo
+INFO org.eximeebpms.commons.logging.BaseLogger.logInfo
 ENGINE-08023 Deployment summary for process archive 'dinner-dmn':
 
         dinnerDecisions.dmn
 
-INFO org.camunda.bpm.getstarted.dmn.DinnerApplication.evaluateDecisionTable 
+INFO org.eximeebpms.bpm.getstarted.dmn.DinnerApplication.evaluateDecisionTable 
 
 Desired dish: Stew
 
-INFO org.camunda.bpm.getstarted.dmn.DinnerApplication.evaluateDecisionTable 
+INFO org.eximeebpms.bpm.getstarted.dmn.DinnerApplication.evaluateDecisionTable 
 
 Desired beverages: [Guiness, Water]
 
-INFO org.camunda.commons.logging.BaseLogger.logInfo
+INFO org.eximeebpms.commons.logging.BaseLogger.logInfo
 ENGINE-08050 Process application Dinner App DMN successfully deployed
 </pre>
 
 # Verify the Evaluation with Cockpit
 
-Now, open [Cockpit](http://localhost:8080/camunda/app/cockpit) and go to the "Decisions" section.
+Now, open [Cockpit](http://localhost:8080/eximeebpms/app/cockpit) and go to the "Decisions" section.
 
 {{< img src="../img/cockpit-decision-overview-beverages-dmn.png" >}}
 
@@ -147,4 +147,4 @@ Note that the *Dish* decision is evaluated as part of the evaluation of the *Bev
 Next,
 
 * learn more about DRG by reading the [DMN Reference](/manual/reference/dmn11/drg),
-* learn more about [DMN in Cockpit](https://docs.camunda.org/manual/webapps/cockpit/dmn/) and specialized views for DRGs (Enterprise Feature)
+* learn more about [DMN in Cockpit](https://docs.eximeebpms.org/manual/webapps/cockpit/dmn/) and specialized views for DRGs (Enterprise Feature)
