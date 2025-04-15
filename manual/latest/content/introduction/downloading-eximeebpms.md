@@ -25,13 +25,9 @@ EximeeBPMS is a flexible framework which can be used in different contexts. See 
 ({{< ref "/introduction/architecture.md" >}}) for more details. Based on how you want
 to use EximeeBPMS, you can choose a different distribution.
 
-
-## Community vs. Enterprise Edition
-
-EximeeBPMS provides separate runtime downloads for community users and enterprise subscription customers:
+EximeeBPMS provides runtime downloads for community users:
 
 * [Community download page][community-download-page]
-* [Enterprise download page][enterprise-download-page]
 
 It is also possible to run EximeeBPMS with [Spring Boot][run-with-spring-boot] and [Docker][run-with-docker].
 
@@ -71,7 +67,6 @@ from the [community download page][community-download-page].
 
 [get-jdk]: https://adoptium.net/temurin/releases/
 [community-download-page]: https://camunda.com/download/
-[enterprise-download-page]: /enterprise/download
 [shared-engine]: {{< ref "/introduction/architecture.md#shared-container-managed-process-engine" >}}
 [installation-guide-full]: {{< ref "/installation/_index.md" >}}
 [run-with-spring-boot]: {{< ref "/user-guide/spring-boot-integration/_index.md" >}}
