@@ -11,7 +11,7 @@ menu:
 ---
 
 
-{{< img src="../img/admin-authorization.png" title="Authorizations" >}}
+{{< img src="../img/admin-authorization.jpg" title="Authorizations" >}}
 
 Manage authorizations for a variety of resources (e.g., *Applications*, *Groups*, *Filters*). In the following sections you will learn how to use an administrator account with the help of some simple use cases.
 
