@@ -1,8 +1,8 @@
 ---
-baseURL: "/enterprise/"
+baseURL: "/manual/latest/"
 languageCode: "en-us"
-title: "EximeeBPMS Enterprise"
-themesDir: "../themes"
+title: "EximeeBPMS documentation "
+themesDir: "../../themes"
 theme: "eximee"
 
 relativeURLs: false
@@ -26,10 +26,14 @@ params:
       name: "Security"
       url: "/security"
   section:
-    id: "enterprise"
+    id: "manual"
+    version: "latest"
+    versionAlias: "latest"
+    versions:
+      - "latest"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "master/enterprise"
+    branch: "master/manual"
 
 outputs:
   home:

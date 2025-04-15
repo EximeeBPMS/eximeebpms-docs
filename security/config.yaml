@@ -18,7 +18,7 @@ params:
       url: "/get-started"
     - id: "manual"
       name: "Manual"
-      url: "/manual"
+      url: "/manual/latest"
     - id: "enterprise"
       name: "Enterprise"
       url: "/enterprise"
@@ -28,7 +28,7 @@ params:
   section:
     id: "security"
   github:
-    repositoryName: "EximeeBPMS"
+    repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/security"
 
 outputs:
