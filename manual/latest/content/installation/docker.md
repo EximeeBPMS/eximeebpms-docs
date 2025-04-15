@@ -14,7 +14,7 @@ menu:
 
 # Community Edition
 
-The Community Edition docker images can be found on [GitHub](https://github.com/camunda/docker-camunda-bpm-platform) and [Docker Hub](https://hub.docker.com/r/camunda/camunda-bpm-platform/).
+The Community Edition docker images can be found on [GitHub](https://github.com/EximeeBPMS/eximeebpms-docker) and [Docker Hub](https://hub.docker.com/r/camunda/camunda-bpm-platform/).
 
 ## Start EximeeBPMS Run using Docker
 
@@ -34,4 +34,4 @@ docker pull eximeebpms/eximeebpms-bpm-platform:latest
 docker run -d --name eximeebpms -p 8080:8080 eximeebpms/eximeebpms-bpm-platform:latest
 ```
 
-Please note that by default the Apache Tomcat distribution is used. For a guide on how to use one of the other distributions, see the [tag schema](https://github.com/camunda/docker-camunda-bpm-platform#supported-tagsreleases).
+Please note that by default the Apache Tomcat distribution is used. For a guide on how to use one of the other distributions, see the [tag schema](https://github.com/EximeeBPMS/eximeebpms-docker#supported-tagsreleases).
