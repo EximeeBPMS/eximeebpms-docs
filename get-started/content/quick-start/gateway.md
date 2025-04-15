@@ -29,7 +29,7 @@ Now also name the new elements accordingly:
 
 Next, open the properties panel and select the `<1000 €` Sequence Flow after the Gateway on the canvas. This will update the selection in the properties panel.
 Scroll to the property named `Condition Type` and change it to `Expression`. Then input `${amount<1000}` as the Expression.
-We are using the [Java Unified Expression Language](https://docs.camunda.org/manual/latest/user-guide/process-engine/expression-language/) to evaluate the Gateway.
+We are using the [Java Unified Expression Language](https://docs.EximeeBPMS.org/manual/latest/user-guide/process-engine/expression-language/) to evaluate the Gateway.
 
 {{< img src="../img/modeler-gateway3.png" >}}
 
@@ -47,11 +47,11 @@ For the `No` Sequence Flow, use the Expression `${!approved}`:
 
 # Deploy the Process
 
-Use the `Deploy` Button in the Camunda Modeler to deploy the updated process to Camunda.
+Use the `Deploy` Button in the Camunda Modeler to deploy the updated process to EximeeBPMS.
 
 # Work on the Task
 
-Go to Tasklist ([http://localhost:8080/camunda/app/tasklist/](http://localhost:8080/camunda/app/tasklist/)) and log in with the credentials "demo / demo".
+Go to Tasklist ([http://localhost:8080/eximeebpms/app/tasklist/](http://localhost:8080/eximeebpms/app/tasklist/)) and log in with the credentials "demo / demo".
 Click on the {{< glyphicon name="list-alt" text=" Start process" >}} button to start a process instance for the *Payment Retrieval* Process.
 Next, set variables for the process instance using the generic form as we learned in the *User Tasks* section.
 
