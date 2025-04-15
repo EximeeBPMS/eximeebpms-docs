@@ -15,9 +15,6 @@ The process engine reports runtime metrics to the database that can help draw co
 # Built-in Metrics
 
 The following table describes the built-in metrics. The identifiers of all built-in metrics are available as constants of the class {{< javadocref page="org/camunda/bpm/engine/management/Metrics.html" text="org.eximeebpms.bpm.engine.management.Metrics" >}}.
-{{< note title="Heads Up!" class="warning" >}}
-If you are an enterprise customer, your license agreement might require you to report some metrics annually. Please store `root-process-instance-start`, `activity-instance-start`, `executed-decision-instances` and `executed-decision-elements` metrics from `ACT_RU_METER_LOG` as well as task metrics from `ACT_RU_TASK_METER_LOG` for at least 18 months until they were reported.
-{{< /note >}}
 
 <table class="table table-striped">
   <tr>
@@ -118,8 +115,6 @@ If you are an enterprise customer, your license agreement might require you to r
     <td>The number of task metrics removed by history clean up.</td>
   </tr>
 </table>
-
-*Some enterprise agreements require annual reports of some metrics. Please store those metrics for at least 18 months.
 
 # Querying
 

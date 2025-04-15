@@ -41,7 +41,11 @@ Underneath, it displays all the available annual usage metrics.
 Annual metrics together with the diagnostics data can be copied to the clipboard by clicking on
 the <button class="btn btn-xs"><i class="glyphicon glyphicon-copy"></i></button> button.
 The copied format consists of two parts as seen below in the example.
+<<<<<<< HEAD
 The second part contains the diagnostics data which provides useful information that helps EximeeBPMS to improve support but customers can opt out of sharing it.
+=======
+The second part contains the diagnostics data which provides useful information that helps Camunda to improve support but customers can opt out of sharing it.
+>>>>>>> origin/master
 This part has been truncated in the example.
 
 ```
@@ -61,4 +65,8 @@ This part has been truncated in the example.
     ...
   }
 }
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> origin/master

@@ -24,6 +24,8 @@ To enable the [Web Applications]({{<ref "/webapps/_index.md">}}) you can use the
 By default the application path is `/eximeebpms`, so without any further configuration you can access 
 the Webapps under [http://localhost:8080/eximeebpms/app/](http://localhost:8080/eximeebpms/app/).
 
+<<<<<<< HEAD
+=======
 ## Enterprise webapps
 
 {{< enterprise >}}
@@ -45,6 +47,7 @@ If you are using the enterprise edition, you can also use the [`eximeebpms.bpm.l
 property to provide a license file that is inserted on application start. Or copy your license file under the name 
 `eximeebpms-license.txt` to your `src/main/resources`.
 
+>>>>>>> refs/remotes/origin/master
 ## Configurations
 
 You can change the application path with the following configuration property in your `application.yaml` file:
