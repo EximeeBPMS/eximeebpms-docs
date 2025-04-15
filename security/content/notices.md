@@ -8,7 +8,7 @@ menu:
     identifier: "notices"
 ---
 
-On this page, Camunda publishes security notices _after_ fixes are available.
+On this page, EximeeBPMS publishes security notices _after_ fixes are available.
 Fixes are available as patches to the enterprise platform and alpha or minor
 releases of the community platform.
 
