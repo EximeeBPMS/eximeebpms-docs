@@ -30,7 +30,7 @@ This document guides you through the update from Camunda `7.21.x` to `7.22.0` an
 1. For administrators and developers: [Sending telemetry feature removed](#sending-telemetry-feature-removed)
 1. For administrators: [Database transaction isolation level `READ_COMMITTED` is enforced](#database-transaction-isolation-level-read-committed-is-enforced)
 1. For developers: [Quarkus 3.14 Extension Update](#quarkus-3-14-extension-update)
-1. For administrators and developers: [Cockpit: Process Instance Batch Modification](#cockpit-process-instance-batch-modification)
+1. For administrators and developers: Cockpit: Process Instance Batch Modification
 
 This guide covers mandatory migration steps and optional considerations for the initial configuration of new functionality included in Camunda 7.22.
 
@@ -321,7 +321,7 @@ To read more on how Quarkus extensions treat configuration differently, see this
 
 # Cockpit: Process Instance Batch Modification
 
-This release introduces changes in Cockpit when performing a [Process Instance Batch Modification][process-instance-modification]:
+This release introduces changes in Cockpit when performing a Process Instance Batch Modification:
 
 1. Querying for process instances now uses the historic instead of the runtime process instance query. This streamlines the query behavior with the standalone batch operation page.
 2. Users that have saved queries cannot access them anymore after the upgrade. Please inform your users to migrate their saved queries accordingly.
@@ -336,5 +336,3 @@ The 7.22.0 release introduced a limitation for the `Activity ID` filter: Filteri
 
 After some user feedback, we understood that there are use cases that cannot be catered with this limitation in place leading to undesired behavior.
 With this patch release, we lifted this limitation by opting for a different solution approach which restored the previous behavior.
-
-[process-instance-modification]: {{< ref "/webapps/cockpit/bpmn/process-instance-modification.md#perform-a-batch-modification" >}}
