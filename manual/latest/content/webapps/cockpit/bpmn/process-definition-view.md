@@ -89,62 +89,6 @@ Add a filter for process instances by filtering for a `boolean` value.
 Add a filter for process instances by filtering for a `numeric` (double, integer, long or short) value.
 
 
-## History View
-
-Add a filter to the [process definition history view][process-definition-history-view]. Select filters for variables, the start date and time, the activity ID or the business key of process instances as in [the runtime view](#runtime-view). In addition, select filters for completed, running or process instances with a certain end date and time.
-
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-**Filtering for completed and running process instances**
-
-{{< img src="../../img/filter-examples/history-completed.png" title="Filter Example" >}}
-{{< img src="../../img/filter-examples/history-running.png" title="Filter Example" >}}
-
-Add a filter for process instances by filtering for already completed or still running process instances.
-
-
-**End Date and Time**
-
-{{< img src="../../img/filter-examples/history-end-date.png" title="Filter Example" >}}
-
-Add a filter for process instances by end date. Please note that the date must be set in accordance to the [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) standard and that this option is only available in the [process definition history view][process-definition-history-view]. Again choose between `before` and `after` to filter for instances that were ended before or after the given date. For example, click on `before` to obtain the selection..
-
-
-[process-definition-history-view]: {{< ref "/webapps/cockpit/bpmn/process-history-views.md#process-definition-history-view" >}}
-
-
-# Delete Multiple Running Process Instances
-
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-{{< img src="../../img/cockpit-bulk-delete.png" title="Batch Delete Running Process Instances" >}}
-
-Delete multiple running process instances at once by using this feature. In the process definition view, hit the {{< glyphicon name="remove-circle" >}} button on the right side. This opens a confirmation screen in which you can select which process instances to delete. You can apply [filters](#filter) to make it easier to find the desired process instances. In addition, it is possible to provide a reason for the delete. After you have selected which instances to delete and confirmed the delete, the runtime data of the deleted instances will be removed.
-
-# Delete A Process Definition Version
-
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-Delete the current process definition version by using this feature. In the process definition view, hit the {{< glyphicon name="trash" >}} button on the right side. This opens a confirmation screen in which you can select flags to apply to the delete. You can always choose to enable/disable skipping custom listeners. However, if the process definition version has process instances running, enabling the cascading flag becomes mandatory.
-
-# BPMN Documentation
-
-{{< enterprise >}}
-Please note that this feature is only included in the enterprise edition of Camunda 7, it is not available in the community edition.
-{{< /enterprise >}}
-
-{{< img src="../../img/cockpit-documentation.png" title="Set Job Priority" >}}
-
-This feature allows you to inspect documentation added in the Camunda Modeler. To do so, open the Documentation tab. Elements with a documentation are indicated with a {{< glyphicon name="info-sign" >}} in the diagram. The documentation table lists all documented elements. Click on a table row to highlight the element in the diagram.
-
-To view long documentations, click on the {{< glyphicon name="info-sign" >}} on the element or the documentation link in the table. This opens a modal which displays the formated documentation in a textbox. To copy the documentation to the clipboard, click on {{< glyphicon name="copy" >}} button.
-
 # Set Job priority
 
 {{< img src="../../img/cockpit-set-job-priority.png" title="Set Job Priority" >}}
@@ -176,8 +120,4 @@ However, the called process definition can only be resolved at runtime and is on
 
 {{< img src="../../img/cockpit-call-activity-definition-navigation.png" title="Navigate to called processes definition" >}}
 
-For more drill down options on call activities you can check out the [process instance view][process-instance-view] 
-and the [process history views][process-history-views].
-
-
-[process-history-views]: {{< ref "/webapps/cockpit/bpmn/process-history-views.md" >}}
+For more drill down options on call activities you can check out the [process instance view][process-instance-view].

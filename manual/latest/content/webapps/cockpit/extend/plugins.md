@@ -41,7 +41,7 @@ The basic skeleton of a Cockpit plugin looks as follows:
     |   |   |       └── MyPlugin.java                                     (1)
     |   |   └── resources/
     |   |       ├── META-INF/services/
-    |   |       |   └── org.camunda.bpm.cockpit.plugin.spi.CockpitPlugin  (2)
+    |   |       |   └── org.eximeebpms.bpm.cockpit.plugin.spi.CockpitPlugin  (2)
     |   |       ├── org/my/plugin/queries/                                (6)
     |   |       |   └── sample.xml
     |   |       └── plugin-webapp/MyPlugin/                               (7)
@@ -54,7 +54,7 @@ The basic skeleton of a Cockpit plugin looks as follows:
     |       |   └── org/my/plugin/
     |       |       └── MyPluginTest.java
     |       └── resources/
-    |           └── camunda.cfg.xml
+    |           └── eximeebpms.cfg.xml
     └── pom.xml
 
 As runtime relevant resource it defines
@@ -172,7 +172,7 @@ The first argument of the `#result` function is a (`Promise`).
 ### Login Data
 
 **Name:** `cockit.login.data`\
-**REST Endpoint:** `POST /camunda/api/admin/auth/user/default/login/cockpit`
+**REST Endpoint:** `POST /eximeebpms/api/admin/auth/user/default/login/cockpit`
 
 When a user clicks on the **Login** button of the login form, the plugin points `#result` function is called.
 Your [Login Plugin](#login) can react to the data that this data plugin will retrieve.
@@ -580,61 +580,6 @@ This additional data is passed into the render function:
 
 {{< img src="../../img/plugin-points/plugin-point-task-dashboard.png" title="Open Task Dashboard" >}}
 
-## Report View
-
-**Name:** `cockpit.report`
-
-See the [Reports]({{< ref "/webapps/cockpit/reporting.md" >}}) section for an example report plugin.
-
-This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
-
-```Javascript
-properties: {
-  label: "My Plugin"
-}
-```
-
-## Batch Operation
-
-**Name:** `cockpit.batch.operation`
-
-{{< img src="../../img/plugin-points/plugin-point-batch-operation.png" title="Custom Plugin" >}}
-
-The render function can be used to create a form for custom payloads to your batch operation.
-
-A simple batch operation without a payload could look like this:
-
-```javascript
-export default {
-  id: "my-batch-plugin",
-  pluginPoint: "cockpit.batch.operation",
-  priority: 0,
-  render: () => {},
-
-  properties: {
-    // Defines which instances the search field will be showing
-    searchType: "process" || "decision" || "batch",
-
-    // A function which returns the endpoint and the payload of the batch operation. The argument contains either the search query or the selected IDs.
-    // 'api' contains the engine API endpoints. See "Attributes in Detail" for more information.
-    onSubmit: function({ query, ids, api }) {
-      // The return value must contain the endpoint and the payload object.
-      return {
-        endpoint: "/my/custom/batch/endpoint",
-        payload: {}
-      };
-    },
-
-    // These labels are required
-    labels: {
-      dropdownLabel: "Title in the Dropdown menu",
-      sentenceLabel: "e.g. 'modify'",
-      passiveLabel: "e.g. 'modified'",
-      searchHtml: "an <b>HTML</b> string to be displayed over the search bar"
-    }
-  }
-};
-```
 
 ## Incident Action
 

@@ -28,8 +28,8 @@ export default {
   links: [
     {
       label: 'EximeeBPMS Forum',
-      href: 'https://forum.camunda.org',
-      description: 'Forum for Camnuda BPM users and developers'
+      href: 'https://forum.eximeebpms.org',
+      description: 'Forum for EximeeBPMS users and developers'
     },
     // ...
   ]
@@ -44,7 +44,7 @@ and can override the standard styles.
 
 ```css
 .navbar-brand {
-  /* hides the "Camunda Welcome" text */
+  /* hides the "EximeeBPMS Welcome" text */
   text-indent: -999em;
   /* put your logo */
   background-image: url(./path/to/the/logo.png);
@@ -58,7 +58,7 @@ and can override the standard styles.
 }
 ```
 
-**Note:** you can also change the app name (*Welcome*) and vendor (*Camunda*)
+**Note:** you can also change the app name (*Welcome*) and vendor (*EximeeBPMS*)
 by changing the `app/welcome/scripts/config.js` configuration file as follow:
 
 ```js
@@ -73,7 +73,7 @@ export default {
 
 # Localization
 
-Welcome can be localized. Camunda maintains English and German translation files. 
+Welcome can be localized. EximeeBPMS maintains English and German translation files. 
 You can find and download community maintained translation files at the [Camunda webapp translations repository](https://github.com/camunda-community-hub/camunda-7-webapp-translations).
 
 The localization of the Welcome application is contained in the `app/welcome/locales/` directory. This
@@ -118,7 +118,7 @@ export default {
 
 # Disable Welcome Message for new Users
 
-First-time visitors are shown a message directing them to the camunda welcome page. If you do
+First-time visitors are shown a message directing them to the eximeebpms welcome page. If you do
 not want this message to be shown, you can disable it by adjusting the `config.js` as follows:
 ```javascript
 export default {

@@ -22,7 +22,7 @@ If you would like to enable the additional _Same Origin with Standard Headers_ v
   <!-- CSRF Prevention filter -->
   <filter>
     <filter-name>CsrfPreventionFilter</filter-name>
-    <filter-class>org.camunda.bpm.webapp.impl.security.filter.CsrfPreventionFilter</filter-class>
+    <filter-class>org.eximeebpms.bpm.webapp.impl.security.filter.CsrfPreventionFilter</filter-class>
     <init-param>
       <param-name>targetOrigin</param-name>
       <param-value>http://example.com</param-value>
