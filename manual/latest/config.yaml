@@ -28,12 +28,12 @@ params:
   section:
     id: "manual"
     version: "latest"
-    versionAlias: "latest"
+    versionAlias: "1.0.0"
     versions:
       - "latest"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "master/manual"
+    branch: "master/manual/latest"
 
 outputs:
   home:

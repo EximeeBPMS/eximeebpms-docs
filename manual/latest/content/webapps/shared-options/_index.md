@@ -11,4 +11,4 @@ menu:
 ---
 
 
-The Camunda Web Applications come with several common configuration options. These options cover the operation on all the available Camunda web applications.
+The EximeeBPMS Web Applications come with several common configuration options. These options cover the operation on all the available EximeeBPMS web applications.

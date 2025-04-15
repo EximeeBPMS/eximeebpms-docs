@@ -110,7 +110,7 @@ During the [setup]({{< ref "/webapps/admin/user-management.md#initial-user-setup
 
 To create an administrator account, there are several options:
 
-1. If you kept the group *camunda-admin* in your application, you can add the user to this group.
+1. If you kept the group *eximeebpms-admin* in your application, you can add the user to this group.
 2. If you use the [Administrator Authorization Plugin]({{< ref "/user-guide/process-engine/authorization-service.md#the-administrator-authorization-plugin" >}}), you can configure the plugin to grant the user or a certain group all permissions.
 3. You can create your own *administrator* group (also see [Groups]({{< ref "/webapps/admin/group-management.md#groups-menu" >}})), grant it all permissions and assign a user to it.
 4. Grant one specific user all permissions.
@@ -125,7 +125,7 @@ In this use case we want to give the *accounting* group the permission to start 
 
 {{< img src="../img/admin_tasklist_access_group.png" title="Access Group" >}}
 
-To start, we will grant the group access to Tasklist (also see [Application Specific Permission]({{< relref "#application-specific-permissions" >}}).
+To start, we will grant the group access to Tasklist (also see [Application Specific Permission])({{< relref "#application-specific-permissions" >}}).
 
 {{< img src="../img/admin_proc_def_acc_read_create_inst_access.png" title="Instance Access" >}}
 
