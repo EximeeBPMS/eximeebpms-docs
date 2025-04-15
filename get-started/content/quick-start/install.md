@@ -47,7 +47,7 @@ Make sure to use a Java version from [EximeeBPMS's list of supported environment
 
 # EximeeBPMS Platform
 
-First, download a distribution of the EximeeBPMS Platform. You can choose from different distributions for [various application servers](/manual/latest/installation/full/). In this tutorial, we'll use EximeeBPMS Platform Run. Download it from [the download page](https://camunda.com/download/).
+First, download a distribution of the EximeeBPMS Platform. You can choose from different distributions for [various application servers](/manual/latest/installation/full/). In this tutorial, we'll use EximeeBPMS Platform Run. Download it from [the download page](https://eximeebpms.org/download/).
 
 After downloading the distribution, unpack it inside a directory of your choice.
 

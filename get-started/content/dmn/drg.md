@@ -146,5 +146,5 @@ Note that the *Dish* decision is evaluated as part of the evaluation of the *Bev
 
 Next,
 
-* learn more about DRG by reading the [DMN Reference](/manual/reference/dmn11/drg),
-* learn more about [DMN in Cockpit](https://docs.eximeebpms.org/manual/webapps/cockpit/dmn/) and specialized views for DRGs (Enterprise Feature)
+* learn more about DRG by reading the [DMN Reference](/reference/dmn11/drg),
+* learn more about [DMN in Cockpit](/webapps/cockpit/dmn/) and specialized views for DRGs (Enterprise Feature)

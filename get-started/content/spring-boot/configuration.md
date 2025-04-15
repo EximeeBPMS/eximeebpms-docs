@@ -14,13 +14,13 @@ menu:
 
 The EximeeBPMS Spring Boot Application created in previous step uses the default and best practice configuration, embedded in a starter. 
 There are several ways to customize or override the configuration. The easiest is to provide a set of parameters in the `application.yaml` (or `application.properties`) file. 
-The full list of supported configuration parameters can be found [here](/manual/latest/user-guide/spring-boot-integration/configuration/#camunda-engine-properties).
+The full list of supported configuration parameters can be found [here](/manual/latest/user-guide/spring-boot-integration/configuration/#eximeebpms-engine-properties).
 
 ## Customize Configuration
 
 Let's create an `application.yaml` file in the `src/main/resources` folder with the following content:
 ```yaml
-camunda.bpm:
+eximeebpms.bpm:
   admin-user:
     id: demo
     password: demo
