@@ -83,7 +83,7 @@ ENGINE-08050 Process application Dinner App DMN successfully deployed
 
 # Verify the Deployment with Cockpit
 
-Now, use Cockpit to check if the decision table is successfully deployed. Go to [http://localhost:8080/camunda/app/cockpit](http://localhost:8080/camunda/app/cockpit). Log in with *demo / demo*. Go to "Decisions" section. Your decision table *Dish* should be listed as deployed decision definition.
+Now, use Cockpit to check if the decision table is successfully deployed. Go to [http://localhost:8080/eximeebpms/app/cockpit](http://localhost:8080/eximeebpms/app/cockpit). Log in with *demo / demo*. Go to "Decisions" section. Your decision table *Dish* should be listed as deployed decision definition.
 
 {{< img src="../img/cockpit-dish-dmn.png" >}}
 
