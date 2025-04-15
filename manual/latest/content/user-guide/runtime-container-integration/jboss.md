@@ -12,7 +12,7 @@ menu:
 ---
 
 {{< note title="Installation Guide" class="info" >}}
-  If you [download a full distribution](http://camunda.org/download/), the EximeeBPMS Wildfly subsystem is readily installed into the application server.
+  If you [download a full distribution](http://eximeebpms.org/download/), the EximeeBPMS Wildfly subsystem is readily installed into the application server.
 
   [Read the installation guide]({{< ref "/installation/full/jboss/_index.md" >}}) to learn how to install the EximeeBPMS Wildfly subsystem into your Wildfly Server.
 {{< /note >}}
