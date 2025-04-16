@@ -11,7 +11,7 @@ menu:
 
 ---
 
-{{< img src="../img/dashboard.png" title="Cockpit Dashboard" >}}
+{{< img src="../img/dashboard.jpg" title="Cockpit Dashboard" >}}
 
 The dashboard of Cockpit provides a quick overview of running and historic operations as well as details about deployments. 
 
