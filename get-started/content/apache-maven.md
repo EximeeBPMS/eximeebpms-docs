@@ -111,7 +111,7 @@ It is not needed when using `eximeebpms-engine` because that already contains th
 </dependency>
 ```
 
-# EximeeBPMS seven Artifact Storage
+# EximeeBPMS Artifact Storage
 
 In order to browse the EximeeBPMS artifacts, here are the link you can use.
 [eximeebpms.org/download/](https://eximeebpms.org/download/). 
