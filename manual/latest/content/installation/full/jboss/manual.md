@@ -26,8 +26,8 @@ This guide uses a number of variables to denote common path names and constants:
 
 ## Setup
 
-* For WildFly ≥27 / JBoss EAP 8, download the [EximeeBPMS 7 WildFly distribution](https://downloads.camunda.cloud/release/camunda-bpm/wildfly/).
-* For WildFly ≤26 / JBoss EAP 7, download the [`eximeebpms-wildfly26-modules`](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/wildfly/camunda-wildfly26-modules/).
+* For WildFly ≥27 / JBoss EAP 8, download the [EximeeBPMS WildFly distribution](https://eximeebpms.org/download/).
+* For WildFly ≤26 / JBoss EAP 7, download the [`eximeebpms-wildfly26-modules`](https://eximeebpms.org/download/).
 
 ### Copy Modules
 
