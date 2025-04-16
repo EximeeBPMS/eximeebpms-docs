@@ -7005,3 +7005,26 @@ code {
 .cam-downloads .links {
     text-align: right
 }
+
+.copy-wrapper {
+    position: relative;
+}
+
+.copy-icon {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    padding: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.copy-icon:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+}
