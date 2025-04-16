@@ -7025,5 +7025,6 @@ code {
 }
 
 .copy-icon:hover {
-    color: #28a745;
+    filter: brightness(1.2);
+    transform: scale(1.05);
 }
