@@ -13,7 +13,7 @@ menu:
 ---
 
 
-This section describes how you can install EximeeBPMS and its components on a vanilla [Apache Tomcat](http://tomcat.apache.org/), if you are not able to use the pre-packaged Tomcat distribution. In addition, download a [Tomcat distribution](https://eximeebpms.org/download/) to fetch the required EximeeBPMS modules.
+This section describes how you can install EximeeBPMS and its components on a vanilla [Apache Tomcat](http://tomcat.apache.org/), if you are not able to use the pre-packaged Tomcat distribution. In addition, download a [Tomcat distribution](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/) to fetch the required EximeeBPMS modules.
 
 {{< note title="Reading the Guide" class="info" >}}
 Throughout this guide we will use a number of variables to denote common path names and constants:
@@ -174,7 +174,7 @@ This section describes how to install optional EximeeBPMS dependencies onto a To
 
 The following steps are required to deploy the applications:
 
-1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/).
+1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/).
    Or switch to the private repository for the enterprise version (User and password from license required).
     * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/tomcat/eximeebpms-bpm-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
     * For [Tomcat 9](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
