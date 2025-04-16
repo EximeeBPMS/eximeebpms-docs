@@ -11,7 +11,7 @@ menu:
 
 ---
 
-{{< img src="../../img/cockpit-process-definitions-view.png" title="Process Definition View" >}}
+{{< img src="../../img/cockpit-process-definitions-view.jpg" title="Process Definition View" >}}
 
 The process definition view provides you with information about the definition and the status of a process. On the left side you can easily survey the versions of the process and how many instances of the versions are running. Incidents of all running process instances are displayed together with an instance counter label in the corresponding rendered diagram. So it is easy to locate [failed activities][failed-activities] in the process. Use the mouse to navigate through the diagram. By pressing the CTRL key while turning the mouse wheel you can zoom in and out. Hold the left mouse button to pan the diagram in the desired direction. Furthermore, you can maximize the diagram view or the detailed information panel by clicking on, respectively, the <button class="btn btn-xs"><i class="glyphicon glyphicon-resize-full"></i></button> button or the <button class="btn btn-xs"><i class="glyphicon glyphicon-menu-up"></i></button> button, at the bottom left of the diagram view.
 
@@ -91,7 +91,7 @@ Add a filter for process instances by filtering for a `numeric` (double, integer
 
 # Set Job priority
 
-{{< img src="../../img/cockpit-set-job-priority.png" title="Set Job Priority" >}}
+{{< img src="../../img/cockpit-set-job-priority.jpg" title="Set Job Priority" >}}
 
 You can change the job priority by overriding the priority specified in the BPMN 2.0 XML. To do so, click on the {{< glyphicon name="cog">}} icon in the `Job Definitions` tab. In the opened dialog you can override the job priority. If an overridden priority is already set, you can clear it to use the priority specified in the XML again. It is also possible to include existing jobs when changing the priority.
 
@@ -118,6 +118,6 @@ information and a call activity in this process is currently calling it.
   * *Running*: There is currently a process instance calling this process definition. 
 However, the called process definition can only be resolved at runtime and is only valid for a particular process instance.
 
-{{< img src="../../img/cockpit-call-activity-definition-navigation.png" title="Navigate to called processes definition" >}}
+{{< img src="../../img/cockpit-call-activity-definition-navigation.jpg" title="Navigate to called processes definition" >}}
 
 For more drill down options on call activities you can check out the [process instance view][process-instance-view].
