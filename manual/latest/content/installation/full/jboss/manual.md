@@ -26,7 +26,7 @@ This guide uses a number of variables to denote common path names and constants:
 
 ## Setup
 
-* For WildFly ≥27 / JBoss EAP 8, download the [EximeeBPMS WildFly distribution](https://eximeebpms.org/download/).
+* For WildFly ≥27 / JBoss EAP 8, download the [EximeeBPMS WildFly distribution](https://repo1.maven.org/maven2/org/eximeebpms/bpm/wildfly/eximeebpms-bpm-wildfly/).
 * For WildFly ≤26 / JBoss EAP 7, download the [`eximeebpms-wildfly26-modules`](https://eximeebpms.org/download/).
 
 ### Copy Modules
