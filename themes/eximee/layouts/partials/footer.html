@@ -23,6 +23,9 @@
   {{ $scripts := resources.Get "js/docs.js" | fingerprint }}
 
   <script type="text/javascript" src="{{ $scripts.Permalink }}" integrity="{{ $scripts.Data.Integrity }}"></script>
- 
+
+    {{ $copyScript := resources.Get "js/copy.js" | fingerprint }}
+    <script type="text/javascript" src="{{ $copyScript.Permalink }}" integrity="{{ $copyScript.Data.Integrity }}"></script>
+
 </body>
 </html>
