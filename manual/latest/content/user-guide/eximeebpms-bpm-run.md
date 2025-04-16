@@ -31,7 +31,7 @@ EximeeBPMS Run is a full distribution of EximeeBPMS. It includes:
 
 # Starting with EximeeBPMS Run
 
-To start with EximeeBPMS Run, download the [distribution](https://downloads.camunda.cloud/release/camunda-bpm/run/) and unpack it. You will find the following structure:
+To start with EximeeBPMS Run, download the [distribution](https://eximeebpms.org/download/) and unpack it. You will find the following structure:
 
 ```
 eximeebpms-bpm-run
