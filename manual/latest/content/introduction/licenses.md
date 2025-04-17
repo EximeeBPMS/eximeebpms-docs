@@ -28,8 +28,7 @@ EximeeBPMS (Community Edition) includes libraries developed by third parties. Se
 * [Plain text license book EximeeBPMS][license-book]: A plain text version of the license book.
 
 [third-party-libraries]: {{< ref "/introduction/third-party-libraries/_index.md" >}}
-[license-book]: https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/license-book/{{< minor-version >}}.0/license-book-{{< minor-version >}}.0.txt
-
+[license-book]: https://repo1.maven.org/maven2/org/eximeebpms/bpm/license-book/{{< minor-version >}}.0/license-book-{{< minor-version >}}.0.txt
 
 # Camunda Modeler
 
