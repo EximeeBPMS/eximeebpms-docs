@@ -14,7 +14,7 @@ menu:
 
 # Community Edition
 
-The Community Edition docker images can be found on [GitHub](https://github.com/EximeeBPMS/eximeebpms-docker) and [Docker Hub](https://hub.docker.com/r/camunda/camunda-bpm-platform/).
+The Community Edition docker images can be found on [GitHub](https://github.com/EximeeBPMS/eximeebpms-docker) and [GitHub Container Registry](https://github.com/orgs/EximeeBPMS/packages/container/package/eximeebpms-bpm-platform).
 
 ## Start EximeeBPMS Run using Docker
 
