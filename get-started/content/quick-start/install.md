@@ -20,8 +20,8 @@ In the following section, we'll describe how to install the EximeeBPMS Platform 
 If you prefer, you can also run the EximeeBPMS Platform with Docker:
 
 ```sh
-docker pull eximeebpms/eximeebpms:run-latest
-docker run -d --name eximeebpms -p 8080:8080 eximeebpms/eximeebpms:run-latest
+docker pull ghcr.io/eximeebpms/eximeebpms-bpm-platform:latest
+docker run -d --name eximeebpms -p 8080:8080 ghcr.io/eximeebpms/eximeebpms-bpm-platform:latest
 ```
 
 Afterwards, you can [install the Camunda Modeler](#camunda-modeler).
