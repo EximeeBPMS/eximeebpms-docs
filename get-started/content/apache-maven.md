@@ -114,7 +114,7 @@ It is not needed when using `eximeebpms-engine` because that already contains th
 # EximeeBPMS Artifact Storage
 
 In order to browse the EximeeBPMS artifacts, here are the link you can use.
-[eximeebpms.org/download/](https://eximeebpms.org/download/). 
+[eximeebpms.org/download/](https://repo1.maven.org/maven2/org/eximeebpms/). 
 
 
 # Other EximeeBPMS Modules:
