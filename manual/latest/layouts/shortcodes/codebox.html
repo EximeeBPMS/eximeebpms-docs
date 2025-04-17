@@ -1,0 +1,32 @@
+<div class="codebox">
+  <div class="codebox-header">
+    <strong>{{ .Get "title" }}</strong>
+  </div>
+  <pre><code class="language-{{ .Get "lang" }}">{{ .Inner | safeHTML }}</code></pre>
+</div>
+
+<style>
+.codebox {
+  border: 1px solid #ccc;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  background-color: #f9f9f9;
+  display: block;
+}
+
+li > .codebox {
+  margin-left: 0;
+}
+
+.codebox-header {
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #333;
+}
+
+pre {
+  margin: 0;
+  overflow-x: auto;
+}
+</style>
