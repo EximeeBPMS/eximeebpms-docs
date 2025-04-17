@@ -21,7 +21,7 @@ The Community Edition docker images can be found on [GitHub](https://github.com/
 To start [EximeeBPMS Run]({{< ref "/user-guide/eximeebpms-bpm-run.md" >}}) execute the following commands:
 
 ```shell
-docker pull eximeebpms/eximeebpms-bpm-platform:run-latest
+docker pull ghcr.io/eximeebpms/eximeebpms-bpm-platform:run-latest
 docker run -d --name eximeebpms -p 8080:8080 eximeebpms/eximeebpms-bpm-platform:run-latest
 ```
 
@@ -30,7 +30,7 @@ docker run -d --name eximeebpms -p 8080:8080 eximeebpms/eximeebpms-bpm-platform:
 To start EximeeBPMS, execute the following commands:
 
 ```shell
-docker pull eximeebpms/eximeebpms-bpm-platform:latest
+docker pull ghcr.io/eximeebpms/eximeebpms-bpm-platform:latest
 docker run -d --name eximeebpms -p 8080:8080 eximeebpms/eximeebpms-bpm-platform:latest
 ```
 
