@@ -105,7 +105,7 @@ The next step consists of setting up the Maven dependencies for your new process
 
 Now you can perform the first build. Select the `pom.xml` in the Package Explorer, perform a right-click and select `Run As / Maven Install`.
 
-{{< get-tag repo="camunda-get-started-dmn" tag="Step-1" >}}
+{{< get-code-eximeebpms repo="eximeebpms-get-started-dmn" tag="Step-1" >}}
 
 # Add a Process Application Class
 
@@ -152,4 +152,4 @@ This file needs to be added to the `src/main/resources/META-INF` folder of the M
 
 At this point you have successfully set up the process application and you can start modeling your first decision table.
 
-{{< get-tag repo="camunda-get-started-dmn" tag="Step-2" >}}
+{{< get-code-eximeebpms repo="eximeebpms-get-started-dmn" tag="Step-2" >}}
