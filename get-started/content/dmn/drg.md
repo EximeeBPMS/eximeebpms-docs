@@ -59,7 +59,7 @@ Then, fill the table with the rules.
 
 Save your changes and replace the existing DMN file in the `src/main/resources` folder.
 
-{{< get-tag repo="camunda-get-started-dmn" tag="Step-5" >}}
+{{< get-tag-eximeebpms repo="eximeebpms-get-started-dmn" tag="Step-5" >}}
 
 # Evaluate the Decision
 
@@ -98,7 +98,7 @@ public class DinnerApplication extends ServletProcessApplication
 }
 ```
 
-{{< get-tag repo="camunda-get-started-dmn" tag="Step-6" >}}
+{{< get-tag-eximeebpms repo="eximeebpms-get-started-dmn" tag="Step-6" >}}
 
 # Build and Deploy the Web Application
 
