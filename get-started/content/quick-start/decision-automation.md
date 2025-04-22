@@ -85,4 +85,4 @@ Congratulations! You've successfully completed the EximeeBPMS Platform Quick Sta
 {{< /note >}}
 
 
-{{< get-tag repo="camunda-get-started-quickstart" tag="Step-5" >}}
+{{< get-tag repo="eximeebpms-get-started-quickstart" tag="Step-5" >}}
