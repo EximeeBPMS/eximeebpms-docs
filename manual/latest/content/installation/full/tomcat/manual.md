@@ -177,7 +177,7 @@ The following steps are required to deploy the applications:
 1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/).
    Or switch to the private repository for the enterprise version (User and password from license required).
     * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/tomcat/eximeebpms-bpm-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
-    * For [Tomcat 9](https://artifacts.camunda.com/ui/native/camunda-bpm/org/camunda/bpm/webapp/camunda-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
+    * For [Tomcat 9](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
 2. Copy the war file to `$TOMCAT_HOME/webapps/eximeebpms.war`.
    Optionally you may name it differently or extract it to a folder to deploy it to a different context path.
 3. Startup Tomcat.
@@ -188,11 +188,11 @@ The following steps are required to deploy the applications:
 
 The following steps are required to deploy the REST API:
 
-1. Download the REST API web application archive from our [Artifact Repository](https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/camunda-engine-rest/).
+1. Download the REST API web application archive from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest/).
     Or switch to the private repository for the enterprise version (User and password from license required).
     Choose the correct version named `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 10](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 9](https://artifacts.camunda.com/artifactory/public/org/camunda/bpm/camunda-engine-rest/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
+    * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
+    * For [Tomcat 9](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
 2. Copy the war file to `$TOMCAT_HOME/webapps`.
    Optionally you may rename it or extract it to a folder to deploy it to a specific context like `/engine-rest`.
 3. Startup Tomcat.
