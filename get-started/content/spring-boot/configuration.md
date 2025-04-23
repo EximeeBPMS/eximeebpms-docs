@@ -42,4 +42,4 @@ You can use "demo/demo", which we configured before, to access the EximeeBPMS we
   
 After you logged in, you can go to Tasklist and see that a filter named "All tasks" was created, though it does not contain any tasks so far.
 
-{{< get-tag repo="camunda-get-started-spring-boot" tag="Step-2" >}}
+{{< get-tag repo="eximeebpms-get-started-spring-boot" tag="Step-2" >}}

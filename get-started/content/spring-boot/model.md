@@ -72,4 +72,4 @@ If you rebuild and restart the application, you should see the task "Check the r
 
 {{< img src="../img/tasklist.png" >}}
 
-{{< get-tag repo="camunda-get-started-spring-boot" tag="Step-3" >}}
+{{< get-tag repo="eximeebpms-get-started-spring-boot" tag="Step-3" >}}

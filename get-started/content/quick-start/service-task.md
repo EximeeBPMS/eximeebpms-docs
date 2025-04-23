@@ -64,7 +64,7 @@ Finally, make sure the box next to the *Executable* property is checked. If you 
 
 When you're done, save your changes by clicking *File > Save File As..*. In the dialogue that appears, navigate to a folder of your choice and save the diagram as something like `payment.bpmn`.
 
-{{< get-tag repo="camunda-get-started-quickstart" tag="Step-1" >}}
+{{< get-tag repo="eximeebpms-get-started-quickstart" tag="Step-1" >}}
 
 # Implement an external task worker
 
@@ -162,8 +162,6 @@ Next, you need to create a package, e.g., *org.eximeebpms.bpm.getstarted.chargec
 package org.eximeebpms.bpm.getstarted.chargecard;
 
 import java.util.logging.Logger;
-import java.awt.Desktop;
-import java.net.URI;
 
 import org.eximeebpms.bpm.client.ExternalTaskClient;
 
@@ -188,12 +186,6 @@ public class ChargeCardWorker {
 
           LOGGER.info("Charging credit card with an amount of '" + amount + "'€ for the item '" + item + "'...");
 
-          try {
-              Desktop.getDesktop().browse(new URI("https://docs.eximeebpms.org/get-started/quick-start/complete"));
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-
           // Complete the task
           externalTaskService.complete(externalTask);
         })
@@ -212,7 +204,7 @@ Note that the worker should remain running throughout the entirety of this quick
 Once your worker is running, you can [continue to deploy your process and start some instances](/get-started/quick-start/deploy/).
 {{< /note >}}
 
-{{< get-tag repo="camunda-get-started-quickstart" tag="Step-2a" >}}
+{{< get-tag repo="eximeebpms-get-started-quickstart" tag="Step-2a" >}}
 
 ## b) Using JavaScript (NodeJS)
 
@@ -287,8 +279,6 @@ client.subscribe('charge-card', async function({ task, taskService }) {
 
   console.log(`Charging credit card with an amount of ${amount}€ for the item '${item}'...`);
 
-  open('https://docs.eximeebpms.org/get-started/quick-start/success');
-
   // Complete the task
   await taskService.complete(task);
 });
@@ -309,4 +299,4 @@ Note that the worker should remain running throughout the entirety of this quick
 Once your worker is running, you can move onto the next step to [deploy your process and start some instances](/get-started/quick-start/deploy/).
 {{< /note >}}
 
-{{< get-tag repo="camunda-get-started-quickstart" tag="Step-2b" >}}
+{{< get-tag repo="eximeebpms-get-started-quickstart" tag="Step-2b" >}}

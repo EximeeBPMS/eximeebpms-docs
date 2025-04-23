@@ -45,7 +45,7 @@ public class DinnerApplication extends ServletProcessApplication {
 }
 ```
 
-{{< get-tag-eximeebpms repo="eximeebpms-get-started-dmn" tag="Step-4" >}}
+{{< get-tag repo="eximeebpms-get-started-dmn" tag="Step-4" >}}
 
 # Build the Web Application with Maven
 

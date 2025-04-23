@@ -149,4 +149,4 @@ Then go to [http://localhost:8080/](http://localhost:8080/) in your browser and 
 
 Another way to run the app is to simply run the JAR-file with a `java -jar` command.
 
-{{< get-tag repo="camunda-get-started-spring-boot" tag="Step-1" >}}
+{{< get-tag repo="eximeebpms-get-started-spring-boot" tag="Step-1" >}}
