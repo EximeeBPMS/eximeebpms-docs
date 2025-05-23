@@ -6424,12 +6424,18 @@ a:focus, a:hover {
     display: inline-block;
     max-width: 0;
     overflow: hidden;
-    margin-left: -3px
+    margin-left: -3px;
+    text-decoration: underline;
 }
 
 .edit-on-github:hover i {
     margin-left: 3px;
     max-width: 120px
+}
+
+.edit-on-github a:hover {
+    text-shadow: none;
+    box-shadow: none;
 }
 
 .social {
