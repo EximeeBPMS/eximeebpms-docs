@@ -25,9 +25,11 @@ params:
   section:
     id: "manual"
     version: "latest"
-    versionAlias: "1.0.0"
+    versionAlias: "1.1.0"
     versions:
       - "latest"
+      - "1.1.0"
+      - "1.0.0"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
     branch: "master/manual/latest"
