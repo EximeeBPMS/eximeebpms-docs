@@ -10,7 +10,7 @@
 <select id=version-select data-basepath=/manual base-url=/manual/1.0.0/>
 <option>latest</option>
 <option>1.1.0</option>
-<option selected>1.0.0</option></select></div></div></nav><div class=page-wrapper><div class=page-content><div class=container-fluid><div class="col-xs-12 content-header"><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/master/manual/latest/content/reference/rest/overview/date-format.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Date Format</h1></div><div class="col-xs-12 content-text"><p>The REST API uses the default date format <code>yyyy-MM-dd'T'HH:mm:ss.SSSZ</code>, which
+<option selected>1.0.0</option></select></div></div></nav><div class=page-wrapper><div class=page-content><div class=container-fluid><div class="col-xs-12 content-header"><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/master/manual/1.0.0/content/reference/rest/overview/date-format.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Date Format</h1></div><div class="col-xs-12 content-text"><p>The REST API uses the default date format <code>yyyy-MM-dd'T'HH:mm:ss.SSSZ</code>, which
 represents a date with milliseconds and timezone information, e.g.,
 <code>2016-01-25T13:33:42.165+0100</code>.</p><p>If you add a date as a GET request parameter, remember the URL encoding, e.g. <code>2016-01-25T13:33:42.165%2b0100</code>.</p><h1 id=custom-date-format>Custom Date Format</h1><p>A custom date format can be configured in the <code>web.xml</code>
 file of the REST API. To do so, the ServletContextListener
