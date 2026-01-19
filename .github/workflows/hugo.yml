@@ -21,29 +21,27 @@ jobs:
           fetch-depth: 0
 
       - name: Install Hugo
-        run: |
-          HUGO_VERSION=0.54.0
-          wget -O ${{ runner.temp }}/hugo.tar.gz https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
-          tar -xzf ${{ runner.temp }}/hugo.tar.gz -C ${{ runner.temp }}
-          chmod +x ${{ runner.temp }}/hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.54.0'
+          extended: true
 
       - name: Build Hugo site for each section
         run: |
-          HUGO_BIN="${{ runner.temp }}/hugo"
           for dir in enterprise security get-started manual; do
-          if [ -d "$dir" ]; then
-            if [ "$dir" = "manual" ]; then
-              echo "Processing subdirectories of $dir..."
-              for subdir in "$dir"/*/; do
-                if [ -d "$subdir" ]; then
-                  subname=$(basename "$subdir")
-                  echo "Building site for $subdir..."
-                  "$HUGO_BIN" --minify -s "$subdir" -d "../../public-manual-${subname}"
-                fi
-              done
+            if [ -d "$dir" ]; then
+              if [ "$dir" = "manual" ]; then
+                echo "Processing subdirectories of $dir..."
+                for subdir in "$dir"/*/; do
+                  if [ -d "$subdir" ]; then
+                    subname=$(basename "$subdir")
+                    echo "Building site for $subdir..."
+                    hugo --minify -s "$subdir" -d "../../public-manual-${subname}"
+                  fi
+                done
               else
                 echo "Building site for $dir..."
-                "$HUGO_BIN" --minify -s "$dir" -d "../public-${dir}"
+                hugo --minify -s "$dir" -d "../public-${dir}"
               fi
             else
               echo "Skipping $dir, directory does not exist."
