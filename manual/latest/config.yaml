@@ -25,9 +25,10 @@ params:
   section:
     id: "manual"
     version: "latest"
-    versionAlias: "1.1.0"
+    versionAlias: "1.2.0"
     versions:
       - "latest"
+      - "1.2.0"
       - "1.1.0"
       - "1.0.0"
   github:
