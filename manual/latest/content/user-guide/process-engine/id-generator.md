@@ -44,7 +44,7 @@ It provides:
 - high scalability (no central coordination),
 - globally unique identifiers,
 - strong randomness suitable for security-sensitive use cases.
-{{< /note >}}
+  {{< /note >}}
 
 In the [EximeeBPMS Full Distributions][1], the
 StrongUuidGenerator is preconfigured and the default Id Generator used by the process engine.
