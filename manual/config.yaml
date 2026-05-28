@@ -45,5 +45,4 @@ outputs:
 
 disableKinds:
 - taxonomy
-- taxonomyTerm
 ...
