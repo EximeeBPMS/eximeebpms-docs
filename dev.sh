@@ -8,7 +8,9 @@ PORT="${PORT:-1313}"
 
 THEMES_DIR=$(mktemp -d)
 STATIC_DIR=$(mktemp -d)
-trap "rm -rf ${THEMES_DIR} ${STATIC_DIR}" EXIT INT TERM
+# Pre-create themes/ as current user so Docker bind mount doesn't create it as root
+mkdir -p "${REPO_DIR}/themes"
+trap "rm -rf ${THEMES_DIR} ${STATIC_DIR}; rmdir '${REPO_DIR}/themes' 2>/dev/null || true" EXIT INT TERM
 
 echo "Extracting themes from master..."
 git archive master themes/ | tar -x -C "${THEMES_DIR}"
