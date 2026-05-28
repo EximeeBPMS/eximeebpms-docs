@@ -87,7 +87,7 @@ jobs:
               fi
             fi
 
-            git worktree remove "worktree-${version}"
+            git worktree remove --force "worktree-${version}"
           done
 
       - name: Checkout gh-pages branch
