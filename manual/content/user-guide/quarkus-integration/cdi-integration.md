@@ -1,5 +1,4 @@
 ---
-![image](https://github.com/user-attachments/assets/5c34b9fd-2941-4966-a108-3e6ec1c2c9ce)
 
 title: "Engine CDI Integration"
 weight: 20
@@ -11,6 +10,8 @@ menu:
     parent: "user-guide-quarkus-integration"
 
 ---
+
+![image](https://github.com/user-attachments/assets/5c34b9fd-2941-4966-a108-3e6ec1c2c9ce)
 
 Quarkus comes with a built-in solution for CDI (short for "Context and Dependency Injection") called ArC, 
 which is based on the [Java CDI 4.0 standard][java-cdi-40-standard]. Quarkus ArC does not entirely cover 

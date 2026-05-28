@@ -1,6 +1,6 @@
 ---
 baseURL: "/security/"
-languageCode: "en-us"
+locale: "en-us"
 title: "Product Security Guide"
 themesDir: "../themes"
 theme: "eximee"
