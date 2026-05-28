@@ -10,3 +10,4 @@ worktree-*/
 # Hugo build artifacts
 .hugo_build.lock
 themes/
+.idea
