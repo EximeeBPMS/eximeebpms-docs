@@ -1,2 +1,12 @@
 resources/
 public/
+
+# local build output
+public-local/
+
+# temporary git worktrees created during build
+worktree-*/
+
+# Hugo build artifacts
+.hugo_build.lock
+themes/
