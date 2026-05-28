@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-HUGO_IMAGE="${HUGO_IMAGE:-klakegg/hugo:0.56.0}"
+HUGO_IMAGE="${HUGO_IMAGE:-ghcr.io/gohugoio/hugo:v0.162.0}"
 REPO_DIR="$(pwd)"
 USER_FLAGS="--user $(id -u):$(id -g)"
 
@@ -13,12 +13,13 @@ hugo_build() {
   # Create a placeholder so Hugo can chtimes on the output directory
   touch "${dest}/.keep"
   docker run --rm \
-    -v "${REPO_DIR}:/src" \
+    -v "${REPO_DIR}:/project" \
     -v "${dest}:/target" \
     ${USER_FLAGS} \
     "${HUGO_IMAGE}" \
     --minify \
     -s "${src}" \
+    --destination /target \
     --baseURL "${baseURL}"
   rm -f "${dest}/.keep"
 }

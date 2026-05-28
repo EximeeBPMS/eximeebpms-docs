@@ -28,7 +28,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   <title>{{ .Title }}</title>
 
-  <meta name="generator" content="Hugo {{.Hugo.Version}}" />
+  <meta name="generator" content="Hugo {{ hugo.Version }}" />
   <link rel="shortcut icon" href="{{.Site.BaseURL}}img/favicon.ico" type="image/x-icon" />
 
   {{ $styles := resources.Get "css/docs.css" | fingerprint }}
