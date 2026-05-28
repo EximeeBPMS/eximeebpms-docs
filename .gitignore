@@ -11,3 +11,9 @@ _gen/
 .env
 **/public
 .hugo_build.lock
+
+# local build output
+public-local/
+
+# temporary git worktrees created during build
+worktree-*/
