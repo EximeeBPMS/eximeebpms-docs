@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-HUGO_IMAGE="${HUGO_IMAGE:-klakegg/hugo:0.56.0}"
+HUGO_IMAGE="${HUGO_IMAGE:-ghcr.io/gohugoio/hugo:v0.162.0}"
 REPO_DIR="$(git rev-parse --show-toplevel)"
 VERSION="$(git rev-parse --abbrev-ref HEAD | sed 's|docs/||')"
 PORT="${PORT:-1313}"
