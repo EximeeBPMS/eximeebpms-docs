@@ -18,8 +18,8 @@ echo "Press Ctrl+C to stop."
 echo ""
 
 docker run --rm --name hugo-dev \
-  -v "${REPO_DIR}:/src" \
-  -v "${THEMES_DIR}/themes:/src/themes" \
+  -v "${REPO_DIR}:/project" \
+  -v "${THEMES_DIR}/themes:/project/themes" \
   -p "${PORT}:1313" \
   --user "$(id -u):$(id -g)" \
   "${HUGO_IMAGE}" \
