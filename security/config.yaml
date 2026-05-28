@@ -7,8 +7,10 @@ theme: "eximee"
 
 relativeURLs: false
 
-blackfriday:
-  plainIDAnchors: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
 
 params:
   canonicalBasePath: "https://docs.eximeebpms.org"
