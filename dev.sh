@@ -33,6 +33,11 @@ for section in get-started security; do
   fi
 done
 
+# Redirect /manual/latest/ → / so the "Manual" nav tab works in dev mode
+mkdir -p "${STATIC_DIR}/manual/latest"
+printf '<!DOCTYPE html><html><head><script>window.location.replace("/")</script></head><body></body></html>' \
+  > "${STATIC_DIR}/manual/latest/index.html"
+
 echo ""
 echo "Starting Hugo dev server for version ${VERSION} on http://localhost:${PORT}"
 echo "Edit files in: $(pwd)/manual/ (live reload enabled)"
