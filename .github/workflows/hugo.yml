@@ -4,21 +4,35 @@ on:
   push:
     branches:
       - master
+      - 'docs/**'
 
 permissions:
   contents: write
   pages: write
   id-token: write
-  
+
 jobs:
   deploy:
     runs-on: self-hosted
 
     steps:
-      - name: Checkout branch
+      - name: Checkout master
         uses: actions/checkout@v4
         with:
+          ref: master
           fetch-depth: 0
+
+      - name: Fetch docs branches
+        run: git fetch origin 'refs/heads/docs/*:refs/heads/docs/*'
+
+      - name: Read versions config
+        id: versions
+        run: |
+          LATEST=$(grep '^latest:' versions.yaml | sed 's/latest: //;s/"//g;s/ //g')
+          VERSIONS=$(grep '^  - ' versions.yaml | sed 's/  - //;s/"//g' | tr '\n' ' ' | xargs)
+          echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
+          echo "versions=${VERSIONS}" >> "$GITHUB_OUTPUT"
+          echo "Latest: ${LATEST}, Versions: ${VERSIONS}"
 
       - name: Install Hugo
         uses: peaceiris/actions-hugo@v2
@@ -26,65 +40,97 @@ jobs:
           hugo-version: '0.54.0'
           extended: true
 
-      - name: Build Hugo site for each section
+      - name: Build Hugo sites
         run: |
-          for dir in enterprise security get-started manual; do
-            if [ -d "$dir" ]; then
-              if [ "$dir" = "manual" ]; then
-                echo "Processing subdirectories of $dir..."
-                for subdir in "$dir"/*/; do
-                  if [ -d "$subdir" ]; then
-                    subname=$(basename "$subdir")
-                    echo "Building site for $subdir..."
-                    hugo --minify -s "$subdir" -d "../../public-manual-${subname}"
-                  fi
-                done
-              else
-                echo "Building site for $dir..."
-                hugo --minify -s "$dir" -d "../public-${dir}"
-              fi
-            else
-              echo "Skipping $dir, directory does not exist."
+          LATEST="${{ steps.versions.outputs.latest }}"
+          VERSIONS="${{ steps.versions.outputs.versions }}"
+
+          for version in $VERSIONS; do
+            echo "=== Building docs/${version} ==="
+            git worktree add "worktree-${version}" "docs/${version}"
+            cp -r themes "worktree-${version}/"
+
+            # Build versioned manual
+            hugo --minify \
+              -s "worktree-${version}/manual" \
+              --baseURL "/manual/${version}/" \
+              -d "$(pwd)/public-manual-${version}"
+
+            # Copy javadoc into build output
+            if [ -d "worktree-${version}/manual/javadoc" ]; then
+              mkdir -p "public-manual-${version}/reference/javadoc"
+              cp -r "worktree-${version}/manual/javadoc/." \
+                    "public-manual-${version}/reference/javadoc/"
             fi
+
+            if [ "${version}" = "${LATEST}" ]; then
+              # Build manual/latest
+              hugo --minify \
+                -s "worktree-${version}/manual" \
+                --baseURL "/manual/latest/" \
+                -d "$(pwd)/public-manual-latest"
+
+              # Build get-started
+              if [ -d "worktree-${version}/get-started" ]; then
+                hugo --minify \
+                  -s "worktree-${version}/get-started" \
+                  --baseURL "/get-started/" \
+                  -d "$(pwd)/public-get-started"
+              fi
+
+              # Build security
+              if [ -d "worktree-${version}/security" ]; then
+                hugo --minify \
+                  -s "worktree-${version}/security" \
+                  --baseURL "/security/" \
+                  -d "$(pwd)/public-security"
+              fi
+            fi
+
+            git worktree remove "worktree-${version}"
           done
 
-      - name: Checkout `gh-pages` branch
+      - name: Checkout gh-pages branch
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Move built files to `gh-pages/docs/{dir}`
+      - name: Deploy to gh-pages
         run: |
+          LATEST="${{ steps.versions.outputs.latest }}"
+          VERSIONS="${{ steps.versions.outputs.versions }}"
+
           rm -rf gh-pages/docs/*
           mkdir -p gh-pages/docs
-          for dir in enterprise security get-started manual; do
-            if [ -d "$dir" ]; then
-              if [ "$dir" = "manual" ]; then
-                echo "Processing subdirectories of $dir..."
-                for subdir in "$dir"/*/; do
-                  echo "Copying content from $subdir..."
-                  if [ -d "$subdir" ]; then
-                    version=$(basename "$subdir")
-                    mkdir -p gh-pages/docs/manual/${version}
-                    cp -r public-manual-${version}/* gh-pages/docs/manual/${version}/
-                    cp -r ${dir}/${version}/javadoc/* gh-pages/docs/manual/${version}/reference/javadoc/
-                  fi
-                done
-              else
-                mkdir -p gh-pages/docs/${dir}
-                cp -r public-${dir}/* gh-pages/docs/${dir}/
-                rm -rf public-${dir}
-              fi
-            else
-              echo "Skipping $dir, directory does not exist."
-            fi
+
+          # Deploy each versioned manual
+          for version in $VERSIONS; do
+            mkdir -p "gh-pages/docs/manual/${version}"
+            cp -r "public-manual-${version}/." "gh-pages/docs/manual/${version}/"
           done
-          cp -r public-manual-latest/* gh-pages/docs/
-          rm -rf public-manual-*
-          cp -r CNAME gh-pages/docs/
+
+          # Deploy manual/latest and root pages (from latest version)
+          mkdir -p gh-pages/docs/manual/latest
+          cp -r public-manual-latest/. gh-pages/docs/manual/latest/
+          cp -r public-manual-latest/. gh-pages/docs/
+
+          # Deploy get-started
+          if [ -d public-get-started ]; then
+            mkdir -p gh-pages/docs/get-started
+            cp -r public-get-started/. gh-pages/docs/get-started/
+          fi
+
+          # Deploy security
+          if [ -d public-security ]; then
+            mkdir -p gh-pages/docs/security
+            cp -r public-security/. gh-pages/docs/security/
+          fi
+
+          # REST docs and CNAME
           mkdir -p gh-pages/docs/rest
-          cp -r rest/* gh-pages/docs/rest/
+          cp -r rest/. gh-pages/docs/rest/
+          cp CNAME gh-pages/docs/
 
       - name: Commit and push changes
         run: |
