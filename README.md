@@ -84,7 +84,7 @@ Put the image next to the content page that references it and use the `img` shor
 ### How can I reference the Javadocs?
 
 ```html
-{{< javadocref page="org/camunda/bpm/engine/impl/TaskServiceImpl.html" text="Java-API Task Service" >}}
+{{< javadocref page="org/eximeebpms/bpm/engine/impl/TaskServiceImpl.html" text="Java-API Task Service" >}}
 ```
 
 ### How can I add a note?
