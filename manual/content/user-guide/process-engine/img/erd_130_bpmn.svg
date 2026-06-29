@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2300" height="1285" viewBox="0 0 2300 1285" role="img" aria-labelledby="title desc">
+<title id="title">eximeebpms public ERD</title>
+<desc id="desc">Clean ERD diagram with ACT_RU_SCRIPT_VIOLATION included. Parallel FK relations are aggregated and marked as xN FK.</desc>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+  </marker>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+    <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.10"/>
+  </filter>
+  <style><![CDATA[
+    .bg { fill: #f8fafc; }
+    .cluster { fill: #ffffff; stroke: #e2e8f0; stroke-width: 1.2; }
+    .cluster-title { font: 600 15px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+    .node { fill: #ffffff; stroke: #475569; stroke-width: 1.35; filter: url(#shadow); }
+    .node.core { fill: #eff6ff; stroke: #2563eb; }
+    .node.repo { fill: #faf5ff; stroke: #7e22ce; }
+    .node.loose { fill: #f8fafc; stroke: #64748b; }
+    .node.script { fill: #fff7ed; stroke: #ea580c; stroke-width: 1.75; }
+    .name { font: 600 14px 'Segoe UI', Arial, sans-serif; fill: #0f172a; letter-spacing: .15px; }
+    .schema { font: 11px 'Segoe UI', Arial, sans-serif; fill: #64748b; }
+    .edge { fill: none; stroke: #94a3b8; stroke-width: 1.8; marker-end: url(#arrow); stroke-linecap: round; stroke-linejoin: round; }
+    .self { fill: none; stroke: #94a3b8; stroke-width: 1.8; marker-end: url(#arrow); }
+    .edge-label-bg { fill: #ffffff; stroke: #cbd5e1; stroke-width: 0.8; }
+    .edge-label { font: 600 11px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+    .legend { font: 12px 'Segoe UI', Arial, sans-serif; fill: #64748b; }
+  ]]></style>
+</defs>
+<rect class="bg" width="100%" height="100%"/>
+<rect class="cluster" x="40" y="45" width="380" height="380" rx="18"/>
+<text class="cluster-title" x="58" y="75">Decyzje</text>
+<rect class="cluster" x="40" y="555" width="380" height="605" rx="18"/>
+<text class="cluster-title" x="58" y="585">Deployment / bytearray / job</text>
+<rect class="cluster" x="445" y="45" width="1445" height="1165" rx="18"/>
+<text class="cluster-title" x="463" y="75">Główne tabele runtime i powiązania FK</text>
+<rect class="cluster" x="1925" y="45" width="340" height="1165" rx="18"/>
+<text class="cluster-title" x="1943" y="75">Tabele bez FK w tym wycinku</text>
+<path class="edge" d="M 380.0 851.0 L 450.0 851.0 L 450.0 646.0 L 620.0 646.0"><title>act_ge_bytearray -&gt; act_ru_ext_task: act_fk_ext_task_error_details</title></path>
+<path class="edge" d="M 230.0 887.0 L 230.0 1045.0"><title>act_ge_bytearray -&gt; act_ru_job: act_fk_job_exception</title></path>
+<path class="edge" d="M 380.0 859.0 L 500.0 859.0 L 500.0 891.0 L 620.0 891.0"><title>act_ge_bytearray -&gt; act_ru_variable: act_fk_var_bytearray</title></path>
+<path class="edge" d="M 230.0 182.0 L 230.0 285.0"><title>act_re_decision_req_def -&gt; act_re_decision_def: act_fk_dec_req</title></path>
+<path class="edge" d="M 230.0 682.0 L 230.0 815.0"><title>act_re_deployment -&gt; act_ge_bytearray: act_fk_bytearr_depl</title></path>
+<path class="edge" d="M 1010.0 182.0 L 1010.0 340.0"><title>act_re_procdef -&gt; act_ru_execution: act_fk_exe_procdef</title></path>
+<path class="edge" d="M 1160.0 154.0 L 1710.0 154.0 L 1710.0 340.0"><title>act_re_procdef -&gt; act_ru_identitylink: act_fk_athrz_procedef</title></path>
+<path class="edge" d="M 1048.0 182.0 L 1535.0 182.0 L 1535.0 638.0 L 1500.0 638.0"><title>act_re_procdef -&gt; act_ru_incident: act_fk_inc_procdef</title></path>
+<path class="edge" d="M 1160.0 138.0 L 1350.0 138.0 L 1350.0 340.0"><title>act_re_procdef -&gt; act_ru_task: act_fk_task_procdef</title></path>
+<path class="edge" d="M 1200.0 891.0 L 920.0 891.0"><title>act_ru_batch -&gt; act_ru_variable: act_fk_var_batch</title></path>
+<path class="edge" d="M 860.0 376.0 L 780.0 376.0"><title>act_ru_execution -&gt; act_ru_event_subscr: act_fk_event_exec</title></path>
+<path class="self" d="M 990.0 340.0 C 955.0 270.0, 1065.0 270.0, 1032.0 340.0"><title>act_ru_execution -&gt; act_ru_execution: act_fk_exe_parent, act_fk_exe_procinst, act_fk_exe_super</title></path>
+<rect class="edge-label-bg" x="985.0" y="289.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="1010.0" y="304.0">x3 FK</text>
+<path class="edge" d="M 936.0 412.0 L 936.0 545.0 L 770.0 545.0 L 770.0 610.0"><title>act_ru_execution -&gt; act_ru_ext_task: act_fk_ext_task_exe</title></path>
+<path class="edge" d="M 1160.0 390.0 L 1175.0 390.0 L 1175.0 646.0 L 1200.0 646.0"><title>act_ru_execution -&gt; act_ru_incident: act_fk_inc_exe, act_fk_inc_procinst</title></path>
+<rect class="edge-label-bg" x="1115.0" y="509.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="1140.0" y="524.0">x2 FK</text>
+<path class="edge" d="M 1160.0 368.0 L 1200.0 368.0"><title>act_ru_execution -&gt; act_ru_task: act_fk_task_exe, act_fk_task_procinst</title></path>
+<rect class="edge-label-bg" x="1007.0" y="307.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="1032.0" y="322.0">x2 FK</text>
+<path class="edge" d="M 1030.0 412.0 L 1030.0 765.0 L 770.0 765.0 L 770.0 855.0"><title>act_ru_execution -&gt; act_ru_variable: act_fk_var_exe, act_fk_var_procinst</title></path>
+<rect class="edge-label-bg" x="905.0" y="744.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="930.0" y="759.0">x2 FK</text>
+<path class="self" d="M 1500.0 630.0 C 1590.0 575.0, 1590.0 737.0, 1500.0 670.0"><title>act_ru_incident -&gt; act_ru_incident: act_fk_inc_cause, act_fk_inc_rcause</title></path>
+<rect class="edge-label-bg" x="1510.0" y="584.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="1535.0" y="599.0">x2 FK</text>
+<path class="edge" d="M 1350.0 1110.0 L 1350.0 927.0"><title>act_ru_jobdef -&gt; act_ru_batch: act_fk_batch_job_def, act_fk_batch_monitor_job_def, act_fk_batch_seed_job_def</title></path>
+<rect class="edge-label-bg" x="1365.0" y="997.0" width="50" height="22" rx="11"/>
+<text class="edge-label" text-anchor="middle" x="1390.0" y="1012.0">x3 FK</text>
+<path class="edge" d="M 1500.0 1138.0 L 1535.0 1138.0 L 1535.0 656.0 L 1500.0 656.0"><title>act_ru_jobdef -&gt; act_ru_incident: act_fk_inc_job_def</title></path>
+<path class="edge" d="M 1500.0 376.0 L 1560.0 376.0"><title>act_ru_task -&gt; act_ru_identitylink: act_fk_tskass_task</title></path>
+<g id="act_ge_property">
+  <rect class="node loose" x="1960" y="85" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="115">ACT_GE_PROPERTY</text>
+  <text class="schema" x="1976" y="138">public.act_ge_property</text>
+</g>
+<g id="act_re_decision_req_def">
+  <rect class="node core" x="80" y="110" width="300" height="72" rx="10"/>
+  <text class="name" x="96" y="140">ACT_RE_DECISION_REQ_DEF</text>
+  <text class="schema" x="96" y="163">public.act_re_decision_req_def</text>
+</g>
+<g id="act_re_procdef">
+  <rect class="node core" x="860" y="110" width="300" height="72" rx="10"/>
+  <text class="name" x="876" y="140">ACT_RE_PROCDEF</text>
+  <text class="schema" x="876" y="163">public.act_re_procdef</text>
+</g>
+<g id="act_ge_schema_log">
+  <rect class="node loose" x="1960" y="235" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="265">ACT_GE_SCHEMA_LOG</text>
+  <text class="schema" x="1976" y="288">public.act_ge_schema_log</text>
+</g>
+<g id="act_re_decision_def">
+  <rect class="node core" x="80" y="285" width="300" height="72" rx="10"/>
+  <text class="name" x="96" y="315">ACT_RE_DECISION_DEF</text>
+  <text class="schema" x="96" y="338">public.act_re_decision_def</text>
+</g>
+<g id="act_ru_event_subscr">
+  <rect class="node core" x="480" y="340" width="300" height="72" rx="10"/>
+  <text class="name" x="496" y="370">ACT_RU_EVENT_SUBSCR</text>
+  <text class="schema" x="496" y="393">public.act_ru_event_subscr</text>
+</g>
+<g id="act_ru_execution">
+  <rect class="node core" x="860" y="340" width="300" height="72" rx="10"/>
+  <text class="name" x="876" y="370">ACT_RU_EXECUTION</text>
+  <text class="schema" x="876" y="393">public.act_ru_execution</text>
+</g>
+<g id="act_ru_task">
+  <rect class="node core" x="1200" y="340" width="300" height="72" rx="10"/>
+  <text class="name" x="1216" y="370">ACT_RU_TASK</text>
+  <text class="schema" x="1216" y="393">public.act_ru_task</text>
+</g>
+<g id="act_ru_identitylink">
+  <rect class="node core" x="1560" y="340" width="300" height="72" rx="10"/>
+  <text class="name" x="1576" y="370">ACT_RU_IDENTITYLINK</text>
+  <text class="schema" x="1576" y="393">public.act_ru_identitylink</text>
+</g>
+<g id="act_re_camformdef">
+  <rect class="node loose" x="1960" y="385" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="415">ACT_RE_CAMFORMDEF</text>
+  <text class="schema" x="1976" y="438">public.act_re_camformdef</text>
+</g>
+<g id="act_ru_authorization">
+  <rect class="node loose" x="1960" y="535" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="565">ACT_RU_AUTHORIZATION</text>
+  <text class="schema" x="1976" y="588">public.act_ru_authorization</text>
+</g>
+<g id="act_re_deployment">
+  <rect class="node repo" x="80" y="610" width="300" height="72" rx="10"/>
+  <text class="name" x="96" y="640">ACT_RE_DEPLOYMENT</text>
+  <text class="schema" x="96" y="663">public.act_re_deployment</text>
+</g>
+<g id="act_ru_ext_task">
+  <rect class="node core" x="620" y="610" width="300" height="72" rx="10"/>
+  <text class="name" x="636" y="640">ACT_RU_EXT_TASK</text>
+  <text class="schema" x="636" y="663">public.act_ru_ext_task</text>
+</g>
+<g id="act_ru_incident">
+  <rect class="node core" x="1200" y="610" width="300" height="72" rx="10"/>
+  <text class="name" x="1216" y="640">ACT_RU_INCIDENT</text>
+  <text class="schema" x="1216" y="663">public.act_ru_incident</text>
+</g>
+<g id="act_ru_filter">
+  <rect class="node loose" x="1960" y="685" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="715">ACT_RU_FILTER</text>
+  <text class="schema" x="1976" y="738">public.act_ru_filter</text>
+</g>
+<g id="act_ge_bytearray">
+  <rect class="node repo" x="80" y="815" width="300" height="72" rx="10"/>
+  <text class="name" x="96" y="845">ACT_GE_BYTEARRAY</text>
+  <text class="schema" x="96" y="868">public.act_ge_bytearray</text>
+</g>
+<g id="act_ru_meter_log">
+  <rect class="node loose" x="1960" y="835" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="865">ACT_RU_METER_LOG</text>
+  <text class="schema" x="1976" y="888">public.act_ru_meter_log</text>
+</g>
+<g id="act_ru_variable">
+  <rect class="node core" x="620" y="855" width="300" height="72" rx="10"/>
+  <text class="name" x="636" y="885">ACT_RU_VARIABLE</text>
+  <text class="schema" x="636" y="908">public.act_ru_variable</text>
+</g>
+<g id="act_ru_batch">
+  <rect class="node core" x="1200" y="855" width="300" height="72" rx="10"/>
+  <text class="name" x="1216" y="885">ACT_RU_BATCH</text>
+  <text class="schema" x="1216" y="908">public.act_ru_batch</text>
+</g>
+<g id="act_ru_script_violation">
+  <rect class="node script" x="1960" y="985" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="1015">ACT_RU_SCRIPT_VIOLATION</text>
+  <text class="schema" x="1976" y="1038">public.act_ru_script_violation</text>
+</g>
+<g id="act_ru_job">
+  <rect class="node repo" x="80" y="1045" width="300" height="72" rx="10"/>
+  <text class="name" x="96" y="1075">ACT_RU_JOB</text>
+  <text class="schema" x="96" y="1098">public.act_ru_job</text>
+</g>
+<g id="act_ru_jobdef">
+  <rect class="node core" x="1200" y="1110" width="300" height="72" rx="10"/>
+  <text class="name" x="1216" y="1140">ACT_RU_JOBDEF</text>
+  <text class="schema" x="1216" y="1163">public.act_ru_jobdef</text>
+</g>
+<g id="act_ru_task_meter_log">
+  <rect class="node loose" x="1960" y="1135" width="300" height="72" rx="10"/>
+  <text class="name" x="1976" y="1165">ACT_RU_TASK_METER_LOG</text>
+  <text class="schema" x="1976" y="1188">public.act_ru_task_meter_log</text>
+</g>
+<text class="legend" x="58" y="1258">Legenda: strzałka prowadzi od tabeli referencjonowanej do tabeli z FK; xN FK oznacza kilka relacji między tą samą parą tabel. ACT_RU_SCRIPT_VIOLATION dodana bez sztucznych relacji FK.</text>
+</svg>
