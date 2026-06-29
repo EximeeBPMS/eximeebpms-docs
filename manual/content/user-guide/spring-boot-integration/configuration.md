@@ -472,6 +472,32 @@ See the <a href="{{<ref "/user-guide/spring-boot-integration/the-spring-event-br
 <td><i>EximeeBPMS default value</i></td>
 </tr>
 
+<tr><td colspan="4"><b>Script Security</b></td></tr>
+<tr>
+<td rowspan="4"><code>eximeebpms.bpm.script-security</code></td>
+<td><code>.mode</code></td>
+<td>Script Guard enforcement mode: <code>DISABLED</code>, <code>AUDIT</code>, or <code>ENFORCE</code>. See <a href="{{< ref "/user-guide/process-engine/script-guard.md" >}}">Script Guard</a>.</td>
+<td><code>DISABLED</code></td>
+</tr>
+
+<tr>
+<td><code>.allowlisted-process-definition-keys</code></td>
+<td>List of process definition keys excluded from Script Guard inspection.</td>
+<td><i>empty</i></td>
+</tr>
+
+<tr>
+<td><code>.violation-store-size</code></td>
+<td>Maximum number of violation records kept in <code>ACT_RU_SCRIPT_VIOLATION</code>.</td>
+<td><code>1000</code></td>
+</tr>
+
+<tr>
+<td><code>.retention-days</code></td>
+<td>Number of days after which violation records are automatically purged. <code>0</code> disables purging.</td>
+<td><code>0</code></td>
+</tr>
+
 <tr><td colspan="4"><b>Webapp</b></td></tr>
 <tr>
 <td rowspan="3"><code>eximeebpms.bpm.webapp</code></td>

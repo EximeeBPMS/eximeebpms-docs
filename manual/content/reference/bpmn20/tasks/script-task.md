@@ -138,5 +138,9 @@ Note that when you use <code>camunda:resultVariable</code> in a multi-instance c
 </table>
 
 
+{{< note title="Script Guard" class="info" >}}
+EximeeBPMS 1.3.0 introduces **Script Guard**, which inspects the script of each Script Task before execution and can block or audit scripts matching known malicious patterns. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for details.
+{{< /note >}}
+
 [script-source]: {{< ref "/user-guide/process-engine/scripting.md#script-source" >}}
 [user-guide]: {{< ref "/user-guide/_index.md" >}}
