@@ -172,6 +172,12 @@ To prevent this:
 
 See the Spring Security OAuth2 Integration's [Security Recommendations]({{< ref "/user-guide/spring-boot-integration/spring-security.md#security-recommendations" >}}) documentation.
 
+## Script Guard
+
+Script Guard inspects scripts embedded in BPMN processes before execution and blocks patterns that could lead to remote code execution, environment variable access, file system access, network calls, or JVM abuse (e.g., `Runtime.getRuntime()`, `Class.forName()`, `System.exit()`). It is enabled by default.
+
+See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration and the full list of blocked patterns.
+
 ## Deployments
 
 [Deployments]({{< ref "/user-guide/process-engine/deployments.md" >}}) to the process engine can contain resources that are interpreted like code:

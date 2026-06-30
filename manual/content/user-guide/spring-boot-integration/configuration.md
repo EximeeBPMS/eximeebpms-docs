@@ -472,6 +472,20 @@ See the <a href="{{<ref "/user-guide/spring-boot-integration/the-spring-event-br
 <td><i>EximeeBPMS default value</i></td>
 </tr>
 
+<tr><td colspan="4"><b>Script Security</b></td></tr>
+<tr>
+<td rowspan="2"><code>eximeebpms.bpm.script-security</code></td>
+<td><code>.enabled</code></td>
+<td>Enables or disables Script Guard. See <a href="{{< ref "/user-guide/process-engine/script-guard.md" >}}">Script Guard</a>.</td>
+<td><code>true</code></td>
+</tr>
+
+<tr>
+<td><code>.allowlisted-process-definition-keys</code></td>
+<td>List of process definition keys excluded from Script Guard inspection.</td>
+<td><i>empty</i></td>
+</tr>
+
 <tr><td colspan="4"><b>Webapp</b></td></tr>
 <tr>
 <td rowspan="3"><code>eximeebpms.bpm.webapp</code></td>

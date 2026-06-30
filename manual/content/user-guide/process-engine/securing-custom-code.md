@@ -36,3 +36,7 @@ The following configuration combinations exist:
 * `enableExpressionsInAdhocQueries`=`true`, `enableExpressionsInStoredQueries`=`true`: Expression evaluation is enabled for any query. Use this setting if all users are trusted.
 * `enableExpressionsInAdhocQueries`=`false`, `enableExpressionsInStoredQueries`=`true`: **Default Setting**. Adhoc queries may not use expressions, however filters with expressions can be defined and executed. Access to filter creation can be restricted by the granting the authorization permission `Filter/Create`. Use this setting if all users authorized to create filters are trusted.
 * `enableExpressionsInAdhocQueries`=`false`, `enableExpressionsInStoredQueries`=`false`: Expressions are disabled for all queries. Use this setting if none of the above settings can be applied.
+
+{{< note title="" class="info" >}}
+EximeeBPMS 1.3.0 introduces **Script Guard**, which complements the measures described on this page by inspecting script content at runtime and blocking dangerous patterns (e.g., file system access, network calls, OS command execution) regardless of who deployed the process. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation.
+{{< /note >}}
