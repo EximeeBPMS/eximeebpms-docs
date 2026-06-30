@@ -214,7 +214,7 @@ Updates the Script Guard configuration at runtime. Changes take effect on all en
   <tr><td><code>allowlistedKeys</code></td><td><code>array&lt;string&gt;</code></td><td>no</td><td>Updated allowlist — replaces the existing list entirely.</td></tr>
 </table>
 
-**Response:** `204 No Content`
+**Response** (`200 OK`): the updated configuration (same structure as [Get Configuration](#get-configuration)).
 
 ## List Violations
 
