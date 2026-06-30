@@ -20,7 +20,7 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
 
 <div style="margin-top:16px;">
   <iframe
-    src="/manual/1.3.0/tech-stack-matrix.html"
+    src="../../tech-stack-matrix.html"
     style="width:100%;height:1380px;border:none;display:block;border-radius:8px;"
     title="EximeeBPMS Tech Stack Compatibility Matrix"
     loading="lazy">
@@ -29,5 +29,5 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
 
 <p style="margin-top:12px;font-size:13px;">
   Having trouble viewing the embedded table?
-  <a href="/manual/1.3.0/tech-stack-matrix.html" target="_blank" rel="noopener">Open in a new tab ↗</a>
+  <a href="../../tech-stack-matrix.html" target="_blank" rel="noopener">Open in a new tab ↗</a>
 </p>
