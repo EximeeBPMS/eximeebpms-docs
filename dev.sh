@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-
+# test
 HUGO_IMAGE="${HUGO_IMAGE:-ghcr.io/gohugoio/hugo:v0.162.0}"
 REPO_DIR="$(git rev-parse --show-toplevel)"
 VERSION="$(git rev-parse --abbrev-ref HEAD | sed 's|docs/||')"
