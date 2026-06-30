@@ -16,10 +16,6 @@ Script Guard applies to all scripts executed by the process engine: Script Tasks
 
 When enabled, scripts containing forbidden patterns are **rejected** — a `ScriptSecurityException` is thrown before the script executes. Script Guard is enabled by default and can be disabled via configuration.
 
-{{< note title="" class="info" >}}
-EximeeBPMS 1.4.0 introduces the `AUDIT` mode (record violations without blocking) and a runtime-configurable `mode` property replacing the `enabled` flag.
-{{< /note >}}
-
 # Blocked Patterns
 
 The built-in policy checks the script source (case-insensitively) against the following patterns:
