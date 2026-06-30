@@ -63,6 +63,14 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
 .tsm-wrap .tsm-legend{margin-top:16px;background:var(--tsm-surface);border:1px solid var(--tsm-border);border-radius:8px;padding:14px 20px;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:12px;color:var(--tsm-ink2)}
 .tsm-wrap .tsm-lg-item{display:flex;align-items:center;gap:8px}
 .tsm-wrap .tsm-lg-sw{width:14px;height:14px;border-radius:3px;flex-shrink:0;border:1px solid rgba(0,0,0,.08)}
+.tsm-wrap .tsm-tbl-wrap,.tsm-wrap .tsm-top-scroll{scrollbar-width:thin;scrollbar-color:#93AACF #EBF0FA}
+.tsm-wrap .tsm-tbl-wrap::-webkit-scrollbar,.tsm-wrap .tsm-top-scroll::-webkit-scrollbar{height:5px}
+.tsm-wrap .tsm-tbl-wrap::-webkit-scrollbar-track{background:#EBF0FA;border-radius:0 0 6px 6px}
+.tsm-wrap .tsm-top-scroll::-webkit-scrollbar-track{background:#EBF0FA;border-radius:6px 6px 0 0}
+.tsm-wrap .tsm-tbl-wrap::-webkit-scrollbar-thumb,.tsm-wrap .tsm-top-scroll::-webkit-scrollbar-thumb{background:#93AACF;border-radius:10px}
+.tsm-wrap .tsm-tbl-wrap::-webkit-scrollbar-thumb:hover,.tsm-wrap .tsm-top-scroll::-webkit-scrollbar-thumb:hover{background:#2155D4}
+.tsm-wrap .tsm-top-scroll{overflow-x:auto;overflow-y:hidden;height:6px;border-radius:6px 6px 0 0;border:1px solid var(--tsm-border);border-bottom:none}
+.tsm-wrap .tsm-top-scroll-inner{height:1px}
 </style>
 
 <div class="tsm-wrap">
@@ -219,6 +227,25 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
       btn.classList.add('tsm-on');
       wrap.querySelector('#tsm-p-' + t).classList.add('tsm-on');
     });
+  });
+})();
+</script>
+
+<script>
+(function(){
+  document.querySelectorAll('.tsm-wrap .tsm-tbl-wrap').forEach(function(wrap){
+    var top=document.createElement('div');
+    top.className='tsm-top-scroll';
+    var inner=document.createElement('div');
+    inner.className='tsm-top-scroll-inner';
+    top.appendChild(inner);
+    wrap.parentNode.insertBefore(top,wrap);
+    function syncW(){ inner.style.width=wrap.scrollWidth+'px'; }
+    syncW();
+    var lock=false;
+    top.addEventListener('scroll',function(){ if(lock)return; lock=true; wrap.scrollLeft=top.scrollLeft; lock=false; });
+    wrap.addEventListener('scroll',function(){ if(lock)return; lock=true; top.scrollLeft=wrap.scrollLeft; lock=false; });
+    if(window.ResizeObserver) new ResizeObserver(syncW).observe(wrap);
   });
 })();
 </script>
