@@ -131,7 +131,10 @@ Script Guard stores its runtime configuration and violation records in the datab
 {{< /note >}}
 
 {{< note title="" class="info" >}}
-**Migrating from 1.3.0:** The `enabled` boolean property has been replaced by `mode`. Replace `enabled: true` with `mode: ENFORCE` and `enabled: false` with `mode: DISABLED`.
+**Migrating from 1.3.0:** <br />
+The `enabled` boolean property has been replaced by `mode`. <br />
+Replace `enabled: true` with `mode: ENFORCE` <br />
+and `enabled: false` with `mode: DISABLED`.
 {{< /note >}}
 
 # Allowlisting Process Definitions
