@@ -597,4 +597,4 @@ It also contains a guide on [Migration from Nashorn](https://www.graalvm.org/ref
 
 # Script Guard
 
-EximeeBPMS 1.3.0 introduces **Script Guard**, a runtime security feature that inspects scripts before execution and blocks those matching known malicious patterns (e.g., `Runtime.exec`, reflective class loading, file system access). See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration and enforcement modes.
+Script Guard is a runtime security feature that inspects scripts before execution and blocks — or audits — those matching known malicious patterns (e.g., `Runtime.exec`, reflective class loading, file system access). See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration, enforcement modes, violation monitoring, and SIEM integration.

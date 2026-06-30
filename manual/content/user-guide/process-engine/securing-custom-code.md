@@ -38,5 +38,5 @@ The following configuration combinations exist:
 * `enableExpressionsInAdhocQueries`=`false`, `enableExpressionsInStoredQueries`=`false`: Expressions are disabled for all queries. Use this setting if none of the above settings can be applied.
 
 {{< note title="" class="info" >}}
-EximeeBPMS 1.3.0 introduces **Script Guard**, which complements the measures described on this page by inspecting script content at runtime and blocking dangerous patterns (e.g., file system access, network calls, OS command execution) regardless of who deployed the process. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation.
+**Script Guard** complements the measures described on this page by inspecting script content at runtime and blocking or auditing dangerous patterns (e.g., file system access, network calls, OS command execution) regardless of who deployed the process. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation.
 {{< /note >}}
