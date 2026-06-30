@@ -10,13 +10,9 @@ menu:
 
 ---
 
-Dependency versions across all EximeeBPMS releases — from the first OSS release (**v1.0.0**) through the current **Enterprise** track.
+Dependency versions across all EximeeBPMS releases. Highlighted cells indicate a change relative to the previous release.
 
-Use the **OSS Releases** tab for a focused view of Maven Central releases (v1.0.0–v1.2.0), or switch to **Full Timeline** to include the Enterprise track and see all changes at a glance.
-
-{{< note title="Breaking changes since v1.2.0" class="warning" >}}
-The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track additionally bumps Java to 21 and drops Tomcat 9 (javax legacy) and WildFly 26.
-{{< /note >}}
+Use the **OSS Releases** tab for a focused view of Maven Central releases, or switch to **Full Timeline** to include the Enterprise track and see all changes at a glance.
 
 <style>
 .tsm-wrap{--tsm-surface:#fff;--tsm-border:#DDE3F0;--tsm-ink1:#0D1526;--tsm-ink2:#334165;--tsm-ink3:#7480A0;--tsm-accent:#2155D4;--tsm-up-bg:#ECF3FF;--tsm-up-b:#3B82F6;--tsm-mj-bg:#FFF8EC;--tsm-mj-b:#D97706;--tsm-bk-bg:#FFF0F4;--tsm-bk-b:#E11D48;--tsm-dr-bg:#FEF2F2;--tsm-dr-b:#DC2626;--tsm-du-bg:#F5F0FF;--tsm-du-b:#7C3AED;font-size:13px;line-height:1.5;margin-top:20px}
@@ -78,7 +74,7 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
 <div class="tsm-tabs">
   <button class="tsm-tb tsm-on" data-tsm="oss">
     OSS Releases
-    <span class="tsm-tb-sub">v1.0.0 → v1.2.0 · Maven Central</span>
+    <span class="tsm-tb-sub">v1.0.0 → v1.3.0 · Maven Central</span>
   </button>
   <button class="tsm-tb" data-tsm="ent">
     Full Timeline
@@ -96,48 +92,49 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
   <th class="tsm-cv tsm-ver">v1.0.0</th>
   <th class="tsm-cv tsm-ver">v1.1.0</th>
   <th class="tsm-cv tsm-ver">v1.2.0</th>
+  <th class="tsm-cv tsm-ver">v1.3.0</th>
 </tr></thead>
 <tbody>
-<tr class="tsm-gr"><td colspan="5">Platform Requirements</td></tr>
-<tr><td class="tsm-lbl">Platform</td><td class="tsm-comp">Java (build &amp; runtime)</td><td class="tsm-ver">17 (Temurin)</td><td class="tsm-ver">17 (Temurin)</td><td class="tsm-ver">17 (Temurin)</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta EE Spec</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta Servlet API</td><td class="tsm-ver">6.x</td><td class="tsm-ver">6.x</td><td class="tsm-ver tsm-up">6.1.0</td></tr>
+<tr class="tsm-gr"><td colspan="6">Platform Requirements</td></tr>
+<tr><td class="tsm-lbl">Platform</td><td class="tsm-comp">Java (build &amp; runtime)</td><td class="tsm-ver">17</td><td class="tsm-ver">17</td><td class="tsm-ver">17</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta EE Spec</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta Servlet API</td><td class="tsm-ver">6.x</td><td class="tsm-ver">6.x</td><td class="tsm-ver tsm-up">6.1.0</td><td class="tsm-ver">TODO</td></tr>
 <tr><td class="tsm-lbl"></td><td class="tsm-comp">Namespace<span class="tsm-sub">javax / jakarta support</span></td>
   <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td>
   <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td>
-  <td class="tsm-bk tsm-ver"><span class="tsm-ns tsm-ns-k">jakarta only</span> <span class="tsm-chip tsm-chi-bk">Breaking</span></td></tr>
-<tr class="tsm-gr"><td colspan="5">Application Servers</td></tr>
-<tr><td class="tsm-lbl">App Server</td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">Jakarta · 10.x</span></td><td class="tsm-ver">10.1.36</td><td class="tsm-ver tsm-up">10.1.43</td><td class="tsm-ver tsm-up">10.1.50</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">javax legacy · 9.x</span></td><td class="tsm-ver">9.0.100</td><td class="tsm-ver tsm-up">9.0.107</td><td class="tsm-ver tsm-up">9.0.113</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly</td><td class="tsm-ver">35.0.0.Final</td><td class="tsm-ver tsm-mj">37.0.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">37.0.0.Final</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly legacy<span class="tsm-sub">26.x</span></td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td></tr>
-<tr class="tsm-gr"><td colspan="5">Application Frameworks</td></tr>
+  <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Application Servers</td></tr>
+<tr><td class="tsm-lbl">App Server</td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">Jakarta · 10.x</span></td><td class="tsm-ver">10.1.36</td><td class="tsm-ver tsm-up">10.1.43</td><td class="tsm-ver tsm-up">10.1.50</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">javax legacy · 9.x</span></td><td class="tsm-ver">9.0.100</td><td class="tsm-ver tsm-up">9.0.107</td><td class="tsm-ver tsm-up">9.0.113</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly</td><td class="tsm-ver">35.0.0.Final</td><td class="tsm-ver tsm-mj">37.0.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">37.0.0.Final</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly legacy<span class="tsm-sub">26.x</span></td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Application Frameworks</td></tr>
 <tr><td class="tsm-lbl">Framework</td><td class="tsm-comp">Spring Framework</td>
   <td class="tsm-du"><span class="tsm-vl">5.3.39 <small>(javax)</small></span><span class="tsm-vl">6.2.4 <small>(jakarta)</small></span></td>
   <td class="tsm-du"><span class="tsm-vl">5.3.39 <small>(javax)</small></span><span class="tsm-vl">6.2.10 <small>(jakarta)</small></span></td>
-  <td class="tsm-mj tsm-ver">7.0.5 <span class="tsm-chip tsm-chi-mj">Major</span><span class="tsm-vls">jakarta-only; Spring 5 removed</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Spring Boot</td><td class="tsm-ver">3.4.4</td><td class="tsm-ver tsm-up">3.5.5</td><td class="tsm-mj tsm-ver">4.0.3 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Quarkus</td><td class="tsm-ver">3.20.0</td><td class="tsm-ver tsm-up">3.27.0</td><td class="tsm-ver tsm-up">3.28.4</td></tr>
-<tr class="tsm-gr"><td colspan="5">Persistence Layer</td></tr>
-<tr><td class="tsm-lbl">Persistence</td><td class="tsm-comp">Hibernate ORM</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-mj tsm-ver">7.2.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">MyBatis</td><td class="tsm-ver">3.5.15</td><td class="tsm-ver tsm-up">3.5.19</td><td class="tsm-ver">3.5.19</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Liquibase</td><td class="tsm-ver">4.8.0</td><td class="tsm-ver">4.8.0</td><td class="tsm-mj tsm-ver">5.0.1 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr class="tsm-gr"><td colspan="5">Data Processing &amp; Scripting</td></tr>
-<tr><td class="tsm-lbl">Data</td><td class="tsm-comp">Jackson Databind</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">FEEL-Scala<span class="tsm-sub">DMN Engine</span></td><td class="tsm-ver">1.19.1</td><td class="tsm-ver tsm-up">1.19.3</td><td class="tsm-ver">1.19.3</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Groovy</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">FreeMarker</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td></tr>
-<tr class="tsm-gr"><td colspan="5">Supported Databases — JDBC Drivers</td></tr>
-<tr><td class="tsm-lbl">Database</td><td class="tsm-comp">H2 (embedded / testing)</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">PostgreSQL JDBC driver</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">MySQL Connector/J</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Oracle JDBC</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">SQL Server JDBC</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">IBM DB2 JDBC</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td></tr>
-<tr class="tsm-gr"><td colspan="5">Build &amp; Frontend Tools</td></tr>
-<tr><td class="tsm-lbl">Build</td><td class="tsm-comp">Apache Maven (wrapper)</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Node.js<span class="tsm-sub">Cockpit / Tasklist / Admin UI</span></td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">npm</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td></tr>
+  <td class="tsm-mj tsm-ver">7.0.5 <span class="tsm-chip tsm-chi-mj">Major</span><span class="tsm-vls">jakarta-only; Spring 5 removed</span></td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Spring Boot</td><td class="tsm-ver">3.4.4</td><td class="tsm-ver tsm-up">3.5.5</td><td class="tsm-mj tsm-ver">4.0.3 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Quarkus</td><td class="tsm-ver">3.20.0</td><td class="tsm-ver tsm-up">3.27.0</td><td class="tsm-ver tsm-up">3.28.4</td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Persistence Layer</td></tr>
+<tr><td class="tsm-lbl">Persistence</td><td class="tsm-comp">Hibernate ORM</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-mj tsm-ver">7.2.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">MyBatis</td><td class="tsm-ver">3.5.15</td><td class="tsm-ver tsm-up">3.5.19</td><td class="tsm-ver">3.5.19</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Liquibase</td><td class="tsm-ver">4.8.0</td><td class="tsm-ver">4.8.0</td><td class="tsm-mj tsm-ver">5.0.1 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Data Processing &amp; Scripting</td></tr>
+<tr><td class="tsm-lbl">Data</td><td class="tsm-comp">Jackson Databind</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">FEEL-Scala<span class="tsm-sub">DMN Engine</span></td><td class="tsm-ver">1.19.1</td><td class="tsm-ver tsm-up">1.19.3</td><td class="tsm-ver">1.19.3</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Groovy</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">FreeMarker</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Supported Databases — JDBC Drivers</td></tr>
+<tr><td class="tsm-lbl">Database</td><td class="tsm-comp">H2 (embedded / testing)</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">PostgreSQL JDBC driver</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">MySQL Connector/J</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Oracle JDBC</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">SQL Server JDBC</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">IBM DB2 JDBC</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">TODO</td></tr>
+<tr class="tsm-gr"><td colspan="6">Build &amp; Frontend Tools</td></tr>
+<tr><td class="tsm-lbl">Build</td><td class="tsm-comp">Apache Maven (wrapper)</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Node.js<span class="tsm-sub">Cockpit / Tasklist / Admin UI</span></td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">TODO</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">npm</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">TODO</td></tr>
 </tbody>
 </table>
 </div>
@@ -153,51 +150,52 @@ The <strong>javax</strong> namespace was removed in v1.2.0. The Enterprise track
   <th class="tsm-cv tsm-ver">v1.0.0</th>
   <th class="tsm-cv tsm-ver">v1.1.0</th>
   <th class="tsm-cv tsm-ver">v1.2.0</th>
+  <th class="tsm-cv tsm-ver">v1.3.0</th>
   <th class="tsm-cv tsm-ver">Enterprise <span class="tsm-vbadge">current</span></th>
 </tr></thead>
 <tbody>
-<tr class="tsm-gr"><td colspan="6">Platform Requirements</td></tr>
-<tr><td class="tsm-lbl">Platform</td><td class="tsm-comp">Java (build &amp; runtime)</td><td class="tsm-ver">17 (Temurin)</td><td class="tsm-ver">17 (Temurin)</td><td class="tsm-ver">17 (Temurin)</td><td class="tsm-mj tsm-ver">21 (Temurin) <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta EE Spec</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta Servlet API</td><td class="tsm-ver">6.x</td><td class="tsm-ver">6.x</td><td class="tsm-ver tsm-up">6.1.0</td><td class="tsm-ver">6.1.0</td></tr>
+<tr class="tsm-gr"><td colspan="7">Platform Requirements</td></tr>
+<tr><td class="tsm-lbl">Platform</td><td class="tsm-comp">Java (build &amp; runtime)</td><td class="tsm-ver">17</td><td class="tsm-ver">17</td><td class="tsm-ver">17</td><td class="tsm-ver">TODO</td><td class="tsm-mj tsm-ver">21 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta EE Spec</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">10.0.0</td><td class="tsm-ver">TODO</td><td class="tsm-ver">10.0.0</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Jakarta Servlet API</td><td class="tsm-ver">6.x</td><td class="tsm-ver">6.x</td><td class="tsm-ver tsm-up">6.1.0</td><td class="tsm-ver">TODO</td><td class="tsm-ver">6.1.0</td></tr>
 <tr><td class="tsm-lbl"></td><td class="tsm-comp">Namespace</td>
   <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td>
   <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td>
-  <td class="tsm-bk tsm-ver"><span class="tsm-ns tsm-ns-k">jakarta only</span> <span class="tsm-chip tsm-chi-bk">Breaking</span></td>
-  <td class="tsm-bk tsm-ver"><span class="tsm-ns tsm-ns-k">jakarta only</span></td></tr>
-<tr class="tsm-gr"><td colspan="6">Application Servers</td></tr>
-<tr><td class="tsm-lbl">App Server</td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">Jakarta · 10.x</span></td><td class="tsm-ver">10.1.36</td><td class="tsm-ver tsm-up">10.1.43</td><td class="tsm-ver tsm-up">10.1.50</td><td class="tsm-ver tsm-up">10.1.56</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">javax legacy · 9.x</span></td><td class="tsm-ver">9.0.100</td><td class="tsm-ver tsm-up">9.0.107</td><td class="tsm-ver tsm-up">9.0.113</td><td class="tsm-dr tsm-ver"><span class="tsm-chip tsm-chi-dr">Dropped</span><span class="tsm-vls tsm-st">was 9.0.113</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly</td><td class="tsm-ver">35.0.0.Final</td><td class="tsm-ver tsm-mj">37.0.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">37.0.0.Final</td><td class="tsm-mj tsm-ver">40.0.1.Final <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly legacy<span class="tsm-sub">26.x</span></td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-dr tsm-ver"><span class="tsm-chip tsm-chi-dr">Dropped</span><span class="tsm-vls tsm-st">was 26.0.1.Final</span></td></tr>
-<tr class="tsm-gr"><td colspan="6">Application Frameworks</td></tr>
+  <td class="tsm-du tsm-ver"><span class="tsm-ns tsm-ns-j">javax</span> <span class="tsm-ns tsm-ns-k">jakarta</span></td>
+  <td class="tsm-ver">TODO</td><td class="tsm-bk tsm-ver"><span class="tsm-ns tsm-ns-k">jakarta only</span></td></tr>
+<tr class="tsm-gr"><td colspan="7">Application Servers</td></tr>
+<tr><td class="tsm-lbl">App Server</td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">Jakarta · 10.x</span></td><td class="tsm-ver">10.1.36</td><td class="tsm-ver tsm-up">10.1.43</td><td class="tsm-ver tsm-up">10.1.50</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">10.1.56</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Apache Tomcat<span class="tsm-sub">javax legacy · 9.x</span></td><td class="tsm-ver">9.0.100</td><td class="tsm-ver tsm-up">9.0.107</td><td class="tsm-ver tsm-up">9.0.113</td><td class="tsm-ver">TODO</td><td class="tsm-dr tsm-ver"><span class="tsm-chip tsm-chi-dr">Dropped</span><span class="tsm-vls tsm-st">was 9.0.113</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly</td><td class="tsm-ver">35.0.0.Final</td><td class="tsm-ver tsm-mj">37.0.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">37.0.0.Final</td><td class="tsm-ver">TODO</td><td class="tsm-mj tsm-ver">40.0.1.Final <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">WildFly legacy<span class="tsm-sub">26.x</span></td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">26.0.1.Final</td><td class="tsm-ver">TODO</td><td class="tsm-dr tsm-ver"><span class="tsm-chip tsm-chi-dr">Dropped</span><span class="tsm-vls tsm-st">was 26.0.1.Final</span></td></tr>
+<tr class="tsm-gr"><td colspan="7">Application Frameworks</td></tr>
 <tr><td class="tsm-lbl">Framework</td><td class="tsm-comp">Spring Framework</td>
   <td class="tsm-du"><span class="tsm-vl">5.3.39 <small>(javax)</small></span><span class="tsm-vl">6.2.4 <small>(jakarta)</small></span></td>
   <td class="tsm-du"><span class="tsm-vl">5.3.39 <small>(javax)</small></span><span class="tsm-vl">6.2.10 <small>(jakarta)</small></span></td>
   <td class="tsm-mj tsm-ver">7.0.5 <span class="tsm-chip tsm-chi-mj">Major</span><span class="tsm-vls">jakarta-only; Spring 5 removed</span></td>
-  <td class="tsm-ver tsm-up">7.0.8</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Spring Boot</td><td class="tsm-ver">3.4.4</td><td class="tsm-ver tsm-up">3.5.5</td><td class="tsm-mj tsm-ver">4.0.3 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver tsm-up">4.1.0</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Quarkus</td><td class="tsm-ver">3.20.0</td><td class="tsm-ver tsm-up">3.27.0</td><td class="tsm-ver tsm-up">3.28.4</td><td class="tsm-ver tsm-up">3.36.1</td></tr>
-<tr class="tsm-gr"><td colspan="6">Persistence Layer</td></tr>
-<tr><td class="tsm-lbl">Persistence</td><td class="tsm-comp">Hibernate ORM</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-mj tsm-ver">7.2.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">7.2.0.Final</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">MyBatis</td><td class="tsm-ver">3.5.15</td><td class="tsm-ver tsm-up">3.5.19</td><td class="tsm-ver">3.5.19</td><td class="tsm-ver">3.5.19</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Liquibase</td><td class="tsm-ver">4.8.0</td><td class="tsm-ver">4.8.0</td><td class="tsm-mj tsm-ver">5.0.1 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver tsm-up">5.0.3</td></tr>
-<tr class="tsm-gr"><td colspan="6">Data Processing &amp; Scripting</td></tr>
-<tr><td class="tsm-lbl">Data</td><td class="tsm-comp">Jackson Databind</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-up tsm-ver">2.21.4 <span class="tsm-chip tsm-chi-up">Upgrade</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">FEEL-Scala<span class="tsm-sub">DMN Engine</span></td><td class="tsm-ver">1.19.1</td><td class="tsm-ver tsm-up">1.19.3</td><td class="tsm-ver">1.19.3</td><td class="tsm-ver">1.19.3</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Groovy</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-mj tsm-ver">5.0.6 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">FreeMarker</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td></tr>
-<tr class="tsm-gr"><td colspan="6">Supported Databases — JDBC Drivers</td></tr>
-<tr><td class="tsm-lbl">Database</td><td class="tsm-comp">H2 (embedded / testing)</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver tsm-up">2.4.240</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">PostgreSQL JDBC driver</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver tsm-up">42.7.11</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">MySQL Connector/J</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-mj tsm-ver">9.7.0 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Oracle JDBC</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver tsm-up">23.26.2</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">SQL Server JDBC</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-mj tsm-ver">13.4.0 (jre11) <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">IBM DB2 JDBC</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver tsm-up">11.5.9.0</td></tr>
-<tr class="tsm-gr"><td colspan="6">Build &amp; Frontend Tools</td></tr>
-<tr><td class="tsm-lbl">Build</td><td class="tsm-comp">Apache Maven (wrapper)</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">Node.js<span class="tsm-sub">Cockpit / Tasklist / Admin UI</span></td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td></tr>
-<tr><td class="tsm-lbl"></td><td class="tsm-comp">npm</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td></tr>
+  <td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">7.0.8</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Spring Boot</td><td class="tsm-ver">3.4.4</td><td class="tsm-ver tsm-up">3.5.5</td><td class="tsm-mj tsm-ver">4.0.3 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">4.1.0</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Quarkus</td><td class="tsm-ver">3.20.0</td><td class="tsm-ver tsm-up">3.27.0</td><td class="tsm-ver tsm-up">3.28.4</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">3.36.1</td></tr>
+<tr class="tsm-gr"><td colspan="7">Persistence Layer</td></tr>
+<tr><td class="tsm-lbl">Persistence</td><td class="tsm-comp">Hibernate ORM</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-ver">5.6.5.Final</td><td class="tsm-mj tsm-ver">7.2.0.Final <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td><td class="tsm-ver">7.2.0.Final</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">MyBatis</td><td class="tsm-ver">3.5.15</td><td class="tsm-ver tsm-up">3.5.19</td><td class="tsm-ver">3.5.19</td><td class="tsm-ver">TODO</td><td class="tsm-ver">3.5.19</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Liquibase</td><td class="tsm-ver">4.8.0</td><td class="tsm-ver">4.8.0</td><td class="tsm-mj tsm-ver">5.0.1 <span class="tsm-chip tsm-chi-mj">Major</span></td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">5.0.3</td></tr>
+<tr class="tsm-gr"><td colspan="7">Data Processing &amp; Scripting</td></tr>
+<tr><td class="tsm-lbl">Data</td><td class="tsm-comp">Jackson Databind</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">2.15.2</td><td class="tsm-ver">TODO</td><td class="tsm-up tsm-ver">2.21.4 <span class="tsm-chip tsm-chi-up">Upgrade</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">FEEL-Scala<span class="tsm-sub">DMN Engine</span></td><td class="tsm-ver">1.19.1</td><td class="tsm-ver tsm-up">1.19.3</td><td class="tsm-ver">1.19.3</td><td class="tsm-ver">TODO</td><td class="tsm-ver">1.19.3</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Groovy</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">4.0.22</td><td class="tsm-ver">TODO</td><td class="tsm-mj tsm-ver">5.0.6 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">FreeMarker</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">2.3.31</td><td class="tsm-ver">TODO</td><td class="tsm-ver">2.3.31</td></tr>
+<tr class="tsm-gr"><td colspan="7">Supported Databases — JDBC Drivers</td></tr>
+<tr><td class="tsm-lbl">Database</td><td class="tsm-comp">H2 (embedded / testing)</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">2.3.232</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">2.4.240</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">PostgreSQL JDBC driver</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">42.5.5</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">42.7.11</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">MySQL Connector/J</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">8.3.0</td><td class="tsm-ver">TODO</td><td class="tsm-mj tsm-ver">9.7.0 <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Oracle JDBC</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">23.5.0</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">23.26.2</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">SQL Server JDBC</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">8.4.1 (jre8)</td><td class="tsm-ver">TODO</td><td class="tsm-mj tsm-ver">13.4.0 (jre11) <span class="tsm-chip tsm-chi-mj">Major</span></td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">IBM DB2 JDBC</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">11.5.0.0</td><td class="tsm-ver">TODO</td><td class="tsm-ver tsm-up">11.5.9.0</td></tr>
+<tr class="tsm-gr"><td colspan="7">Build &amp; Frontend Tools</td></tr>
+<tr><td class="tsm-lbl">Build</td><td class="tsm-comp">Apache Maven (wrapper)</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">3.8.8</td><td class="tsm-ver">TODO</td><td class="tsm-ver">3.8.8</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">Node.js<span class="tsm-sub">Cockpit / Tasklist / Admin UI</span></td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">20.14.0 LTS</td><td class="tsm-ver">TODO</td><td class="tsm-ver">20.14.0 LTS</td></tr>
+<tr><td class="tsm-lbl"></td><td class="tsm-comp">npm</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">10.7.0</td><td class="tsm-ver">TODO</td><td class="tsm-ver">10.7.0</td></tr>
 </tbody>
 </table>
 </div>
