@@ -15,14 +15,6 @@ trap "rm -rf ${THEMES_DIR} ${STATIC_DIR}; rmdir '${REPO_DIR}/themes' 2>/dev/null
 echo "Extracting themes from master..."
 git archive master themes/ | tar -x -C "${THEMES_DIR}"
 
-echo "Extracting REST API docs from master..."
-git archive master rest/ | tar -x -C "${STATIC_DIR}" 2>/dev/null || echo "  (no rest/ on master yet, skipping)"
-
-if [ -d "${REPO_DIR}/rest" ]; then
-  echo "Copying REST API docs from working tree (pre-release)..."
-  cp -r "${REPO_DIR}/rest/." "${STATIC_DIR}/rest/"
-fi
-
 # Build get-started and security statically so navigation links work in dev mode
 for section in get-started security; do
   if [ -d "${REPO_DIR}/${section}" ]; then
