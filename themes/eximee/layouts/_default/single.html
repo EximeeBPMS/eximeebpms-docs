@@ -17,6 +17,7 @@
 <script>
   (function () {
     document.querySelectorAll('.content-text table').forEach(function (table) {
+      if (table.closest('.tsm-tbl-wrap, .tbl-wrap')) return;
       var wrap = document.createElement('div');
       wrap.className = 'table-scroll-wrap';
       table.parentNode.insertBefore(wrap, table);
