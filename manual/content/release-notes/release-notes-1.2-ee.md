@@ -227,7 +227,7 @@ configuration.setScriptSecurityPolicy(new CompositeScriptSecurityPolicy(
 
 ## Infrastructure Releases: 1.2.1-ep – 1.2.12-ee {#infrastructure-releases}
 
-Releases 1.2.1-ep through 1.2.12-ee established the Enterprise Edition release pipeline. They contain no engine feature changes beyond what is present in EximeeBPMS 1.3.0 CE, which was released in parallel.
+Releases 1.2.1-ep through 1.2.12-ee established the Enterprise Edition release pipeline. 
 
 | Version | Date | Summary |
 |---------|------|---------|
