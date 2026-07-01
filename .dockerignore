@@ -1,0 +1,6 @@
+public-local
+public
+worktree-*
+.idea
+.claude
+.github

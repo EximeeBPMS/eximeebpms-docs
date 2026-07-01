@@ -38,6 +38,17 @@ To build **and** immediately serve the result:
 
 Then open [http://localhost:8080](http://localhost:8080).
 
+### Container image
+
+`Dockerfile` builds a self-contained image (Hugo build stage + nginx) for deployment outside GitHub Pages. Unlike the committed `versions.yaml`, the image always regenerates it from whatever `docs/*` branches are present in the build context (`generate-versions.sh`), so `latest` and the version list never drift from the actual branches:
+
+```bash
+docker build -t eximeebpms-docs .
+docker run --rm -p 8080:80 eximeebpms-docs
+```
+
+The build context must include the full `.git` history with all `docs/*` branches fetched locally (`git fetch origin 'refs/heads/docs/*:refs/heads/docs/*'`) — the Dockerfile checks each one out via `git worktree`, same as `build-local.sh`.
+
 ### Live-reload dev server (single version)
 
 When working on a specific version, check out its branch and run `dev.sh`:
