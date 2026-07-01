@@ -87,4 +87,4 @@ eximeebpms.bpm.job-executor.queue-capacity=100
 
 ## Security
 
-No CVE-targeted fixes in this CE release. For enterprise security patches on the 1.2.x EE track, see [EximeeBPMS 1.2.x EE Release Notes]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}).
+No CVE-targeted fixes in this CE release.
