@@ -101,8 +101,8 @@ menu:
 ### Highlights
 
 - **Business Events with transactional outbox** — guaranteed at-least-once delivery to downstream systems _(EE exclusive)_
-- **Configurable OAuth2 endpoints** and custom webapp context path support _(EE exclusive)_
-- Script Security Policy NIO enforcement narrowed to file and network APIs only
+- [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}) and custom webapp context path support _(EE exclusive)_
+- [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) NIO enforcement narrowed to file and network APIs only
 
 ### New Features
 
@@ -139,10 +139,11 @@ eximeebpms.bpm.webapp.path=/bpm
 
 ### User Experience Improvements
 
-#### Script Security Policy — Reduced False Positives
+#### Script Guard — Reduced False Positives
 
-The NIO blocking enforcement in the Script Security Policy was narrowed to **file and network APIs** only. Pure computation (sorting, string manipulation) is no longer subject to blocking checks, reducing false positives and improving performance of compliant scripts.
+The NIO blocking enforcement in Script Guard was narrowed to **file and network APIs** only. Pure computation (sorting, string manipulation) is no longer subject to blocking checks, reducing false positives and improving performance of compliant scripts.
 
+→ [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})  
 → [Securing Custom Code]({{< ref "/user-guide/process-engine/securing-custom-code.md" >}})
 
 ### Technical Updates
@@ -187,12 +188,12 @@ Release-pipeline bookkeeping only. No functional or security changes.
 
 ### Highlights
 
-- **Script Security Policy** — enforce which scripts are allowed to execute in the engine _(EE exclusive)_
+- [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) — enforce which scripts are allowed to execute in the engine _(EE exclusive)_
 - Groovy upgraded from 4.x to 5.x
 
 ### New Features
 
-#### Script Security Policy _(EE exclusive)_
+#### Script Guard _(EE exclusive)_
 
 A framework for controlling which scripts are permitted to execute in the process engine, enforced at two levels:
 
@@ -208,6 +209,7 @@ configuration.setScriptSecurityPolicy(new CompositeScriptSecurityPolicy(
 ));
 ```
 
+→ [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})  
 → [Securing Custom Code]({{< ref "/user-guide/process-engine/securing-custom-code.md" >}})  
 → [Scripting]({{< ref "/user-guide/process-engine/scripting.md" >}})
 
@@ -231,7 +233,7 @@ Releases 1.2.1-ep through 1.2.12-ee established the Enterprise Edition release p
 
 | Version | Date | Summary |
 |---------|------|---------|
-| **1.2.1-ep** | 08.05.2026 | First EE release — includes CE 1.3.0 features (multithreaded task handling, UUID v4, task query OR fix) and initial CI/CD pipeline |
+| **1.2.1-ep** | 08.05.2026 | First EE release — includes CE 1.3.0 features (multithreaded External Task Client, UUID v7, task query OR fix) and initial CI/CD pipeline |
 | **1.2.2-ep** | 11.05.2026 | Release action configuration; snapshot release pipeline fix |
 | **1.2.3-ee** | 11.05.2026 | Nexus TLS certificate for snapshot builds; distribution management release repository |
 | **1.2.4-ee** | 12.05.2026 | Version release preparation |
