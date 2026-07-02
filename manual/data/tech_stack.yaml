@@ -1,0 +1,234 @@
+versions:
+  - id: v1.0.0
+    label: v1.0.0
+    type: oss
+  - id: v1.1.0
+    label: v1.1.0
+    type: oss
+  - id: v1.2.0
+    label: v1.2.0
+    type: oss
+  - id: v1.3.0
+    label: v1.3.0
+    type: oss
+  - id: ent
+    label: Enterprise
+    type: enterprise
+    badge: current
+
+categories:
+  - name: Platform Requirements
+    components:
+      - name: Java (build & runtime)
+        values:
+          v1.0.0: { value: "17" }
+          v1.1.0: { value: "17" }
+          v1.2.0: { value: "17" }
+          v1.3.0: { value: "17" }
+          ent: { value: "21", change: mj }
+      - name: Jakarta EE Spec
+        values:
+          v1.0.0: { value: "10.0.0" }
+          v1.1.0: { value: "10.0.0" }
+          v1.2.0: { value: "10.0.0" }
+          v1.3.0: { value: "10.0.0" }
+          ent: { value: "10.0.0" }
+      - name: Jakarta Servlet API
+        values:
+          v1.0.0: { value: "6.x" }
+          v1.1.0: { value: "6.x" }
+          v1.2.0: { value: "6.1.0", change: up }
+          v1.3.0: { value: "6.1.0" }
+          ent: { value: "6.1.0" }
+      - name: Namespace
+        sub: "javax / jakarta support"
+        values:
+          v1.0.0: { namespaces: [ { cls: j, text: javax }, { cls: k, text: jakarta } ] }
+          v1.1.0: { namespaces: [ { cls: j, text: javax }, { cls: k, text: jakarta } ] }
+          v1.2.0: { namespaces: [ { cls: j, text: javax }, { cls: k, text: jakarta } ] }
+          v1.3.0: { namespaces: [ { cls: j, text: javax }, { cls: k, text: jakarta } ] }
+          ent: { change: bk, namespaces: [ { cls: k, text: "jakarta only" } ] }
+
+  - name: Application Servers
+    components:
+      - name: Apache Tomcat
+        sub: "Jakarta · 10.x"
+        values:
+          v1.0.0: { value: "10.1.36" }
+          v1.1.0: { value: "10.1.43", change: up }
+          v1.2.0: { value: "10.1.50", change: up }
+          v1.3.0: { value: "10.1.50" }
+          ent: { value: "10.1.56", change: up }
+      - name: Apache Tomcat
+        sub: "javax legacy · 9.x"
+        values:
+          v1.0.0: { value: "9.0.100" }
+          v1.1.0: { value: "9.0.107", change: up }
+          v1.2.0: { value: "9.0.113", change: up }
+          v1.3.0: { value: "9.0.113" }
+          ent: { change: dr, struck: "9.0.113" }
+      - name: WildFly
+        values:
+          v1.0.0: { value: "35.0.0.Final" }
+          v1.1.0: { value: "37.0.0.Final", change: mj }
+          v1.2.0: { value: "37.0.0.Final" }
+          v1.3.0: { value: "37.0.0.Final" }
+          ent: { value: "40.0.1.Final", change: mj }
+      - name: WildFly legacy
+        sub: "26.x"
+        values:
+          v1.0.0: { value: "26.0.1.Final" }
+          v1.1.0: { value: "26.0.1.Final" }
+          v1.2.0: { value: "26.0.1.Final" }
+          v1.3.0: { value: "26.0.1.Final" }
+          ent: { change: dr, struck: "26.0.1.Final" }
+
+  - name: Application Frameworks
+    components:
+      - name: Spring Framework
+        values:
+          v1.0.0: { subvalues: [ { version: "5.3.39", tag: javax }, { version: "6.2.4", tag: jakarta } ] }
+          v1.1.0: { subvalues: [ { version: "5.3.39", tag: javax }, { version: "6.2.10", tag: jakarta } ] }
+          v1.2.0: { value: "7.0.5", change: mj, note: "jakarta-only; Spring 5 removed" }
+          v1.3.0: { value: "7.0.5" }
+          ent: { value: "7.0.8", change: up }
+      - name: Spring Boot
+        values:
+          v1.0.0: { value: "3.4.4" }
+          v1.1.0: { value: "3.5.5", change: up }
+          v1.2.0: { value: "4.0.3", change: mj }
+          v1.3.0: { value: "4.0.3" }
+          ent: { value: "4.1.0", change: up }
+      - name: Quarkus
+        values:
+          v1.0.0: { value: "3.20.0" }
+          v1.1.0: { value: "3.27.0", change: up }
+          v1.2.0: { value: "3.28.4", change: up }
+          v1.3.0: { value: "3.28.4" }
+          ent: { value: "3.36.1", change: up }
+
+  - name: Persistence Layer
+    components:
+      - name: Hibernate ORM
+        values:
+          v1.0.0: { value: "5.6.5.Final" }
+          v1.1.0: { value: "5.6.5.Final" }
+          v1.2.0: { value: "7.2.0.Final", change: mj }
+          v1.3.0: { value: "7.2.0.Final" }
+          ent: { value: "7.2.0.Final" }
+      - name: MyBatis
+        values:
+          v1.0.0: { value: "3.5.15" }
+          v1.1.0: { value: "3.5.19", change: up }
+          v1.2.0: { value: "3.5.19" }
+          v1.3.0: { value: "3.5.19" }
+          ent: { value: "3.5.19" }
+      - name: Liquibase
+        values:
+          v1.0.0: { value: "4.8.0" }
+          v1.1.0: { value: "4.8.0" }
+          v1.2.0: { value: "5.0.1", change: mj }
+          v1.3.0: { value: "5.0.1" }
+          ent: { value: "5.0.3", change: up }
+
+  - name: Data Processing & Scripting
+    components:
+      - name: Jackson Databind
+        values:
+          v1.0.0: { value: "2.15.2" }
+          v1.1.0: { value: "2.15.2" }
+          v1.2.0: { value: "2.15.2" }
+          v1.3.0: { value: "2.15.2" }
+          ent: { value: "2.21.4", change: up, badge: Upgrade }
+      - name: FEEL-Scala
+        sub: "DMN Engine"
+        values:
+          v1.0.0: { value: "1.19.1" }
+          v1.1.0: { value: "1.19.3", change: up }
+          v1.2.0: { value: "1.19.3" }
+          v1.3.0: { value: "1.19.3" }
+          ent: { value: "1.19.3" }
+      - name: Groovy
+        values:
+          v1.0.0: { value: "4.0.22" }
+          v1.1.0: { value: "4.0.22" }
+          v1.2.0: { value: "4.0.22" }
+          v1.3.0: { value: "4.0.22" }
+          ent: { value: "5.0.6", change: mj }
+      - name: FreeMarker
+        values:
+          v1.0.0: { value: "2.3.31" }
+          v1.1.0: { value: "2.3.31" }
+          v1.2.0: { value: "2.3.31" }
+          v1.3.0: { value: "2.3.31" }
+          ent: { value: "2.3.31" }
+
+  - name: "Supported Databases — JDBC Drivers"
+    components:
+      - name: H2 (embedded / testing)
+        values:
+          v1.0.0: { value: "2.3.232" }
+          v1.1.0: { value: "2.3.232" }
+          v1.2.0: { value: "2.3.232" }
+          v1.3.0: { value: "2.3.232" }
+          ent: { value: "2.4.240", change: up }
+      - name: PostgreSQL JDBC driver
+        values:
+          v1.0.0: { value: "42.5.5" }
+          v1.1.0: { value: "42.5.5" }
+          v1.2.0: { value: "42.5.5" }
+          v1.3.0: { value: "42.5.5" }
+          ent: { value: "42.7.11", change: up }
+      - name: MySQL Connector/J
+        values:
+          v1.0.0: { value: "8.3.0" }
+          v1.1.0: { value: "8.3.0" }
+          v1.2.0: { value: "8.3.0" }
+          v1.3.0: { value: "8.3.0" }
+          ent: { value: "9.7.0", change: mj }
+      - name: Oracle JDBC
+        values:
+          v1.0.0: { value: "23.5.0" }
+          v1.1.0: { value: "23.5.0" }
+          v1.2.0: { value: "23.5.0" }
+          v1.3.0: { value: "23.5.0" }
+          ent: { value: "23.26.2", change: up }
+      - name: SQL Server JDBC
+        values:
+          v1.0.0: { value: "8.4.1 (jre8)" }
+          v1.1.0: { value: "8.4.1 (jre8)" }
+          v1.2.0: { value: "8.4.1 (jre8)" }
+          v1.3.0: { value: "8.4.1 (jre8)" }
+          ent: { value: "13.4.0 (jre11)", change: mj }
+      - name: IBM DB2 JDBC
+        values:
+          v1.0.0: { value: "11.5.0.0" }
+          v1.1.0: { value: "11.5.0.0" }
+          v1.2.0: { value: "11.5.0.0" }
+          v1.3.0: { value: "11.5.0.0" }
+          ent: { value: "11.5.9.0", change: up }
+
+  - name: Build & Frontend Tools
+    components:
+      - name: Apache Maven (wrapper)
+        values:
+          v1.0.0: { value: "3.8.8" }
+          v1.1.0: { value: "3.8.8" }
+          v1.2.0: { value: "3.8.8" }
+          v1.3.0: { value: "3.8.8" }
+          ent: { value: "3.8.8" }
+      - name: Node.js
+        sub: "Cockpit / Tasklist / Admin UI"
+        values:
+          v1.0.0: { value: "20.14.0 LTS" }
+          v1.1.0: { value: "20.14.0 LTS" }
+          v1.2.0: { value: "20.14.0 LTS" }
+          v1.3.0: { value: "20.14.0 LTS" }
+          ent: { value: "20.14.0 LTS" }
+      - name: npm
+        values:
+          v1.0.0: { value: "10.7.0" }
+          v1.1.0: { value: "10.7.0" }
+          v1.2.0: { value: "10.7.0" }
+          v1.3.0: { value: "10.7.0" }
+          ent: { value: "10.7.0" }

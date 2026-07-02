@@ -1,0 +1,25 @@
+{{- $version := .version -}}
+{{- $component := .component -}}
+{{- $hidden := .hidden -}}
+{{- $cell := index $component.values $version.id -}}
+{{- $change := "" -}}
+{{- if $cell -}}{{- with $cell.change -}}{{- $change = . -}}{{- end -}}{{- end -}}
+{{- if and $cell (not $change) (or $cell.namespaces $cell.subvalues) -}}{{- $change = "du" -}}{{- end -}}
+{{- $classes := slice "tsm-ver" -}}
+{{- if $change -}}{{- $classes = $classes | append (printf "tsm-%s" $change) -}}{{- end -}}
+{{- if $hidden -}}{{- $classes = $classes | append "tsm-col-hidden" -}}{{- end -}}
+<td class="{{ delimit $classes " " }}" data-v="{{ $version.id }}">{{ with $cell -}}
+{{- if .namespaces -}}
+{{- range $i, $ns := .namespaces -}}{{- if $i }} {{ end }}<span class="tsm-ns tsm-ns-{{ $ns.cls }}">{{ $ns.text }}</span>{{- end -}}
+{{- else if .subvalues -}}
+{{- range .subvalues -}}<span class="tsm-vl">{{ .version }} <small>({{ .tag }})</small></span>{{- end -}}
+{{- else -}}
+{{- .value -}}
+{{- if .badge }} <span class="tsm-chip tsm-chi-{{ $change }}">{{ .badge }}</span>
+{{- else if eq $change "mj" }} <span class="tsm-chip tsm-chi-mj">Major</span>
+{{- else if eq $change "dr" }} <span class="tsm-chip tsm-chi-dr">Dropped</span>
+{{- end -}}
+{{- with .note }}<span class="tsm-vls">{{ . }}</span>{{ end -}}
+{{- with .struck }}<span class="tsm-vls tsm-st">was {{ . }}</span>{{ end -}}
+{{- end -}}
+{{- end }}</td>
