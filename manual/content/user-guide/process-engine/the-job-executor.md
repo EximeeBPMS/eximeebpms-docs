@@ -19,6 +19,10 @@ A job is an explicit representation of a task to trigger process execution. A jo
 
 While jobs are created during process execution, job acquisition and execution are the job executor's responsibility. The following diagram illustrates these two steps:
 
+{{< note title="" class="info" >}}
+For job-related metrics, see the built-in [Metrics]({{< ref "/user-guide/process-engine/metrics.md#built-in-metrics" >}}) (`job-successful`, `job-failed`, acquisition counters) and, if the `eximeebpms-bpm-monitor` extension is used, [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#jobs" >}}) for a live count of currently failing jobs.
+{{< /note >}}
+
 {{< img src="../img/job-executor-basic-architecture.png" title="Basic Architecture" >}}
 
 

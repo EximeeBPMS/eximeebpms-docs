@@ -869,6 +869,18 @@ The following table gives an overview of the features that the system permission
       <td></td>
       <td></td>
     </tr>
+    <tr>
+      <th>Query Script Violations</th>
+      <td>X</td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Delete Script Violations</th>
+      <td></td>
+      <td></td>
+      <td>X</td>
+    </tr>
   </tbody>
 </table>
 

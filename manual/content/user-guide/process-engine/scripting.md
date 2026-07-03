@@ -594,3 +594,7 @@ Note that if no script engine related to that value can be found, the process en
 
 Consult the [official GraalVM JavaScript Guide](https://www.graalvm.org/reference-manual/js/ScriptEngine/) for questions around that script engine. 
 It also contains a guide on [Migration from Nashorn](https://www.graalvm.org/reference-manual/js/NashornMigrationGuide/).
+
+# Script Guard
+
+Script Guard is a runtime security feature that inspects scripts before execution and blocks — or audits — those matching known malicious patterns (e.g., `Runtime.exec`, reflective class loading, file system access). See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration, enforcement modes, and violation monitoring.

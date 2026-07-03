@@ -11,4 +11,4 @@ menu:
 
 ---
 
-* https://docs.eximeebpms.org/rest/{{< minor-version >}}/
+* [EximeeBPMS REST API Reference](/rest/{{< minor-version >}}/)

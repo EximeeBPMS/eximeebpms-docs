@@ -14,6 +14,10 @@ menu:
 The **EximeeBPMS External Task Client** allows you to set up remote service tasks for your workflow. There is a supported [Java](https://github.com/EximeeBPMS/eximeebpms/tree/master/clients/java)
 as well as [JavaScript](https://github.com/camunda/camunda-external-task-client-js) implementation.
 
+{{< note title="" class="info" >}}
+For metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
+{{< /note >}}
+
 ## Features
 * Complete External Tasks
 * Extend the lock duration of External Tasks
@@ -23,9 +27,7 @@ as well as [JavaScript](https://github.com/camunda/camunda-external-task-client-
 
 ## Bootstrapping the Client
 
-
-{{< img src="img/externalTaskCient.png" title="External Task Cient Architecture" >}}
-
+{{< img src="img/externalTaskClient.png" title="External Task Client Architecture" >}}
 
 The client allows to handle service tasks of type "external". In order to configure and instantiate the client, all supported implementations offer a convenient interface.
 The communication between the client and the EximeeBPMS Workflow Engine is HTTP. Hence, the respective URL of the REST API is a mandatory information.
@@ -71,6 +73,53 @@ For each topic subscription an External Task handler interface is provided.
 
 The handlers are invoked sequentially for each fetched-and-locked external task.
 
+### Concurrent Task Execution
+
+By default the client uses a single worker thread — tasks are processed one at a time. To enable parallel execution, configure the thread pool size on the builder:
+
+{{< img src="img/concurrentExternalTaskClient.png" title="External Task Client Architecture" >}}
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .threadPoolSize(10)
+  .build();
+```
+
+The number of tasks fetched per acquisition cycle is automatically bounded by `floor(threadPoolSize * maxFetchedTasksMultiplier) - tasksInProgress`. The `maxFetchedTasksMultiplier` (default `1.0`) controls how many extra tasks can be pre-loaded in the queue while all threads are busy:
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .threadPoolSize(10)
+  .maxFetchedTasksMultiplier(1.5)  // up to 15 tasks fetched; 10 running + 5 queued
+  .build();
+```
+
+#### Per-handler dedicated thread pool
+
+Different topic subscriptions can run on separate, independently-sized thread pools. Implement `ExternalTaskHandlerWithSpecificExecutor` and return a dedicated `ThreadPoolExecutor` from `getThreadPoolExecutor()`:
+
+```java
+ThreadPoolExecutor heavyExecutor = new ThreadPoolExecutor(
+    2, 4, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+
+client.subscribe("heavyTopic")
+    .handler(new ExternalTaskHandlerWithSpecificExecutor() {
+        @Override
+        public void execute(ExternalTask task, ExternalTaskService service) {
+            // handle resource-intensive task
+        }
+        @Override
+        public ThreadPoolExecutor getThreadPoolExecutor() {
+            return heavyExecutor;
+        }
+    })
+    .open();
+```
+
+Each distinct `ThreadPoolExecutor` instance gets its own independent fetch-and-lock loop. Two handlers that return the **same** executor instance share one loop and one thread pool. This lets you isolate slow or resource-intensive topics without starving fast ones.
+
 ### Completing Tasks
 Once the custom methods specified in the handler are completed, the External Task can be completed. This means for the Workflow Engine that the execution will
 move on. For this purpose, all supported implementations have a `complete` method which can be called within the handler function. However, the
@@ -84,6 +133,31 @@ The lock duration can only be extended, if the External Task is currently locked
 ### Unlocking Tasks
 If an External Task is supposed to be unlocked so that other clients are allowed to fetch and lock this task again,
 an `unlock` method can be called. The External Task can only be unlocked, if the task is currently locked by the client.
+
+### Graceful Shutdown
+
+When the client is stopped by calling `stop()`, tasks that have already been fetched from the engine but have not yet started executing (i.e. they are waiting in the thread pool queue) are automatically **unlocked** in the engine. This prevents tasks from remaining locked until the lock expiry time after an application restart, which would otherwise delay processing by other clients.
+
+The behavior is automatic — no additional configuration is required.
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .build();
+
+// ... subscribe to topics ...
+
+// On application shutdown:
+client.stop();
+```
+
+#### What happens during stop()
+
+1. The fetch-and-lock acquisition loop stops — no new tasks are fetched.
+2. Tasks already executing in the thread pool are **not interrupted** — they are allowed to finish.
+3. Tasks that were fetched and placed in the queue but not yet started are sent an **unlock** request to the engine, making them immediately available to other clients.
+
+**Note:** If the client terminates unexpectedly (process crash, kill signal) without calling `stop()`, queued tasks remain locked until the lock duration expires. A shorter `lockDuration` reduces this window.
 
 ### Reporting Failures
 If the client faces a problem that makes it impossible to complete the External Task successfully, this problem can be reported to
@@ -160,6 +234,163 @@ Hence situations like the following can be reported:
 
 For more details, please check the documentation related to the client of interest.
 
+### Task Execution Statistics
+
+The Java External Task Client collects in-memory execution statistics for each combination of **process definition key** and **topic name**. The following metrics are tracked within each 5-minute reporting window:
+
+| Metric | Description |
+|---|---|
+| `count` | Number of tasks completed in the current window |
+| `totalTimeMs` | Sum of all execution times (ms) |
+| `minTimeMs` | Shortest single execution (ms) |
+| `maxTimeMs` | Longest single execution (ms) |
+| `averageTimeMs` | `totalTimeMs / count` |
+
+Statistics are **reset after each reporting cycle**, so every report contains only the delta since the previous one.
+
+#### Built-in file logging
+
+To enable periodic logging of statistics to the application log every 5 minutes:
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .statsSchedulerEnabled(true)
+  .build();
+```
+
+This is disabled by default to avoid unnecessary I/O overhead in high-throughput deployments. Statistics are always collected in-memory regardless of this setting.
+
+#### Accessing statistics programmatically
+
+The current statistics can be read at any time from the running client:
+
+```java
+ExternalTaskExecutionStats stats = client.getExecutionStats();
+
+// Access stats for a specific topic
+TaskStats topicStats = stats.getStats("myProcessDefinitionKey", "myTopic");
+if (topicStats != null) {
+  System.out.println("Count:   " + topicStats.getCount());
+  System.out.println("Min:     " + topicStats.getMinTimeMs() + " ms");
+  System.out.println("Max:     " + topicStats.getMaxTimeMs() + " ms");
+  System.out.println("Average: " + topicStats.getAverageTimeMs() + " ms");
+}
+
+// Access all topics at once
+Map<String, TaskStats> allStats = stats.getAllStats();
+```
+
+#### Custom listeners (SPI)
+
+For integration with external monitoring systems, implement the `ExternalTaskExecutionStatsListener` SPI and register it on the builder. The listener is invoked every 5 minutes on a dedicated daemon thread.
+
+```java
+public class MyMetricsListener implements ExternalTaskExecutionStatsListener {
+
+  @Override
+  public void onStats(Map<String, TaskStats> statsSnapshot) {
+    statsSnapshot.forEach((key, stats) -> {
+      System.out.printf("[%s] count=%d avg=%.1f ms max=%d ms%n",
+          key,
+          stats.getCount(),
+          stats.getAverageTimeMs(),
+          stats.getMaxTimeMs());
+    });
+  }
+}
+```
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .addStatsListener(new MyMetricsListener())
+  .build();
+```
+
+Multiple listeners can be registered by calling `addStatsListener` multiple times. The `statsSchedulerEnabled` flag (file logging) and registered listeners are independent — you can use one, the other, or both.
+
+**Note:** The `TaskStats` objects passed to `onStats` are **stable snapshots** — they are detached from the internal statistics map before any listener is called (via an atomic swap). Subsequent task executions are recorded into new objects, so the values in the snapshot will not change after `onStats` returns. It is safe to store `TaskStats` references and read them later.
+
+#### Micrometer / Prometheus integration
+
+The following example exports statistics to Prometheus via Micrometer. It registers a `Counter` for the number of executions and `Gauge` meters for the average and maximum execution duration per topic:
+
+```java
+public class MicrometerStatsListener implements ExternalTaskExecutionStatsListener {
+
+  private final MeterRegistry meterRegistry;
+  private final ConcurrentHashMap<String, PerTopicMeters> metersCache = new ConcurrentHashMap<>();
+
+  public MicrometerStatsListener(MeterRegistry meterRegistry) {
+    this.meterRegistry = meterRegistry;
+  }
+
+  @Override
+  public void onStats(Map<String, TaskStats> statsSnapshot) {
+    statsSnapshot.forEach((key, stats) ->
+        metersCache.computeIfAbsent(key, k -> registerMeters(stats)).update(stats));
+  }
+
+  private PerTopicMeters registerMeters(TaskStats stats) {
+    Tags tags = Tags.of(
+        "process.definition.key", stats.getProcessDefinitionKey(),
+        "topic.name",             stats.getTopicName());
+
+    Counter counter = Counter.builder("eximeebpms.external.tasks.client.execution.count")
+        .description("Number of external task executions processed by the client")
+        .tags(tags)
+        .register(meterRegistry);
+
+    AtomicLong avgMs = new AtomicLong(0);
+    AtomicLong maxMs = new AtomicLong(0);
+
+    Gauge.builder("eximeebpms.external.tasks.client.execution.duration.avg.ms", avgMs, AtomicLong::get)
+        .description("Average execution duration of external tasks in the last reporting interval (ms)")
+        .tags(tags)
+        .register(meterRegistry);
+
+    Gauge.builder("eximeebpms.external.tasks.client.execution.duration.max.ms", maxMs, AtomicLong::get)
+        .description("Maximum execution duration of external tasks in the last reporting interval (ms)")
+        .tags(tags)
+        .register(meterRegistry);
+
+    return new PerTopicMeters(counter, avgMs, maxMs);
+  }
+
+  record PerTopicMeters(Counter counter, AtomicLong avgMs, AtomicLong maxMs) {
+    void update(TaskStats stats) {
+      if (stats.getCount() > 0) {
+        counter.increment(stats.getCount());
+        avgMs.set(Math.round(stats.getAverageTimeMs()));
+        maxMs.set(stats.getMaxTimeMs());
+      }
+    }
+  }
+}
+```
+
+Register the listener when building the client:
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .addStatsListener(new MicrometerStatsListener(meterRegistry))
+  .build();
+```
+
+The following meters are available in Prometheus at `/actuator/prometheus`:
+
+| Metric | Type | Description |
+|---|---|---|
+| `eximeebpms_external_tasks_client_execution_count_total` | Counter | Total executions per topic (cumulative) |
+| `eximeebpms_external_tasks_client_execution_duration_avg_ms` | Gauge | Average duration in the last 5-minute window |
+| `eximeebpms_external_tasks_client_execution_duration_max_ms` | Gauge | Maximum duration in the last 5-minute window |
+
+All meters carry the labels `process_definition_key` and `topic_name`.
+
+**Note:** The counter increments by the number of tasks completed in the interval (not 1 per interval). The gauges reflect last-interval values; they do not accumulate across windows.
+
 ### Accessing the internal Apache HttpClientBuilder
 
 If there is a need to even further customize the communication of the client, you can get access to
@@ -183,9 +414,10 @@ Complete examples of how to set up the different External Task Clients can be fo
 
 ## External task throughput
 
-For a high throughput of external tasks, you should balance between the number of external task instances, the number of clients and the duration of handling the work.
+For a high throughput of external tasks, balance the number of external task instances, the number of clients, and the duration of handling each task.
 
-A rule of thumb for long running tasks (maybe more than 30 secs) would be, to fetch-and-lock the tasks one by one (maskTasks = 1) and adjust the Long Polling interval to your needs (maybe 60 secs, asyncResponseTime = 60000).
-The Java client supports exponential backoff, default by 500 ms with factor 2, limited by 60000 ms. This could be shorted to your needs, too.
+The Java client supports parallel task execution via a configurable thread pool (see [Concurrent Task Execution](#concurrent-task-execution)). Increase `threadPoolSize` to process more tasks simultaneously within a single client instance. For isolation between task types, use `ExternalTaskHandlerWithSpecificExecutor` to assign dedicated thread pools per topic.
 
-As the external task clients do not use any threading internally, you should start as many clients as needed and balance the load with your operating system.
+For long-running tasks (more than 30 seconds), consider fetching tasks one at a time (`maxTasks = 1`) and adjusting the Long Polling interval to your needs (e.g. `asyncResponseTimeout = 60000` ms).
+
+The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`.
