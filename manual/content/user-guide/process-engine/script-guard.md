@@ -160,12 +160,6 @@ Whenever a script triggers a rule — in either `ENFORCE` or `AUDIT` mode — Sc
 
 Violations are persisted in the `ACT_RU_SCRIPT_VIOLATION` table and can be queried via the [REST API](#rest-api). The in-memory ring buffer holds up to `violation-store-size` recent entries; the total count is always available independently.
 
-# SIEM Integration
-
-Script Guard integrates with the EximeeBPMS Business Event mechanism. When a violation occurs, an event of type `camunda7:script-violation:create` is written to the business event outbox (`ACT_RU_BUS_EVT_OBX`). A configured `BusinessEventPublisher` (for example, a Kafka plugin) forwards these events to an external SIEM system in near real time.
-
-No additional Script Guard configuration is required — the integration listener is wired automatically when business events are enabled in your Spring Boot application.
-
 # REST API
 
 The Script Guard REST API is available at:
@@ -281,6 +275,6 @@ Returns the total number of violations recorded since the engine started.
 {{< img src="../img/script-guard-rollout.svg" title="Script Guard rollout flow" >}}
 
 1. **Audit first** — enable Script Guard with mode `AUDIT`. Existing processes continue to run but violations are recorded.
-2. **Review violations** — use the REST API or SIEM integration to identify which processes and patterns are flagged.
+2. **Review violations** — use the REST API to identify which processes and patterns are flagged.
 3. **Allowlist trusted processes** — for processes that intentionally use blocked patterns, add them to the allowlist via the REST API.
 4. **Enforce** — switch mode to `ENFORCE` once all violations are resolved or allowlisted.

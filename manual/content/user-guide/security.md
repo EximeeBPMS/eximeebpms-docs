@@ -178,7 +178,7 @@ Script Guard inspects scripts embedded in BPMN processes before execution and bl
 
 Script Guard operates in three modes: `ENFORCE` (block and throw), `AUDIT` (record but allow), and `DISABLED`. The mode can be changed at runtime via the REST API without restarting the engine.
 
-See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration, the full list of blocked patterns, violation monitoring, and SIEM integration.
+See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration, the full list of blocked patterns, and violation monitoring.
 
 ## Deployments
 
