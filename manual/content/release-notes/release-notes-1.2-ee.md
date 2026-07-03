@@ -238,7 +238,7 @@ Releases 1.2.1-ep through 1.2.12-ee established the Enterprise Edition release p
 | **1.2.5-ee** | 12.05.2026 | Release workflow fix |
 | **1.2.6-ee** | 12.05.2026 | Release workflow fix |
 | **1.2.7-ee** | 12.05.2026 | Release workflow fix |
-| **1.2.8** | 12.05.2026 | Update Sonar host URL to current internal instance |
+| **1.2.8-ee** | 12.05.2026 | Update Sonar host URL to current internal instance |
 | **1.2.9-ee** | 13.05.2026 | Release workflow fixes |
 | **1.2.10-ee** | 13.05.2026 | Exclude duplicated sources from release artifact |
 | **1.2.11-ee** | 13.05.2026 | Exclude duplicated sources from release artifact |
