@@ -343,6 +343,104 @@ spring:
 
 For more information, please refer to Spring's [Disabling Specific Auto-configuration Classes][DisableAutoConfig] documentation.
 
+## OAuth2 Endpoints
+
+EximeeBPMS allows configuring the OAuth2 endpoints used by the Spring Security integration to start the login flow and handle the authorization response.
+
+The default values are aligned with Spring Security defaults:
+
+```yaml
+eximeebpms:
+  bpm:
+    oauth2:
+      endpoints:
+        authorization-base-uri: /oauth2/authorization
+        redirection-base-uri: /login/oauth2/code/*
+```
+
+The `authorization-base-uri` property defines the base endpoint used to initiate the OAuth2/OIDC login flow.
+
+The `redirection-base-uri` property defines the base callback endpoint used by the OAuth2/OIDC provider to redirect the user back to EximeeBPMS after authentication.
+
+### Running the web application under a custom path
+
+OAuth2 endpoints respect the configured web application path:
+
+```yaml
+eximeebpms:
+  bpm:
+    webapp:
+      application-path: /eximeebpms
+```
+
+With the configuration above and the default OAuth2 endpoint values, EximeeBPMS exposes the following endpoints:
+
+```text
+/eximeebpms/oauth2/authorization/{registrationId}
+/eximeebpms/login/oauth2/code/{registrationId}
+```
+
+This allows the web application to be exposed behind a reverse proxy or Kubernetes Ingress under a single URL prefix, without additional routing rules for `/oauth2` and `/login`.
+
+### Redirect URI configuration
+
+The `redirection-base-uri` value must be aligned with the OAuth2 client redirect URI:
+
+```properties
+spring.security.oauth2.client.registration.*.redirect-uri
+```
+
+For an application exposed under `/eximeebpms`, the redirect URI should include the same prefix:
+
+```properties
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AZURE_REDIRECT_URI={baseUrl}/eximeebpms/login/oauth2/code/{registrationId}
+```
+
+The same callback URL must also be configured on the OAuth2/OIDC provider side, for example in Azure Entra ID:
+
+```text
+https://adm.example.org/eximeebpms/login/oauth2/code/azure
+```
+
+{{< note title="Note" class="warning" >}}
+The `eximeebpms.bpm.oauth2.endpoints.redirection-base-uri` property must be aligned with `spring.security.oauth2.client.registration.*.redirect-uri`.
+
+If you change `redirection-base-uri`, update the OAuth2 client `redirect-uri` and the callback URL configured in the OAuth2/OIDC provider.
+{{< /note >}}
+
+### Environment variables
+
+The endpoint properties can be overridden with environment variables:
+
+```properties
+EXIMEEBPMS_BPM_OAUTH2_ENDPOINTS_AUTHORIZATION_BASE_URI=/oauth2/authorization
+EXIMEEBPMS_BPM_OAUTH2_ENDPOINTS_REDIRECTION_BASE_URI=/login/oauth2/code/*
+```
+
+Example with custom endpoint paths:
+
+```properties
+EXIMEEBPMS_BPM_OAUTH2_ENDPOINTS_AUTHORIZATION_BASE_URI=/custom/oauth2/authorization
+EXIMEEBPMS_BPM_OAUTH2_ENDPOINTS_REDIRECTION_BASE_URI=/custom/oauth2/callback/*
+SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_AZURE_REDIRECT_URI={baseUrl}/eximeebpms/custom/oauth2/callback/{registrationId}
+```
+
+### Reverse proxy and Ingress
+
+When EximeeBPMS runs behind a reverse proxy, load balancer, or Kubernetes Ingress, enabling forwarded header support is recommended:
+
+```properties
+SERVER_FORWARD_HEADERS_STRATEGY=framework
+```
+
+This is especially important when the OAuth2 client `redirect-uri` uses the `{baseUrl}` placeholder.
+
+### REST API
+
+The `eximeebpms.bpm.webapp.application-path` setting applies to the web application and to the OAuth2 endpoints used by the web login flow.
+
+It does not automatically change the REST API path. If the REST API is exposed under `/engine-rest`, the reverse proxy or Ingress configuration should continue to route `/engine-rest` separately.
+
 [SpringSecurity]: https://docs.spring.io/spring-security/reference/index.html
 [SpringSecurityOAuth2]: https://docs.spring.io/spring-security/reference/servlet/oauth2/index.html
 [OAuth2Config]: https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html
