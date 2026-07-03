@@ -93,7 +93,7 @@ Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_ME
 
 ## Script Violation Log (ACT_RU_SCRIPT_VIOLATION)
 
-The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.4.0.
+The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.3.0.
 
 <table class="table desc-table">
   <tr><th>Column</th><th>Type</th><th>Description</th></tr>
@@ -123,7 +123,7 @@ Older records can be purged automatically by setting `retention-days` in the [Sc
 The following Entity Relationship Diagrams visualize the database tables and their explicit foreign key constraints, grouped by Engine with focus on BPMN, Engine with focus on DMN, Engine with focus on CMMN, the Engine History and the Identity. Please note that the diagrams do not visualize implicit connections between the tables.
 
 {{< note title="" class="info" >}}
-The table `ACT_RU_SCRIPT_VIOLATION` (added in 1.4.0) is not shown in the diagrams below as it has no foreign key relationships to the core tables. Its structure is documented in the [Script Violation Log](#script-violation-log-act_ru_script_violation) section above.
+The table `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) is not shown in the diagrams below as it has no foreign key relationships to the core tables. Its structure is documented in the [Script Violation Log](#script-violation-log-act_ru_script_violation) section above.
 {{< /note >}}
 
 ## Engine BPMN

@@ -127,14 +127,7 @@ eximeebpms:
 </table>
 
 {{< note title="" class="info" >}}
-Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the EximeeBPMS 1.4.0 schema migration.
-{{< /note >}}
-
-{{< note title="" class="info" >}}
-**Migrating from 1.3.0:** <br />
-The `enabled` boolean property has been replaced by `mode`. <br />
-Replace `enabled: true` with `mode: ENFORCE` <br />
-and `enabled: false` with `mode: DISABLED`.
+Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the EximeeBPMS 1.3.0 schema migration.
 {{< /note >}}
 
 # Allowlisting Process Definitions
