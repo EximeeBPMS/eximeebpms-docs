@@ -43,6 +43,12 @@ for section in get-started security; do
   fi
 done
 
+# Copy working-tree manual/static files into STATIC_DIR so they're served in dev mode.
+# Hugo's docker mount replaces the entire manual/static dir with STATIC_DIR, so any
+# files committed to manual/static/ (e.g. tech-stack-matrix.html) must be copied here.
+find "${REPO_DIR}/manual/static" -mindepth 1 -maxdepth 1 ! -name '_gen' \
+  -exec cp -rn {} "${STATIC_DIR}/" \; 2>/dev/null || true
+
 # Redirect /manual/latest/ → / so the "Manual" nav tab works in dev mode
 mkdir -p "${STATIC_DIR}/manual/latest"
 printf '<!DOCTYPE html><html><head><script>window.location.replace("/")</script></head><body></body></html>' \
