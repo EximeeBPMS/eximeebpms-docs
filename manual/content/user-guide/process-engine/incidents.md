@@ -23,6 +23,10 @@ runtimeService.createIncidentQuery()
 
 Incidents are stored in the ACT_RU_INCIDENT database table.
 
+{{< note title="" class="info" >}}
+For incident metrics (created, resolved, deleted, currently open), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#incidents" >}}). Note that the counter meters there require `history-level: full`.
+{{< /note >}}
+
 If you want to customize the incident handling behavior, it is possible to replace the default incident handlers in the process engine configuration and provide custom implementations (see below).
 
 
