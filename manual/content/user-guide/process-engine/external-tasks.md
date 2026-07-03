@@ -19,6 +19,10 @@ The first option is used when code is implemented as [Delegation Code]({{< ref "
 
 Note that the above distinction does not say whether the actual "business logic" is implemented locally or as a remote service. The Java Delegate invoked by an internal service task may either implement the business logic itself or it may call out to a web/rest service, send a message to another system and so forth. The same is true for an external worker. The worker can implement the business logic directly or again delegate to a remote system.
 
+{{< note title="" class="info" >}}
+For external task lifecycle metrics (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
+{{< /note >}}
+
 # The External Task Pattern
 
 The flow of executing external tasks can be conceptually separated into three steps, as depicted in the following image:

@@ -6,7 +6,7 @@
   <rect x="190" y="125" width="220" height="60" rx="6" ry="6" fill="#1976D2" stroke="#333333" stroke-width="1.5" filter="url(#nodeShadow)"/>
   <text x="300" y="151" text-anchor="middle" fill="#ffffff" font-weight="600">
     <tspan x="300" dy="0">Monitor violations</tspan>
-    <tspan x="300" dy="18">via REST API or SIEM</tspan>
+    <tspan x="300" dy="18">via REST API</tspan>
   </text>
 
   <polygon points="300,220 395,265 300,310 205,265" fill="#FFA726" stroke="#333333" stroke-width="1.5" filter="url(#nodeShadow)"/>

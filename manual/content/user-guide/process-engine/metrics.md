@@ -12,6 +12,10 @@ menu:
 
 The process engine reports runtime metrics to the database that can help draw conclusions about usage, load, and performance of EximeeBPMS. Metrics are reported in the database tables `ACT_RU_METER_LOG` and `ACT_RU_TASK_METER_LOG`. Single metric entries in `ACT_RU_METER_LOG` consist of a metric identifier, a value as natural number in the Java `long` range that the metric took in a certain timespan and a name identifying the metric reporter. Task metric entries in `ACT_RU_TASK_METER_LOG` comprise a fixed-length, pseudonymized assignee value and the point in time it was assigned at. There is a set of built-in metrics that are reported by default.
 
+{{< note title="" class="info" >}}
+This page covers the process engine's built-in, database-reported metrics. For [Micrometer](https://micrometer.io/) meters exposed via the optional `eximeebpms-bpm-monitor` extension, see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}}).
+{{< /note >}}
+
 # Built-in Metrics
 
 The following table describes the built-in metrics. The identifiers of all built-in metrics are available as constants of the class {{< javadocref page="org/camunda/bpm/engine/management/Metrics.html" text="org.eximeebpms.bpm.engine.management.Metrics" >}}.

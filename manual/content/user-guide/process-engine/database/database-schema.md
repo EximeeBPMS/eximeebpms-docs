@@ -91,7 +91,7 @@ and performance of the BPM platform. Task metrics contain a pseudonymized and fi
 
 Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_METER_LOG`.
 
-## Script Violation Log (`ACT_RU_SCRIPT_VIOLATION`)
+## Script Violation Log (ACT_RU_SCRIPT_VIOLATION)
 
 The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.4.0.
 

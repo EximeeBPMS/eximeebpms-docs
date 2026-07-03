@@ -160,6 +160,10 @@ Whenever a script triggers a rule — in either `ENFORCE` or `AUDIT` mode — Sc
 
 Violations are persisted in the `ACT_RU_SCRIPT_VIOLATION` table and can be queried via the [REST API](#rest-api). The in-memory ring buffer holds up to `violation-store-size` recent entries; the total count is always available independently.
 
+{{< note title="" class="info" >}}
+If the `eximeebpms-bpm-monitor` extension is used, violations are also exposed as Micrometer meters — see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#script-guard" >}}).
+{{< /note >}}
+
 # REST API
 
 The Script Guard REST API is available at:
