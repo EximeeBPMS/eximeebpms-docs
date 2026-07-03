@@ -14,6 +14,10 @@ menu:
 The **EximeeBPMS External Task Client** allows you to set up remote service tasks for your workflow. There is a supported [Java](https://github.com/EximeeBPMS/eximeebpms/tree/master/clients/java)
 as well as [JavaScript](https://github.com/camunda/camunda-external-task-client-js) implementation.
 
+{{< note title="" class="info" >}}
+For metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
+{{< /note >}}
+
 ## Features
 * Complete External Tasks
 * Extend the lock duration of External Tasks
