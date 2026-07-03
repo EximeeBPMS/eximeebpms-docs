@@ -8,12 +8,21 @@ PORT="${PORT:-1313}"
 
 THEMES_DIR=$(mktemp -d)
 STATIC_DIR=$(mktemp -d)
-# Pre-create themes/ as current user so Docker bind mount doesn't create it as root
+# Pre-create themes/ and manual/static/ as current user so Docker bind mounts don't create them as root
 mkdir -p "${REPO_DIR}/themes"
-trap "rm -rf ${THEMES_DIR} ${STATIC_DIR}; rmdir '${REPO_DIR}/themes' 2>/dev/null || true" EXIT INT TERM
+mkdir -p "${REPO_DIR}/manual/static"
+trap "rm -rf ${THEMES_DIR} ${STATIC_DIR}; rmdir '${REPO_DIR}/themes' '${REPO_DIR}/manual/static' 2>/dev/null || true" EXIT INT TERM
 
 echo "Extracting themes from master..."
 git archive master themes/ | tar -x -C "${THEMES_DIR}"
+
+echo "Extracting REST API docs from master..."
+git archive master rest/ | tar -x -C "${STATIC_DIR}" 2>/dev/null || echo "  (no rest/ on master yet, skipping)"
+
+if [ -d "${REPO_DIR}/rest" ]; then
+  echo "Copying REST API docs from working tree (pre-release)..."
+  cp -r "${REPO_DIR}/rest/." "${STATIC_DIR}/rest/"
+fi
 
 # Build get-started and security statically so navigation links work in dev mode
 for section in get-started security; do
@@ -34,6 +43,12 @@ for section in get-started security; do
     rm -f "${STATIC_DIR}/${section}/.keep"
   fi
 done
+
+# Copy working-tree manual/static files into STATIC_DIR so they're served in dev mode.
+# Hugo's docker mount replaces the entire manual/static dir with STATIC_DIR, so any
+# files committed to manual/static/ (e.g. tech-stack-matrix.html) must be copied here.
+find "${REPO_DIR}/manual/static" -mindepth 1 -maxdepth 1 ! -name '_gen' \
+  -exec cp -rn {} "${STATIC_DIR}/" \; 2>/dev/null || true
 
 # Redirect /manual/latest/ → / so the "Manual" nav tab works in dev mode
 mkdir -p "${STATIC_DIR}/manual/latest"
