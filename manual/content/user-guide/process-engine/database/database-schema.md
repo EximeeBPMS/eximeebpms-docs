@@ -91,6 +91,25 @@ and performance of the BPM platform. Task metrics contain a pseudonymized and fi
 
 Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_METER_LOG`.
 
+## Script Violation Log (ACT_RU_SCRIPT_VIOLATION)
+
+The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.4.0.
+
+<table class="table desc-table">
+  <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+  <tr><td><code>ID_</code></td><td><code>varchar(64)</code></td><td>Primary key.</td></tr>
+  <tr><td><code>TIMESTAMP_</code></td><td><code>timestamp</code></td><td>Time at which the violation was detected.</td></tr>
+  <tr><td><code>PROC_DEF_KEY_</code></td><td><code>varchar(255)</code></td><td>Key of the process definition containing the offending script.</td></tr>
+  <tr><td><code>ACTIVITY_ID_</code></td><td><code>varchar(255)</code></td><td>ID of the BPMN element (e.g., Script Task) that triggered the violation.</td></tr>
+  <tr><td><code>LANGUAGE_</code></td><td><code>varchar(64)</code></td><td>Scripting language (e.g., <code>groovy</code>, <code>javascript</code>).</td></tr>
+  <tr><td><code>SOURCE_TYPE_</code></td><td><code>varchar(64)</code></td><td>Origin of the script source: <code>INLINE_SOURCE</code>, <code>DYNAMIC_SOURCE</code>, <code>RESOURCE</code>, <code>DYNAMIC_RESOURCE</code>, <code>EXPRESSION</code>, or <code>UNKNOWN</code>.</td></tr>
+  <tr><td><code>ORIGIN_</code></td><td><code>varchar(64)</code></td><td>Who submitted the script: <code>USER</code>, <code>PROCESS_APPLICATION</code>, <code>PLATFORM</code>, or <code>UNKNOWN</code>.</td></tr>
+  <tr><td><code>RULE_CODE_</code></td><td><code>varchar(255)</code></td><td>Machine-readable rule code that matched (e.g., <code>SCRIPT_SECURITY_RUNTIME_EXEC</code>).</td></tr>
+  <tr><td><code>REASON_</code></td><td><code>varchar(1000)</code></td><td>Human-readable explanation of why the script was flagged.</td></tr>
+</table>
+
+Older records can be purged automatically by setting `retention-days` in the [Script Guard configuration]({{< ref "/user-guide/process-engine/script-guard.md#configuration" >}}).
+
 # Entity Relationship Diagrams
 
 {{< note title="" class="info" >}}
@@ -103,6 +122,9 @@ Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_ME
 
 The following Entity Relationship Diagrams visualize the database tables and their explicit foreign key constraints, grouped by Engine with focus on BPMN, Engine with focus on DMN, Engine with focus on CMMN, the Engine History and the Identity. Please note that the diagrams do not visualize implicit connections between the tables.
 
+{{< note title="" class="info" >}}
+The table `ACT_RU_SCRIPT_VIOLATION` (added in 1.4.0) is not shown in the diagrams below as it has no foreign key relationships to the core tables. Its structure is documented in the [Script Violation Log](#script-violation-log-act_ru_script_violation) section above.
+{{< /note >}}
 
 ## Engine BPMN
 

@@ -14,7 +14,7 @@ menu:
 A Script Task is an automated activity. When a process execution arrives at the Script Task, the corresponding script is executed.
 
 {{< note title="Script Guard" class="info" >}}
-EximeeBPMS 1.3.0 introduces **Script Guard**, which inspects the script of each Script Task before execution and can block scripts matching known malicious patterns. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for details.
+**Script Guard** inspects the script of each Script Task before execution and can block or audit scripts matching known malicious patterns. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for details.
 {{< /note >}}
 
 {{< bpmn-symbol type="script-task" >}}
