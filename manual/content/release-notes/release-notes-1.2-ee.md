@@ -100,21 +100,19 @@ menu:
 
 ### Highlights
 
-- **Business Events with transactional outbox** — guaranteed at-least-once delivery to downstream systems _(EE exclusive)_
-- [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}) and custom webapp context path support _(EE exclusive)_
+- **Business Events with transactional outbox** — guaranteed at-least-once delivery to downstream systems
+- [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}) and custom webapp context path support
 - [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) NIO enforcement narrowed to file and network APIs only
 
 ### New Features
 
-#### Business Events with Transactional Outbox _(EE exclusive)_
+#### Business Events with Transactional Outbox
 
 A native business event system with a **transactional outbox** pattern. Process-level events (process instance lifecycle, task lifecycle, job execution) are captured inside the engine transaction and written to a dedicated outbox table. A relay component reads from the outbox and delivers events to configured downstream systems (Kafka, HTTP webhooks, etc.), guaranteeing at-least-once delivery without coupling downstream systems to the engine transaction.
 
 A `BusinessEventPublisher` SPI allows custom event routing and transformation. Database schema upgrade scripts for all supported databases are included.
 
-> **[TODO]** Link to the Business Events documentation page once available.
-
-#### Configurable OAuth2 Endpoints _(EE exclusive)_
+#### Configurable OAuth2 Endpoints
 
 OAuth2 configuration is now fully externalised. Authorization, token, and userinfo endpoints are configurable via Spring Boot properties. The engine also respects a configurable webapp context path for correct OAuth2 redirect handling.
 
@@ -188,12 +186,12 @@ Release-pipeline bookkeeping only. No functional or security changes.
 
 ### Highlights
 
-- [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) — enforce which scripts are allowed to execute in the engine _(EE exclusive)_
+- [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) — enforce which scripts are allowed to execute in the engine
 - Groovy upgraded from 4.x to 5.x
 
 ### New Features
 
-#### Script Guard _(EE exclusive)_
+#### Script Guard
 
 A framework for controlling which scripts are permitted to execute in the process engine, enforced at two levels:
 
