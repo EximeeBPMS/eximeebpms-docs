@@ -25,7 +25,7 @@ This works as follows:
 You can read up on how to implement the inital user assignment for BPMN User Tasks and CMMN Human Tasks in the corresponding reference sections:
 
 * [Implementing user assignments for BPMN User Tasks][bpmn-user-assignment]
-* [Implementing user assignments for CMMN Human Tasks][cmmn-user-assignment]
+* [Implementing user assignments for CMMN Human Tasks][cmmn-user-assignment] (CMMN is deprecated since 1.3.0 and will be removed in 1.4.0)
 
 # Claiming a task in Tasklist
 

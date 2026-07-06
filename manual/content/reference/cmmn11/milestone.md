@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 A *milestone* is used to represent achievable targets within the case. It is not associated with any work but rather marks that certain conditions have been reached within the case. As a milestone is a regular plan item definition, a milestone's completion may be used as entry criteria for other tasks and stages. This way, a milestone can be used to bring logical stages within a case into order.
 
 {{< cmmn-symbol type="milestone" >}}

@@ -12,7 +12,7 @@ menu:
 ---
 
 Testing BPMN processes, CMMN cases (and also DMN decisions) is just as important as testing code.
-This section explains how to write unit tests and integration tests with EximeeBPMS and explains some best practice and guidelines.
+This section explains how to write unit tests and integration tests with EximeeBPMS and explains some best practice and guidelines. Note: CMMN support is deprecated since 1.3.0 and scheduled for removal in 1.4.0; the testing guidance for CMMN cases below applies until then.
 
 
 # Unit Tests

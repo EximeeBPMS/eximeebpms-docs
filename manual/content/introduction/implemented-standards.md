@@ -29,6 +29,10 @@ EximeeBPMS supports the 2.0 version of BPMN.
 
 # CMMN
 
+{{< note title="" class="warning" >}}
+CMMN support is deprecated since EximeeBPMS 1.3.0 and will be removed in 1.4.0. New process applications should use BPMN for workflow/case-like scenarios instead of CMMN.
+{{< /note >}}
+
 Case Management Model and Notation (CMMN) is a standard for Case Management.
 EximeeBPMS supports the 1.1 version of CMMN.
 

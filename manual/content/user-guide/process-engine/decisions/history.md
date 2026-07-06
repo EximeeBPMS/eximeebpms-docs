@@ -66,7 +66,7 @@ historicDecisionInstances = historyService
 ```
 
 Decisions which were evaluated from a [CMMN decision task] can be filtered
-by the case definition id or key and case instance id.
+by the case definition id or key and case instance id. (Filtering by case definition/instance applies to the CMMN decision task, which is deprecated since 1.3.0 and will be removed in 1.4.0.)
 
 ```java
 HistoryService historyService = processEngine.getHistoryService();

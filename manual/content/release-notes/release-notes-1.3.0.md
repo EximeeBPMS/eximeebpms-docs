@@ -21,6 +21,7 @@ menu:
 - [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}#oauth2-endpoints) — authorization and redirection endpoint paths are now configurable and correctly respect a custom webapp context path
 - [**Multi-threaded External Task Client**]({{< ref "/user-guide/ext-client/_index.md" >}}#topic-subscription) — fetched tasks are dispatched to a configurable `ThreadPoolExecutor`, with optional execution statistics logging
 - [**UUID v7**]({{< ref "/user-guide/process-engine/id-generator.md" >}}) is now the default identifier generation strategy
+- [**CMMN is deprecated**]({{< ref "/update/cmmn-removal.md" >}}) and will be removed in EximeeBPMS 1.4.0
 - Fixed `OR` query logic for combined `candidateUser` / `candidateGroup` task filters
 
 ---
@@ -86,6 +87,31 @@ The default identifier generation strategy in `StrongUuidGenerator` changes from
 IDs generated after the upgrade use UUID v7 format. Existing rows are not affected and remain valid, standard UUID strings. UUID v1 remains available as a deprecated legacy fallback (`id-generator=uuid-v1`) for compatibility and will be removed in EximeeBPMS 1.4.0.
 
 → [Id Generators]({{< ref "/user-guide/process-engine/id-generator.md" >}})
+
+---
+
+## Deprecations
+
+### CMMN Support (Deprecated — Removal in 1.4.0)
+
+Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be **removed in 1.4.0**. This decision reflects marginal CMMN adoption and EximeeBPMS's strategic focus on BPMN, Human Workflow, and business orchestration — the areas of highest value for banking and insurance customers. The change applies to both the Open Source and Enterprise editions at the same time.
+
+**Behavior in 1.3.0:** no functional changes. The engine logs a warning at startup when it detects CMMN definitions or data in the database, and when a deployment contains a `.cmmn` file. The `CaseService` Java API and the `/case-*` REST endpoints are marked as deprecated.
+
+**Behavior in 1.4.0 (preview):** deployments containing `.cmmn` files will be rejected with an explicit error; engine startup will be blocked when active case instances exist, with instructions on how to proceed; historic CMMN data will remain untouched in the database.
+
+**Recommended actions:**
+
+1. Check your environment for CMMN usage — see [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries.
+2. Test your environment's readiness by setting `eximeebpms.bpm.cmmn-enabled=false` (simulates 1.4.0 behavior).
+3. If you use CMMN, finish or close active instances on 1.3.0 and plan a migration of your patterns to BPMN.
+4. If you don't use CMMN, no action is required.
+
+Case management remains fully supported through BPMN patterns: ad-hoc subprocesses, event subprocesses, and dynamic tasks. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for a pattern mapping table.
+
+### Legacy UUID v1 Generator
+
+See [UUID v7 as Default ID Generator](#uuid-v7-as-default-id-generator) above — `id-generator=uuid-v1` is deprecated and will be removed in 1.4.0.
 
 ---
 

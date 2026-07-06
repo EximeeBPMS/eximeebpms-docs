@@ -282,7 +282,7 @@ evaluating expressions:
     <tr>
       <td><code>caseExecution</code></td>
       <td><code>{{< javadocref page="org/camunda/bpm/engine/delegate/DelegateCaseExecution.html" text="DelegateCaseExecution" >}}</code></td>
-      <td>Available in a CMMN execution context.</td>
+      <td>Available in a CMMN execution context. (CMMN is deprecated since 1.3.0 and will be removed in 1.4.0.)</td>
     </tr>
     <tr>
       <td><code>authenticatedUserId</code></td>

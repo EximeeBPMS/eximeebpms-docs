@@ -290,6 +290,10 @@ There is nothing special about the process definition of the subprocess. It coul
 
 # Create a Case Instance
 
+{{< note title="" class="warning" >}}
+Calling a CMMN case instance from a call activity relies on CMMN, which is deprecated since 1.3.0 and will be removed in EximeeBPMS 1.4.0. Consider calling a BPMN process instead for new implementations.
+{{< /note >}}
+
 A call activity can also be used to create a new CMMN case instance as a subordinate of the corresponding process instance. The call activity completes as soon as the created case instance reaches the state `COMPLETED` for the first time. In contrast to calling a BPMN process, the attribute `caseRef` instead of the attribute `calledElement` must be used to reference a case definition by its key. This means that the latest case definition version is always called.
 
 ## Case Binding
