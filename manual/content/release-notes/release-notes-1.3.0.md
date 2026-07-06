@@ -22,6 +22,7 @@ menu:
 - [**Multi-threaded External Task Client**]({{< ref "/user-guide/ext-client/_index.md" >}}#topic-subscription) — fetched tasks are dispatched to a configurable `ThreadPoolExecutor`, with optional execution statistics logging
 - [**UUID v7**]({{< ref "/user-guide/process-engine/id-generator.md" >}}) is now the default identifier generation strategy
 - [**CMMN is deprecated**]({{< ref "/update/cmmn-removal.md" >}}) and will be removed in EximeeBPMS 1.4.0
+- [**Tomcat 9 and WildFly 26 are deprecated**](#legacy-application-server-support-tomcat-9-wildfly-26) and will be removed in EximeeBPMS 1.4.0
 - Fixed `OR` query logic for combined `candidateUser` / `candidateGroup` task filters
 
 ---
@@ -108,6 +109,17 @@ Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be
 4. If you don't use CMMN, no action is required.
 
 Case management remains fully supported through BPMN patterns: ad-hoc subprocesses, event subprocesses, and dynamic tasks. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for a pattern mapping table.
+
+### Legacy Application Server Support (Tomcat 9, WildFly 26)
+
+Starting with 1.3.0, support for **Tomcat 9** and **WildFly 26** is **deprecated** and will be **removed in 1.4.0**, mirroring the removal already completed in the Enterprise edition. The `distro/wildfly26` distribution module and the Tomcat 9 QA test runtime will be removed; the current, fully supported versions are **Tomcat 10.1.50+** and **WildFly 37.0.0.Final+**.
+
+**Behavior in 1.3.0:** no functional changes. Deploying the REST API webapp on a deprecated container logs a one-time startup warning identifying the detected server version. Building the deprecated `distro/wildfly26` Maven module prints a build-time deprecation banner.
+
+**Recommended actions:**
+
+1. Check your deployment target against the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the versions supported per release.
+2. Plan a migration to Tomcat 10+ or WildFly 37+ before upgrading to 1.4.0.
 
 ### Legacy UUID v1 Generator
 
