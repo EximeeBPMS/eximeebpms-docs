@@ -11,6 +11,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 CMMN case instances and plan items go through a lifecycle of states during their execution. Depending on their state, different actions may be carried out to interact with them. Moreover, state transitions may automatically trigger changes in other plan items. The concrete lifecycle of a plan item depends on its plan item definition.
 
 The following descriptions cover the CMMN lifecycles as supported by the EximeeBPMS engine. This is a subset of states and transitions that the CMMN standard defines. Any state or transition that is currently not supported is marked in grey.

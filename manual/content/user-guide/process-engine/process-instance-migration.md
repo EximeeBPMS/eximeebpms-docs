@@ -623,7 +623,7 @@ Embedded/Event/Transaction sub processes can be mapped interchangeably. For exam
 
 ### Call Activity
 
-Call activities are migrated like any other activity. The called instance, be it a BPMN process or a CMMN case, is not changed. It can be migrated separately.
+Call activities are migrated like any other activity. The called instance, be it a BPMN process or a CMMN case, is not changed. It can be migrated separately. (Note: CMMN case migration is unaffected by this guide; CMMN support itself is deprecated and will be removed in 1.4.0.)
 
 
 ## Flow Node Markers

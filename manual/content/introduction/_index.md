@@ -11,7 +11,7 @@ menu:
 ---
 
 
-Welcome to the EximeeBPMS Manual! EximeeBPMS is a Java-based framework supporting BPMN for workflow and process automation, CMMN for Case Management and DMN for Business Decision Management. Also see: [Implemented Standards]({{< ref "/introduction/implemented-standards.md" >}}).
+Welcome to the EximeeBPMS Manual! EximeeBPMS is a Java-based framework supporting BPMN for workflow and process automation, CMMN for Case Management and DMN for Business Decision Management. Also see: [Implemented Standards]({{< ref "/introduction/implemented-standards.md" >}}). (CMMN support is deprecated since 1.3.0 and will be removed in 1.4.0 — see [Implemented Standards]({{< ref "/introduction/implemented-standards.md" >}}).)
 
 This document contains information about the features provided by EximeeBPMS.
 

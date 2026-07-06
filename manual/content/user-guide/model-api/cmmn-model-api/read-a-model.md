@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 
 If you already created a CMMN model and want to process it through the CMMN model API, you can import it with the
 following methods.

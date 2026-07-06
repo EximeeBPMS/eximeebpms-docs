@@ -27,7 +27,7 @@ All non-implementation Java packages (package name does not contain `impl`) of t
 * `eximeebpms-engine-cdi`
 * `eximeebpms-engine-dmn`
 * `eximeebpms-bpmn-model`
-* `eximeebpms-cmmn-model`
+* `eximeebpms-cmmn-model` (deprecated since 1.3.0, to be removed together with CMMN support in 1.4.0)
 * `eximeebpms-dmn-model`
 * `eximeebpms-spin-core`
 * `eximeebpms-connect-core`

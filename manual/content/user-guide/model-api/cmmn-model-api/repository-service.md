@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 
 It is also possible to access the CMMN model instance by the case definition id using the [Repository Service]({{< ref "/user-guide/process-engine/process-engine-api.md#services-api" >}}), as the following incomplete test sample code shows.
 

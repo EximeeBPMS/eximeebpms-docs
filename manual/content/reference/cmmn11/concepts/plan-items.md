@@ -11,6 +11,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 CMMN differentiates between *plan items* and *plan item definitions*. While plan items represent actual units of work that are enacted as part of the case, plan item definitions serve as the blueprint for how a plan item has to be enacted. This concept simplifies reuse of plan item definitions and furthermore enables dynamic planning so that additional items can be generated from a definition at runtime.
 
 As an example, consider the following fragment of a case definition:

@@ -47,6 +47,10 @@ rule task, please refer to the [BPMN 2.0 reference][business rule task].
 
 ## DMN Decision Task
 
+{{< note title="" class="warning" >}}
+The CMMN decision task described below is part of CMMN, which is deprecated since 1.3.0 and will be removed in EximeeBPMS 1.4.0. Use the BPMN Business Rule Task instead for new implementations.
+{{< /note >}}
+
 The CMMN decision task references a [deployed] decision definition.
 The decision definition is invoked when the task is activated.
 
@@ -259,6 +263,8 @@ public class MyDecisionResultListener implements ExecutionListener {
 ```
 
 ### Custom Mapping to Case Variables
+
+(This mapping mechanism is specific to CMMN case variables; see the deprecation notice above.)
 
 If a decision task is used to invoke a decision inside a CMMN case, the
 decision result can be passed to a case variable by using a case execution

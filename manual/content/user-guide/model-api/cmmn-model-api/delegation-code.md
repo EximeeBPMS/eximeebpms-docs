@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 
 If you use [Delegation Code]({{< ref "/user-guide/process-engine/delegation-code.md" >}}), you can access the CMMN model instance and current element of the executed case. If a CMMN model is accessed, it will be cached to avoid redundant database queries.
 

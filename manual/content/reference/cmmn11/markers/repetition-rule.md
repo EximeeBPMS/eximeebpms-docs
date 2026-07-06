@@ -11,6 +11,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 **Can be used with**: [Task]({{< ref "/reference/cmmn11/tasks/_index.md" >}}), [Stage]({{< ref "/reference/cmmn11/grouping-tasks/stage.md" >}}), [Milestone]({{< ref "/reference/cmmn11/milestone.md" >}})
 
 {{< cmmn-symbol type="marker-repetition" >}}

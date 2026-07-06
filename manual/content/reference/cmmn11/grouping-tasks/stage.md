@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 A *stage* can contain other plan items like a human task, a process task, a case task or another stage. Stages may be considered 'episodes' of a case. However, stages are not necessarily planned sequentially but can also be active in parallel.
 
 If a stage is collapsed, only its name and a plus sign are displayed:

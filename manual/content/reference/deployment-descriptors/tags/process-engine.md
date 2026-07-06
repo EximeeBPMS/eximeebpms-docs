@@ -254,6 +254,8 @@ The following is a list with the most commonly used process engine configuration
     <td><code>cmmnEnabled</code></td>
     <td>Boolean</td>
     <td>
+        <strong>Deprecated:</strong> this flag applies to CMMN execution, which is deprecated since 1.3.0 and will be removed together with this flag in EximeeBPMS 1.4.0.
+        <p>
         When set to <code>false</code>, the following behavior changes:
         <ul>
          <li>The automated schema maintenance (creating and dropping tables, see property <code>databaseSchemaUpdate</code>)

@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 The CMMN model API is able to read CMMN 1.1 as well as CMMN 1.0 models. Its primary use case is to work with models of the latest version, such that there are limitations when editing CMMN models of prior versions.
 
 * `ModelElementType#getTypeNamespace()` returns CMMN 1.1 namespace for elements which are present in CMMN 1.0 and CMMN 1.1

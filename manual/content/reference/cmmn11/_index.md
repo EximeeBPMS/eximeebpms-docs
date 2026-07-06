@@ -12,6 +12,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 This page provides an overview of the CMMN 1.1 elements and the current coverage of the process engine.
 
 The CMMN editor is disabled in recent versions of Camunda Modeler but can be enabled with a feature flag. For more context and information on how to enable this feature flag in Camunda Modeler, please see [this forum post](https://forum.camunda.org/t/how-to-access-cmmn-in-the-modeler/25127). 

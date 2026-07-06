@@ -138,6 +138,10 @@ The table `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) is not shown in the diagram
 
 ## Engine CMMN
 
+{{< note title="" class="warning" >}}
+CMMN support is deprecated since 1.3.0. The tables shown in this diagram will be removed together with the CMMN engine in EximeeBPMS 1.4.0.
+{{< /note >}}
+
 {{< img src="../../img/erd_723_cmmn.svg" title="CMMN Tables" >}}
 
 

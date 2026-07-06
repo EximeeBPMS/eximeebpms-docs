@@ -16,7 +16,7 @@ evaluate Business Decisions. This section describes how to deploy Business
 Decisions modeled as DMN decisions together with other resources to the
 repository of EximeeBPMS. Deployed decisions can be evaluated
 using the [Services API] or they can be referenced in BPMN processes and CMMN
-cases. Evaluated decisions are saved in the [History] for auditing and reporting purposes.
+cases. Evaluated decisions are saved in the [History] for auditing and reporting purposes. (Referencing decisions from CMMN cases is deprecated along with CMMN support; see [BPMN & CMMN Integration]({{< ref "/user-guide/process-engine/decisions/bpmn-cmmn.md" >}}).)
 
 [Camunda DMN engine]: {{< ref "/user-guide/dmn-engine/_index.md" >}}
 [Services API]: {{< ref "/user-guide/process-engine/process-engine-api.md#services-api" >}}

@@ -10,6 +10,11 @@ menu:
 
 ---
 
+{{< note title="CMMN is deprecated" class="warning" >}}
+CMMN support is deprecated as of EximeeBPMS 1.3.0 and will be removed in 1.4.0. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for detection queries and upgrade guidance.
+{{< /note >}}
+
+
 <!-- move this to the user guide as soon as there is a concept on how separate CMMN and BPMN concerns in it -->
 
 To interact with case instances and executions, the process engine offers the case service. It can be retrieved by `processEngine.getCaseService()`.
