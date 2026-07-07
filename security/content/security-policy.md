@@ -32,9 +32,11 @@ See [Report a Vulnerability](../report-vulnerability/), or go directly to
 * Reported vulnerabilities are triaged and fixed privately, then disclosed
   via a [GitHub Security Advisory](https://github.com/EximeeBPMS/eximeebpms/security/advisories)
   once a fix has shipped.
-* Fixes for known CVEs (dependency or code) are tracked in the
-  [CHANGELOG](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md)
-  under a `### Security` heading, citing the CVE identifier(s) addressed.
+* EximeeBPMS has fixed security issues since its 1.0.0 fork from Camunda 7 —
+  see the `### Security` entries in the
+  [CHANGELOG](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+  Starting with the 1.4.0 release, these entries additionally cite the
+  specific CVE identifier(s) addressed.
 * See [Security Notices](../notices/) for a running bulletin of
   EximeeBPMS-specific advisories once fixes are published.
 
