@@ -8,7 +8,7 @@
 {{- if gt $ossCount $visibleCount -}}{{- $hiddenCount = sub $ossCount $visibleCount -}}{{- end -}}
 {{- $totalCols := add (add (len $ossVersions) (len $entVersions)) 1 -}}
 <style>
-.tsm-wrap{--tsm-surface:#fff;--tsm-border:#DDE3F0;--tsm-ink1:#0D1526;--tsm-ink2:#334165;--tsm-ink3:#7480A0;--tsm-accent:#2155D4;--tsm-up-bg:#ECF3FF;--tsm-up-b:#3B82F6;--tsm-mj-bg:#FFF8EC;--tsm-mj-b:#D97706;--tsm-bk-bg:#FFF0F4;--tsm-bk-b:#E11D48;--tsm-dr-bg:#FEF2F2;--tsm-dr-b:#DC2626;--tsm-du-bg:#F5F0FF;--tsm-du-b:#7C3AED;font-size:13px;line-height:1.5;margin-top:20px}
+.tsm-wrap{--tsm-surface:#fff;--tsm-border:#DDE3F0;--tsm-ink1:#0D1526;--tsm-ink2:#334165;--tsm-ink3:#7480A0;--tsm-accent:#2155D4;--tsm-up-bg:#ECF3FF;--tsm-up-b:#3B82F6;--tsm-mj-bg:#FFF8EC;--tsm-mj-b:#D97706;--tsm-bk-bg:#FFF0F4;--tsm-bk-b:#E11D48;--tsm-dr-bg:#FEF2F2;--tsm-dr-b:#DC2626;--tsm-du-bg:#F5F0FF;--tsm-du-b:#7C3AED;--tsm-dp-bg:#F5F5F4;--tsm-dp-b:#78716C;font-size:13px;line-height:1.5;margin-top:20px}
 .tsm-wrap .tsm-toolbar{display:flex;justify-content:flex-end;margin-bottom:10px}
 .tsm-wrap .tsm-colsel{position:relative}
 .tsm-wrap .tsm-colsel-btn{display:flex;align-items:center;gap:8px;background:var(--tsm-surface);border:1px solid var(--tsm-border);border-radius:8px;padding:8px 14px;font-size:12.5px;font-weight:600;color:var(--tsm-ink2);cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -42,6 +42,7 @@
 .tsm-wrap td.tsm-mj{background:var(--tsm-mj-bg);box-shadow:inset 4px 0 0 var(--tsm-mj-b)}
 .tsm-wrap td.tsm-bk{background:var(--tsm-bk-bg);box-shadow:inset 4px 0 0 var(--tsm-bk-b)}
 .tsm-wrap td.tsm-dr{background:var(--tsm-dr-bg);box-shadow:inset 4px 0 0 var(--tsm-dr-b);color:#991B1B}
+.tsm-wrap td.tsm-dp{background:var(--tsm-dp-bg);box-shadow:inset 4px 0 0 var(--tsm-dp-b);color:#44403C}
 .tsm-wrap td.tsm-du{background:var(--tsm-du-bg);box-shadow:inset 4px 0 0 var(--tsm-du-b);text-align:center}
 .tsm-wrap .tsm-ns{display:inline-block;font-size:10px;font-weight:700;padding:1px 6px;border-radius:3px}
 .tsm-wrap .tsm-ns-j{background:#F0EAFF;color:#6D28D9}
@@ -50,6 +51,7 @@
 .tsm-wrap .tsm-chi-mj{background:#FEF3C7;color:#92400E}
 .tsm-wrap .tsm-chi-bk{background:#FFE4E6;color:#9F1239}
 .tsm-wrap .tsm-chi-dr{background:#FEE2E2;color:#991B1B}
+.tsm-wrap .tsm-chi-dp{background:#E7E5E4;color:#44403C}
 .tsm-wrap .tsm-chi-up{background:#DBEAFE;color:#1E40AF}
 .tsm-wrap .tsm-vl{display:block;line-height:1.35}
 .tsm-wrap .tsm-vls{display:block;font-size:11px;color:var(--tsm-ink3);margin-top:2px}
@@ -114,6 +116,7 @@
   <div class="tsm-lg-item"><div class="tsm-lg-sw" style="background:var(--tsm-mj-bg);box-shadow:inset 4px 0 0 var(--tsm-mj-b);"></div>Major version upgrade</div>
   <div class="tsm-lg-item"><div class="tsm-lg-sw" style="background:var(--tsm-bk-bg);box-shadow:inset 4px 0 0 var(--tsm-bk-b);"></div>Breaking change</div>
   <div class="tsm-lg-item"><div class="tsm-lg-sw" style="background:var(--tsm-dr-bg);box-shadow:inset 4px 0 0 var(--tsm-dr-b);"></div>Dropped / removed</div>
+  <div class="tsm-lg-item"><div class="tsm-lg-sw" style="background:var(--tsm-dp-bg);box-shadow:inset 4px 0 0 var(--tsm-dp-b);"></div>Deprecated (planned removal)</div>
   <div class="tsm-lg-item"><div class="tsm-lg-sw" style="background:var(--tsm-du-bg);box-shadow:inset 4px 0 0 var(--tsm-du-b);"></div>Dual namespace (javax + jakarta)</div>
 </div>
 

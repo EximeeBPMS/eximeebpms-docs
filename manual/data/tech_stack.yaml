@@ -65,7 +65,7 @@ categories:
           v1.0.0: { value: "9.0.100" }
           v1.1.0: { value: "9.0.107", change: up }
           v1.2.0: { value: "9.0.113", change: up }
-          v1.3.0: { value: "9.0.113" }
+          v1.3.0: { value: "9.0.113", change: dp, note: "removal planned in 1.4.0" }
           ent: { change: dr, struck: "9.0.113" }
       - name: WildFly
         values:
@@ -80,7 +80,7 @@ categories:
           v1.0.0: { value: "26.0.1.Final" }
           v1.1.0: { value: "26.0.1.Final" }
           v1.2.0: { value: "26.0.1.Final" }
-          v1.3.0: { value: "26.0.1.Final" }
+          v1.3.0: { value: "26.0.1.Final", change: dp, note: "removal planned in 1.4.0" }
           ent: { change: dr, struck: "26.0.1.Final" }
 
   - name: Application Frameworks

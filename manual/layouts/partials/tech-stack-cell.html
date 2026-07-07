@@ -18,6 +18,7 @@
 {{- if .badge }} <span class="tsm-chip tsm-chi-{{ $change }}">{{ .badge }}</span>
 {{- else if eq $change "mj" }} <span class="tsm-chip tsm-chi-mj">Major</span>
 {{- else if eq $change "dr" }} <span class="tsm-chip tsm-chi-dr">Dropped</span>
+{{- else if eq $change "dp" }} <span class="tsm-chip tsm-chi-dp">Deprecated</span>
 {{- end -}}
 {{- with .note }}<span class="tsm-vls">{{ . }}</span>{{ end -}}
 {{- with .struck }}<span class="tsm-vls tsm-st">was {{ . }}</span>{{ end -}}
