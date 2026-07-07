@@ -107,7 +107,7 @@ Copy the following blocks from `${TOMCAT_DISTRIBUTION}/server/apache-tomcat-${TO
      <Resource name="global/camunda-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService" auth="Container"
               type="org.eximeebpms.bpm.ProcessEngineService"
               description="EximeeBPMS Platform Process Engine Service"
-              factory="org.camunda.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory" />
+              factory="org.eximeebpms.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory" />
 
     <Resource name="global/camunda-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService" auth="Container"
               type="org.eximeebpms.bpm.ProcessApplicationService"

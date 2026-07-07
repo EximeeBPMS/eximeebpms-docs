@@ -99,7 +99,7 @@ An EJB process application class itself must be deployed as an EJB.
 To add an EJB process application to your Java application, you have two options:
 
 * **Bundle the Camunda EJB Client**: we provide a generic, reusable EJB process application implementation (named 
-`org.camunda.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
+`org.eximeebpms.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
 implementation to your application as a maven dependency. Use the `camunda-ejb-client` artifact for Java EE or
 the `camunda-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
 * **Write a custom EJB process application**: if you want to customize the behavior of the `EjbProcessApplication`
@@ -118,7 +118,7 @@ The most convenient option for deploying a process application to a Java EE EJB 
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm.javaee</groupId>
+  <groupId>org.eximeebpms.bpm.javaee</groupId>
   <artifactId>camunda-ejb-client</artifactId>
 </dependency>
 ```
@@ -127,7 +127,7 @@ For Jakarta EE 9+ EJB containers, use the following dependency instead:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm.javaee</groupId>
+  <groupId>org.eximeebpms.bpm.javaee</groupId>
   <artifactId>camunda-ejb-client-jakarta</artifactId>
 </dependency>
 ```
@@ -402,7 +402,7 @@ If you use a Spring process application, you may want to configure your process 
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration">
+    <bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration">
         <property name="processEngineName" value="default" />
         <property name="dataSource" ref="dataSource"/>
         <property name="transactionManager" ref="transactionManager"/>
@@ -411,7 +411,7 @@ If you use a Spring process application, you may want to configure your process 
     </bean>
 
     <!-- using ManagedProcessEngineFactoryBean allows registering the ProcessEngine with the BpmPlatform -->
-    <bean id="processEngine" class="org.camunda.bpm.engine.spring.container.ManagedProcessEngineFactoryBean">
+    <bean id="processEngine" class="org.eximeebpms.bpm.engine.spring.container.ManagedProcessEngineFactoryBean">
         <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
     </bean>
 

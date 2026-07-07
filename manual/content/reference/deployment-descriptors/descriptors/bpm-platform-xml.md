@@ -40,7 +40,7 @@ The namespace for the `bpm-platform.xml` file is `http://www.camunda.org/schema/
 
   <process-engine name="default">
     <job-acquisition>default</job-acquisition>
-    <configuration>org.camunda.bpm.engine.impl.cfg.JtaProcessEngineConfiguration</configuration>
+    <configuration>org.eximeebpms.bpm.engine.impl.cfg.JtaProcessEngineConfiguration</configuration>
     <datasource>jdbc/ProcessEngine</datasource>
 
     <properties>
@@ -120,7 +120,7 @@ Complex operations are not supported, but you may combine more than one expressi
 <plugin>
   <class>org.eximeebpms.bpm.engine.impl.plugin.AdministratorAuthorizationPlugin</class>
   <properties>
-    <property name="administratorUserName">${camunda.administratorUserName}</property>
+    <property name="administratorUserName">${eximeebpms.administratorUserName}</property>
   </properties>
 </plugin>
 <!-- ... -->

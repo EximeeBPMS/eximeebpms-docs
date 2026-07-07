@@ -29,7 +29,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -61,7 +61,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -92,7 +92,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -160,7 +160,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -191,7 +191,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.Integer</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.Integer</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -227,7 +227,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   <tr>
     <th>Possible Values</th>
     <td>
-      Fully qualified Java class name of a class which implements a <a href="{{< ref "/user-guide/process-engine/delegation-code.md#java-delegate" >}}">Java Delegate</a> interface, e.g., <code>org.camunda.bpm.MyJavaDelegate</code>
+      Fully qualified Java class name of a class which implements a <a href="{{< ref "/user-guide/process-engine/delegation-code.md#java-delegate" >}}">Java Delegate</a> interface, e.g., <code>org.eximeebpms.bpm.MyJavaDelegate</code>
     </td>
   </tr>
   <tr>
@@ -291,7 +291,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -322,7 +322,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.Integer</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.Integer</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -353,7 +353,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -386,7 +386,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -418,7 +418,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -543,7 +543,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -611,7 +611,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -642,7 +642,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.Integer</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.Integer</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>
@@ -710,7 +710,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   </tr>
   <tr>
     <th>Type</th>
-    <td><code>java.lang.String</code> or <code>org.camunda.bpm.engine.delegate.Expression</code></td>
+    <td><code>java.lang.String</code> or <code>org.eximeebpms.bpm.engine.delegate.Expression</code></td>
   </tr>
   <tr>
     <th>Possible Values</th>

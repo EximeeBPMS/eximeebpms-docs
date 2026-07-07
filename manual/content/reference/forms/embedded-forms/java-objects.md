@@ -59,7 +59,7 @@ In case the variable does not yet exist (for instance in a Start Form), you have
         // indicate that object is serialized as json
         serializationDataFormat: 'application/json',
         // provide classname of java object to map to
-        objectTypeName: 'org.camunda.bpm.example.CustomerData'
+        objectTypeName: 'org.eximeebpms.bpm.example.CustomerData'
       }
     });
 

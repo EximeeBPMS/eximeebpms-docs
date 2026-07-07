@@ -104,7 +104,7 @@ List<HistoricDecisionInstance> historicDecisions = processEngine
 # The Historic Decision Instance
 
 The {{< javadocref
-page="?org/camunda/bpm/engine/history/HistoricDecisionInstance"
+page="?org/eximeebpms/bpm/engine/history/HistoricDecisionInstance"
 text="HistoricDecisionInstance" >}} contains information about a single
 evaluation of a decision.
 
@@ -146,7 +146,7 @@ reference].
 ## Historic Decision Input Instance
 
 The {{< javadocref
-page="?org/camunda/bpm/engine/history/HistoricDecisionInputInstance"
+page="?org/eximeebpms/bpm/engine/history/HistoricDecisionInputInstance"
 text="HistoricDecisionInputInstance" >}} represents one input of an
 evaluated decision (e.g., an input clause of a decision table). 
 
@@ -173,7 +173,7 @@ input specifies a type.
 ## Historic Decision Output Instance
 
 The {{< javadocref
-page="?org/camunda/bpm/engine/history/HistoricDecisionOutputInstance"
+page="?org/eximeebpms/bpm/engine/history/HistoricDecisionOutputInstance"
 text="HistoricDecisionOutputInstance" >}} represents one output entry of an
 evaluated decision. If the decision is implemented as decision table, the 
 `HistoricDecisionInstance` contains one `HistoricDecisionOutputInstance` 

@@ -32,5 +32,5 @@ simple unary tests.
 {{< /note >}}
 
 [legacy behavior flag]: {{< ref "/reference/deployment-descriptors/tags/process-engine.md#dmnFeelEnableLegacyBehavior" >}}
-[fluent feel flag setter]: {{< javadocref_url page="org/camunda/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html#enableFeelLegacyBehavior" >}}
-[feel flag setter]: {{< javadocref_url page="org/camunda/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html#setEnableFeelLegacyBehavior" >}}
+[fluent feel flag setter]: {{< javadocref_url page="org/eximeebpms/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html#enableFeelLegacyBehavior" >}}
+[feel flag setter]: {{< javadocref_url page="org/eximeebpms/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html#setEnableFeelLegacyBehavior" >}}

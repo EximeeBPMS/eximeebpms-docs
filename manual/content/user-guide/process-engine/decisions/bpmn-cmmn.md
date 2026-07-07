@@ -110,7 +110,7 @@ Object value = decisionResult
 It also provides methods to get typed output entries like
 `getSingleEntryTyped()`. Please refer to the [User Guide][Typed Value API] for
 details about typed values. A complete list of all methods can be found in the
-{{< javadocref page="org/camunda/bpm/dmn/engine/DmnDecisionResult"
+{{< javadocref page="org/eximeebpms/bpm/dmn/engine/DmnDecisionResult"
 text="Java Docs" >}}.
 
 The decision result is available in the local scope of the executing task as a
@@ -397,7 +397,7 @@ These APIs are **not** part of the [public API]({{< ref "/introduction/public-ap
 
 It is possible to add own functions which can be used inside JUEL expressions.
 Therefore a new {{< javadocref
-page="?org/camunda/bpm/engine/impl/javax/el/FunctionMapper.html"
+page="?org/eximeebpms/bpm/engine/impl/javax/el/FunctionMapper.html"
 text="FunctionMapper" >}} has to be implemented. The function mapper than
 has to be added to the process engine configuration after it was
 initialized.

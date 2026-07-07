@@ -184,5 +184,5 @@ If you do choose to apply a database patch, then you must apply all patch script
 
 <strong>Note:</strong> Some patches are provided for multiple versions. It is not required to execute them more than once. See the description of the [patch version list](#patch-level-update) for information on duplicate fixes.
 
-[Artifact Repository]: https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/distro/camunda-sql-scripts/
+[Artifact Repository]: https://artifacts.camunda.com/artifactory/camunda-bpm/org/eximeebpms/bpm/distro/camunda-sql-scripts/
 [pre-packaged distribution]: {{< ref "/introduction/downloading-eximeebpms.md#full-distribution" >}}

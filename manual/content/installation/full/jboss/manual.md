@@ -79,7 +79,7 @@ Shown values are the default ones.
 The below example also configures the default process engine.
 
 ```xml
-<subsystem xmlns="urn:org.camunda.bpm.jboss:1.1">
+<subsystem xmlns="urn:org.eximeebpms.bpm.jboss:1.1">
   <process-engines>
     <process-engine name="default" default="true">
       <datasource>java:jboss/datasources/ProcessEngine</datasource>

@@ -39,7 +39,7 @@ interface, which requires us to implement the `execute(DelegateExecution)`
 method. It's this operation that will be called by the engine and
 which needs to contain the business logic. Process instance
 information such as process variables and other information can be accessed and
-manipulated through the {{< javadocref page="org/camunda/bpm/engine/delegate/DelegateExecution.html" text="DelegateExecution" >}} interface (click on the link for a detailed Javadoc of its operations).
+manipulated through the {{< javadocref page="org/eximeebpms/bpm/engine/delegate/DelegateExecution.html" text="DelegateExecution" >}} interface (click on the link for a detailed Javadoc of its operations).
 
 ```java
   public class ToUppercase implements JavaDelegate {
@@ -136,7 +136,7 @@ can be used. Those expressions can use process variables, CDI or Spring
 beans. As already noted, a separate instance of the Java class will be created
 each time the service task is executed. To have dynamic injection of
 values in fields, you can inject value and method expressions in an
-`org.camunda.bpm.engine.delegate.Expression`
+`org.eximeebpms.bpm.engine.delegate.Expression`
 which can be evaluated/invoked using the `DelegateExecution`
 passed in the `execute` method.
 
@@ -611,7 +611,7 @@ public class BookOutGoodsDelegate implements JavaDelegate {
 
 # Exception codes
 
-You can throw a `{{< javadocref page="org/camunda/bpm/engine/ProcessEngineException.html" text="ProcessEngineException" >}}`
+You can throw a `{{< javadocref page="org/eximeebpms/bpm/engine/ProcessEngineException.html" text="ProcessEngineException" >}}`
 from your delegation code and define your custom error code by passing it to the constructor or by
 calling `ProcessEngineException#setCode`.
 

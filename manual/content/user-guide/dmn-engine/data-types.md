@@ -143,7 +143,7 @@ transformation to support a different date format or localized boolean
 constants.
 
 To do this, implement a new {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/spi/type/DmnDataTypeTransformer.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/spi/type/DmnDataTypeTransformer.html"
 text="DmnDataTypeTransformer" >}}. The transformation is processed in the
 `transform()` method and returns a typed value. If it cannot successfully transform a value,
 it must throw an `IllegalArgumentException`.

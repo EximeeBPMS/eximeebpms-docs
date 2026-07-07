@@ -30,7 +30,7 @@ A container of your choice (e.g., Tomcat or Wildfly) manages the process engine 
 
 ## ProcessEngineConfiguration Bean
 
-The EximeeBPMS engine uses the {{< javadocref page="org/camunda/bpm/engine/ProcessEngineConfiguration.html" text="ProcessEngineConfiguration bean" >}} to configure and construct a standalone Process Engine. There are multiple subclasses available that can be used to define the process engine configuration. These classes represent different environments, and set defaults accordingly. It's a best practice to select the class that matches (most of) your environment to minimize the number of properties needed to configure the engine. The following classes are currently available:
+The EximeeBPMS engine uses the {{< javadocref page="org/eximeebpms/bpm/engine/ProcessEngineConfiguration.html" text="ProcessEngineConfiguration bean" >}} to configure and construct a standalone Process Engine. There are multiple subclasses available that can be used to define the process engine configuration. These classes represent different environments, and set defaults accordingly. It's a best practice to select the class that matches (most of) your environment to minimize the number of properties needed to configure the engine. The following classes are currently available:
 
 * `org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration`  
 The process engine is used in a standalone way. The engine itself will take care of the transactions. By default the database will only be checked when the engine boots (an exception is thrown if there is no database schema or the schema version is incorrect).
@@ -64,19 +64,19 @@ ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemPr
 
 ## Configure Process Engine Using camunda cfg XML
 
-The easiest way to configure your Process Engine is through an XML file called `camunda.cfg.xml`. Using that you can simply do:
+The easiest way to configure your Process Engine is through an XML file called `eximeebpms.cfg.xml`. Using that you can simply do:
 
 ```java
 ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine()
 ```
 
-The `camunda.cfg.xml` must contain a bean that has the id `processEngineConfiguration`, select the `ProcessEngineConfiguration` class best suited to your needs:
+The `eximeebpms.cfg.xml` must contain a bean that has the id `processEngineConfiguration`, select the `ProcessEngineConfiguration` class best suited to your needs:
 
 ```xml
 <bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration">
 ```
 
-This will look for a `camunda.cfg.xml` file on the classpath and construct an engine based on the configuration in that file. The following snippet shows an example configuration:
+This will look for a `eximeebpms.cfg.xml` file on the classpath and construct an engine based on the configuration in that file. The following snippet shows an example configuration:
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -100,7 +100,7 @@ This will look for a `camunda.cfg.xml` file on the classpath and construct an en
 
 </beans>
 ```
-If no resource `camunda.cfg.xml` is found, the default engine will search for the file `activiti.cfg.xml` as a fallback. If both are missing, the engine stops and prints an error message about the missing configuration resource.
+If no resource `eximeebpms.cfg.xml` is found, the default engine will search for the file `activiti.cfg.xml` as a fallback. If both are missing, the engine stops and prints an error message about the missing configuration resource.
 
 Note that the configuration XML is in fact a Spring configuration. This does not mean that the EximeeBPMS engine can only be used in a Spring environment! We are simply leveraging the parsing and dependency injection capabilities of Spring internally for building up the engine.
 
