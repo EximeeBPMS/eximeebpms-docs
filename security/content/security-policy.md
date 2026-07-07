@@ -35,7 +35,7 @@ See [Report a Vulnerability](../report-vulnerability/), or go directly to
 * EximeeBPMS has fixed security issues since its 1.0.0 fork from Camunda 7 —
   see the `### Security` entries in the
   [CHANGELOG](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
-  Starting with the 1.4.0 release, these entries additionally cite the
+  Starting after the 1.3.0 release, these entries additionally cite the
   specific CVE identifier(s) addressed.
 * See [Security Notices](../notices/) for a running bulletin of
   EximeeBPMS-specific advisories once fixes are published.
