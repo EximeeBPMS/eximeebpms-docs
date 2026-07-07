@@ -36,7 +36,7 @@ and place newest entries first under "## EximeeBPMS notices":
 
 **Affected versions:**
 
-EximeeBPMS <version range, e.g. 1.3.0–1.3.2, 1.4.0>
+EximeeBPMS <version range, e.g. 1.2.0–1.2.2, 1.3.0>
 
 **Solution:**
 
