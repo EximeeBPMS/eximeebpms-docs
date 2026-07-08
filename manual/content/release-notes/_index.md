@@ -2,6 +2,7 @@
 
 title: "Release Notes"
 weight: 900
+layout: "single"
 
 menu:
   main:
@@ -35,7 +36,7 @@ The **Community Edition (CE)** is distributed as open-source software. The **Ent
 
 <div class="rn-tabs">
   <div class="rn-tabbar" role="tablist">
-    <button type="button" class="rn-tab on" data-rn-tab="oss" role="tab" aria-selected="true">OSS Releases</button>
+    <button type="button" class="rn-tab on" data-rn-tab="oss" role="tab" aria-selected="true">Community Releases</button>
     <button type="button" class="rn-tab" data-rn-tab="ee" role="tab" aria-selected="false">Enterprise Releases</button>
   </div>
 
