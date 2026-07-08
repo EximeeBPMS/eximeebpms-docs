@@ -5,7 +5,7 @@ weight: 30
 
 menu:
   main:
-    name: "1.2.0"
+    name: "1.2.0 CE"
     identifier: "release-notes-1.2.0"
     parent: "release-notes"
 
