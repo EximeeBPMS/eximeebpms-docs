@@ -2,6 +2,7 @@
 
 title: "Release Notes"
 weight: 900
+layout: "single"
 
 menu:
   main:
