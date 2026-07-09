@@ -9,9 +9,49 @@ menu:
 ---
 
 On this page, EximeeBPMS publishes security notices _after_ fixes are available.
-Fixes are available as patches to the enterprise platform and alpha or minor
-releases of the community platform.
+Fixes are available as EximeeBPMS patch or minor releases. See
+[SECURITY.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/SECURITY.md)
+for our reporting process and disclosure timeline.
 
+## EximeeBPMS notices
+
+_No EximeeBPMS-specific notices have been published yet as of the 1.3.0
+release. Future notices affecting EximeeBPMS will be published here, using
+the template below, and cross-referenced from the `### Security` section of
+[CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md)._
+
+<!--
+Template for maintainers — copy this block for each new EximeeBPMS notice,
+and place newest entries first under "## EximeeBPMS notices":
+
+## Notice EXBPMS-<n>
+
+**Publication Date:** <Month DD, YYYY>
+
+**Product affected:** EximeeBPMS <component, e.g. engine / REST API / webapps>
+
+**Impact:**
+
+<description> — <CVE link(s), e.g. https://nvd.nist.gov/vuln/detail/CVE-YYYY-NNNNN>
+
+**Affected versions:**
+
+EximeeBPMS <version range, e.g. 1.2.0–1.2.2, 1.3.0>
+
+**Solution:**
+
+Fixed in EximeeBPMS <version>. See the `### Security` entry for <version> in
+CHANGELOG.md.
+-->
+
+## Historical notices (inherited from upstream Camunda 7)
+
+The notices below were originally published by Camunda for the upstream
+Camunda 7 (Camunda Platform) codebase that EximeeBPMS is forked from, and
+predate the EximeeBPMS project itself. EximeeBPMS inherited the
+corresponding fixes through our sync process with upstream. They are kept
+here for historical/traceability reasons and are **not** EximeeBPMS-specific
+advisories.
 
 # Notices
 

@@ -10,131 +10,45 @@ menu:
 
 ---
 
-As a core infrastructure component of our customers, the security of Camunda Platform (also referred to as the 'software') takes top priority and is maintained constantly.
+EximeeBPMS is an open-source BPMN 2.0 process automation platform, forked
+from Camunda 7 and maintained by [Consdata](https://www.consdata.com/). It is
+used to run business-critical, and in some cases regulated, workloads, so the
+security of the software is treated as a top priority.
 
-For information on our Camunda Security Policy, visit the [Camunda Trust Center](https://camunda.com/trust-center/). 
+This page is a summary. The canonical, version-controlled policy — including
+supported versions, how to report a vulnerability, our response process,
+scope, and legal notice — lives in
+[`SECURITY.md`](https://github.com/EximeeBPMS/eximeebpms/blob/main/SECURITY.md)
+in the main EximeeBPMS repository. If anything here ever appears to conflict
+with `SECURITY.md`, `SECURITY.md` is authoritative.
 
+## Reporting a vulnerability
 
-## Penetration Testing
+See [Report a Vulnerability](../report-vulnerability/), or go directly to
+[SECURITY.md § Reporting a Vulnerability](https://github.com/EximeeBPMS/eximeebpms/blob/main/SECURITY.md#reporting-a-vulnerability).
 
-Camunda has contracted an independent, external security advisor to regularly conduct penetration tests of the software. The advisor operates according to industry best practices recommended by the OWASP organization such as the [OWASP Testing Guide](https://www.owasp.org/images/1/19/OTGv4.pdf). The tools used for testing include [Burp Suite](https://portswigger.net/burp) and [DefenseCode Thunderscan](https://www.defensecode.com/thunderscan.php)
+## How we handle security fixes
 
-Any vulnerabilities detected are handled according to our [process for security issue management](https://camunda.com/security#security-issue-management).
+* Reported vulnerabilities are triaged and fixed privately, then disclosed
+  via a [GitHub Security Advisory](https://github.com/EximeeBPMS/eximeebpms/security/advisories)
+  once a fix has shipped.
+* EximeeBPMS has fixed security issues since its 1.0.0 fork from Camunda 7 —
+  see the `### Security` entries in the
+  [CHANGELOG](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+  Starting after the 1.3.0 release, these entries additionally cite the
+  specific CVE identifier(s) addressed.
+* See [Security Notices](../notices/) for a running bulletin of
+  EximeeBPMS-specific advisories once fixes are published.
 
-Test history:
+## Independent security testing
 
-<table class="table table-striped">
-  <tr>
-    <th>Date</th>
-    <th>Test Focus</th>
-    <th>Result Summary</th>
-  </tr>
-  <tr>
-    <td><p>April 2023</p></td>
-    <td>
-      <p>Camunda Automation Platform Version: 7.19.0-ee</p>
-      <p>External security assessment using the graybox approach to test the Camunda Automation Platform web applications and REST API.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Three lesser vulnerabilities were detected and submitted for treatment to our security issue process:
-      <ul>
-        <li>One issues has been fixed.</li>
-        <li>One issues has been partially fixed, work in progress.</li>
-        <li>One issue was given as general security advice.</li>
-      </ul> 
-      </p>       
-    </td>
-  </tr>
-  <tr>
-    <td><p>June 2022</p></td>
-    <td>
-      <p>Camunda Automation Platform Version: 7.17.0-ee Camunda Optimize Version 3.8.0</p>
-      <p>External security assessment using the graybox approach to test the Camunda Automation Platform web applications and REST API plus Camunda Optimize.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Two lesser vulnerabilities were detected and submitted for treatment to our security issue process:
-      <ul>
-        <li>One issues have been fixed.</li>
-        <li>One issues have been partially fixed, work in progress.</li>
-      </ul>        
-      </p>
-      <p>One general security advice was given.</p>
-    </td>
-  </tr>
-  <tr>
-    <td><p>December 2021</p></td>
-    <td>
-      <p>Camunda Automation Platform Version: 7.16.0-ee Camunda Optimize Version 3.6.0</p>
-      <p>Whitebox test with focus on (but not limited to) the Camunda Automation Platform web applications and REST API plus Camunda Optimize.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Two lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Two issues have been partially fixed, work in progress.</p>
-    </td> 
-  </tr>
-  <tr>
-    <td><p>December 2021</p></td>
-    <td>
-      <p>Cawemo</p>
-      <p>Whitebox test with focus on (but not limited to) the Cawemo application and the underlying infrastructure.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Seven lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Seven issues have been partially fixed, work in progress.</p>
-    </td> 
-  </tr>   
-  <tr>
-    <td><p>June 2021</p></td>
-    <td>
-      <p>Cawemo</p>
-      <p>Whitebox test with focus on (but not limited to) the Cawemo application and the underlying infrastructure.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Five lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Five issues have been partially fixed, work in progress.</p>
-    </td> 
-  </tr>  
-  <tr>
-    <td><p>March 2021</p></td>
-    <td>
-      <p>Camunda Platform Version: 7.14.5-ee Camunda Optimize Version 3.3.0</p>
-      <p>Whitebox test with focus on (but not limited to) Camunda Platform web applications and REST API.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Three lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Three issues have been partially fixed, work in progress.</p>
-    </td> 
-  </tr>
-  <tr>
-    <td><p>January 2020</p></td>
-    <td>
-      <p>Camunda Platform Version: 7.12.1-ee Camunda Optimize Version 2.7.0</p>
-      <p>Whitebox test with focus on (but not limited to) Camunda Platform web applications and REST API.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Seven lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Two issues have been fixed. </p>
-      <p>Five issues have been partially fixed, work in progress.</p>
-    </td>
-  </tr>  
-  <tr>
-    <td><p>January 2019</p></td>
-    <td>
-      <p>Camunda Platform version: 7.10.1</p>
-      <p>Whitebox test with focus on (but not limited to) Camunda Platform web applications and REST API.</p>
-    </td>
-    <td>
-      <p>No critical vulnerabilities were detected.</p>
-      <p>Five lesser vulnerabilities were detected and submitted for treatment to our security issue process.</p>
-      <p>Two issues have been fixed. </p>
-      <p>Three issues have been partially fixed. </p>
-    </td>
-  </tr> 
-</table>
+EximeeBPMS is a fork of Camunda 7. The upstream Camunda 7 codebase it is
+built on has a long history of independent third-party penetration testing,
+commissioned by Camunda and documented on their
+[Trust Center](https://camunda.com/trust-center/). EximeeBPMS inherits that
+codebase lineage, but has not, as of this release, commissioned its own
+independent EximeeBPMS-specific penetration test; a link to any such report
+will be added here once available. In the meantime, EximeeBPMS-specific code
+(features not present upstream) goes through peer code review, SonarQube
+static analysis on every pull request, and continuous dependency scanning via
+Dependabot.
