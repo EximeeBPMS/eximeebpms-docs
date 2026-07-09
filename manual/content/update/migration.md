@@ -12,10 +12,10 @@ menu:
 
 ---
 
-This guide helps you migrate Camunda 7.23 to EximeeBPMS 1.0.0.
+This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.1.0.
 
 {{< note title="Warning" class="warning" >}}
-Before proceeding with the following instructions, please make sure that your Camunda version has been updated to **7.23.0**. Executing the steps on an older version may result in unexpected system behavior.
+Before proceeding with the following instructions, please make sure that your Camunda version has been updated to **7.24.0**. Executing the steps on an older version may result in unexpected system behavior.
 {{< /note >}}
 
 
@@ -32,7 +32,7 @@ Before proceeding with the following instructions, please make sure that your Ca
 	
 	```xml
 	<properties>
-	    <camunda.version>7.23.0</camunda.version>
+	    <camunda.version>7.24.0</camunda.version>
 	</properties>	 
 	<!-- ... -->
 	<dependencies>
