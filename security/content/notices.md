@@ -15,10 +15,240 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
-_No EximeeBPMS-specific notices have been published yet as of the 1.3.0
-release. Future notices affecting EximeeBPMS will be published here, using
-the template below, and cross-referenced from the `### Security` section of
-[CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md)._
+## Notice EXBPMS-10
+
+**Publication Date:** June 16, 2026
+
+**Product affected:** EximeeBPMS engine (Enterprise Edition)
+
+**Impact:**
+
+The version of Apache Tomcat and Apache Tomcat Native bundled with EximeeBPMS Enterprise had the following vulnerabilities:
+
+- [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145) — improper input validation (incomplete fix for CVE-2025-66614)
+- [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129) — open redirect via crafted URL when `LoadBalancerDrainingValve` is active
+- [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734) — Tomcat Native OCSP response not fully verified, allowing certificate revocation bypass
+- [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) — HTTP/0.9 GET request bypasses HEAD-only security constraints (present since 1.2.16-ee)
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition releases using Tomcat 10 ≤10.1.52, up to and including 1.2.17-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.55. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+
+---
+
+## Notice EXBPMS-9
+
+**Publication Date:** June 16, 2026
+
+**Product affected:** EximeeBPMS engine (Enterprise Edition)
+
+**Impact:**
+
+The version of Spring Framework bundled with EximeeBPMS Enterprise had the following vulnerabilities:
+
+- [CVE-2026-22740](https://spring.io/security/cve-2026-22740/) — denial of service via orphaned multipart temporary files when a client disconnects
+- [CVE-2026-22741](https://spring.io/security/cve-2026-22741/) — static resource cache poisoning via specially crafted requests
+- [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm) — denial of service in static resource resolution on Windows paths
+- [CVE-2026-22737](https://spring.io/security/cve-2026-22737/) — path traversal / information disclosure via script view templates (JRuby/Jython)
+- [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) — Server-Sent Event stream corruption
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition releases using Spring Framework ≤7.0.6, up to and including 1.2.17-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Spring Framework upgraded to 7.0.7. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+
+---
+
+## Notice EXBPMS-8
+
+**Publication Date:** June 3, 2026
+
+**Product affected:** EximeeBPMS engine — Jython scripting (Enterprise Edition)
+
+**Impact:**
+
+The bundled version of Jython (`org.python:jython` ≤2.7.0) had a critical unsafe deserialization vulnerability enabling arbitrary code execution:
+
+- [CVE-2016-4000](https://nvd.nist.gov/vuln/detail/CVE-2016-4000)
+
+Exploitable if process definitions use Jython scripts.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases prior to 1.2.17-ee that enable the Jython scripting engine
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.2.17-ee (Enterprise Edition). This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+
+---
+
+## Notice EXBPMS-7
+
+**Publication Date:** June 2, 2026
+
+**Product affected:** EximeeBPMS engine — JSON variable serialization (Enterprise Edition)
+
+**Impact:**
+
+The version of `com.fasterxml.jackson.core:jackson-databind` (≤2.15.2) bundled with EximeeBPMS had a cyclic dependency chain that could cause denial of service on crafted input:
+
+- [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116)
+
+Disputed by the Jackson maintainers as not externally exploitable; included here for completeness.
+
+**Affected versions:**
+
+EximeeBPMS 1.2.0 through 1.2.15-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.2.16-ee (Enterprise Edition), jackson-databind upgraded to 2.21.3. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+
+---
+
+## Notice EXBPMS-6
+
+**Publication Date:** October 24, 2025
+
+**Product affected:** EximeeBPMS engine — authorization
+
+**Impact:**
+
+The bundled versions of Spring Framework and Spring Security had authorization bypass vulnerabilities:
+
+- [CVE-2025-41249](https://nvd.nist.gov/vuln/detail/CVE-2025-41249) — `@PreAuthorize` annotation detection bypass on generic superclasses allows authorization to be skipped (Spring Framework ≤6.2.10)
+- [CVE-2025-41248](https://nvd.nist.gov/vuln/detail/CVE-2025-41248) — authorization bypass for method security annotations on parameterized types (Spring Security, Spring Boot ≤3.5.5)
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0–1.1.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.1, Spring Framework upgraded to 6.2.11 and Spring Boot to 3.5.6. See the `### Security` entry for 1.1.1 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+
+---
+
+## Notice EXBPMS-5
+
+**Publication Date:** October 24, 2025
+
+**Product affected:** EximeeBPMS engine — file upload handling
+
+**Impact:**
+
+The bundled version of `commons-fileupload` had denial-of-service vulnerabilities:
+
+- [CVE-2025-48976](https://nvd.nist.gov/vuln/detail/CVE-2025-48976) — allocation of multipart headers without size limits enables denial of service (≤1.5)
+- [CVE-2023-24998](https://nvd.nist.gov/vuln/detail/CVE-2023-24998) — unlimited request part count allows denial of service, present since commons-fileupload 1.0 (≤1.4; superseded by CVE-2025-48976)
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0–1.1.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.1, commons-fileupload upgraded to 1.6.0. See the `### Security` entry for 1.1.1 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+
+---
+
+## Notice EXBPMS-4
+
+**Publication Date:** October 19, 2025
+
+**Product affected:** EximeeBPMS engine
+
+**Impact:**
+
+The bundled version of Guava (`com.google.guava:guava` ≤31.x) created world-readable (0755) temporary directories via `Files.createTempDir()`, enabling local information disclosure:
+
+- [CVE-2020-8908](https://nvd.nist.gov/vuln/detail/CVE-2020-8908)
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.0, Guava upgraded to 33.4.6-jre. See the `### Security` entry for 1.1.0 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+
+---
+
+## Notice EXBPMS-3
+
+**Publication Date:** October 19, 2025
+
+**Product affected:** EximeeBPMS engine — Spring web layer
+
+**Impact:**
+
+The bundled version of Spring Framework had the following vulnerabilities:
+
+- [CVE-2025-41242](https://nvd.nist.gov/vuln/detail/CVE-2025-41242) — path traversal on non-compliant Servlet containers (`spring-webmvc`/`spring-webflux` ≤6.2.9)
+- [CVE-2025-41234](https://nvd.nist.gov/vuln/detail/CVE-2025-41234) — Reflected File Download (RFD) via `Content-Disposition` filename derived from user input (`spring-web` ≤6.2.7)
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.0, Spring Framework upgraded to 6.2.10. See the `### Security` entry for 1.1.0 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+
+---
+
+## Notice EXBPMS-2
+
+**Publication Date:** October 19, 2025
+
+**Product affected:** EximeeBPMS engine — JSON parsing
+
+**Impact:**
+
+The bundled version of `net.minidev:json-smart` (≤2.5.1) had a stack exhaustion denial-of-service vulnerability via deeply nested `{` characters in JSON input (incomplete fix of CVE-2023-1370):
+
+- [CVE-2024-57699](https://nvd.nist.gov/vuln/detail/CVE-2024-57699)
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.0, json-smart upgraded to 2.5.2. See the `### Security` entry for 1.1.0 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
+
+---
+
+## Notice EXBPMS-1
+
+**Publication Date:** October 19, 2025
+
+**Product affected:** EximeeBPMS engine — REST API (Jersey/JSON)
+
+**Impact:**
+
+The bundled `jersey-json` (≤1.15), via its bundled `jackson-mapper-asl`, had the following vulnerabilities:
+
+- [CVE-2019-10202](https://nvd.nist.gov/vuln/detail/CVE-2019-10202) — unsafe deserialization enabling remote code execution via polymorphic type handling
+- [CVE-2019-10172](https://nvd.nist.gov/vuln/detail/CVE-2019-10172) — XXE injection via XML parsing in the Jackson 1.x mapper
+
+`jackson-mapper-asl` is an abandoned library with no upstream fix available; full remediation required replacing Jersey JSON.
+
+**Affected versions:**
+
+EximeeBPMS 1.0.0
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.1.0, jersey-json upgraded to 1.19.4. See the `### Security` entry for 1.1.0 in [CHANGELOG.md](https://github.com/EximeeBPMS/eximeebpms/blob/main/CHANGELOG.md).
 
 <!--
 Template for maintainers — copy this block for each new EximeeBPMS notice,
