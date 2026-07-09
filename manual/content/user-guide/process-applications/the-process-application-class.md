@@ -100,8 +100,8 @@ To add an EJB process application to your Java application, you have two options
 
 * **Bundle the Camunda EJB Client**: we provide a generic, reusable EJB process application implementation (named 
 `org.eximeebpms.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
-implementation to your application as a maven dependency. Use the `camunda-ejb-client` artifact for Java EE or
-the `camunda-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
+implementation to your application as a maven dependency. Use the `eximeebpms-ejb-client` artifact for Java EE or
+the `eximeebpms-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
 * **Write a custom EJB process application**: if you want to customize the behavior of the `EjbProcessApplication`
 or `JakartaEjbProcessApplication`, you can write a custom subclass of the respective class and add it to your application.
 
@@ -119,7 +119,7 @@ The most convenient option for deploying a process application to a Java EE EJB 
 ```xml
 <dependency>
   <groupId>org.eximeebpms.bpm.javaee</groupId>
-  <artifactId>camunda-ejb-client</artifactId>
+  <artifactId>eximeebpms-ejb-client</artifactId>
 </dependency>
 ```
 
@@ -128,7 +128,7 @@ For Jakarta EE 9+ EJB containers, use the following dependency instead:
 ```xml
 <dependency>
   <groupId>org.eximeebpms.bpm.javaee</groupId>
-  <artifactId>camunda-ejb-client-jakarta</artifactId>
+  <artifactId>eximeebpms-ejb-client-jakarta</artifactId>
 </dependency>
 ```
 
