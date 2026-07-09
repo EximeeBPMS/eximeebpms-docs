@@ -296,8 +296,8 @@ With EximeeBPMS 1.0.0 the project was moved into the [EximeeBPMS repository](htt
   <tr>
     <td>eximeebpms-bpm-assert</td>
     <td>3.26.3</td>
-    <td>7.23.0</td>
-    <td>7.23.0</td>
+    <td>1.1.0</td>
+    <td>1.1.0</td>
   </tr>
 </table>
 
