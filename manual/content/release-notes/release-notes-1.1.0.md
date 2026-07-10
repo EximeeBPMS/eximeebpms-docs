@@ -22,7 +22,7 @@ Patch releases: [1.1.1](#111) (24.10.2025) — security fixes &nbsp;|&nbsp; [1.1
 - **WildFly 27** application server support
 - **EximeeBPMS Monitor** metrics available from `eximeebpms-run`
 - **JaCoCo** test coverage and **Sonar** static analysis integration
-- Upstream engine synchronisation with Camunda 7 up to v7.24.0-alpha1
+- Upstream engine synchronisation with Camunda 7 up to version 7.24.0
 - Broad dependency refresh including several high-severity security fixes
 
 ---
@@ -66,8 +66,7 @@ Snapshot artifacts are automatically deployed to Sonatype Central on every push 
 
 ### Upstream Sync
 
-- Synchronised upstream Camunda 7 changes (June 2024 batch).
-- Synchronised upstream Camunda 7 changes up to v7.24.0-alpha1.
+- Synchronised upstream Camunda 7 changes up to version 7.24.0
 
 ### Dependency Updates
 
