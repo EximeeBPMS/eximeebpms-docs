@@ -26,3 +26,5 @@ docker run -d --name eximeebpms -p 8080:8080 ghcr.io/eximeebpms/eximeebpms-bpm-p
 ```
 
 Please note that by default the Spring Boot distribution is used. For a guide on how to use one of the other distributions, see the [tag schema](https://github.com/EximeeBPMS/eximeebpms-docker#supported-tagsreleases).
+
+For deploying this image on Kubernetes or OpenShift, see [Run EximeeBPMS on Kubernetes / OpenShift]({{< ref "/installation/kubernetes.md" >}}).
