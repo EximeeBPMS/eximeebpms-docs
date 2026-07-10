@@ -55,17 +55,17 @@ public class MyApplication extends Application {
     // add your own classes
     ...
     // add all eximeebpms engine rest resources (or just add those that you actually need).
-    classes.addAll(CamundaRestResources.getResourceClasses());
+    classes.addAll(EximeeBpmsRestResources.getResourceClasses());
 
     // mandatory
-    classes.addAll(CamundaRestResources.getConfigurationClasses());
+    classes.addAll(EximeeBpmsRestResources.getConfigurationClasses());
 
     return classes;
   }
 }
 ```
 
-`CamundaRestResources.getResourceClasses()` contains two JAX-RS resources that serve as the entry points. One of these (`org.eximeebpms.bpm.engine.rest.impl.NamedProcessEngineRestServiceImpl`) provides all of the REST resources listed in this document on paths beginning with `/engine/{name}` while the other (`org.eximeebpms.bpm.engine.rest.impl.DefaultProcessEngineRestServiceImpl`) provides access to the default engine's resources on the root path `/`.
+`EximeeBpmsRestResources.getResourceClasses()` contains two JAX-RS resources that serve as the entry points. One of these (`org.eximeebpms.bpm.engine.rest.impl.NamedProcessEngineRestServiceImpl`) provides all of the REST resources listed in this document on paths beginning with `/engine/{name}` while the other (`org.eximeebpms.bpm.engine.rest.impl.DefaultProcessEngineRestServiceImpl`) provides access to the default engine's resources on the root path `/`.
 
 To restrict the exposed REST resources to specific types (e.g., only process-definition-related methods), a subclass of `org.eximeebpms.bpm.engine.rest.impl.AbstractProcessEngineRestServiceImpl` can be implemented and registered with the JAX-RS application. Such a subclass can control which resources get exposed by offering JAX-RS-annotated methods. See the sources of `NamedProcessEngineRestServiceImpl` and `DefaultProcessEngineRestServiceImpl` for an example. **Note**: The path to a subresource should always match the path defined in the subresource's interface.
 

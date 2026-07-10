@@ -32,7 +32,7 @@ You can use the process engine configuration to enable / disable the password po
 
 To enable or disable the password policy checks you need to set the `enablePasswordPolicy` property.
 
-If you want to use a custom password policy you can do this by implementing the `PasswordPolicy` and `PasswordPolicyRule` interfaces from the `org.camunda.bpm.engine.identity` package and provide your implementation to the process engine configuration by setting the `passwordPolicy` property.
+If you want to use a custom password policy you can do this by implementing the `PasswordPolicy` and `PasswordPolicyRule` interfaces from the `org.eximeebpms.bpm.engine.identity` package and provide your implementation to the process engine configuration by setting the `passwordPolicy` property.
 
 ```java
 public class MyPasswordPolicy implements PasswordPolicy {

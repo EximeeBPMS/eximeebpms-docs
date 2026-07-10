@@ -24,7 +24,7 @@ Once the event has reached the History Event Handler, it can be processed and st
 
 Exchanging the History Event Handler with a custom implementation allows users to plug in a custom History Backend. To do so, two main steps are required:
 
-* Provide a custom implementation of the {{< javadocref page="org/camunda/bpm/engine/impl/history/handler/HistoryEventHandler.html" text="HistoryEventHandler" >}} interface.
+* Provide a custom implementation of the {{< javadocref page="org/eximeebpms/bpm/engine/impl/history/handler/HistoryEventHandler.html" text="HistoryEventHandler" >}} interface.
 * Wire the custom implementation in the process engine configuration.
 
 {{< note title="Composite History Handling" class="info" >}}

@@ -32,8 +32,8 @@ EximeeBPMS distinguishes between read-only and writable user repositories. A rea
 
 To provide a custom identity provider implementation, the following interfaces can be implemented:
 
-* {{< javadocref page="org/camunda/bpm/engine/impl/identity/ReadOnlyIdentityProvider.html" text="org.eximeebpms.bpm.engine.impl.identity.ReadOnlyIdentityProvider" >}}
-* {{< javadocref page="org/camunda/bpm/engine/impl/identity/WritableIdentityProvider.html" text="org.eximeebpms.bpm.engine.impl.identity.WritableIdentityProvider" >}}
+* {{< javadocref page="org/eximeebpms/bpm/engine/impl/identity/ReadOnlyIdentityProvider.html" text="org.eximeebpms.bpm.engine.impl.identity.ReadOnlyIdentityProvider" >}}
+* {{< javadocref page="org/eximeebpms/bpm/engine/impl/identity/WritableIdentityProvider.html" text="org.eximeebpms.bpm.engine.impl.identity.WritableIdentityProvider" >}}
 
 # Custom Whitelist for User, Group and Tenant IDs
 

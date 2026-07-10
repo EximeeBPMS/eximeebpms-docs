@@ -51,7 +51,7 @@ public class LoanApprovalApplication extends ServletProcessApplication {
 Notice the `@ProcessApplication` annotation. This annotation fulfills two purposes:
 
 * **provide the name of the ProcessApplication**: You can provide a custom name for your process application using the annotation: `@ProcessApplication("Loan Approval App")`. If no name is provided, a name is automatically detected. In case of a servlet process application, the name of the `ServletContext` is used.
-* **trigger auto-deployment**. In a Servlet 3.0 container, the annotation is sufficient for making sure that the process application is automatically picked up by the servlet container and automatically added as a ServletContextListener to the Servlet Container deployment. This functionality is realized by a `javax.servlet.ServletContainerInitializer` implementation named `org.eximeebpms-engine m.bpm.application.impl.ServletProcessApplicationDeployer` which is located in the eximeebpms-engine module. The implementation works for both embedded deployment of the eximeebpms-engine.jar as a web application library in the `WEB-INF/lib` folder of your WAR file, or for the deployment of the eximeebpms-engine.jar as a shared library in the shared library (e.g., Apache Tomcat global `lib/` folder) directory of your application server. The Servlet 3.0 Specification foresees both deployment scenarios. In case of embedded deployment, the `ServletProcessApplicationDeployer` is notified once, when the web application is deployed. In case of deployment as a shared library, the `ServletProcessApplicationDeployer` is notified for each WAR file containing a class annotated with `@ProcessApplication` (as required by the Servlet 3.0 Specification).
+* **trigger auto-deployment**. In a Servlet 3.0 container, the annotation is sufficient for making sure that the process application is automatically picked up by the servlet container and automatically added as a ServletContextListener to the Servlet Container deployment. This functionality is realized by a `javax.servlet.ServletContainerInitializer` implementation named `org.eximeebpms.bpm.application.impl.ServletProcessApplicationDeployer` which is located in the eximeebpms-engine module. The implementation works for both embedded deployment of the eximeebpms-engine.jar as a web application library in the `WEB-INF/lib` folder of your WAR file, or for the deployment of the eximeebpms-engine.jar as a shared library in the shared library (e.g., Apache Tomcat global `lib/` folder) directory of your application server. The Servlet 3.0 Specification foresees both deployment scenarios. In case of embedded deployment, the `ServletProcessApplicationDeployer` is notified once, when the web application is deployed. In case of deployment as a shared library, the `ServletProcessApplicationDeployer` is notified for each WAR file containing a class annotated with `@ProcessApplication` (as required by the Servlet 3.0 Specification).
 
 This means that in case you deploy to a Servlet 3.0 compliant container (such as Apache Tomcat) annotating your class with `@ProcessApplication` is sufficient.
 
@@ -99,9 +99,9 @@ An EJB process application class itself must be deployed as an EJB.
 To add an EJB process application to your Java application, you have two options:
 
 * **Bundle the Camunda EJB Client**: we provide a generic, reusable EJB process application implementation (named 
-`org.camunda.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
-implementation to your application as a maven dependency. Use the `camunda-ejb-client` artifact for Java EE or
-the `camunda-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
+`org.eximeebpms.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
+implementation to your application as a maven dependency. Use the `eximeebpms-ejb-client` artifact for Java EE or
+the `eximeebpms-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
 * **Write a custom EJB process application**: if you want to customize the behavior of the `EjbProcessApplication`
 or `JakartaEjbProcessApplication`, you can write a custom subclass of the respective class and add it to your application.
 
@@ -118,8 +118,8 @@ The most convenient option for deploying a process application to a Java EE EJB 
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm.javaee</groupId>
-  <artifactId>camunda-ejb-client</artifactId>
+  <groupId>org.eximeebpms.bpm.javaee</groupId>
+  <artifactId>eximeebpms-ejb-client</artifactId>
 </dependency>
 ```
 
@@ -127,8 +127,8 @@ For Jakarta EE 9+ EJB containers, use the following dependency instead:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.bpm.javaee</groupId>
-  <artifactId>camunda-ejb-client-jakarta</artifactId>
+  <groupId>org.eximeebpms.bpm.javaee</groupId>
+  <artifactId>eximeebpms-ejb-client-jakarta</artifactId>
 </dependency>
 ```
 
@@ -402,7 +402,7 @@ If you use a Spring process application, you may want to configure your process 
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="processEngineConfiguration" class="org.camunda.bpm.engine.spring.SpringProcessEngineConfiguration">
+    <bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration">
         <property name="processEngineName" value="default" />
         <property name="dataSource" ref="dataSource"/>
         <property name="transactionManager" ref="transactionManager"/>
@@ -411,7 +411,7 @@ If you use a Spring process application, you may want to configure your process 
     </bean>
 
     <!-- using ManagedProcessEngineFactoryBean allows registering the ProcessEngine with the BpmPlatform -->
-    <bean id="processEngine" class="org.camunda.bpm.engine.spring.container.ManagedProcessEngineFactoryBean">
+    <bean id="processEngine" class="org.eximeebpms.bpm.engine.spring.container.ManagedProcessEngineFactoryBean">
         <property name="processEngineConfiguration" ref="processEngineConfiguration"/>
     </bean>
 

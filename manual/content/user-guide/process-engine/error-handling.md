@@ -104,7 +104,7 @@ Having a failed jobs list instead of using the "normal" task list feels like a m
 
 Sometimes an API call doesn't succeed because a problem occurs. The Java programming model uses exceptions
 to handle these situations. Exceptions that occur on the process engine's application level are 
-of the type `{{< javadocref page="org/camunda/bpm/engine/ProcessEngineException.html" text="ProcessEngineException" >}}`.
+of the type `{{< javadocref page="org/eximeebpms/bpm/engine/ProcessEngineException.html" text="ProcessEngineException" >}}`.
 
 Here are two examples of everyday situations in which the engine throws a `ProcessEngineException`:
 
@@ -153,7 +153,7 @@ You can configure the exception error codes feature in your [process engine conf
 
 ### Register a Custom Code Provider
 
-With the help of a [`ProcessEnginePlugin`]({{< ref "/user-guide/process-engine/process-engine-plugins.md" >}}) you can register a custom `{{< javadocref page="org/camunda/bpm/engine/impl/errorcode/ExceptionCodeProvider.html" text="ExceptionCodeProvider" >}}`:
+With the help of a [`ProcessEnginePlugin`]({{< ref "/user-guide/process-engine/process-engine-plugins.md" >}}) you can register a custom `{{< javadocref page="org/eximeebpms/bpm/engine/impl/errorcode/ExceptionCodeProvider.html" text="ExceptionCodeProvider" >}}`:
 
 ```java
 engineConfig.setCustomExceptionCodeProvider(new ExceptionCodeProvider() {
