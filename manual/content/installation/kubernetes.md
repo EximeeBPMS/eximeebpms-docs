@@ -14,7 +14,7 @@ menu:
 
 # Community Edition
 
-Official Kubernetes / OpenShift deployment artifacts are maintained in the [eximeebpms-k8s](https://github.com/EximeeBPMS/eximeebpms-k8s) repository, as both a Helm chart and Kustomize manifests. Both deploy the same [Docker image]({{< ref "/installation/docker.md" >}}) and are equivalent -- pick whichever fits your platform's tooling.
+Official Kubernetes / OpenShift deployment artifacts are maintained in the [eximeebpms-k8s](https://github.com/EximeeBPMS/eximeebpms-k8s) repository, as both a Helm chart and Kustomize manifests. Both deploy the same [Docker image]({{< ref "/installation/docker.md" >}}) and are equivalent -- pick whichever fits your platform's tooling. The Helm chart is also listed on [ArtifactHub](https://artifacthub.io/packages/helm/eximeebpms-k8s/eximeebpms), where you can browse available versions and values.
 
 ## Quick start
 
