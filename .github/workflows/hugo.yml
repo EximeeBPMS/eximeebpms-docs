@@ -87,6 +87,13 @@ jobs:
               fi
             fi
 
+            # Stage this branch's own REST API reference (if any), to override
+            # master's rest/ for this version at deploy time
+            if [ -d "worktree-${version}/rest" ]; then
+              mkdir -p "$(pwd)/rest-overrides"
+              cp -r "worktree-${version}/rest/." "$(pwd)/rest-overrides/"
+            fi
+
             git worktree remove --force "worktree-${version}"
           done
 
@@ -130,6 +137,12 @@ jobs:
           # REST docs and CNAME
           mkdir -p gh-pages/docs/rest
           cp -r rest/. gh-pages/docs/rest/
+
+          # Per-version REST docs committed on a docs/X.Y.Z branch override master's
+          if [ -d rest-overrides ]; then
+            cp -r rest-overrides/. gh-pages/docs/rest/
+          fi
+
           cp CNAME gh-pages/docs/
 
       - name: Commit and push changes
