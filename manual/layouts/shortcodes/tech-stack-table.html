@@ -1,4 +1,4 @@
-{{- $data := hugo.Data.tech_stack -}}
+{{- $data := .Site.Data.tech_stack -}}
 {{- $visibleCount := 2 -}}
 {{- with .Get "visible" -}}{{- $visibleCount = . | int -}}{{- end -}}
 {{- $ossVersions := where $data.versions "type" "oss" -}}
