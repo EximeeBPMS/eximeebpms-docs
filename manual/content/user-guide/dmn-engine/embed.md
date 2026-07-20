@@ -46,12 +46,12 @@ DmnEngine dmnEngine = configuration.buildEngine();
 ```
 
 # Configuration of the DMN Engine
-This section gives more insights of embedded DMN engine configuration. In case you want to use DMN engine as part of the BPMN engine, please refer to the [DMN Engine Configuration]({{< ref "/user-guide/process-engine/decisions/configuration" >}})  section of the [User Guide]({{< ref "/user-guide/_index.md" >}}) for the configuration in that scenario.
+This section gives more insights of embedded DMN engine configuration. In case you want to use DMN engine as part of the BPMN engine, please refer to the [DMN Engine Configuration]({{< ref "/user-guide/process-engine/decisions/configuration.md" >}})  section of the [User Guide]({{< ref "/user-guide/_index.md" >}}) for the configuration in that scenario.
 
 ## Decision Table Evaluation Listeners
 
 The DMN engine configuration allows you add a custom decision table {{< javadocref
-page="?org/camunda/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html"
+page="?org/eximeebpms/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html"
 text="evaluation listener" >}}. A decision table evaluation listener is
 notified after a decision table has been evaluated. It receives an evaluation event
 which contains the result of the evaluation. You can decide if the
@@ -75,7 +75,7 @@ configuration.getCustomPostDecisionTableEvaluationListeners()
 ```
 
 A specialized evaluation listener is the {{< javadocref
-page="?org/camunda/bpm/dmn/engine/spi/DmnEngineMetricCollector.html"
+page="?org/eximeebpms/bpm/dmn/engine/spi/DmnEngineMetricCollector.html"
 text="metric collector" >}}, which records the number of executed decision
 elements. This metric can be used to monitor the workload of a decision engine.
 
@@ -93,7 +93,7 @@ configuration.setEngineMetricCollector(metricCollector);
 ## Decision Evaluation Listeners
 
 The DMN engine configuration allows you add a custom {{< javadocref
-page="?org/camunda/bpm/dmn/engine/delegate/DmnDecisionEvaluationListener.html"
+page="?org/eximeebpms/bpm/dmn/engine/delegate/DmnDecisionEvaluationListener.html"
 text="decision evaluation listener" >}}. A decision evaluation listener is
 notified after a decision with all the required decisions has been evaluated. It receives an evaluation event
 which contains the result of the evaluation. You can decide if the
@@ -125,22 +125,22 @@ Please be aware that these APIs are **not** part of the [public API]({{< ref "/i
 {{< /note >}}
 
 The {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/DefaultDmnEngineConfiguration.html"
 text="default DMN engine configuration" >}} has further customization and
 extension points.
 
 ## Customize DMN Transformation
 
 It is possible to customize the transformation of DMN by providing a {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/spi/transform/DmnTransformer.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/spi/transform/DmnTransformer.html"
 text="DMN transformer" >}} or configuring the {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/transform/DefaultDmnTransformer.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/transform/DefaultDmnTransformer.html"
 text="default one" >}}.
 
 ### Register DMN Transform Listeners
 
 The simplest customization is to provide a {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/spi/transform/DmnTransformListener.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/spi/transform/DmnTransformListener.html"
 text="transform listener" >}}. The Listener is notified after a DMN element is
 transformed. The listener can modify the transformed object.
 
@@ -162,13 +162,13 @@ configuration.getTransformer()
 
 While the transform listener allows modifying of the transformed objects, it does not support instantiating custom subclasses.
 This can be achieved using a custom {{< javadocref
-page="?org/camunda/bpm/dmn/engine/impl/spi/transform/DmnElementTransformHandler.html"
+page="?org/eximeebpms/bpm/dmn/engine/impl/spi/transform/DmnElementTransformHandler.html"
 text="transform handler" >}}.
 
 A transform handler is registered for a given [DMN model API] type like a `DecisionTable`.
 
 First, implement a transform handler which can transform a {{<
-javadocref page="?org/camunda/bpm/model/dmn/instance/DecisionTable.html"
+javadocref page="?org/eximeebpms/bpm/model/dmn/instance/DecisionTable.html"
 text="decision table" >}}.
 
 ```java
@@ -308,7 +308,7 @@ Just make sure that the corresponding libraries are available on the classpath a
 The default DMN engine resolves the supported expression and script languages
 using different providers.
 
-To evaluate `JUEL` expressions, the DMN engine uses the {{< javadocref page="org/camunda/bpm/dmn/engine/impl/spi/el/ElProvider.html" text="ElProvider" >}} configured in the
+To evaluate `JUEL` expressions, the DMN engine uses the {{< javadocref page="org/eximeebpms/bpm/dmn/engine/impl/spi/el/ElProvider.html" text="ElProvider" >}} configured in the
 DMN engine configuration. To use another implementation of the Unified Expression Language, replace this implementation.
 
 ```java
@@ -320,7 +320,7 @@ DefaultDmnEngineConfiguration configuration = (DefaultDmnEngineConfiguration) Dm
 configuration.setElProvider(new MyElProvider());
 ```
 
-To configure the `FEEL` engine used you can provide a custom {{< javadocref page="org/camunda/bpm/dmn/feel/impl/FeelEngineFactory.html" text="FeelEngineFactory" >}}.
+To configure the `FEEL` engine used you can provide a custom {{< javadocref page="org/eximeebpms/bpm/dmn/feel/impl/FeelEngineFactory.html" text="FeelEngineFactory" >}}.
 
 ```java
 // with a default DMN engine configuration
@@ -331,7 +331,7 @@ DefaultDmnEngineConfiguration configuration = (DefaultDmnEngineConfiguration) Dm
 configuration.setFeelEngineFactory(new MyFeelEngineFactory());
 ```
 
-Script languages are resolved by the {{< javadocref page="org/camunda/bpm/dmn/engine/impl/spi/el/DmnScriptEngineResolver.html" text="DmnScriptEngineResolver" >}}. To customize the script engine resolving, provide an own implementation.
+Script languages are resolved by the {{< javadocref page="org/eximeebpms/bpm/dmn/engine/impl/spi/el/DmnScriptEngineResolver.html" text="DmnScriptEngineResolver" >}}. To customize the script engine resolving, provide an own implementation.
 
 ```java
 // with a default DMN engine configuration
@@ -352,7 +352,7 @@ For more information on how to configure and use SLF4J, please refer to the
 [user manual].
 
 
-[evaluation listener]: {{< javadocref page="org/camunda/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html" text="DmnDecisionTableEvaluationListener Interface" >}}
+[evaluation listener]: {{< javadocref page="org/eximeebpms/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html" text="DmnDecisionTableEvaluationListener Interface" >}}
 [DMN model API]: https://github.com/camunda/camunda-dmn-model
 [data types]: {{< ref "/user-guide/dmn-engine/data-types.md" >}}
 [hit policies]: {{< ref "/reference/dmn/decision-table/hit-policy.md" >}}
