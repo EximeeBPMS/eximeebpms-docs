@@ -90,7 +90,7 @@ Proper authorization checks must always be enforced.
 ## Legacy UUID v1 Generator (Deprecated)
 
 {{< note title="" class="warning" >}}
-`UuidV1Generator` is deprecated (Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee); Community Edition: since [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator)) and will be removed in EximeeBPMS 1.4.0.
+`UuidV1Generator` is deprecated (Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee); Community Edition: since [1.3.0](https://docs.eximeebpms.org/manual/1.3.0/release-notes/release-notes-1.3.0/#uuid-v7-as-default-id-generator)) and will be removed in EximeeBPMS 1.4.0.
 Migrate to `StrongUuidGenerator` (UUID v7, the default).
 {{< /note >}}
 

@@ -38,11 +38,11 @@ Building on the enforcement engine introduced in [1.2.13-ee](#12-13-ee), Script 
 - An **`AUDIT`** enforcement mode: violations are recorded but script execution is not blocked — the recommended first step before enabling `ENFORCE`.
 - A **persistent, queryable violation store**: each violation (timestamp, process definition key, activity ID, scripting language, rule code, reason) is written to a dedicated `script.security` schema component, so it survives engine restarts and can be queried through the REST API.
 - **Hot-reload configuration**: enforcement mode and the process-definition allowlist can be changed at runtime via the REST API — no restart, propagated to all engine nodes within 30 seconds.
-- **SIEM integration**: a new `ScriptViolationListener`, wired through the [`BusinessEventPublisher`]({{< ref "/user-guide/process-engine/business-events.md" >}}) SPI, forwards violations to downstream security monitoring in real time.
+- **SIEM integration**: a new `ScriptViolationListener`, wired through the [`BusinessEventPublisher`](https://docs.eximeebpms.org/manual/latest/user-guide/process-engine/business-events/) SPI, forwards violations to downstream security monitoring in real time.
 
 → [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})
 → [Securing Custom Code]({{< ref "/user-guide/process-engine/securing-custom-code.md" >}})
-→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+→ [Business Events](https://docs.eximeebpms.org/manual/latest/user-guide/process-engine/business-events/)
 
 #### UUID v7 as Default ID Generator
 
@@ -235,7 +235,7 @@ The remaining dependency updates in this batch are routine security-motivated bu
 
 ### Highlights
 
-- [**Business Events with transactional outbox**]({{< ref "/user-guide/process-engine/business-events.md" >}}) — guaranteed at-least-once delivery to downstream systems
+- [**Business Events with transactional outbox**](https://docs.eximeebpms.org/manual/latest/user-guide/process-engine/business-events/) — guaranteed at-least-once delivery to downstream systems
 - [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}) and custom webapp context path support
 - [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) NIO enforcement narrowed to file and network APIs only
 
@@ -247,7 +247,7 @@ A native business event system with a **transactional outbox** pattern. Process-
 
 A `BusinessEventPublisher` SPI allows custom event routing and transformation. Database schema upgrade scripts for all supported databases are included.
 
-→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+→ [Business Events](https://docs.eximeebpms.org/manual/latest/user-guide/process-engine/business-events/)
 
 #### Configurable OAuth2 Endpoints
 

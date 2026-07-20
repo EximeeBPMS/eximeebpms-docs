@@ -127,7 +127,7 @@ eximeebpms:
 </table>
 
 {{< note title="" class="info" >}}
-Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the schema migration (Enterprise Edition: shipped in [1.2.13-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-13-ee); Community Edition: shipped in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#script-guard)).
+Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the schema migration (Enterprise Edition: shipped in [1.2.13-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-13-ee); Community Edition: shipped in [1.3.0](https://docs.eximeebpms.org/manual/1.3.0/release-notes/release-notes-1.3.0/#script-guard)).
 {{< /note >}}
 
 # Allowlisting Process Definitions
@@ -154,7 +154,7 @@ Whenever a script triggers a rule — in either `ENFORCE` or `AUDIT` mode — Sc
 Violations are persisted in the `ACT_RU_SCRIPT_VIOLATION` table and can be queried via the [REST API](#rest-api). The in-memory ring buffer holds up to `violation-store-size` recent entries; the total count is always available independently.
 
 {{< note title="" class="info" >}}
-If the `eximeebpms-bpm-monitor` extension is used, violations are also exposed as Micrometer meters — see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#script-guard" >}}).
+If the `eximeebpms-bpm-monitor` extension is used, violations are also exposed as Micrometer meters — see [Application Monitoring](https://docs.eximeebpms.org/manual/latest/user-guide/process-engine/application-monitoring/#script-guard).
 {{< /note >}}
 
 # REST API
