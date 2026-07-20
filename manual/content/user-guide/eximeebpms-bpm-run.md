@@ -327,7 +327,7 @@ EximeeBPMS Run also supports configuration options for customizing the deploymen
             <li>When set to <code>false</code>, all deployments will be deployed without filtering their resources.</li>
           </ul>
           The property can be useful for controlling the deployment behaviour of the engine in case of restarts, similar to the
-          <a href="{{< ref "user-guide/spring-framework-integration/deployment" >}}">Spring Framework Integration</a>
+          <a href="{{< ref "/user-guide/spring-framework-integration/deployment.md" >}}">Spring Framework Integration</a>
       </td>
       <td><code>true</code></td>
   </tr>

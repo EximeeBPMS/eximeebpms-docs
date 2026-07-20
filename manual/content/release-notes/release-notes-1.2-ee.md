@@ -15,6 +15,134 @@ menu:
 
 ---
 
+## 1.2.19-ee {#12-19-ee}
+
+**Release date:** 15.07.2026
+
+### Highlights
+
+- **[Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) audit mode, persistent violation store, and SIEM integration**
+- **[UUID v7]({{< ref "/user-guide/process-engine/id-generator.md" >}}) is now the default ID generator** — UUID v1 kept as a deprecated fallback, scheduled for removal in 1.4.0
+- **[Signed SBOM](#signed-sbom-on-every-release) published with every release** — CycloneDX SBOM (JSON + XML), signed with both GPG and Sigstore
+- **[CMMN support removed]({{< ref "/update/cmmn-removal.md" >}})** from the engine, migration tooling, and test suite
+- **[`javax` (legacy) namespace support dropped](#javax-legacy-namespace-no-longer-supported)** — Jakarta EE only from this release on
+- Large dependency refresh addressing vulnerabilities across JDBC drivers, Spring, Tomcat, WildFly, and more
+- Fixed invalid `X-Authorized-User` header value for OAuth users with non-ASCII characters
+
+### New Features
+
+#### Script Guard — Audit Mode, Violation Store & SIEM Integration
+
+Building on the enforcement engine introduced in [1.2.13-ee](#12-13-ee), Script Guard adds:
+
+- An **`AUDIT`** enforcement mode: violations are recorded but script execution is not blocked — the recommended first step before enabling `ENFORCE`.
+- A **persistent, queryable violation store**: each violation (timestamp, process definition key, activity ID, scripting language, rule code, reason) is written to a dedicated `script.security` schema component, so it survives engine restarts and can be queried through the REST API.
+- **Hot-reload configuration**: enforcement mode and the process-definition allowlist can be changed at runtime via the REST API — no restart, propagated to all engine nodes within 30 seconds.
+- **SIEM integration**: a new `ScriptViolationListener`, wired through the [`BusinessEventPublisher`]({{< ref "/user-guide/process-engine/business-events.md" >}}) SPI, forwards violations to downstream security monitoring in real time.
+
+→ [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})
+→ [Securing Custom Code]({{< ref "/user-guide/process-engine/securing-custom-code.md" >}})
+→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+
+#### UUID v7 as Default ID Generator
+
+The engine now generates entity IDs as **UUID v7** by default (`StrongUuidGenerator`) instead of UUID v1. UUID v7 is time-ordered, which improves index locality on high-write tables, and — unlike UUID v1 — does not embed the generating machine's MAC address.
+
+The previous UUID v1 generator is kept as a deprecated fallback:
+
+```properties
+eximeebpms.bpm.id-generator=uuid-v1
+```
+
+It will be removed in EximeeBPMS 1.4.0.
+
+→ [Id Generators]({{< ref "/user-guide/process-engine/id-generator.md" >}})
+
+#### Signed SBOM on Every Release
+
+Every Enterprise Edition release now publishes a **CycloneDX Software Bill of Materials** (JSON and XML) covering all shipped modules, attached to the GitHub release alongside the build artifacts. Each SBOM file is signed twice — with a detached **GPG** signature and with **Sigstore** (`cosign`, keyless) — so the provenance of the SBOM itself can be verified independently of your artifact repository.
+
+#### Other Engine Improvements
+
+- **Graceful shutdown** — pending external tasks are now unlocked when the engine stops, instead of staying locked until their lock timeout expires.
+- A new **SPI listener for external task execution statistics**.
+
+### Breaking Changes
+
+#### CMMN Support Removed
+
+CMMN 1.1 support — the engine, migration tooling, and associated tests — has been removed from EximeeBPMS Enterprise Edition. Case management use cases remain fully supported through BPMN.
+
+{{< note title="" class="warning" >}}
+This release removes CMMN ahead of the Community Edition, where it is still deprecated pending removal in 1.4.0. Enterprise Edition customers should follow the [CMMN Deprecation & Removal guide]({{< ref "/update/cmmn-removal.md" >}}) before upgrading to 1.2.19-ee.
+{{< /note >}}
+
+#### `javax` (Legacy) Namespace No Longer Supported
+
+Support for the legacy `javax` namespace has been dropped; only Jakarta EE (`jakarta.*`) is supported from this release on. Application servers and containers that have not migrated to Jakarta EE cannot run this version.
+
+### Technical Updates
+
+#### Dependency Updates
+
+| Dependency | Previous | Updated |
+|------------|----------|---------|
+| H2 | 2.3.232 | 2.4.240 |
+| Liquibase | 5.0.1 | 5.0.3 |
+| MySQL Connector/J | 8.3.0 | 9.7.0 |
+| Oracle JDBC (ojdbc11) | 23.5.0.24.07 | 23.26.2.0.0 |
+| PostgreSQL JDBC | 42.5.5 | 42.7.11 |
+| Microsoft SQL Server JDBC | 8.4.1.jre8 | 13.4.0.jre11 |
+| IBM DB2 JDBC | 11.5.0.0 | 11.5.9.0 |
+| Kafka Clients | 3.9.1 | 3.9.2 |
+| RESTEasy (engine-rest-jakarta) | 6.2.1.Final | 6.2.3.Final |
+| RESTEasy (assembly-jakarta / webapps) | 6.2.8.Final | 6.2.16.Final |
+| Netty | 4.1.89.Final | 4.1.135.Final |
+| Arquillian BOM | 1.1.10.Final | 1.10.2.Final |
+| Groovy | 5.0.5 | 5.0.6 |
+| Jackson | 2.21.3 | 2.21.4 |
+| Jakarta XML Bind API | 4.0.2 | 4.0.5 |
+| ShrinkWrap Resolvers | 3.3.4 | 3.3.7 |
+| Spring Boot | 4.0.6 | 4.1.0 |
+| Spring Framework | 7.0.7 | 7.0.8 |
+| Tomcat 10 | 10.1.55 | 10.1.56 |
+| WildFly | 37.0.0.Final | 40.0.1.Final |
+| WildFly Core test framework | 29.0.0.Final | 32.0.2.Final |
+| WildFly Arquillian container adapters | 5.0.1.Final | 5.1.0.Final |
+| Java UUID Generator | 5.1.0 | 5.2.0 |
+| Apache Ant | 1.7.1 | 1.10.17 |
+| Tomcat JDBC / Tomcat Juli | 7.0.33 | 11.0.22 |
+
+#### Resolved CVE Vulnerabilities
+
+##### Medium
+
+| CVE | CVSS | Component | Description | Fixed In |
+|-----|:----:|-----------|-------------|----------|
+| [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v) | — | `Netty` (`HttpPostRequestDecoder`) ≤4.1.107.Final | "Unbounded memory allocation via a crafted multipart/chunked POST request causes denial of service." Fixed in Netty 4.1.108.Final. | 1.2.19-ee |
+| [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373) | — | `Apache Ant` ≤1.10.10 | "Reading a crafted tar archive during the build allocates unbounded memory, causing denial of service." Fixed in Ant 1.10.11. | 1.2.19-ee |
+| [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374) | — | `Apache Ant` ≤1.10.10 | "Same unbounded-allocation issue as CVE-2021-36373, affecting zip and zip-derived archive formats." Fixed in Ant 1.10.11. | 1.2.19-ee |
+| [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) | — | `Apache Ant` ≤1.10.7 | "Use of the default, predictable system temp directory can leak sensitive build information to other local users." Fixed in Ant 1.10.8. | 1.2.19-ee |
+
+{{< note title="" class="info" >}}
+The remaining dependency updates in this batch are routine security-motivated bumps (H2, Liquibase, MySQL Connector/J, Oracle JDBC, PostgreSQL JDBC, Microsoft SQL Server JDBC, Kafka Clients, RESTEasy, Groovy, Jackson, Jakarta XML Bind API, ShrinkWrap Resolvers, Spring Boot, Spring Framework, Tomcat, WildFly). No specific CVE was identified whose affected-version range matches this release's starting versions for those components — consult each project's own security advisories before citing this release in a compliance report.
+{{< /note >}}
+
+### Bug Fixes
+
+- Fixed invalid `X-Authorized-User` header value for OAuth users with non-ASCII characters in their display name.
+- Resolved flaky `ExclusiveJobAcquisitionTest` and other flaky integration tests; removed a redundant `DROP INDEX` in business-event drop scripts.
+- Fixed remaining CI and integration test issues (engine startup, ShrinkWrap CI resolution, `HistoryCleanupTest` timezone, CMMN migration leftovers, `LoginIT`).
+- Extracted `ACT_RU_SCRIPT_VIOLATION` into its own `script.security` schema component for correct `dbSchemaUpdate` handling across all supported databases.
+
+### Build Configuration
+
+- Signed SBOM generation added to the release pipeline (see [Signed SBOM on Every Release](#signed-sbom-on-every-release) above).
+- Continued EximeeBPMS rebranding across internal REST resource and configuration class names.
+- Removed an unused Camunda 7.2.0 reference; refactored instance-migration test fixtures to EximeeBPMS versioning.
+
+---
+
 ## 1.2.18-ee {#12-18-ee}
 
 **Release date:** 16.06.2026
@@ -39,7 +167,8 @@ menu:
 | Groovy | 5.0.4 | 5.0.5 |
 | AssertJ | 3.27.6 | 3.27.7 |
 | Maven Dependency Plugin | 2.8 | 3.11.0 |
-| bpm-monitor | — | latest |
+| commons-codec | 1.15 | 1.22.0 |
+| eximeebpms-monitor | 1.4.0 | 1.6.0 |
 
 #### Resolved CVE Vulnerabilities
 
@@ -84,6 +213,12 @@ menu:
 
 ### Technical Updates
 
+#### Dependency Updates
+
+| Dependency | Previous | Updated |
+|------------|----------|---------|
+| eximeebpms-monitor | 1.2.0 | 1.4.0 |
+
 #### Resolved CVE Vulnerabilities
 
 ##### Critical
@@ -100,7 +235,7 @@ menu:
 
 ### Highlights
 
-- **Business Events with transactional outbox** — guaranteed at-least-once delivery to downstream systems
+- [**Business Events with transactional outbox**]({{< ref "/user-guide/process-engine/business-events.md" >}}) — guaranteed at-least-once delivery to downstream systems
 - [**Configurable OAuth2 endpoints**]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}}) and custom webapp context path support
 - [**Script Guard**]({{< ref "/user-guide/process-engine/script-guard.md" >}}) NIO enforcement narrowed to file and network APIs only
 
@@ -111,6 +246,8 @@ menu:
 A native business event system with a **transactional outbox** pattern. Process-level events (process instance lifecycle, task lifecycle, job execution) are captured inside the engine transaction and written to a dedicated outbox table. A relay component reads from the outbox and delivers events to configured downstream systems (Kafka, HTTP webhooks, etc.), guaranteeing at-least-once delivery without coupling downstream systems to the engine transaction.
 
 A `BusinessEventPublisher` SPI allows custom event routing and transformation. Database schema upgrade scripts for all supported databases are included.
+
+→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
 
 #### Configurable OAuth2 Endpoints
 

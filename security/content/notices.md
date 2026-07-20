@@ -15,6 +15,30 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-11
+
+**Publication Date:** July 15, 2026
+
+**Product affected:** EximeeBPMS engine (Enterprise Edition)
+
+**Impact:**
+
+The versions of Netty and Apache Ant bundled with EximeeBPMS Enterprise had the following vulnerabilities:
+
+- [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v) — Netty's `HttpPostRequestDecoder` can be driven to unbounded memory allocation via a crafted multipart/chunked POST request, causing denial of service
+- [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373) / [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374) — reading a crafted tar or zip-derived archive during the build causes Apache Ant to allocate unbounded memory, causing denial of service
+- [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) — Apache Ant's use of the default, predictable system temp directory could leak sensitive build information to other local users
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition releases bundling Netty ≤4.1.107.Final or Apache Ant ≤1.10.10, up to and including 1.2.18-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.2.19-ee (Enterprise Edition), Netty upgraded to 4.1.135.Final and Apache Ant to 1.10.17. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+
+---
+
 ## Notice EXBPMS-10
 
 **Publication Date:** June 16, 2026
