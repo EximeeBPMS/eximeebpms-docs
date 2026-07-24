@@ -12,7 +12,7 @@ RUN git config --global --add safe.directory /project \
     && ./generate-versions.sh \
     && ./build-docker.sh
 
-FROM nginx:1.27-alpine
+FROM nginx:1.31-alpine
 COPY --from=builder /project/public /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
