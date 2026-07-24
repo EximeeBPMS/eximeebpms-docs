@@ -36,7 +36,7 @@ jobs:
           echo "Latest: ${LATEST}, Versions: ${VERSIONS}"
 
       - name: Install Hugo
-        uses: peaceiris/actions-hugo@v2
+        uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.54.0'
           extended: true
