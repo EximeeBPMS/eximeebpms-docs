@@ -31,7 +31,10 @@ on:
 
 jobs:
   notify_slack:
-    runs-on: ubuntu-latest
+    # ubuntu-slim: slackapi/slack-github-action (v1.24.0 here) is a node16
+    # action, no Docker needed, and this job never runs more than a few
+    # seconds.
+    runs-on: ubuntu-slim
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'failure'
     steps:
       - name: Set Event Message
