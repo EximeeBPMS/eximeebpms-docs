@@ -91,6 +91,26 @@ and performance of the BPM platform. Task metrics contain a pseudonymized and fi
 
 Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_METER_LOG`.
 
+## Business Event Outbox (ACT_RU_BUS_EVT_OBX)
+
+The `ACT_RU_BUS_EVT_OBX` table backs [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) (Enterprise Edition), available since EximeeBPMS 1.2.16-ee. It implements the **transactional outbox pattern**: a row is inserted in the same transaction as the business change it describes, and a background dispatcher later reads undelivered rows and hands them to the configured publisher. The table is generic across all [business event types]({{< ref "/user-guide/process-engine/business-events.md" >}}#business-event-types) — adding a new event type (e.g. the job, batch, incident, external task, activity instance, DMN decision, form property, and user operation log events added in [1.3.1-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee)) does not require a schema change, since the event payload itself is stored as an opaque JSON string.
+
+<table class="table desc-table">
+  <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+  <tr><td><code>ID_</code></td><td><code>bigint</code></td><td>Primary key, auto-generated.</td></tr>
+  <tr><td><code>CREATED_DATE_</code></td><td><code>timestamp</code></td><td>When the row was written — i.e. when the underlying business change committed, not when it was dispatched.</td></tr>
+  <tr><td><code>BUSINESS_EVENT_</code></td><td><code>clob</code></td><td>The business event's payload, serialized to JSON. See the <a href="{{< ref "/user-guide/process-engine/business-events-fields.md" >}}">Business Event Field Reference</a> for the fields behind each event type.</td></tr>
+  <tr><td><code>EVENT_TYPE_</code></td><td><code>varchar(255)</code></td><td>The fully-qualified event type, e.g. <code>bpms:task-instance:complete</code> — matches <code>businessEventType</code> inside the payload.</td></tr>
+  <tr><td><code>PROC_INST_ID_</code></td><td><code>varchar(64)</code></td><td>Process instance id, when the event has a process context; otherwise <code>NULL</code>.</td></tr>
+  <tr><td><code>ROOT_PROC_INST_ID_</code></td><td><code>varchar(64)</code></td><td>Root process instance id (top of the call-activity chain), when applicable.</td></tr>
+  <tr><td><code>PROC_DEF_KEY_</code></td><td><code>varchar(255)</code></td><td>Process definition key, when the event has a process context.</td></tr>
+  <tr><td><code>TASK_ID_</code></td><td><code>varchar(64)</code></td><td>Task id, when the event is scoped to a task.</td></tr>
+  <tr><td><code>PROCESSED_</code></td><td><code>boolean</code></td><td>Whether the dispatcher has successfully delivered this row to the configured publisher. Defaults to <code>false</code>.</td></tr>
+  <tr><td><code>PROCESSED_DATE_</code></td><td><code>timestamp</code></td><td>When the row was marked delivered; <code>NULL</code> until then.</td></tr>
+</table>
+
+There is no foreign key relationship from `ACT_RU_BUS_EVT_OBX` to the core runtime tables — by design, the outbox must survive the deletion of the process instance or task it describes. Delivered rows are removed automatically past their retention period; see [Business Events — Configuration]({{< ref "/user-guide/process-engine/business-events.md" >}}#configuration).
+
 ## Script Violation Log (ACT_RU_SCRIPT_VIOLATION)
 
 The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.3.0.
@@ -123,7 +143,7 @@ Older records can be purged automatically by setting `retention-days` in the [Sc
 The following Entity Relationship Diagrams visualize the database tables and their explicit foreign key constraints, grouped by Engine with focus on BPMN, Engine with focus on DMN, Engine with focus on CMMN, the Engine History and the Identity. Please note that the diagrams do not visualize implicit connections between the tables.
 
 {{< note title="" class="info" >}}
-The table `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) is not shown in the diagrams below as it has no foreign key relationships to the core tables. Its structure is documented in the [Script Violation Log](#script-violation-log-act_ru_script_violation) section above.
+The tables `ACT_RU_BUS_EVT_OBX` (Enterprise Edition, added in 1.2.16-ee) and `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) are not shown in the diagrams below, as neither has foreign key relationships to the core tables. Their structures are documented in the [Business Event Outbox](#business-event-outbox-act_ru_bus_evt_obx) and [Script Violation Log](#script-violation-log-act_ru_script_violation) sections above.
 {{< /note >}}
 
 ## Engine BPMN

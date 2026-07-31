@@ -13,6 +13,10 @@ menu:
 
 **Edition:** Enterprise &nbsp;|&nbsp; **Baseline:** [EximeeBPMS 1.2.0 CE]({{< ref "/release-notes/release-notes-1.2.0.md" >}})
 
+{{< note title="" class="info" >}}
+1.2.19-ee is the last release on this track. Starting with **1.3.1-ee**, the Enterprise Edition version numbering moves to the 1.3.x line — see [EximeeBPMS 1.3.x Enterprise Edition Release Notes]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}).
+{{< /note >}}
+
 ---
 
 ## 1.2.19-ee {#12-19-ee}

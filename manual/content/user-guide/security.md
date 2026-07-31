@@ -179,6 +179,16 @@ Script Guard operates in three modes: `ENFORCE` (block and throw), `AUDIT` (reco
 
 See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation for configuration, the full list of blocked patterns, and violation monitoring.
 
+## Business Events for Security Monitoring
+
+[Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) (Enterprise Edition) publish a real-time, transactionally-consistent stream of engine occurrences — including Script Guard violations (`script-violation:create`) and, as of [1.3.1-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee), every user operation log entry (`user-operation-log:create`), identity link changes, and incident lifecycle events — to a configured publisher (Kafka, or a custom `BusinessEventPublisher`). This gives a SIEM or monitoring system a push-based audit feed instead of having to poll `ACT_HI_OP_LOG` and similar history tables.
+
+{{< note title="" class="warning" >}}
+As of 1.3.1-ee, the default business event type prefix changed from `camunda7` to `bpms` (configurable via `eximeebpms.bpm.business-events.prefix`). If you route business events to a SIEM, update correlation rules that match on the literal event type string accordingly — see [Business Events — Breaking Changes]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee).
+{{< /note >}}
+
+Business Events are disabled by default; enabling them and routing Script Guard and user operation log events to a SIEM does not require a separate integration — see [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) for configuration.
+
 ## Deployments
 
 [Deployments]({{< ref "/user-guide/process-engine/deployments.md" >}}) to the process engine can contain resources that are interpreted like code:
