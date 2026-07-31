@@ -90,7 +90,7 @@ Proper authorization checks must always be enforced.
 ## Legacy UUID v1 Generator (Deprecated)
 
 {{< note title="" class="warning" >}}
-`UuidV1Generator` is deprecated (Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee); Community Edition: since [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator)) and will be removed in EximeeBPMS 1.4.0.
+`UuidV1Generator` is deprecated (Community Edition: since [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee)) and will be removed in EximeeBPMS 1.4.0.
 Migrate to `StrongUuidGenerator` (UUID v7, the default).
 {{< /note >}}
 
@@ -121,9 +121,10 @@ quarkus.camunda.id-generator=uuid-v1
 
 | Version | Default generator | UUID version |
 |---------|-------------------|--------------|
-| ≤ 1.2.18-ee (Enterprise) / ≤ 1.2.x (Community) | `StrongUuidGenerator` | UUID v1 (time-based, MAC address) |
-| 1.2.19-ee+ (Enterprise) | `StrongUuidGenerator` | UUID v7 (time-ordered epoch) |
-| 1.3.0+ (Community) | `StrongUuidGenerator` | UUID v7 (time-ordered epoch) |
+| ≤ 1.2.x (Community Edition) | `StrongUuidGenerator` | UUID v1 (time-based, MAC address) |
+| 1.3.0+ (Community Edition) | `StrongUuidGenerator` | UUID v7 (time-ordered epoch) |
+| ≤ 1.2.18-ee (Enterprise Edition) | `StrongUuidGenerator` | UUID v1 (time-based, MAC address) |
+| 1.2.19-ee+ (Enterprise Edition) | `StrongUuidGenerator` | UUID v7 (time-ordered epoch) |
 
 Upgrading from version 1.2.x or earlier:
 

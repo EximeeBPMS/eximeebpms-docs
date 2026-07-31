@@ -78,3 +78,25 @@ out of the box, so both deployment methods can be used in namespaces enforcing
     --certificate-identity-regexp 'https://github.com/EximeeBPMS/eximeebpms-k8s/.*' \
     --certificate-oidc-issuer https://token.actions.githubusercontent.com
   ```
+
+# Enterprise Edition
+
+The same Helm chart and Kustomize manifests documented above also deploy the [Enterprise Edition Docker image]({{< ref "/installation/docker.md" >}}#enterprise-edition) — point `image.repository` at your private registry and supply the pull credentials you received from your EximeeBPMS account team or support as a Kubernetes image pull secret.
+
+Using Helm:
+
+```shell
+kubectl create secret docker-registry eximeebpms-enterprise-registry \
+  --docker-server=<registry-host-provided-by-support> \
+  --docker-username=<username> \
+  --docker-password=<password>
+
+helm install my-release eximeebpms/eximeebpms \
+  --set image.repository=<registry-host>/eximeebpms/eximeebpms-bpm-platform \
+  --set image.tag=run-1.3.1-ee \
+  --set image.pullSecrets[0].name=eximeebpms-enterprise-registry
+```
+
+Using Kustomize, add an `images:` override for the same repository/tag and an `imagePullSecrets:` entry referencing the same secret in your overlay.
+
+The high-availability, OpenShift, and security-hardening guidance above applies identically to the Enterprise Edition image.

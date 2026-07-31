@@ -47,29 +47,17 @@ The extension's *counters* are driven by the process engine's history events, so
     <td><code>activity</code></td>
   </tr>
   <tr>
-    <td><code>eximeebpms.tasks.created</code>, <code>.completed</code>, <code>.deleted</code></td>
-    <td><code>activity</code></td>
-  </tr>
-  <tr>
     <td><code>eximeebpms.incidents.created</code>, <code>.resolved</code>, <code>.deleted</code></td>
-    <td><code>full</code></td>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.external.tasks.started</code>, <code>.ended</code></td>
     <td><code>full</code></td>
   </tr>
   <tr>
     <td>All gauges (<code>*.running.total</code>, <code>*.open.total</code>, <code>*.open.age.*</code>, <code>jobs.failed.total</code>, etc.)</td>
     <td>none — read runtime tables directly</td>
   </tr>
-  <tr>
-    <td>Script Guard meters</td>
-    <td>none — sourced from Script Guard's own violation store, independent of history events</td>
-  </tr>
 </table>
 
 {{< note title="" class="warning" >}}
-At <code>history-level: activity</code> or <code>audit</code>, incident and external task counters silently stay at zero — the engine simply never produces those history events at those levels, so no error is raised. The Spring Boot starter defaults <code>eximeebpms.bpm.history-level</code> to <code>full</code>, so this only matters if it has been explicitly lowered.
+At <code>history-level: activity</code> or <code>audit</code>, incident counters silently stay at zero — the engine simply never produces those history events at those levels, so no error is raised. The Spring Boot starter defaults <code>eximeebpms.bpm.history-level</code> to <code>full</code>, so this only matters if it has been explicitly lowered.
 {{< /note >}}
 
 # Metrics
@@ -162,21 +150,6 @@ The three counters above require <code>history-level: full</code> — see [Histo
     <th>Description</th>
   </tr>
   <tr>
-    <td><code>eximeebpms.tasks.created</code></td>
-    <td>Counter</td>
-    <td>Incremented when a user task is created.</td>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.tasks.completed</code></td>
-    <td>Counter</td>
-    <td>Incremented when a user task is completed.</td>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.tasks.deleted</code></td>
-    <td>Counter</td>
-    <td>Incremented when a task is deleted directly (e.g. via the Task API). Does <strong>not</strong> increment when a task is removed as a side effect of deleting its parent process instance — the engine does not produce a history event on that path.</td>
-  </tr>
-  <tr>
     <td><code>eximeebpms.tasks.open.total</code></td>
     <td>Gauge</td>
     <td>Number of currently open tasks.</td>
@@ -193,14 +166,6 @@ The three counters above require <code>history-level: full</code> — see [Histo
   </tr>
 </table>
 
-{{< note title="" class="info" >}}
-The <code>eximeebpms.tasks.created</code>, <code>eximeebpms.tasks.completed</code>, and <code>eximeebpms.tasks.deleted</code> counters cannot distinguish tasks that belong to a case instance — only tasks belonging to a process instance are tagged as such, all other tasks are tagged as stand-alone (see [Tags](#tags) below).
-{{< /note >}}
-
-{{< note title="" class="warning" >}}
-<code>eximeebpms.tasks.deleted</code> only fires for tasks deleted directly through the Task API (typically stand-alone tasks — a task attached to a running process instance cannot be deleted that way). When a process instance is deleted and takes its open tasks with it, no corresponding history event is produced, so this counter under-counts that scenario.
-{{< /note >}}
-
 ## External Tasks
 
 <table class="table desc-table">
@@ -208,16 +173,6 @@ The <code>eximeebpms.tasks.created</code>, <code>eximeebpms.tasks.completed</cod
     <th>Meter</th>
     <th>Type</th>
     <th>Description</th>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.external.tasks.started</code></td>
-    <td>Counter</td>
-    <td>Incremented when an external task is created.</td>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.external.tasks.ended</code></td>
-    <td>Counter</td>
-    <td>Incremented when an external task completes successfully or is deleted. A failed execution attempt alone (with retries remaining) does not increment this counter — see <code>eximeebpms.external.tasks.open.error.total</code> for currently failing external tasks.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.external.tasks.open.total</code></td>
@@ -230,10 +185,6 @@ The <code>eximeebpms.tasks.created</code>, <code>eximeebpms.tasks.completed</cod
     <td>Number of currently open external tasks that have a recorded error from a failed execution attempt.</td>
   </tr>
 </table>
-
-{{< note title="" class="info" >}}
-<code>started</code> and <code>ended</code> require <code>history-level: full</code> — see [History Level Requirements](#history-level-requirements). The gauges are unaffected.
-{{< /note >}}
 
 ## Jobs
 
@@ -249,28 +200,6 @@ The <code>eximeebpms.tasks.created</code>, <code>eximeebpms.tasks.completed</cod
     <td>Number of currently failing jobs (jobs with a recorded exception), per process definition. This is a live snapshot, not a lifetime counter.</td>
   </tr>
 </table>
-
-## Script Guard
-
-<table class="table desc-table">
-  <tr>
-    <th>Meter</th>
-    <th>Type</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.script.violations</code></td>
-    <td>Counter</td>
-    <td>Incremented on every Script Guard violation.</td>
-  </tr>
-  <tr>
-    <td><code>eximeebpms.script.violations.total</code></td>
-    <td>Gauge</td>
-    <td>Live total violation count, read from the violation store on each scrape. Returns <code>0</code> when Script Guard is disabled.</td>
-  </tr>
-</table>
-
-See [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) for details on violation detection and enforcement modes.
 
 # Tags
 
@@ -312,12 +241,6 @@ Meters are tagged as follows:
     - `tenant.id`
     - `process.definition.id`
     - `process.definition.key`
-- Script Guard violations counter:
-    - `process.definition.key`
-    - `activity.id`
-    - `language`
-    - `origin`
-    - `rule.code`
 
 # Configuration
 

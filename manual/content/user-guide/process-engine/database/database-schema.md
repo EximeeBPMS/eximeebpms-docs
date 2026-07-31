@@ -146,9 +146,15 @@ The following Entity Relationship Diagrams visualize the database tables and the
 The tables `ACT_RU_BUS_EVT_OBX` (Enterprise Edition, added in 1.2.16-ee) and `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) are not shown in the diagrams below, as neither has foreign key relationships to the core tables. Their structures are documented in the [Business Event Outbox](#business-event-outbox-act_ru_bus_evt_obx) and [Script Violation Log](#script-violation-log-act_ru_script_violation) sections above.
 {{< /note >}}
 
+Where Enterprise Edition's schema differs from Community Edition (currently: BPMN and History, following the CMMN removal below), an additional Enterprise Edition diagram is included alongside the Community Edition one.
+
 ## Engine BPMN
 
-{{< img src="../../img/erd_723_bpmn.svg" title="BPMN Tables" >}}
+{{< img src="../../img/erd_723_bpmn.svg" title="BPMN Tables (Community Edition)" >}}
+
+**Enterprise Edition (1.2.19-ee and later):**
+
+{{< img src="../../img/erd_ee_bpmn.svg" title="BPMN Tables (Enterprise Edition)" >}}
 
 
 ## Engine DMN
@@ -159,17 +165,21 @@ The tables `ACT_RU_BUS_EVT_OBX` (Enterprise Edition, added in 1.2.16-ee) and `AC
 ## Engine CMMN
 
 {{< note title="" class="warning" >}}
-CMMN support is deprecated since 1.3.0. The tables shown in this diagram will be removed together with the CMMN engine in EximeeBPMS 1.4.0.
+CMMN support is deprecated in Community Edition since 1.3.0 and will be removed in 1.4.0. In **Enterprise Edition**, CMMN — including these tables — was already removed in [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee); see [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}). There is no CMMN diagram for Enterprise Edition since the tables no longer exist.
 {{< /note >}}
 
-{{< img src="../../img/erd_723_cmmn.svg" title="CMMN Tables" >}}
+{{< img src="../../img/erd_723_cmmn.svg" title="CMMN Tables (Community Edition)" >}}
 
 
 ## History
 
 To allow different configurations and to keep the tables more flexible, the history tables contain no foreign key constraints.
 
-{{< img src="../../img/erd_723_history.svg" title="History Tables" >}}
+{{< img src="../../img/erd_723_history.svg" title="History Tables (Community Edition)" >}}
+
+**Enterprise Edition (1.2.19-ee and later):**
+
+{{< img src="../../img/erd_ee_history.svg" title="History Tables (Enterprise Edition)" >}}
 
 
 ## Identity

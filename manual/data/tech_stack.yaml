@@ -163,6 +163,17 @@ categories:
           v1.3.0: { value: "2.3.31" }
           ent: { value: "2.3.31" }
 
+  - name: Monitoring
+    components:
+      - name: eximeebpms-bpm-monitor
+        sub: "Micrometer/Actuator extension"
+        values:
+          v1.0.0: { value: "n/a" }
+          v1.1.0: { value: "1.2.0" }
+          v1.2.0: { value: "1.2.0" }
+          v1.3.0: { value: "1.2.0" }
+          ent: { value: "1.6.0", change: mj }
+
   - name: "Supported Databases — JDBC Drivers"
     components:
       - name: H2 (embedded / testing)

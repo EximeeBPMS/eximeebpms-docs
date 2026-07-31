@@ -32,9 +32,9 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 
 ## Container-Managed Process Engine and EximeeBPMS Cockpit, Tasklist, Admin
 
-* Apache Tomcat 9.0 / 10.1
+* Apache Tomcat 10.1 (Tomcat 9.0 is deprecated in Community Edition since 1.3.0, planned for removal in 1.4.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 * JBoss EAP 7.4 / 8.0
-* WildFly Application Server 33.0 / 35.0
+* WildFly Application Server 37.0 (Community Edition) / 40.0 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 
 # Databases
 
@@ -51,7 +51,7 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
   * SQL Server on Azure Virtual Machines
   * Azure SQL Managed Instance
   * Azure SQL Database
-* H2 2.3 (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
+* H2 2.3 (Community Edition) / 2.4 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
 
 ## Database Clustering & Replication
 
@@ -67,7 +67,11 @@ Clustered or replicated databases are supported given the following conditions. 
 
 # Java
 
-* Java 11 / 17 / 21 (Compatibility is tested with Eclipse Temurin JDK)
+* Java 11 / 17 (Community Edition) / 21 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (Compatibility is tested with Eclipse Temurin JDK)
+
+{{< note title="" class="info" >}}
+As of Enterprise Edition 1.3.1-ee, the CI test matrix additionally verifies compatibility with **JDK 25**. This is compatibility testing ahead of a possible future baseline bump, not yet an officially supported target under the policy below — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}).
+{{< /note >}}
 
 
 # Camunda Modeler

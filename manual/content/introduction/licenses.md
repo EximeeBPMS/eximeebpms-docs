@@ -19,6 +19,12 @@ EximeeBPMS is a Java-based framework.
 
 The entire software is provided under various open source licenses (mainly Apache 2.0 and MIT). Which components are published under an open source license is clearly stated in the licensing header of a source file or a LICENSE file present in the root directory of the software source code repository.
 
+## Enterprise Edition
+
+Unlike the Community Edition, the Enterprise Edition source code, pre-built artifacts, and Docker images are **not publicly available**. Access is granted only to customers with an EximeeBPMS Enterprise Edition subscription, arranged separately with your EximeeBPMS account team. When delivered to a subscriber, the Enterprise Edition source carries the same Apache License 2.0 header terms as the Community Edition codebase it builds on — but this describes the terms of the code itself, not public availability: EximeeBPMS controls who receives the Enterprise Edition build in the first place, and the license does not entitle the public to obtain or redistribute it.
+
+Enterprise Edition adds an accelerated release stream with additional features and faster security patches on top of a Community Edition baseline (see the [Enterprise Edition release notes]({{< ref "/release-notes/release-notes-1.3-ee.md" >}})). The commercial subscription and support terms governing access are agreed separately with your account team and are not covered by this page.
+
 ## Third-Party Libraries
 
 EximeeBPMS (Community Edition) includes libraries developed by third parties. See the following resources:

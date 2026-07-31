@@ -12,12 +12,12 @@ menu:
 
 ---
 
-{{< note title="Enterprise Edition: already removed as of 1.2.19-ee" class="warning" >}}
-**This page describes the Community Edition timeline.** For **Enterprise Edition**, CMMN was already **removed** (not merely deprecated) in [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) — ahead of the Community Edition schedule described below. Every statement on this page phrased as "will be removed in 1.4.0" or "as of 1.3.0" should be read as **already true today** for Enterprise Edition 1.2.19-ee and later. The detection queries, data-fate guarantees, and BPMN mapping table below still apply to both editions; only the timing differs.
-{{< /note >}}
-
 {{< note title="CMMN support removed in 1.4.0 (Community Edition)" class="warning" >}}
 CMMN support is **deprecated as of EximeeBPMS 1.3.0** and will be **removed in 1.4.0**. This guide helps you detect CMMN usage in your environment and prepares you for a safe upgrade. It is not a guide to rewriting CMMN models — see [Mapping CMMN patterns to BPMN](#7-mapping-cmmn-patterns-to-bpmn) for that.
+{{< /note >}}
+
+{{< note title="Enterprise Edition: already removed as of 1.2.19-ee" class="warning" >}}
+**This page describes the Community Edition timeline above.** For **Enterprise Edition**, CMMN was already **removed** (not merely deprecated) in [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) — ahead of the Community Edition schedule described above. Every statement on this page phrased as "will be removed in 1.4.0" or "as of 1.3.0" should be read as **already true today** for Enterprise Edition 1.2.19-ee and later. The detection queries, data-fate guarantees, and BPMN mapping table below still apply to both editions; only the timing differs.
 {{< /note >}}
 
 ## Why CMMN is being removed
