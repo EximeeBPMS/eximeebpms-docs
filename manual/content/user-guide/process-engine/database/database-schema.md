@@ -91,7 +91,7 @@ and performance of the BPM platform. Task metrics contain a pseudonymized and fi
 
 Every assignment of a task to an assignee will create one row in `ACT_RU_TASK_METER_LOG`.
 
-## Business Event Outbox (ACT_RU_BUS_EVT_OBX)
+## Business Event Outbox (ACT_RU_BUS_EVT_OBX) — Enterprise Edition
 
 The `ACT_RU_BUS_EVT_OBX` table backs [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) (Enterprise Edition), available since EximeeBPMS 1.2.16-ee. It implements the **transactional outbox pattern**: a row is inserted in the same transaction as the business change it describes, and a background dispatcher later reads undelivered rows and hands them to the configured publisher. The table is generic across all [business event types]({{< ref "/user-guide/process-engine/business-events.md" >}}#business-event-types) — adding a new event type (e.g. the job, batch, incident, external task, activity instance, DMN decision, form property, and user operation log events added in [1.3.1-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee)) does not require a schema change, since the event payload itself is stored as an opaque JSON string.
 
@@ -152,7 +152,7 @@ Where Enterprise Edition's schema differs from Community Edition (currently: BPM
 
 {{< img src="../../img/erd_723_bpmn.svg" title="BPMN Tables (Community Edition)" >}}
 
-**Enterprise Edition (1.2.19-ee and later):**
+### Enterprise Edition (1.2.19-ee and later)
 
 {{< img src="../../img/erd_ee_bpmn.svg" title="BPMN Tables (Enterprise Edition)" >}}
 
@@ -177,7 +177,7 @@ To allow different configurations and to keep the tables more flexible, the hist
 
 {{< img src="../../img/erd_723_history.svg" title="History Tables (Community Edition)" >}}
 
-**Enterprise Edition (1.2.19-ee and later):**
+### Enterprise Edition (1.2.19-ee and later)
 
 {{< img src="../../img/erd_ee_history.svg" title="History Tables (Enterprise Edition)" >}}
 
