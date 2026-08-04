@@ -54,6 +54,10 @@ The extension's *counters* are driven by the process engine's history events, so
     <td>All gauges (<code>*.running.total</code>, <code>*.open.total</code>, <code>*.open.age.*</code>, <code>jobs.failed.total</code>, etc.)</td>
     <td>none — read runtime tables directly</td>
   </tr>
+  <tr>
+    <td><code>eximeebpms.script.violations</code>, <code>.total</code></td>
+    <td>none — driven directly by the script-execution engine's own violation callback, not a history event or a runtime-table read</td>
+  </tr>
 </table>
 
 {{< note title="" class="warning" >}}
@@ -200,6 +204,30 @@ The three counters above require <code>history-level: full</code> — see [Histo
     <td>Number of currently failing jobs (jobs with a recorded exception), per process definition. This is a live snapshot, not a lifetime counter.</td>
   </tr>
 </table>
+
+## Script Guard
+
+<table class="table desc-table">
+  <tr>
+    <th>Meter</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.script.violations</code></td>
+    <td>Counter</td>
+    <td>Incremented on every Script Guard rule violation, tagged with the offending script's context (see <a href="#tags">Tags</a>).</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.script.violations.total</code></td>
+    <td>Counter</td>
+    <td>Total Script Guard violations recorded since the instance started, independent of tag values.</td>
+  </tr>
+</table>
+
+{{< note title="" class="info" >}}
+See [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) for what a rule violation is and how the underlying policy is configured.
+{{< /note >}}
 
 # Tags
 
