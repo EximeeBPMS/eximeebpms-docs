@@ -267,6 +267,38 @@ Returns the total number of violations recorded since the engine started.
 }
 ```
 
+# External Validation Module
+
+The same rule set Script Guard enforces inside the engine is also available as a standalone library, with no dependency on the process engine. Add it to a process-design tool, a CI pipeline, or any other pre-deployment tooling to check a script or expression before ever attempting to deploy the process definition that contains it — instead of only finding out from a rejected deployment.
+
+## Adding the Dependency
+
+```xml
+<dependency>
+  <groupId>org.eximeebpms.commons</groupId>
+  <artifactId>eximeebpms-commons-script-guard-rules</artifactId>
+</dependency>
+```
+
+## Usage
+
+```java
+ScriptSecurityRuleSet ruleSet = DefaultScriptSecurityRuleSet.INSTANCE;
+ScriptValidationResult result = ruleSet.validate(scriptSource, ScriptOrigin.USER);
+
+if (!result.isClean()) {
+  for (ScriptSecurityRuleMatch match : result.getMatches()) {
+    System.out.println(match.getRuleCode() + ": " + match.getReason());
+  }
+}
+```
+
+{{< note title="" class="info" >}}
+`ScriptValidationResult` reports rule matches only — it never returns an `ENFORCE`/`AUDIT`/`DENY` outcome. Whether a match actually blocks deployment depends on the target engine instance's own configured [mode](#enforcement-modes), which this module has no way to know. Use it to catch a violation before deploying; the engine's own enforcement is still authoritative at deploy time.
+{{< /note >}}
+
+Rule codes and reasons reported here are identical to the ones in [Blocked Patterns](#blocked-patterns) and the ones recorded in [Violation Monitoring](#violation-monitoring) — the engine and this module share one rule set, so the two can never disagree.
+
 # Recommended Rollout
 
 {{< img src="../img/script-guard-rollout.svg" title="Script Guard rollout flow" >}}
