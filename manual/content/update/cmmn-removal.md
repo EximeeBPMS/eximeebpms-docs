@@ -50,10 +50,8 @@ SELECT COUNT(*) AS historic_case_activity_instances FROM ACT_HI_CASEACTINST;
 
 | Result | Meaning |
 |---|---|
-| All queries return 0 | No action needed — the upgrade to 1.4.0 will proceed without issues. |
-| `active_case_instances` = 0, but historic counts > 0 | The upgrade will proceed. Historic CMMN data remains untouched in the database (see [Fate of historical data](#3-fate-of-historical-data)). |
-| `active_case_instances` > 0 | **Action required before upgrading** — see [Handling active case instances](#2-handling-active-case-instances). |
-| `deployed_case_definitions` > 0, but no instances | Definitions remain in the database; the engine neither reads nor removes them (see [Deployment validation](#4-deployment-validation)). |
+| `active_case_instances` = 0 | The migration will proceed. **All CMMN data — deployed definitions, historic case/activity instances, and any residual runtime rows — is permanently deleted by the migration**, regardless of the other counts. Export anything you need to retain *before* upgrading (see [Fate of historical data](#3-fate-of-historical-data)). |
+| `active_case_instances` > 0 | **Action required before upgrading** — the migration halts before making any changes (see [Handling active case instances](#2-handling-active-case-instances)). |
 
 {{< note title="Test readiness without waiting for 1.4.0" class="info" >}}
 Set `eximeebpms.bpm.cmmn-enabled=false` (Spring Boot) or `<property name="cmmnEnabled" value="false"/>` in your engine's XML configuration on 1.3.0. The engine then behaves like 1.4.0 — CMMN definitions and instances are ignored by queries and the deployment cache.
@@ -66,25 +64,40 @@ If the query in step 1(2) returned a result greater than 0, finish or close thos
 - **Java API:** `caseService.withCaseExecution(caseInstanceId).close().execute()` (or `.complete()` / `.terminate()`, depending on the modeled flow).
 - **REST API:** `POST /case-instance/{id}/close`, `/complete`, or `/terminate`.
 
-**1.4.0 behavior when `ACT_RU_CASE_EXECUTION` is not empty:** the engine performs a **fail-fast at startup** with a message indicating that active case instances are blocking the upgrade and pointing to this guide. Recognize this message in your runbooks.
+**1.4.0 behavior when `ACT_RU_CASE_EXECUTION` is not empty:** the `1.3-to-1.4` migration halts *before* making any schema changes, with an error along these lines:
+
+```
+Cannot upgrade to 1.4: active CMMN case instances exist in ACT_RU_CASE_EXECUTION.
+This migration drops CMMN history and runtime tables unconditionally; 
+complete or terminate all active case instances before upgrading.
+```
+
+Recognize this message in your runbooks. Exactly *when* you see it depends on how your deployment applies schema migrations: for setups with automatic schema updates enabled, this coincides with engine startup; for setups where migrations are applied as a separate step (a CI/CD job, a DBA-run script), it surfaces there instead.
+
+**What to do when you see this error:** the migration halts *before* making any schema changes, so your database is left exactly as it was — there is nothing to roll back or repair. Finish or close the remaining active case instances as described above, then re-run the same migration step again; it will re-check `ACT_RU_CASE_EXECUTION` and proceed normally once the count is `0`.
+
+{{< note title="Deployments with their own, non-engine migration tooling" class="warning" >}}
+This fail-fast is implemented in the engine's own schema migration mechanism. If your deployment applies schema changes through separate, independent tooling that doesn't go through the engine's migration path, this guide's guarantees do not extend to it — that tooling is responsible for implementing equivalent protection itself before running the CMMN-removal step.
+{{< /note >}}
 
 ## 3. Fate of historical data
 
-**Guarantee:** 1.4.0 does not read, modify, or delete CMMN history tables. Schema migration scripts do not touch them.
+**The migration deletes CMMN data unconditionally — there is no data-preservation guarantee.** Once the fail-fast check in step 2 passes (no active case instances), the migration drops:
 
-Tables covered by this guarantee: `ACT_HI_CASEINST`, `ACT_HI_CASEACTINST`.
+- Deployed case definitions: `ACT_RE_CASE_DEF`
+- Historic data: `ACT_HI_CASEINST`, `ACT_HI_CASEACTINST`
+- Any remaining CMMN runtime tables: `ACT_RU_CASE_EXECUTION`, `ACT_RU_CASE_SENTRY_PART`
 
-**Important consequence:** the REST history endpoints for case data **are removed in 1.4.0** along with the rest of the CMMN REST API (see [Impact on REST clients](#6-impact-on-rest-clients)). Organizations that need access to CMMN history after the upgrade (for example, retention or audit requirements) must export the data beforehand, or query the tables directly with SQL afterward, for example:
+along with CMMN-specific columns on several shared runtime/history tables. This is irreversible — there is no downgrade script and no separate, opt-in cleanup step: the deletion happens as part of the migration itself, every time.
+
+**Important consequence:** the REST history endpoints for case data **are removed in 1.4.0** along with the rest of the CMMN REST API (see [Impact on REST clients](#6-impact-on-rest-clients)). Organizations that need to retain CMMN history (for example, for retention or audit requirements) **must export it before upgrading** — there is no way to recover it afterward, from the REST API or by querying the database directly, since the tables themselves are gone. Run something like this against your 1.3.0 database, and save the results, before starting the upgrade:
 
 ```sql
 SELECT ci.*, aci.CASE_ACT_ID_, aci.CASE_ACT_NAME_, aci.CREATE_TIME_, aci.END_TIME_
 FROM ACT_HI_CASEINST ci
 LEFT JOIN ACT_HI_CASEACTINST aci ON aci.CASE_INST_ID_ = ci.CASE_INST_ID_
-WHERE ci.CLOSE_TIME_ >= :retentionCutoffDate
 ORDER BY ci.CASE_INST_ID_, aci.CREATE_TIME_;
 ```
-
-An optional, separately distributed cleanup script for CMMN historic data (data removal, not schema removal) will be made available independently — to be run only at your own discretion, after taking a backup.
 
 ## 4. Deployment validation
 
