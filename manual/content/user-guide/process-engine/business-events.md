@@ -91,10 +91,10 @@ For the exact payload fields behind each row, follow the links to the [Business 
 
 | Fired when | Event type |
 |---|---|
-| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) created | `bpms:variable-instance:created` |
-| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) updated | `bpms:variable-instance:updated` |
+| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) created | `bpms:variable-instance:create` |
+| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) updated | `bpms:variable-instance:update` |
 | [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) migrated | `bpms:variable-instance:migrate` |
-| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) deleted | `bpms:variable-instance:deleted` |
+| [Variable]({{< ref "/user-guide/process-engine/business-events-fields.md#variable-instance" >}}) deleted | `bpms:variable-instance:delete` |
 | [Identity link]({{< ref "/user-guide/process-engine/business-events-fields.md#identity-link" >}}) added (candidate/assignee/owner) | `bpms:identity-link-add:add-identity-link` |
 | [Identity link]({{< ref "/user-guide/process-engine/business-events-fields.md#identity-link" >}}) deleted | `bpms:identity-link-delete:delete-identity-link` |
 
