@@ -32,9 +32,9 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 
 ## Container-Managed Process Engine and EximeeBPMS Cockpit, Tasklist, Admin
 
-* Apache Tomcat 10.1 (Tomcat 9.0 is deprecated in Community Edition since 1.3.0, planned for removal in 1.4.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
+* Apache Tomcat 10.1 (Tomcat 9.0 support removed in Community Edition as of 1.4.0, having been deprecated since 1.3.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 * JBoss EAP 7.4 / 8.0
-* WildFly Application Server 37.0 (Community Edition) / 40.0 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
+* WildFly Application Server 40.0 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 
 # Databases
 
@@ -51,7 +51,7 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
   * SQL Server on Azure Virtual Machines
   * Azure SQL Managed Instance
   * Azure SQL Database
-* H2 2.3 (Community Edition) / 2.4 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
+* H2 2.4 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
 
 ## Database Clustering & Replication
 

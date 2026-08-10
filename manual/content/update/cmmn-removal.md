@@ -101,16 +101,16 @@ ORDER BY ci.CASE_INST_ID_, aci.CREATE_TIME_;
 
 ## 4. Deployment validation
 
-**1.4.0 behavior:** deploying a package that contains a `.cmmn`, `.cmmn10.xml`, or `.cmmn11.xml` file results in the **whole deployment being explicitly rejected** with a clear error — files are never silently skipped.
+**1.4.0 behavior:** there is no more CMMN parser or deployer in the engine, and no CMMN-specific deployment-time check was added in its place. A `.cmmn`, `.cmmn10.xml`, or `.cmmn11.xml` file included in a deployment is **not rejected** — it is simply not recognized by any deployer, so it is stored as an opaque deployment resource without ever being parsed into a case definition. The deployment itself succeeds; the CMMN content inside it is silently inert.
 
-**Audit your deployment artifacts before upgrading** — search your repositories and CI/CD pipelines for CMMN files:
+Because there is no deployment-time safety net, **auditing your deployment artifacts before upgrading is the only reliable way to catch CMMN usage** — search your repositories and CI/CD pipelines for CMMN files:
 
 ```bash
 grep -rl --include="*.cmmn" --include="*.cmmn10.xml" --include="*.cmmn11.xml" .
 find . -iname "*.cmmn" -o -iname "*.cmmn10.xml" -o -iname "*.cmmn11.xml"
 ```
 
-**Smoke-test your whole environment:** setting `eximeebpms.bpm.cmmn-enabled=false` in 1.3.0 (see step 1) lets you verify deployment behavior before the actual upgrade.
+Setting `eximeebpms.bpm.cmmn-enabled=false` in 1.3.0 (see step 1) still lets you smoke-test the *runtime and query* impact of the removal ahead of time, but it does not simulate deployment-time behavior — deployment of `.cmmn` resources already succeeds unchanged under that flag, exactly as it will after upgrading.
 
 ## 5. Impact on embedded engine code
 

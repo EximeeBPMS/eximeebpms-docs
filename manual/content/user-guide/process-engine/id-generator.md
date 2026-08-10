@@ -90,7 +90,7 @@ Proper authorization checks must always be enforced.
 ## Legacy UUID v1 Generator (Deprecated)
 
 {{< note title="" class="warning" >}}
-`UuidV1Generator` is deprecated (Community Edition: since [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee)) and will be removed in EximeeBPMS 1.4.0.
+`UuidV1Generator` is deprecated (Community Edition: since [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); Enterprise Edition: since [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee)). Removal was originally planned for 1.4.0; it has been **deferred past 1.4.0** — see [1.4.0 release notes]({{< ref "/release-notes/release-notes-1.4.0.md" >}}#deprecations) — but the generator remains deprecated and should not be relied upon long-term.
 Migrate to `StrongUuidGenerator` (UUID v7, the default).
 {{< /note >}}
 
@@ -133,4 +133,4 @@ Upgrading from version 1.2.x or earlier:
 - improves INSERT throughput on indexed columns due to monotonic ordering of UUID v7.
 
 If you temporarily need UUID v1 for compatibility, configure `id-generator=uuid-v1` (see above).
-That option itself is deprecated and will be removed in 1.4.0.
+That option itself remains deprecated; its removal, originally planned for 1.4.0, has been deferred to a later release.

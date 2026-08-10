@@ -10,8 +10,8 @@ menu:
 
 ---
 
-{{< note title="Enterprise Edition only" class="warning" >}}
-Business Events were introduced in [EximeeBPMS 1.2.16-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-16-ee) (Enterprise Edition). As of this writing, this feature has **not** shipped in any Community Edition release. The set of covered entities was substantially expanded, and the default event type prefix changed, in [1.3.1-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee) — see the notes on the [`prefix` configuration property](#configuration) below if you're upgrading from an earlier release.
+{{< note title="Community Edition since 1.4.0" class="info" >}}
+Business Events were introduced in [EximeeBPMS 1.2.16-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-16-ee) (Enterprise Edition), with the set of covered entities substantially expanded — and the default event type prefix changed — in [1.3.1-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee). Starting with [EximeeBPMS 1.4.0]({{< ref "/release-notes/release-notes-1.4.0.md" >}}#business-events), the same native business events with transactional outbox mechanism, covering the full set of entities documented below, ships in the **Community Edition** as well — see the notes on the [`prefix` configuration property](#configuration) below if you're upgrading a pre-1.3.1-ee Enterprise Edition environment.
 {{< /note >}}
 
 Business Events let the process engine publish a stream of domain-level occurrences — a task was completed, a variable changed, a process instance ended — to systems outside the engine, without coupling the engine's own transaction to the availability of those systems.

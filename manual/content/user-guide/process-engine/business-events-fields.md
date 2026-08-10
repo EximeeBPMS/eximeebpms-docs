@@ -10,8 +10,8 @@ menu:
 
 ---
 
-{{< note title="Enterprise Edition only" class="warning" >}}
-This page documents the payload fields of [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) (Enterprise Edition).
+{{< note title="Community Edition since 1.4.0" class="info" >}}
+This page documents the payload fields of [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}), available in the Enterprise Edition since 1.2.16-ee and in the **Community Edition since 1.4.0**.
 {{< /note >}}
 
 Every business event is delivered as the `payload` string of the [Event Envelope]({{< ref "/user-guide/process-engine/business-events.md" >}}#event-envelope). Once parsed as JSON, its fields depend on which entity the event describes — but every payload shares a common set of base fields, described first below.
