@@ -35,7 +35,7 @@ EximeeBPMS Enterprise Edition releases bundling Netty ≤4.1.107.Final or Apache
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.19-ee (Enterprise Edition), Netty upgraded to 4.1.135.Final and Apache Ant to 1.10.17. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+Fixed in EximeeBPMS 1.2.19-ee (Enterprise Edition), Netty upgraded to 4.1.135.Final and Apache Ant to 1.10.17. Also fixed in EximeeBPMS 1.4.0 (Community Edition), with the same Netty and Apache Ant versions.
 
 ---
 
@@ -60,7 +60,7 @@ EximeeBPMS Enterprise Edition releases using Tomcat 10 ≤10.1.52, up to and inc
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.55. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.55. Also fixed in EximeeBPMS 1.4.0 (Community Edition), Tomcat 10 upgraded to 10.1.56.
 
 ---
 
@@ -86,7 +86,7 @@ EximeeBPMS Enterprise Edition releases using Spring Framework ≤7.0.6, up to an
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Spring Framework upgraded to 7.0.7. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Spring Framework upgraded to 7.0.7. Also fixed in EximeeBPMS 1.4.0 (Community Edition), Spring Framework upgraded to 7.0.8.
 
 ---
 
@@ -110,7 +110,7 @@ All EximeeBPMS Enterprise Edition releases prior to 1.2.17-ee that enable the Jy
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.17-ee (Enterprise Edition). This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+Fixed in EximeeBPMS 1.2.17-ee (Enterprise Edition). Also fixed in EximeeBPMS 1.4.0 (Community Edition), Jython upgraded to 2.7.4.
 
 ---
 
@@ -134,7 +134,7 @@ EximeeBPMS 1.2.0 through 1.2.15-ee
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.16-ee (Enterprise Edition), jackson-databind upgraded to 2.21.3. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version (1.4.0).
+Fixed in EximeeBPMS 1.2.16-ee (Enterprise Edition), jackson-databind upgraded to 2.21.3. Also fixed in EximeeBPMS 1.4.0 (Community Edition), jackson-databind upgraded to 2.21.4.
 
 ---
 

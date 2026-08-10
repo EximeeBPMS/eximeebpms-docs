@@ -44,6 +44,7 @@ The **Community Edition (CE)** is distributed as open-source software. The **Ent
     <table>
       <thead><tr><th>Version</th><th>Release Date</th><th>Release Notes</th></tr></thead>
       <tbody>
+        <tr><td>1.4.0</td><td>TBD</td><td><a href="{{< ref "/release-notes/release-notes-1.4.0.md" >}}">EximeeBPMS 1.4.0</a></td></tr>
         <tr><td>1.3.0</td><td>17.07.2026</td><td><a href="{{< ref "/release-notes/release-notes-1.3.0.md" >}}">EximeeBPMS 1.3.0</a></td></tr>
         <tr><td>1.2.0</td><td>10.03.2026</td><td><a href="{{< ref "/release-notes/release-notes-1.2.0.md" >}}">EximeeBPMS 1.2.0</a></td></tr>
         <tr><td>1.1.2</td><td>25.10.2025</td><td><a href="{{< ref "/release-notes/release-notes-1.1.0.md" >}}#112">EximeeBPMS 1.1.2</a></td></tr>
