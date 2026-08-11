@@ -209,7 +209,7 @@ The available properties are as follows:
   </tr>
 <tr><td colspan="4"><b>General</b></td></tr>
 
-<tr><td rowspan="15"><code>eximeebpms.bpm</code></td>
+<tr><td rowspan="16"><code>eximeebpms.bpm</code></td>
 <td><code>.enabled</code></td>
 <td>Switch to disable the EximeeBPMS auto-configuration. Use to exclude EximeeBPMS in integration tests.</td>
 <td><code>true</code></td>
@@ -249,6 +249,12 @@ The available properties are as follows:
 <td><code>.history-level-default</code></td>
 <td>EximeeBPMS history level to use when <code>history-level</code> is <code>auto</code>, but the level can not determined automatically</td>
 <td>FULL</td>
+</tr>
+
+<tr>
+<td><a name="history-excluded-process-definition-keys"></a><code>.history-excluded-process-definition-keys</code></td>
+<td>Process definition keys for which no history is recorded, regardless of <code>history-level</code>. See <a href="{{< ref "/user-guide/process-engine/history/history-configuration.md#exclude-specific-process-definitions-from-history" >}}">Exclude specific process definitions from history</a>.<br/><b>Note:</b> Enterprise Edition, not yet released; not available in the Community Edition.</td>
+<td>empty (no exclusion)</td>
 </tr>
 
 <tr>
