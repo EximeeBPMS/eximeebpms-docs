@@ -63,7 +63,47 @@ Note that when using the default history backend, the history level is stored in
 [EximeeBPMS Cockpit]({{< ref "/webapps/cockpit/_index.md" >}}) web application works best with History Level set to `FULL`. "Lower" History Levels will disable certain history-related features.
 {{< /note >}}
 
+## Exclude specific process definitions from history
 
+{{< note title="Enterprise Edition — not yet released" class="warning" >}}
+This configuration is implemented in the Enterprise Edition engine, not yet released in any version, and has **not** shipped in the Community Edition. This page will be updated once a release date/version is confirmed and, separately, if/when this ships in the Community Edition.
+{{< /note >}}
+
+In addition to the engine-wide history level, you can list process definitions — by `processDefinitionKey` — for which no history is recorded at all, even while the history level is above `none` for every other process definition. This is useful when most of your processes should be fully audited, but a handful (for example, high-volume, low-value technical processes) should never write to the history tables.
+
+**Java code:**
+
+```java
+ProcessEngine processEngine = ProcessEngineConfiguration
+  .createProcessEngineConfigurationFromResourceDefault()
+  .setHistory(ProcessEngineConfiguration.HISTORY_AUDIT)
+  .setHistoryExcludedProcessDefinitionKeys(Set.of("invoice", "credit-check"))
+  .buildProcessEngine();
+```
+
+**Deployment descriptor (bpm-platform.xml, processes.xml) or the EximeeBPMS Wildfly Subsystem:**
+
+```xml
+<property name="historyExcludedProcessDefinitionKeys">invoice,credit-check</property>
+```
+
+**Spring Boot (`application.yaml`):**
+
+```yaml
+eximeebpms.bpm:
+  history-excluded-process-definition-keys:
+    - invoice
+    - credit-check
+```
+
+See the [EximeeBPMS Engine Properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#history-excluded-process-definition-keys" >}}) reference for the Spring Boot property.
+
+{{< note title="Scope of this exclusion" class="info" >}}
+This mechanism only excludes history that is scoped to a process definition. Two consequences to be aware of:
+
+- **Batch history is never excluded.** A `HistoricBatch` record (e.g. for a "restart process instances" or "delete process instances" batch) is not tied to a single process definition — a batch can span instances of several different process definitions at once — so there is nothing for this configuration to match against.
+- **A DMN decision evaluated from a business rule task inside an excluded process is excluded too**, since it is still tied to that process definition. A decision evaluated standalone (e.g. directly via `DecisionService`, outside any process) has no process definition to match either way.
+{{< /note >}}
 
 ## Default history implementation
 
