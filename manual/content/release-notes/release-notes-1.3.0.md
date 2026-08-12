@@ -161,4 +161,12 @@ Both return tasks for which `jdoe` is a candidate user *or* `sales` is a candida
 
 ## Security
 
-No CVE-targeted fixes in this CE release. For enterprise security patches on the 1.2.x EE track, see [EximeeBPMS 1.2.x EE Release Notes]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}).
+No CVE fixes were curated into this Community Edition release relative to 1.2.0 — the dependency versions relevant to previously-published notices carried over unchanged. Five CVE fixes already shipped in the Enterprise Edition track remain open for the Community Edition as of this release; full details are published on the [Security Notices](/security/notices/) page, and they are expected to be curated into the next Community Edition minor (1.4.0):
+
+| Notice | Component | CVEs |
+|---|---|---|
+| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) |
+| [EXBPMS-8](/security/notices/#notice-exbpms-8) | Jython | [CVE-2016-4000](https://nvd.nist.gov/vuln/detail/CVE-2016-4000) |
+| [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) |
+| [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat / Tomcat Native | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) |
+| [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) |
