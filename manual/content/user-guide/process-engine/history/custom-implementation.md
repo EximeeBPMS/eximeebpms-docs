@@ -115,5 +115,5 @@ public boolean isHistoryEventProduced(HistoryEventType eventType, Object entity)
 
 
 
-[1]: http://docs.camunda.org/latest/api-references/javadoc/org/camunda/bpm/engine/impl/history/event/HistoryEventTypes.html
-[2]: https://github.com/camunda/camunda-bpm-examples/tree/master/process-engine-plugin/custom-history-level
+[1]: {{< javadocref_url page="org/eximeebpms/bpm/engine/impl/history/event/HistoryEventTypes.html" >}}
+[2]: https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/process-engine-plugin/custom-history-level

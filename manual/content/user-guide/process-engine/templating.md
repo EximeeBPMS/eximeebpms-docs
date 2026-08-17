@@ -203,4 +203,4 @@ examples' repository.
 [camunda-7-template-engines-jsr223]: https://github.com/camunda-community-hub/camunda-7-template-engines-jsr223
 [use-scripts]: {{< ref "/user-guide/process-engine/scripting.md" >}}
 [script-source]: {{< ref "/user-guide/process-engine/scripting.md#script-source" >}}
-[xslt-example]: https://github.com/camunda/camunda-bpm-examples/tree/master/scripttask/xslt-scripttask
+[xslt-example]: https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/scripttask/xslt-scripttask

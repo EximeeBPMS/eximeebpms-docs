@@ -126,7 +126,7 @@ This artifact contains the HTTP and SOAP connectors as well as their dependencie
 
 To use a connector, you have to add the EximeeBPMS extension element [connector]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#camunda-connector" >}}). The connector is configured by a unique [connectorId]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#camunda-connectorid" >}}), which specifies the used connector implementation. The ids of the currently supported connectors can be found at the beginning of this section. Additionally, an [input/output mapping]({{< ref "/user-guide/process-engine/variables.md#input-output-variable-mapping" >}}) is used to configure the connector. The required input parameters and the available output parameters depend on the connector implementation. Additional input parameters can also be provided to be used within the connector.
 
-As an example, a shortened configuration of the EximeeBPMS SOAP connector implementation is shown. A complete [example](https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask/soap-service) can be found in the [EximeeBPMS examples repository](https://github.com/camunda/camunda-bpm-examples) on GitHub.
+As an example, a shortened configuration of the EximeeBPMS SOAP connector implementation is shown. A complete [example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/servicetask/soap-service) can be found in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples) on GitHub.
                                                                                                                           https://github.com/EximeeBPMS/eximeebpms-bpm-examples/tree/servicetask/soap-service
 ```xml
 <serviceTask id="soapRequest" name="Simple SOAP Request">
@@ -155,4 +155,4 @@ As an example, a shortened configuration of the EximeeBPMS SOAP connector implem
 </serviceTask>
 ```
 
-A full [example](https://github.com/camunda/camunda-bpm-examples/tree/master/servicetask/rest-service) of the REST connector can also be found in the [EximeeBPMS examples repository](https://github.com/camunda/camunda-bpm-examples) on GitHub.
+A full [example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/servicetask/rest-service) of the REST connector can also be found in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples) on GitHub.

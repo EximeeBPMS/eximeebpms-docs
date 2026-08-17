@@ -17,7 +17,7 @@ This document contains information about the features provided by EximeeBPMS.
 
 To give you an overview of EximeeBPMS, the following illustration shows the most important components along with some typical user roles.
 
-{{< img src="img/architecture-overview.png" title="Camunda Components and Roles" >}}
+{{< img src="img/architecture-overview.png" title="EximeeBPMS Components and Roles" >}}
 
 # Editions
 

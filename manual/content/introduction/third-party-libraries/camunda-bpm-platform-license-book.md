@@ -1026,7 +1026,7 @@ This software includes projects with other licenses -- see `doc/LICENSE.md`.
 <div><details><summary>wildfly-standard-expansion-bom@35.0.0.Final(<a href="https://opensource.org/licenses/Apache-2.0">Apache 2.0</a>)</summary><pre>Copyright The WildFly Authors</pre></details></div>
 <div><details><summary>snakeyaml@2.3(<a href="https://opensource.org/licenses/Apache-2.0">Apache 2.0</a>)</summary><pre>Copyright (c) 2008, SnakeYAML</pre></details></div>
 
-# Camunda Web Applications Javascript Dependencies
+# EximeeBPMS Web Applications Javascript Dependencies
 
 <div><details><summary><a href="https://github.com/bpmn-io/align-to-origin">@bpmn-io/align-to-origin@0.7.0</a> (MIT)</summary><pre>The MIT License (MIT)
 

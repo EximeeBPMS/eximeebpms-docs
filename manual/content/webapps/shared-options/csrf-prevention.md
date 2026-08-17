@@ -8,7 +8,7 @@ menu:
   main:
     identifier: "webapps-csrf-prevention"
     parent: "webapps-shared-options"
-    pre: "A CSRF-Prevention Filter for the Camunda Web Applications"
+    pre: "A CSRF-Prevention Filter for the EximeeBPMS Web Applications"
 ---
 
 A CSRF filter is enabled by default, validating each modifying request performed through the webapps. The filter implements a (per-session) _Synchronization Token_ method for CSRF validation with an optional _Same Origin with Standard Headers_ verification.

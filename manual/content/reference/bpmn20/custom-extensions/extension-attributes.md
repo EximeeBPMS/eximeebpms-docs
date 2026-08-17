@@ -1215,7 +1215,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
   <tr>
     <th>Possible Values</th>
     <td>
-      A <code>java.lang.String</code> or a <code>org.eximeebpms.bpm.engine.delegate.Expression</code> which <a href="{{< ref "/webapps/tasklist/_index.md" >}}">Tasklist</a> can evaluate to display the referenced Camunda Form, e.g., myCamundaFormDefinitionKey or ${formKey}.
+      A <code>java.lang.String</code> or a <code>org.eximeebpms.bpm.engine.delegate.Expression</code> which <a href="{{< ref "/webapps/tasklist/_index.md" >}}">Tasklist</a> can evaluate to display the referenced EximeeBPMS Form, e.g., myEximeeBpmsFormDefinitionKey or ${formKey}.
     </td>
   </tr>
   <tr>

@@ -352,8 +352,8 @@ For more information on how to configure and use SLF4J, please refer to the
 [user manual].
 
 
-[evaluation listener]: {{< javadocref page="org/eximeebpms/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html" text="DmnDecisionTableEvaluationListener Interface" >}}
-[DMN model API]: https://github.com/camunda/camunda-dmn-model
+[evaluation listener]: {{< javadocref_url page="org/eximeebpms/bpm/dmn/engine/delegate/DmnDecisionTableEvaluationListener.html" >}}
+[DMN model API]: {{< javadocref_url page="org/eximeebpms/bpm/model/dmn/package-summary.html" >}}
 [data types]: {{< ref "/user-guide/dmn-engine/data-types.md" >}}
 [hit policies]: {{< ref "/reference/dmn/decision-table/hit-policy.md" >}}
 [SLF4J]: http://www.slf4j.org/

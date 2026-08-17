@@ -26,7 +26,7 @@ behavior by flipping a config flag:
 methods
 
 {{< note title="Heads Up!" class="info" >}}
-By using the legacy FEEL Engine, the Camunda DMN Engine **only** supports `FEEL` for 
+By using the legacy FEEL Engine, the EximeeBPMS DMN Engine **only** supports `FEEL` for 
 <a href="{{< ref "/reference/dmn/decision-table/rule.md#input-entry-condition" >}}">Input Entries</a> of a decision table – this corresponds to FEEL 
 simple unary tests.
 {{< /note >}}

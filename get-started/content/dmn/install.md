@@ -37,7 +37,7 @@ After you have successfully unpacked your distribution of the EximeeBPMS Platfor
 This script will start the application server and open a welcome screen in your web browser. If the page does not open, go to [http://localhost:8080/eximeebpms-welcome/index.html](http://localhost:8080/eximeebpms-welcome/index.html).
 
 {{< note title="Getting Help" class="info" >}}
-If you have trouble setting up the Camunda Platform, you can ask for assistance in the [Camunda Users Forum](https://forum.camunda.org/).
+If you have trouble setting up the EximeeBPMS Platform, you can [contact us](https://eximeebpms.org/contact/) for assistance.
 {{< /note >}}
 
 # Camunda Modeler

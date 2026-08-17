@@ -269,7 +269,7 @@ See one of the following ways to fix this:
 2. Exclude implicitly added JAX-RS dependencies.
  * Add a `jboss-deployment-structure.xml` file to you application in the WEB-INF folder.
  * Exclude the JAX-RS subsystem and add the Jackson dependencies, with the version which is used by the EximeeBPMS Spin Plugin.
- * This solution is also shown in the [Jackson Annotation Example for WildFly](https://github.com/camunda/camunda-bpm-examples/blob/master/wildfly/jackson-annotations) in the Camunda example repository.
+ * This solution is also shown in the [Jackson Annotation Example for WildFly](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/wildfly/jackson-annotations) in the EximeeBPMS example repository.
 
 See this [Forum Post](https://forum.camunda.org/t/camunda-json-marshalling-and-jsonignore/271/19) for other approaches and information.
 

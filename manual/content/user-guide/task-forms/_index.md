@@ -17,7 +17,7 @@ There are different types of forms which are primarily used in Tasklist. To impl
 Forms are referenced using Form Keys or Form References and can either be embedded in EximeeBPMS Tasklist or handled by a custom application. Depending on your use-case, different Form Types can be used:
 
 1. [Embedded Task Forms](#embedded-task-forms) allow you to embed custom HTML and JavaScript forms into Tasklist.
-2. [Camunda Forms](#camunda-forms) offer visual editing of forms in the Camunda Modeler and can be used for less complex forms. Camunda Forms are the only form type that can be referenced either by Form Key or by Form Reference.
+2. [EximeeBPMS Forms](#eximeebpms-forms) offer visual editing of forms in the Camunda Modeler and can be used for less complex forms. EximeeBPMS Forms are the only form type that can be referenced either by Form Key or by Form Reference.
 3. [External Task Forms](#external-task-forms) can be used to link to custom applications. The Form will not be embedded in Tasklist.
 
 If no form key is present, a [Generic Task Form](#generic-task-forms) will be shown.
@@ -54,7 +54,7 @@ Form keys that are used in Tasklist have the structure `FORM-TYPE:LOCATION:FORM.
 To configure the form in your process, open the process with the [Camunda Modeler](http://camunda.org/bpmn/tool/) and select the desired [UserTask][user-tasks] or [StartEvent][start-event]. Open the properties panel and enter the Form Key. The relevant XML tag looks like this:
 
 ```xml
-<userTask id="theTask" camunda:formKey="camunda-forms:deployment:forms/userTask.form"
+<userTask id="theTask" camunda:formKey="eximeebpms-forms:deployment:forms/userTask.form"
           camunda:candidateUsers="John, Mary"
           name="my Task">
 ```
@@ -85,9 +85,9 @@ To add an embedded form to your application, simply create an HTML file and refe
 
 The form key for this file could be `embedded:deployment:FORM_NAME.html` or `embedded:app:forms/FORM_NAME.html`.
 
-# Camunda Forms
+# EximeeBPMS Forms
 
-Camunda Forms are created as separate files using the Camunda Modeler and can be deployed together with the process models. The form schema is stored in `.form` files.  You can find out how to build Camunda Forms in the [Camunda Modeler documentation](https://camunda.com/platform/modeler/) or refer to the [Camunda Forms Reference](https://docs.camunda.io/docs/guides/utilizing-forms/) to explore all configuration options for form elements.
+EximeeBPMS Forms are created as separate files using the Camunda Modeler and can be deployed together with the process models. The form schema is stored in `.form` files. You can find out how to build EximeeBPMS Forms in the [Camunda Modeler documentation](https://camunda.com/platform/modeler/).
 
 [Process variables]({{< ref "/user-guide/process-engine/variables.md" >}}) are mapped to form fields where the field's key matches the variable name.
 
@@ -100,12 +100,12 @@ Forms can be used on top of the task completion API to render form fields and va
 
 ## Form Reference
 
-With Form References, Camunda Forms provide a flexible way of linking an element in a BPMN diagram to a form. To link a BPMN element ([StartEvent][start-event] or [UserTask][user-tasks]) to a Camunda Form, you have to specify the Id of the Camunda Form as the `camunda:formRef` attribute. Additionally, the `camunda:formRefBinding` attribute specifies which version of the Camunda Form to reference.
+With Form References, EximeeBPMS Forms provide a flexible way of linking an element in a BPMN diagram to a form. To link a BPMN element ([StartEvent][start-event] or [UserTask][user-tasks]) to an EximeeBPMS Form, you have to specify the Id of the EximeeBPMS Form as the `camunda:formRef` attribute. Additionally, the `camunda:formRefBinding` attribute specifies which version of the EximeeBPMS Form to reference.
 
 Valid values are:
 
-* `deployment`, which references the Camunda Form with the given key that was deployed with the same deployment as the referencing process.
-* `latest`, which will refer to the latest deployed version of the Camunda Form.
+* `deployment`, which references the EximeeBPMS Form with the given key that was deployed with the same deployment as the referencing process.
+* `latest`, which will refer to the latest deployed version of the EximeeBPMS Form.
 *  `version`, which allows you to specify a specific version to be referenced from the BPMN element with the `camunda:formRefVersion` attribute.
 
 ```xml
@@ -128,14 +128,14 @@ The attributes `camunda:formRef` and `camunda:formRefVersion` can be specified a
 </bpmn:userTask>
 ```
 
-{{< img src="img/reference-camunda-form.png" title="Provide Form Key for Camunda Forms" >}}
+{{< img src="img/reference-camunda-form.png" title="Provide Form Key for EximeeBPMS Forms" >}}
 
 ## Form Key
 
-Aa an alternative to `formRef` you can reference a Camunda Form file with a `deployment` or `app` [form key]({{< ref "/user-guide/task-forms/_index.md#form-key-details" >}}):
+Aa an alternative to `formRef` you can reference an EximeeBPMS Form file with a `deployment` or `app` [form key]({{< ref "/user-guide/task-forms/_index.md#form-key-details" >}}):
 
-* `camunda-forms:deployment:FORM_NAME.form`
-* `camunda-forms:app:forms/FORM_NAME.form`
+* `eximeebpms-forms:deployment:FORM_NAME.form`
+* `eximeebpms-forms:app:forms/FORM_NAME.form`
 
 To enter the `formKey` in the Modeler,  you have to select `Embedded or External Task Forms` as Type in the dropdown. 
 
@@ -156,16 +156,16 @@ The submitted values of a form are returned as variables to the process engine:
 ## Dynamic Components
 
 You can bind the available options of some component types (Select, Radio Buttons, Checklist, and Taglist) to a variable.
-Like this, Camunda Forms show available options dynamically based on process data (variables).
+Like this, EximeeBPMS Forms show available options dynamically based on process data (variables).
 
 To bind a variable to a dynamic component, define its name in Camunda Modeler's form builder in the Properties Panel under **Options Source** -> **Type** -> **Input Data** -> **Dynamic options** -> **Input values key** for the respective component.
 
-Camunda Forms support the following variable types that can represent JSON:
+EximeeBPMS Forms support the following variable types that can represent JSON:
 
 * `Json`
 * `Object` with the `serializationDataFormat: application/json`
 
-Camunda Forms store and retrieve user selections for each component in a variable whose name equals the component key.
+EximeeBPMS Forms store and retrieve user selections for each component in a variable whose name equals the component key.
 If a variable supposed to store the user selection for multi-select components (Checklist or Taglist) doesn't exist yet, a new one is created on form submission with the same type as the variable that defines the available options.
 
 The format to define available options looks as follows:
