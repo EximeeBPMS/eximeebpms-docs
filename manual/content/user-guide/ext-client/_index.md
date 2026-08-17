@@ -409,7 +409,7 @@ ExternalTaskClient.create()
 
 ## Examples
 
-Complete examples of how to set up the different External Task Clients can be found on GitHub ([Java](https://github.com/camunda/camunda-bpm-examples/tree/{{< minor-version >}}/clients/java),
+Complete examples of how to set up the different External Task Clients can be found on GitHub ([Java](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/clients/java),
 [JavaScript](https://github.com/camunda/camunda-external-task-client-js/tree/master/examples)).
 
 ## External task throughput

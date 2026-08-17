@@ -26,4 +26,4 @@ decisions can be found on [GitHub].
 
 [platform]: {{< ref "/user-guide/process-engine/decisions/_index.md" >}}
 [DMN reference]: {{< ref "/reference/dmn/_index.md" >}}
-[GitHub]: https://github.com/camunda/camunda-bpm-examples/tree/master/dmn-engine/dmn-engine-java-main-method
+[GitHub]: https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/dmn-engine/dmn-engine-java-main-method

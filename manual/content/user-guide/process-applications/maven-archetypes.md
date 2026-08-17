@@ -64,7 +64,7 @@ The following archetypes are currently provided. They are distributed via Maven 
 
 We provide a template repository for every EximeeBPMS Archetype. 
 Every repository contains a project generated from one specific template.
-You can find the whole list on [GitHub](https://github.com/camunda?q=%22camunda-bpm-archetype-%22).
+You can find the whole list on [GitHub](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/archetype-samples).
 
 With every new release of the Archetypes, we will update those repositories with a new version as well.
 This allows to investigate possible update paths from one EximeeBPMS version to another and also enables you to simply update your existing project by pulling in the latest changes.
@@ -154,4 +154,4 @@ mvn archetype:generate \
 
 # Source Code and Customization
 
-You can also customize the project templates for your own technology stack. Just [fork them on GitHub](https://github.com/camunda/camunda-archetypes)!
+You can also customize the project templates for your own technology stack. Just [fork them on GitHub](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/archetype-templates)!

@@ -55,7 +55,7 @@ export default {
 # Localization
 
 Cockpit can be localized. EximeeBPMS maintains English and German translation files. 
-You can find and download community maintained translation files at the [Camunda webapp translations repository](https://github.com/camunda/camunda-webapp-translations).
+You can find and download community maintained translation files at the [Camunda webapp translations repository](https://github.com/camunda-community-hub/camunda-7-webapp-translations).
 
 The localization of Cockpit is contained in the `app/cockpit/locales/` directory. This
 directory contains a separate localization file for every available language. The file name
@@ -99,7 +99,7 @@ export default {
 ```
 This includes a `custom-module/module.js` file. The path is relative to the `app/cockpit` folder in the EximeeBPMS webapp .war file.
 
-You can find a complete example about how to use `customScripts` to develop a Cockpit Plugin in the [Camunda 7 examples repository](https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit/cockpit-cats).
+You can find a complete example about how to use `customScripts` to develop a Cockpit Plugin in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/cockpit/cockpit-cats).
 
 ## Legacy Custom Scripts
 
@@ -146,7 +146,7 @@ export default {
 }
 ```
 
-You can find an example on how to add an additional bpmn.js module to Cockpit in the [Camunda 7 examples repository](https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit/cockpit-bpmn-js-module).
+You can find an example on how to add an additional bpmn.js module to Cockpit in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/cockpit/cockpit-bpmn-js-module).
 
 ## Moddle Extensions
 The BPMN moddle can be extended by adding a `moddleExtensions` property. Each moddle extension has a unique name (key)

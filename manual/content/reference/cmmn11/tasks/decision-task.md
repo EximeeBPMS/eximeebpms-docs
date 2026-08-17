@@ -140,7 +140,7 @@ The result variable should not have the name `decisionResult` since the decision
 
 # Limitations of the Decision Task
 
-To evaluate a referenced decision, the integration of the Camunda DMN engine is used. As a result, only [DMN 1.3] decisions can be evaluated with a decision task. There is no option to integrate with other rule engines.
+To evaluate a referenced decision, the integration of the EximeeBPMS DMN engine is used. As a result, only [DMN 1.3] decisions can be evaluated with a decision task. There is no option to integrate with other rule engines.
 
 
 # Camunda Extensions

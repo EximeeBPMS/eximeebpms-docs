@@ -12,42 +12,24 @@ menu:
 
 # Manual Download
 
-The Forms SDK library can be downloaded from
-[Github](https://github.com/camunda/bower-camunda-bpm-sdk-js/releases).
-
-
-# Bower
-
-Alternatively, the Forms SDK can be installed using the Bower package manager:
-
-```
-bower install camunda-bpm-sdk-js --save
-```
+The Forms SDK's source is part of the EximeeBPMS engine repository, at
+[webapps/frontend/eximeebpms-bpm-sdk-js](https://github.com/EximeeBPMS/eximeebpms/tree/main/webapps/frontend/eximeebpms-bpm-sdk-js)
+in the open-source `eximeebpms` repository.
 
 
 # Dependency Management
 
 The Forms SDK depends on the following libraries:
 
-* JQuery (or a compatible DOM manipulation Library).
+* JQuery 3.7.1 (or a compatible DOM manipulation Library).
 
 The Forms SDK *optionally* depends on the following libraries:
 
-* AngularJS (v1.2.16).
+* AngularJS 1.8.3.
 
 
 # Including the Library
 
-Next, you need to add the JavaScript Library to the page.
-
-```html
-<script src="jquery-2.1.1.min.js" type="text/javascript"></script>
-<script src="camunda-bpm-sdk.min.js" type="text/javascript"></script>
-```
-
-Or, with AngularJS Support:
-
-```html
-<script src="angular.min.js" type="text/javascript"></script>
-<script src="camunda-bpm-sdk-angular.js" type="text/javascript"></script>
-```
+The Forms SDK is distributed as source (a set of CommonJS modules, see `index-browser.js`) - there is no
+prebuilt, minified bundle shipped with it. To use it in a page, bundle it yourself with a bundler such as
+webpack or Browserify, the same way EximeeBPMS's own Cockpit/Tasklist/Admin webapps consume it internally.
