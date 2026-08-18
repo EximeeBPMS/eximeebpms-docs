@@ -102,7 +102,7 @@ Now you should be able to use the archetypes when creating a new Maven project i
 3. Select the archetype from the catalog that you created before.
 {{< img src="../img/eclipse-04-select-archetype-from-catalog.png" title="Eclipse: Select Maven archetype from catalog" >}}
 4. Specify Maven coordinates and EximeeBPMS version and finish the project creation.
-{{< img src="../img/eclipse-05-specify-maven-coordinates-and-camunda-version.png" title="Eclipse: Specify Maven coordinates and Camunda version" >}}
+{{< img src="../img/eclipse-05-specify-maven-coordinates-and-eximeebpms-version.png" title="Eclipse: Specify Maven coordinates and EximeeBPMS version" >}}
 
 The resulting project should look like this:
 
