@@ -205,5 +205,5 @@ In addition to the above, a Business Rule Task can be implemented via the [Exter
 
 * [Decisions]({{< ref "/user-guide/process-engine/decisions/_index.md" >}})
 * [Service Tasks]({{< ref "/reference/bpmn20/tasks/service-task.md" >}})
-* [Tasks](http://camunda.org/bpmn/reference.html#activities-task) in the [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html)
+* [Tasks](https://camunda.com/bpmn/reference/#activities-task) in the [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/)
 * [Demo using Drools on the Business Rule Task](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/businessruletask/order-confirmation-rules)

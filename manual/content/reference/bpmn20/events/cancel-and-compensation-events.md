@@ -197,4 +197,4 @@ The XML representation of a compensation start event is the normal start event d
 ## Additional Resources
 
 * [Transaction subprocess]({{< ref "/reference/bpmn20/subprocesses/transaction-subprocess.md" >}})
-* [Compensation Events](http://camunda.org/bpmn/reference.html#events-compensation) in the [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html)
+* [Compensation Events](https://camunda.com/bpmn/reference/#events-compensation) in the [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/)
