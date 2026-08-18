@@ -19,7 +19,7 @@ In case generating a project from an Archetype on your own is not feasible, we a
 
 # Overview of Available Maven Archetypes
 
-The following archetypes are currently provided. They are distributed via Maven repository: https://artifacts.camunda.com/artifactory/camunda-bpm/
+The following archetypes are currently provided. They are distributed via Maven Central: https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/
 
 <table class="table table-bordered">
   <thead>
@@ -27,33 +27,33 @@ The following archetypes are currently provided. They are distributed via Maven 
   </thead>
   <tbody>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-cockpit-plugin/">Camunda Cockpit Plugin</a></td>
-      <td>Plugin for Camunda Cockpit, contains REST-Backend, MyBatis database query, HTML and JavaScript frontend, Ant build script for one-click deployment</td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-cockpit-plugin/">EximeeBPMS Cockpit Plugin</a></td>
+      <td>Plugin for EximeeBPMS Cockpit, contains REST-Backend, MyBatis database query, HTML and JavaScript frontend, Ant build script for one-click deployment</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-ejb-war/">Process Application (EJB, WAR)</a></td>
-      <td>Process application that uses a shared Camunda 7 engine in a Java EE Container, e.g., Wildfly.
-          Contains: Camunda EJB Client, Camunda CDI Integration, BPMN Process, Java Delegate as CDI bean, HTML5- & JSF-based start and task forms,
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-ejb-war/">Process Application (EJB, WAR)</a></td>
+      <td>Process application that uses a shared EximeeBPMS engine in a Java EE Container, e.g., Wildfly.
+          Contains: EximeeBPMS EJB Client, EximeeBPMS CDI Integration, BPMN Process, Java Delegate as CDI bean, HTML5- & JSF-based start and task forms,
           configuration for JPA (Hibernate), JUnit Test with in-memory engine and visual process test coverage, Arquillian Test for Wildfly, Maven Plugins or Ant build script for one-click deployment in Eclipse</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-servlet-war/">Process Application (Servlet, WAR)</a></td>
-      <td>Process application that uses a shared Camunda 7 engine in a Servlet Container, e.g., Apache Tomcat.
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-servlet-war/">Process Application (Servlet, WAR)</a></td>
+      <td>Process application that uses a shared EximeeBPMS engine in a Servlet Container, e.g., Apache Tomcat.
           Contains: Servlet process application, BPMN Process, Java Delegate, HTML5-based start and task forms,
           JUnit Test with in-memory engine, Maven Plugins or Ant build script for one-click deployment in Eclipse</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-spring-boot/">Camunda Spring Boot Application</a></td>
-      <td>Application that uses the Camunda Spring Boot Starter.
-          Contains: Spring Boot Process Application, Camunda Webapps, BPMN Process, Java Delegate, HTML5-based start and task forms,
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-spring-boot/">EximeeBPMS Spring Boot Application</a></td>
+      <td>Application that uses the EximeeBPMS Spring Boot Starter.
+          Contains: Spring Boot Process Application, EximeeBPMS Webapps, BPMN Process, Java Delegate, HTML5-based start and task forms,
           JUnit Test with in-memory engine, Maven Plugins for packing as an executable application.</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-spring-boot-demo/">Camunda Spring Boot Application with Demo Users</a></td>
-      <td>Same as the <i>Spring Boot Application</i> archetype and additionally creates demo users and groups for easy start with the Camunda Webapps (use <code>demo/demo</code> to log in).</td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-spring-boot-demo/">EximeeBPMS Spring Boot Application with Demo Users</a></td>
+      <td>Same as the <i>Spring Boot Application</i> archetype and additionally creates demo users and groups for easy start with the EximeeBPMS Webapps (use <code>demo/demo</code> to log in).</td>
     </tr>
     <tr>
-      <td><a href="https://artifacts.camunda.com/artifactory/camunda-bpm/org/camunda/bpm/archetype/camunda-archetype-engine-plugin/">Process Engine Plugin</a></td>
+      <td><a href="https://repo1.maven.org/maven2/org/eximeebpms/bpm/archetype/eximeebpms-archetype-engine-plugin/">Process Engine Plugin</a></td>
       <td>An example for a process engine plugin.
       Contains: Process engine plugin, BPMN Parse Listener that is registered via the plugin, Task Listener that is added to every user task, JUnit Test with in-memory engine.</td>
     </tr>
@@ -76,7 +76,9 @@ In case you need more flexibility and customization for your project, you can ge
 ## Summary
 
 1. Add archetype catalog (**Preferences -> Maven -> Archetypes -> Add Remote Catalog**):
-    **https://artifacts.camunda.com/artifactory/camunda-bpm/**
+    **https://repo1.maven.org/maven2/archetype-catalog.xml**
+
+    This is Maven Central's single, repository-wide catalog (it aggregates every archetype ever published there, so the file is large - about 18 MB - and a freshly published archetype can take a while to appear in it).
 2. Create Maven project from archetype (**File -> New -> Project... -> Maven -> Maven Project**)
 
 
@@ -86,7 +88,7 @@ In case you need more flexibility and customization for your project, you can ge
 {{< img src="../img/eclipse-00-preferences-maven-archetypes.png" title="Eclipse Preferences: Maven Archetypes" >}}
 2. Enter the following URL and description, click on **Verify...** to test the connection and if that worked click on **OK** to save the catalog.
 
-    Catalog File: **https://artifacts.camunda.com/artifactory/camunda-bpm/**
+    Catalog File: **https://repo1.maven.org/maven2/archetype-catalog.xml**
 
     Description: **EximeeBPMS**
 {{< img src="../img/eclipse-01-add-remote-archetype-catalog.png" title="Eclipse Preferences: Add Maven Archetype Catalog" >}}
@@ -109,7 +111,7 @@ The resulting project should look like this:
 
 ## Troubleshooting
 
-Sometimes the creation of the very first Maven project fails in Eclipse. If that happens to you, just try it again. Most of the times the second try works. If the problem persists, [contact us](https://forum.camunda.org/).
+Sometimes the creation of the very first Maven project fails in Eclipse. If that happens to you, just try it again. Most of the times the second try works. If the problem persists, [contact us](https://eximeebpms.org/contact/).
 
 # Usage in IntelliJ IDEA
 
@@ -120,7 +122,7 @@ Sometimes the creation of the very first Maven project fails in Eclipse. If that
 5. On the "Welcome to IntelliJ IDEA" screen, click on "Configure" and select "Preferences" in the dropdown.
 6. In the preferences window, navigate to: "Build, Execution, Deployment > Build Tools > Maven Archetype Catalogs".
 7. In the Maven Archetype Catalogs window, click on the "+" button, and in the opened "Add Archetype Catalog URL"
-   modal window add the  URL of the catalog file: https://artifacts.camunda.com/artifactory/camunda-bpm/archetype-catalog.xml.
+   modal window add the  URL of the catalog file: https://repo1.maven.org/maven2/archetype-catalog.xml (Maven Central's single, repository-wide catalog - large, and a freshly published archetype can take a while to appear in it).
 8. To create a Maven project from an archetype, click on the "Welcome to IntelliJ IDEA" screen on "Create New Project".
 9. In the new project dialog, click on the left side on "Maven", check "Create from archetype" 
    and select any `org.eximeebpms.bpm.archetype` entry.
@@ -144,7 +146,7 @@ mvn archetype:generate \
   -DinteractiveMode=false \
   -DarchetypeGroupId=org.eximeebpms.bpm.archetype \
   -DarchetypeArtifactId=eximeebpms-archetype-ejb-war \
-  -DarchetypeVersion=7.10.0 \
+  -DarchetypeVersion=1.3.0 \
   -DgroupId=org.example.eximeebpms.bpm \
   -DartifactId=eximeebpms-bpm-ejb-project \
   -Dversion=0.0.1-SNAPSHOT \
