@@ -62,4 +62,4 @@ A terminate event is modeled as an end event with an additional definition eleme
 
 ## Additional Resources
 
-* [Terminate Events](http://camunda.org/bpmn/reference.html#events-termination) in the [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html)
+* [Terminate Events](https://camunda.com/bpmn/reference/#events-termination) in the [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/)

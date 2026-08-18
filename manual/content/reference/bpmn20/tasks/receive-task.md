@@ -97,6 +97,6 @@ runtimeService.signal(execution.getId());
 
 # Additional Resources
 
-* [Tasks](http://camunda.org/bpmn/reference.html#activities-task) in the [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html)
+* [Tasks](https://camunda.com/bpmn/reference/#activities-task) in the [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/)
 * [Message Receive Events]({{< ref "/reference/bpmn20/events/message-events.md" >}})
 * {{< restref page="signalExecution" tag="Execution" text="Trigger a subscription via REST" >}}

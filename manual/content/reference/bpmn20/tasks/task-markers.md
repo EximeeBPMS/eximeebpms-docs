@@ -204,5 +204,5 @@ To declare an activity to be a compensation handler, we need to set the attribut
 
 # Additional Resources
 
-* [Tasks](http://camunda.org/bpmn/reference.html#activities-task) in the [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html)
+* [Tasks](https://camunda.com/bpmn/reference/#activities-task) in the [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/)
 * [Transaction Subprocess]({{< ref "/reference/bpmn20/subprocesses/transaction-subprocess.md" >}})

@@ -21,7 +21,7 @@ A process definition defines the structure of a process. You could say that the 
 {{< note title="BPMN 2.0 Reference" class="info" >}}
   EximeeBPMS comes with two BPMN 2.0 References:
 
-* The [BPMN 2.0 Modeling Reference](http://camunda.org/bpmn/reference.html#!/reference) introduces the fundamentals of BPMN 2.0 and helps you to get started modeling processes. (Make sure to read the [Tutorial](http://camunda.org/bpmn/tutorial.html) as well.)
+* The [BPMN 2.0 Modeling Reference](https://camunda.com/bpmn/reference/#!/reference) introduces the fundamentals of BPMN 2.0 and helps you to get started modeling processes. (Make sure to read the [Tutorial](https://camunda.com/bpmn/.html) as well.)
 * The [BPMN 2.0 Implementation Reference]({{< ref "/reference/bpmn20/_index.md" >}}) covers the implementation of the individual BPMN 2.0 constructs EximeeBPMS. You should consult this reference if you want to implement and execute BPMN processes.
 {{< /note >}}
 

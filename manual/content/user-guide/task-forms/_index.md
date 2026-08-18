@@ -51,7 +51,7 @@ Form keys that are used in Tasklist have the structure `FORM-TYPE:LOCATION:FORM.
 </table>
 
 
-To configure the form in your process, open the process with the [Camunda Modeler](http://camunda.org/bpmn/tool/) and select the desired [UserTask][user-tasks] or [StartEvent][start-event]. Open the properties panel and enter the Form Key. The relevant XML tag looks like this:
+To configure the form in your process, open the process with the [Camunda Modeler](https://camunda.com/bpmn/tool/) and select the desired [UserTask][user-tasks] or [StartEvent][start-event]. Open the properties panel and enter the Form Key. The relevant XML tag looks like this:
 
 ```xml
 <userTask id="theTask" camunda:formKey="eximeebpms-forms:deployment:forms/userTask.form"
