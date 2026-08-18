@@ -71,6 +71,16 @@ jobs:
                 --baseURL "/manual/latest/" \
                 -d "$(pwd)/public-manual-latest"
 
+              # Copy javadoc into the latest/root build output too, same as
+              # the versioned build above - otherwise /manual/latest/reference/javadoc/
+              # and the root /reference/javadoc/ fall back to this page's own
+              # placeholder text instead of the real generated javadoc.
+              if [ -d "worktree-${version}/manual/javadoc" ]; then
+                mkdir -p "public-manual-latest/reference/javadoc"
+                cp -r "worktree-${version}/manual/javadoc/." \
+                      "public-manual-latest/reference/javadoc/"
+              fi
+
               # Build get-started
               if [ -d "worktree-${version}/get-started" ]; then
                 hugo --minify \
