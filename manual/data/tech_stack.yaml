@@ -83,7 +83,7 @@ categories:
           v1.2.0: { value: "37.0.0.Final" }
           v1.3.0: { value: "37.0.0.Final" }
           v1.4.0: { value: "40.0.1.Final", change: mj }
-          ent: { value: "40.0.1.Final", change: mj }
+          ent: { value: "41.0.0.Final", change: mj }
       - name: WildFly legacy
         sub: "26.x"
         values:

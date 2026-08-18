@@ -34,7 +34,7 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 
 * Apache Tomcat 10.1 (Tomcat 9.0 support removed in Community Edition as of 1.4.0, having been deprecated since 1.3.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 * JBoss EAP 7.4 / 8.0
-* WildFly Application Server 40.0 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
+* WildFly Application Server 40.0 (Community Edition) / 41.0 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
 
 # Databases
 
