@@ -35,6 +35,23 @@ Exchanging the History Event Handler with a custom implementation allows users t
 Note that providing your custom `HistoryEventHandler` in a Spring Boot Starter environment works slightly differently. By default, the EximeeBPMS Spring Boot starter uses a `CompositeHistoryEventHandler` which wraps a list of HistoryEventHandler implementations that you can provide via the `customHistoryEventHandlers` engine configuration property. If you want to override the default `DbHistoryEventHandler`, you have to explicitly set the `enableDefaultDbHistoryEventHandler` engine configuration property to `false`.
 {{< /note >}}
 
+{{< note title="Binary payloads are created by the persisting component" class="warning" >}}
+
+Some history events carry a payload too large for a database column and store it in `ACT_GE_BYTEARRAY`, keeping only its id on the event: job log exception stacktraces, external task log error details, object-typed DMN decision inputs and outputs, and object-typed variable updates.
+
+For all of these, the byte array is created by whichever component **persists** the event, not by the History Event Producer. `DbHistoryEventHandler` creates it immediately before inserting the history row. This is deliberate: an event that no handler persists — because of the history level, an exclusion list, or a filtering handler — then leaves nothing behind in the database at all.
+
+If your handler stores these events through its own path rather than delegating to `DbHistoryEventHandler`, it receives the payload on the event with the byte-array id unset, and must create the byte array itself if the payload is to be stored:
+
+* `HistoricJobLogEvent.getExceptionStacktraceBytes()`
+* `HistoricExternalTaskLogEntity.getErrorDetailsBytes()`
+* `materializeValue()` on a decision input or output instance
+* `HistoricVariableUpdateEventEntity.getByteValue()`
+
+Reading a value is unaffected — the decision input/output entities' `getValue()` and `getTypedValue()` return the recorded value before it is materialised.
+
+{{< /note >}}
+
 ## Implement a custom history level
 
 To provide a custom history level the interface `org.eximeebpms.bpm.engine.impl.history.HistoryLevel` has to be implemented. The custom history level implementation
