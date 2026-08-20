@@ -113,3 +113,24 @@
 .page-toc a.active {
     color: #2155D4;
 }
+
+/* ----------------------------------------------------------
+   Version-select menu — Enterprise Edition line pointer
+   Shown next to the (OSS-only) version dropdown when the current
+   baseline has a published Enterprise line (see adr/0022 in
+   eximeebpms-factory: rendered from .Site.Data.versions.enterpriseLine).
+   ---------------------------------------------------------- */
+
+.site-menu .meta .enterprise-edition-link {
+    display: block;
+    clear: both;
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2155D4;
+    text-decoration: none;
+}
+
+.site-menu .meta .enterprise-edition-link:hover {
+    text-decoration: underline;
+}
