@@ -98,6 +98,10 @@ For the exact payload fields behind each row, follow the links to the [Business 
 | [Identity link]({{< ref "/user-guide/process-engine/business-events-fields.md#identity-link" >}}) added (candidate/assignee/owner) | `bpms:identity-link-add:add-identity-link` |
 | [Identity link]({{< ref "/user-guide/process-engine/business-events-fields.md#identity-link" >}}) deleted | `bpms:identity-link-delete:delete-identity-link` |
 
+{{< note title="Upgrading from 1.3.1-ee" class="warning" >}}
+In 1.3.1-ee, Variable business events used inconsistent past-tense type names — `variable-instance:created`, `variable-instance:updated`, `variable-instance:deleted` — instead of the imperative-style names every other entity uses. As of [1.3.2-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#132-ee), these are corrected to `create`/`update`/`delete` as shown above (`migrate` was already correctly named). If you built downstream consumers against the 1.3.1-ee strings, update them — the old strings are no longer published.
+{{< /note >}}
+
 ## Jobs, Batches & External Tasks
 
 | Fired when | Event type |

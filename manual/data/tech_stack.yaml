@@ -172,7 +172,7 @@ categories:
           v1.1.0: { value: "1.2.0" }
           v1.2.0: { value: "1.2.0" }
           v1.3.0: { value: "1.2.0" }
-          ent: { value: "1.6.0", change: mj }
+          ent: { value: "1.7.0", change: mj }
 
   - name: "Supported Databases — JDBC Drivers"
     components:
@@ -189,7 +189,7 @@ categories:
           v1.1.0: { value: "42.5.5" }
           v1.2.0: { value: "42.5.5" }
           v1.3.0: { value: "42.5.5" }
-          ent: { value: "42.7.11", change: up }
+          ent: { value: "42.7.12", change: up }
       - name: MySQL Connector/J
         values:
           v1.0.0: { value: "8.3.0" }

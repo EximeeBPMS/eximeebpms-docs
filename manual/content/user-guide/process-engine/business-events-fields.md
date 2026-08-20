@@ -119,7 +119,7 @@ Entities that extend `BusinessEvent` directly (activity instance, identity link,
 
 # Variable Instance
 
-**Types:** `created`, `updated`, `migrate`, `deleted` (entity `variable-instance`)
+**Types:** `create`, `update`, `migrate`, `delete` (entity `variable-instance`)
 **Java:** `BusinessVariableUpdateEventEntity` (extends `BusinessDetailEventEntity`)
 
 <table class="table desc-table">

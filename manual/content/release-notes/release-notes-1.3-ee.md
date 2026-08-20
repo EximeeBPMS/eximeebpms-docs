@@ -15,6 +15,60 @@ menu:
 
 ---
 
+## 1.3.2-ee {#132-ee}
+
+**Release date:** 11.08.2026
+
+### Highlights
+
+- **[External Script Validation Module](#external-script-validation-module)** — the same rule set [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) enforces inside the engine is now also available as a standalone, engine-independent library
+- **Script Guard meters now available** — bumping the bundled monitor extension to `1.7.0` makes the `eximeebpms.script.violations`/`eximeebpms.script.total` meters available in this combination
+- **[CMMN-to-1.4 migration guard](#cmmn-to-14-migration-guard)** — the `1.3-to-1.4` schema migration now halts if active CMMN case instances still exist, instead of proceeding regardless
+- **Variable business event type names corrected** — see [Breaking Changes](#breaking-changes) below
+
+### New Features
+
+#### External Script Validation Module {#external-script-validation-module}
+
+The same rule set [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) enforces inside the engine is now also available as a standalone library, `org.eximeebpms.commons:eximeebpms-commons-script-guard-rules`, with no dependency on the process engine. Add it to a process-design tool, a CI pipeline, or any other pre-deployment tooling to check a script or expression before ever attempting to deploy the process definition that contains it, instead of only finding out from a rejected deployment. `DefaultScriptSecurityPolicy` now delegates rule matching to this module instead of holding its own rule list, so the engine and the standalone module can never disagree on what a violation is.
+
+→ [Script Guard — External Validation Module]({{< ref "/user-guide/process-engine/script-guard.md" >}}#external-validation-module)
+
+#### Script Guard Meters
+
+Bumping the bundled monitor extension (`version.eximeebpms-monitor`) to `1.7.0` makes the `eximeebpms.script.violations`/`eximeebpms.script.total` Script Guard meters available in this combination.
+
+→ [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+→ [Tech Stack]({{< ref "/introduction/tech-stack.md" >}})
+
+### Breaking Changes
+
+#### Variable Business Event Type Names Corrected
+
+Variable business events introduced in [1.3.1-ee](#131-ee) used inconsistent past-tense type names — `variable-instance:created`, `variable-instance:updated`, `variable-instance:deleted` — instead of the imperative-style names every other entity uses (`create`, `update`, `delete`, and so on). As of 1.3.2-ee, these are corrected to `bpms:variable-instance:create`, `bpms:variable-instance:update`, `bpms:variable-instance:delete` (`bpms:variable-instance:migrate` was already correctly named and is unchanged).
+
+{{< note title="" class="warning" >}}
+If you built downstream consumers — SIEM correlation rules, stream processors, dashboards — against the 1.3.1-ee variable event type strings, update them to the corrected names. The old, past-tense strings are no longer published.
+{{< /note >}}
+
+→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+
+### Technical Updates
+
+#### CMMN-to-1.4 Migration Guard {#cmmn-to-14-migration-guard}
+
+The `1.3-to-1.4` migration (CMMN removal) now halts before making any schema changes if active CMMN case instances exist in `ACT_RU_CASE_EXECUTION`, via a Liquibase precondition guard on the changeset. CMMN history and deployed definitions are still dropped unconditionally whenever the migration proceeds — this guard protects active runtime instances only, not history.
+
+The migration guide's description of post-upgrade deployment behavior was also corrected: a `.cmmn`/`.cmmn10.xml`/`.cmmn11.xml` file included in a deployment after upgrading is **not rejected** — it is simply not recognized by any deployer, so it is stored as an opaque, silently inert deployment resource. Auditing your deployment artifacts before upgrading remains the only reliable way to catch CMMN usage.
+
+→ [CMMN Removal — Migration Guide]({{< ref "/update/cmmn-removal.md" >}})
+
+### Security
+
+No CVE-targeted fixes in this release. For the most recent enterprise security patches, see the [Security Notices](/security/notices/) page.
+
+---
+
 ## 1.3.1-ee {#131-ee}
 
 **Release date:** 29.07.2026
