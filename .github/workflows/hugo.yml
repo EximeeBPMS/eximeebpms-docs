@@ -5,7 +5,20 @@ on:
     branches:
       - master
       - 'docs/**'
+      - '!docs/*-ee-next'
   workflow_dispatch: {}
+
+# Every run rebuilds and pushes the *entire* multi-version site to the same
+# gh-pages branch (the per-version loop below reads all of versions.yaml,
+# not just the branch that triggered it). Two runs racing to push gh-pages
+# concurrently causes a non-fast-forward rejection in the last step -
+# confirmed happening in practice (e.g. runs 31334288434, 32382281300,
+# 32382417315) whenever more than one docs/* branch is pushed close
+# together. Queuing (not cancelling) makes every push's content eventually
+# land, one deploy at a time, instead of racing.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -50,6 +63,10 @@ jobs:
             echo "=== Building docs/${version} ==="
             git worktree add "worktree-${version}" "docs/${version}"
             cp -r themes "worktree-${version}/"
+
+            # Version-select dropdown content, derived from versions.yaml
+            # (adr/0022) - overwrites this worktree's own copy, never committed.
+            ./render-version-data.sh "${version}" "worktree-${version}/manual/data/versions.yaml"
 
             # Build versioned manual
             hugo --minify \

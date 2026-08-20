@@ -45,10 +45,13 @@
   <div class="content">
     <label for="version-select">Version:</label>
     <select id="version-select" data-basepath="/{{ $.Site.Params.section.id }}" base-url="{{ $.Site.BaseURL }}">
-      {{range $.Site.Params.section.versions }}
+      {{range $.Site.Data.versions.oss }}
         <option {{if eq $.Site.Params.section.version . }} selected {{end}}>{{.}}</option>
       {{ end }}
     </select>
+    {{ with $.Site.Data.versions.enterpriseLine }}
+      <a class="enterprise-edition-link" href="/manual/{{ . }}/">Enterprise Edition ({{ . }}) &rarr;</a>
+    {{ end }}
   </div>
 </div>
 

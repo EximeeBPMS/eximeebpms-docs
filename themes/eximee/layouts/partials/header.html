@@ -20,7 +20,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="description" content="documentation of EximeeBPMS" />
   <meta name="keywords" content="eximeebpms, camunda, open source, free, Apache License, Apache 2.0, workflow, BPMN, BPMN 2.0, camunda.org, bpm, BPMS, engine, platform, process, automation, community, documentation" />
   <meta name="author" content="EximeeBPMS Community" />
-  {{ if ($.Site.Params.section.versions)}}
+  {{ if ($.Site.Data.versions.oss)}}
     {{ if (not (eq "latest" $.Site.Params.section.version))}}
       <meta name="robots" content="all" />
     {{ end }}
@@ -37,7 +37,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <link rel="stylesheet" href="{{.Site.BaseURL}}css/docs-custom.css">
   <!-- add canonical link to latest if current version is not latest -->
   {{- $permalink := .Permalink }}
-  {{- if ($.Site.Params.section.versions) }}
+  {{- if ($.Site.Data.versions.oss) }}
     {{- $replacementPattern := print "${1}" "latest" "/${4}" }}
     {{- $permalink = $permalink | replaceRE `(\/(manual|optimize)\/)([^\/]*\/)(.*)` $replacementPattern }}
   <link rel="canonical" href="{{ $.Site.Params.canonicalBasePath }}{{ $permalink }}" />

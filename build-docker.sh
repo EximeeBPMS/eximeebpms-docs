@@ -20,6 +20,10 @@ for version in ${VERSIONS}; do
   git worktree add "worktree-${version}" "docs/${version}"
   cp -r themes "worktree-${version}/"
 
+  # Version-select dropdown content, derived from versions.yaml (adr/0022)
+  # - overwrites this worktree's own copy, never committed.
+  ./render-version-data.sh "${version}" "worktree-${version}/manual/data/versions.yaml"
+
   hugo --minify -s "worktree-${version}/manual" --destination "${OUT_DIR}/manual/${version}" --baseURL "/manual/${version}/"
 
   if [ -d "worktree-${version}/manual/javadoc" ]; then

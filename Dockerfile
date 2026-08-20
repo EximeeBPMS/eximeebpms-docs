@@ -8,7 +8,7 @@ WORKDIR /project
 COPY . .
 
 RUN git config --global --add safe.directory /project \
-    && chmod +x generate-versions.sh build-docker.sh \
+    && chmod +x generate-versions.sh render-version-data.sh build-docker.sh \
     && ./generate-versions.sh \
     && ./build-docker.sh
 

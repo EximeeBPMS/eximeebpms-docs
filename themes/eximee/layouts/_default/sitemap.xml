@@ -4,7 +4,7 @@
   {{ range .Data.Pages }}
   <url>
     {{- $permalink := .Permalink }}
-    {{- if ($.Site.Params.section.versions) }}
+    {{- if ($.Site.Data.versions.oss) }}
       {{- $replacementPattern := print "${1}" "latest" "/${4}" }}
       {{- $permalink = $permalink | replaceRE `(\/(manual|optimize)\/)([^\/]*\/)(.*)` $replacementPattern }}
     {{- end }}
