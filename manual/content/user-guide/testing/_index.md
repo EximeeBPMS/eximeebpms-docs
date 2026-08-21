@@ -308,7 +308,7 @@ There are a couple of well documented and heavily used community extensions that
 
 ## Camunda Scenario Tests
 
-[Camunda-bpm-assert-scenario](https://github.com/camunda/camunda-bpm-assert-scenario/) enables you to write more robust test suites. The idea is, that you only have to adapt your tests if your process models changes in a way that affects the tested behavior. It concentrates much less on the concrete path through a given process model, but on the external effects the path through the model has.
+[EximeeBPMS-bpm-assert-scenario](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/assert-scenario) enables you to write more robust test suites. The idea is, that you only have to adapt your tests if your process models changes in a way that affects the tested behavior. It concentrates much less on the concrete path through a given process model, but on the external effects the path through the model has.
 
 ```java
 @Test

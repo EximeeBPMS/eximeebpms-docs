@@ -13,7 +13,7 @@ menu:
 
 
 Diagnostics data is constantly collected and can be collected only by you. This allows you to access the collected data through the Java and REST APIs of EximeeBPMS.
-Being able to easily access the collected data is helpful when asking for help in our [forum](https://forum.camunda.org/) or when opening issues in our [issue tracker](https://app.camunda.com/jira) as it contains many of the information that are usually necessary to understand your EximeeBPMS setup.
+Being able to easily access the collected data is helpful when [contacting us](https://eximeebpms.org/contact/) for help or when opening issues in our [issue tracker](https://github.com/EximeeBPMS/eximeebpms/issues) as it contains many of the information that are usually necessary to understand your EximeeBPMS setup.
 
 ## How to access the data
 
@@ -53,8 +53,8 @@ The "General Data" category contains information about the process engine:
 License key data does not contain any protected data like the signature. License data is only transmitted if any of the following holds true
 
 * it is present in the database on engine startup
-* it is set to the engine via  [ManagementService#setLicenseKey ](https://docs.camunda.org/javadoc/camunda-bpm-platform/7.14/org/camunda/bpm/engine/ManagementService.html#setLicenseKey-java.lang.String-)
-* it is set to the engine via [Admin Webapp](https://docs.camunda.org/manual/latest/webapps/admin/system-management/#camunda-license-key)
+* it is set to the engine via {{< javadocref page="org/eximeebpms/bpm/engine/ManagementService.html#setLicenseKey-java.lang.String-" text="ManagementService#setLicenseKey" >}}
+* it is set to the engine via the Admin Webapp (not currently documented in the manual — the previously-described admin route has no confirmed, currently-implemented UI behind it; tracked as `BACKLOG-0056` in `eximeebpms-factory`)
 
 Please note that only in case of setting the license key through the Admin Webapp the diagnostics data will contain structured metadata from the license key. In all other cases, unstructed raw data will be sent. If the license key is removed from the engine, it is removed from diagnostics data as well.
 
@@ -122,9 +122,9 @@ The counts are collected from the start of the engine or the last reported time 
           "valid-until": "2022-09-30",
           "unlimited": false,
           "features": {
-            "camundaBPM": "true"
+            "eximeebpmsBPM": "true"
           },
-          "raw": "customer=customer name;expiryDate=2022-09-30;camundaBPM=true;optimize=false;cawemo=false"
+          "raw": "customer=customer name;expiryDate=2022-09-30;eximeebpmsBPM=true;optimize=false;cawemo=false"
         },
         "webapps": [
           "cockpit",

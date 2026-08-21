@@ -18,6 +18,6 @@ repository of EximeeBPMS. Deployed decisions can be evaluated
 using the [Services API] or they can be referenced in BPMN processes and CMMN
 cases. Evaluated decisions are saved in the [History] for auditing and reporting purposes. (Referencing decisions from CMMN cases is deprecated along with CMMN support; see [BPMN & CMMN Integration]({{< ref "/user-guide/process-engine/decisions/bpmn-cmmn.md" >}}).)
 
-[Camunda DMN engine]: {{< ref "/user-guide/dmn-engine/_index.md" >}}
+[EximeeBPMS DMN engine]: {{< ref "/user-guide/dmn-engine/_index.md" >}}
 [Services API]: {{< ref "/user-guide/process-engine/process-engine-api.md#services-api" >}}
 [History]: {{< ref "/user-guide/process-engine/history/history-configuration.md" >}}

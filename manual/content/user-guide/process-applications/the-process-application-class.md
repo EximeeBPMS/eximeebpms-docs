@@ -56,7 +56,7 @@ Notice the `@ProcessApplication` annotation. This annotation fulfills two purpos
 This means that in case you deploy to a Servlet 3.0 compliant container (such as Apache Tomcat) annotating your class with `@ProcessApplication` is sufficient.
 
 {{< note title="" class="info" >}}
-  There is a [project template for Maven]({{< ref "/user-guide/process-applications/maven-archetypes.md" >}}) called ```camunda-archetype-servlet-war```, which gives you a complete running project based on a servlet process application.
+  There is a [project template for Maven]({{< ref "/user-guide/process-applications/maven-archetypes.md" >}}) called ```eximeebpms-archetype-servlet-war```, which gives you a complete running project based on a servlet process application.
 {{< /note >}}
 
 ## Using Servlet process applications inside an EJB/Jakarta EE/Java EE container such as Wildfly
@@ -98,7 +98,7 @@ An EJB process application class itself must be deployed as an EJB.
 
 To add an EJB process application to your Java application, you have two options:
 
-* **Bundle the Camunda EJB Client**: we provide a generic, reusable EJB process application implementation (named 
+* **Bundle the EximeeBPMS EJB Client**: we provide a generic, reusable EJB process application implementation (named 
 `org.eximeebpms.bpm.application.impl.ejb.DefaultEjbProcessApplication`) bundled as a maven artifact. You can add this
 implementation to your application as a maven dependency. Use the `eximeebpms-ejb-client` artifact for Java EE or
 the `eximeebpms-ejb-client-jakarta` artifact for Jakarta EE 9+ applications.
@@ -108,12 +108,12 @@ or `JakartaEjbProcessApplication`, you can write a custom subclass of the respec
 Both options are explained in greater detail below.
 
 
-## Bundling the Camunda EJB Client Jar
+## Bundling the EximeeBPMS EJB Client Jar
 
 The most convenient option for deploying a process application to a Java EE EJB container is by adding the following maven dependency to your maven project:
 
 {{< note title="" class="info" >}}
-  Please import the [Camunda BOM](/get-started/apache-maven/) to ensure correct versions for every Camunda project.
+  Please import the [EximeeBPMS BOM](/get-started/apache-maven/) to ensure correct versions for every EximeeBPMS project.
 {{< /note >}}
 
 ```xml
@@ -132,15 +132,15 @@ For Jakarta EE 9+ EJB containers, use the following dependency instead:
 </dependency>
 ```
 
-The Camunda EJB Client contains a reusable default implementation of the respective EJB process application as a Singleton Session Bean with auto-activation.
+The EximeeBPMS EJB Client contains a reusable default implementation of the respective EJB process application as a Singleton Session Bean with auto-activation.
 
 This deployment option requires that your project is a composite deployment (such as a WAR or EAR) since you need to add a library JAR file.
-You could of course use something like the maven shade plugin for adding the class contained in the Camunda EJB Client artifact to a JAR-based deployment.
+You could of course use something like the maven shade plugin for adding the class contained in the EximeeBPMS EJB Client artifact to a JAR-based deployment.
 
 {{< note title="" class="info" >}}
-  We always recommend using the Camunda EJB Client over deploying a custom `EjbProcessApplication` class unless you want to customize the behavior of the `EjbProcessApplication`.
+  We always recommend using the EximeeBPMS EJB Client over deploying a custom `EjbProcessApplication` class unless you want to customize the behavior of the `EjbProcessApplication`.
 
-  There is a [project template for Maven]({{< ref "/user-guide/process-applications/maven-archetypes.md" >}}) called ```camunda-archetype-servlet-war```, which gives you a complete running project based on a Java EE servlet process application.
+  There is a [project template for Maven]({{< ref "/user-guide/process-applications/maven-archetypes.md" >}}) called ```eximeebpms-archetype-servlet-war```, which gives you a complete running project based on a Java EE servlet process application.
 {{< /note >}}
 
 

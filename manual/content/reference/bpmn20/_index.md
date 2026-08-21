@@ -16,7 +16,7 @@ This page gives you an overview of the BPMN 2.0 elements and the current coverag
 
 {{< note title="BPMN - Business Process Model and Notation" >}}
 If you are unfamiliar with BPMN 2.0, you might want to check out the
-<a href="http://camunda.org/bpmn/tutorial.html">BPMN Tutorial</a> first.
+<a href="https://camunda.com/bpmn/.html">BPMN Tutorial</a> first.
 {{< /note >}}
 
 # Coverage
@@ -351,8 +351,8 @@ In BPMN there are start events, intermediate events and end events. These three 
 
 {{< note title="Understanding BPMN Events" >}}
 To help understand the principle behavior of events in BPMN, we recommend to check the
-[Events: Basic Concepts](http://camunda.org/bpmn/reference.html#events-basic-concepts)
-chapter of the [BPMN Modeling Reference](http://camunda.org/bpmn/reference.html).
+[Events: Basic Concepts](https://camunda.com/bpmn/reference/#events-basic-concepts)
+chapter of the [BPMN Modeling Reference](https://camunda.com/bpmn/reference/).
 {{< /note >}}
 
 <table class="table table-responsive table-bordered bpmn-events">

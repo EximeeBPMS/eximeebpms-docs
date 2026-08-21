@@ -19,7 +19,7 @@ The required CDI beans for this functionality are currently not available in <a 
 If you add JSF forms as described below, you can easily use them as <br/>
 [external task forms]({{< ref "/user-guide/task-forms/_index.md#external-task-forms" >}}).
 
-A working example can be found in the [examples repository](https://github.com/camunda/camunda-bpm-examples/tree/master/usertask/task-form-external-jsf).
+A working example can be found in the [examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/usertask/task-form-external-jsf).
 
 The BPMN process used for this example is shown in the image below:
 

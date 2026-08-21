@@ -11,11 +11,5 @@ menu:
 
 ---
 
-On production, this should redirect to the following page: 
-
-* https://docs.camunda.org/javadoc/camunda-bpm-platform/{{< minor-version >}}/
-
-Or to this page in case you are viewing the docs of the `master` or `latest` branch:
-
-* https://docs.camunda.org/javadoc/camunda-bpm-platform/{{< minor-version >}}-SNAPSHOT/
+On production, this page is overwritten at deploy time by the generated EximeeBPMS Javadoc (`manual/javadoc/` on this branch), copied into place by `.github/workflows/hugo.yml` on `master`. This text is only ever seen if that copy step is skipped for some reason.
 
