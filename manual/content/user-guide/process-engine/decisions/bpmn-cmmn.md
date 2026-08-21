@@ -24,7 +24,7 @@ definition. The decision definition is evaluated when the task is executed.
 ```xml
 <definitions id="taskAssigneeExample"
   xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"
+  xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn"
   targetNamespace="Examples">
 
   <process id="process">
@@ -53,7 +53,7 @@ The decision definition is invoked when the task is activated.
 ```xml
 <definitions id="definitions"
                   xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL"
-                  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/cmmn"
+                  xmlns:eximeebpms="http://camunda.org/schema/1.0/cmmn"
                   targetNamespace="Examples">
   <case id="case">
     <casePlanModel id="CasePlanModel_1">
