@@ -1,0 +1,74 @@
+<!doctype html><html class=no-js><head><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-N39WSFRC');</script><meta charset=utf-8><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><meta name=viewport content="width=device-width"><meta name=description content="documentation of EximeeBPMS"><meta name=keywords content="eximeebpms,camunda,open source,free,Apache License,Apache 2.0,workflow,BPMN,BPMN 2.0,camunda.org,bpm,BPMS,engine,platform,process,automation,community,documentation"><meta name=author content="EximeeBPMS Community"><title>Embedded Process Engine Configuration</title><meta name=generator content="Hugo 0.54.0"><link rel="shortcut icon" href=/get-started/img/favicon.ico type=image/x-icon><link rel=stylesheet href=/get-started/css/docs.4a8962ac5e4172725184e84a83552106451b950ee720298aa472278468d8548b.css integrity="sha256-SolirF5BcnJRhOhKg1UhBkUblQ7nICmKpHInhGjYVIs="><link rel=stylesheet href=/get-started/css/docs-custom.css></head><body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N39WSFRC" height=0 width=0 style=display:none;visibility:hidden></iframe></noscript><nav class="navbar navbar-fixed-top"><div class=navbar-container><div class=navbar-header><a href=/get-started/><img src=/get-started/img/eximeeBPMSLogo.png style="height:20px;width:auto;padding:0 5px 7px 0">
+<span class=brand-name></span><span class=site-name></span></a></div><ul class=header-menu><li class=active><a href=/get-started>Get Started</a></li><li><a href=/manual/latest>Manual</a></li><li><a href=/security>Security</a></li></ul><button class=site-menu-toggle>
+<span></span><span></span><span></span></button><div class=search-field><input type=search class=search-input placeholder=Search…></div><ul class=external-menu><li class=external><a href=https://eximeebpms.org/>eximeebpms.org</a></li></ul></div></nav><div class=search-results><ul class=results-list></ul><footer><button class="btn btn-default page previous">
+<span class="glyphicon glyphicon-chevron-left"></span></button>
+<button class="search-close btn btn-default">
+<span class="glyphicon glyphicon-remove"></span></button>
+<button class="btn btn-default page next">
+<span class="glyphicon glyphicon-chevron-right"></span></button></footer></div><div class=search-underlay></div><nav class=site-menu><div class=version></div><ul class=site-menu-items><li><a href=/get-started/quick-start/>Quick Start (Java / JS)</a><ul><li><a href=/get-started/quick-start/install/>Download and Installation</a></li><li><a href=/get-started/quick-start/service-task/>Executable Process</a></li><li><a href=/get-started/quick-start/deploy/>Deploy the Process</a></li><li><a href=/get-started/quick-start/user-task/>Involve Humans</a></li><li><a href=/get-started/quick-start/gateway/>Make It Dynamic</a></li><li><a href=/get-started/quick-start/decision-automation/>Decision Automation</a></li></ul></li><li><a href=/get-started/spring-boot/>Spring Boot</a><ul><li><a href=/get-started/spring-boot/project-setup/>Project Setup</a></li><li><a href=/get-started/spring-boot/configuration/>Configuration</a></li><li><a href=/get-started/spring-boot/model/>Model a Process</a></li></ul></li><li><a href=/get-started/dmn/>DMN</a><ul><li><a href=/get-started/dmn/install/>Download and Installation</a></li><li><a href=/get-started/dmn/project-setup/>Project Setup</a></li><li><a href=/get-started/dmn/model/>Create a Decision Table</a></li><li><a href=/get-started/dmn/deploy/>Evaluate and Deploy the Decision Table</a></li><li><a href=/get-started/dmn/drg/>Decision Requirements Graph</a></li></ul></li><li><a href=/get-started/spring/>Spring Framework</a><ul><li><a href=/get-started/spring/project-setup/>Project Setup</a></li><li><a href=/get-started/spring/configuration/>Process Engine Configuration</a></li><li><a href=/get-started/spring/service-task/>Spring Bean Service Task</a></li><li><a href=/get-started/spring/shared-engine/>Bonus: Shared Process Engine</a></li></ul></li><li><a href=/get-started/javaee/>Jakarta EE</a><ul><li><a href=/get-started/javaee/project-setup/>Project Setup</a></li><li><a href=/get-started/javaee/process-application/>Process Application</a></li><li><a href=/get-started/javaee/model/>Model &amp; Start Form</a></li><li><a href=/get-started/javaee/entity-and-service-task/>EJB Service Task</a></li><li><a href=/get-started/javaee/user-tasks/>User Task Forms</a></li><li><a href=/get-started/javaee/complete-process/>Complete the Process</a></li></ul></li><li><a href=/get-started/apache-maven/>Maven Coordinates</a></li></ul><div class=meta><h4 class=header><span class="toggle glyphicon glyphicon-chevron-up"></span>Options</h4><div class=content><label for=version-select>Version:</label>
+<select id=version-select data-basepath=/get-started base-url=/get-started/></select></div></div></nav><div class=page-wrapper><div class=page-content><div class=container-fluid><div class="col-xs-12 content-header"><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/docs/1.3.0/get-started/content/spring/configuration.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Embedded Process Engine Configuration</h1></div><div class="col-xs-12 content-text"><p>In this section, we configure an embedded process engine directly inside the Spring application context.</p><h1 id=declare-a-datasource-and-transactionmanager>Declare a DataSource and TransactionManager</h1><p>We declare an in-memory H2 <code>DataSource</code> and a <code>PlatformTransactionManager</code>:</p><pre><code class=language-java>@Bean
+public DataSource dataSource() {
+  DriverManagerDataSource dataSource = new DriverManagerDataSource();
+  dataSource.setDriverClassName(&quot;org.h2.Driver&quot;);
+  dataSource.setUrl(&quot;jdbc:h2:mem:process-engine;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE&quot;);
+  dataSource.setUsername(&quot;sa&quot;);
+  dataSource.setPassword(&quot;&quot;);
+  return dataSource;
+}
+
+@Bean
+public PlatformTransactionManager transactionManager(DataSource dataSource) {
+  return new DataSourceTransactionManager(dataSource);
+}
+</code></pre><h1 id=configure-the-process-engine>Configure the Process Engine</h1><p><code>SpringProcessEngineConfiguration</code>, from <code>eximeebpms-engine-spring-6</code>, is the Spring-aware counterpart of the
+plain engine configuration. It knows how to participate in Spring-managed transactions:</p><pre><code class=language-java>@Bean
+public SpringProcessEngineConfiguration engineConfiguration(DataSource dataSource, PlatformTransactionManager transactionManager) {
+  SpringProcessEngineConfiguration configuration = new SpringProcessEngineConfiguration();
+
+  configuration.setProcessEngineName(&quot;engine&quot;);
+  configuration.setDataSource(dataSource);
+  configuration.setTransactionManager(transactionManager);
+  configuration.setDatabaseSchemaUpdate(&quot;true&quot;);
+  configuration.setJobExecutorActivate(false);
+
+  return configuration;
+}
+</code></pre><h1 id=build-and-expose-the-process-engine>Build and Expose the Process Engine</h1><p>We wire up a <code>ProcessEngineFactoryBean</code> to build the <code>ProcessEngine</code> from that configuration, and expose the
+engine&rsquo;s services as individual Spring beans, so they can be <code>@Autowired</code> anywhere in the application:</p><pre><code class=language-java>@Bean
+public ProcessEngineFactoryBean engineFactory(SpringProcessEngineConfiguration engineConfiguration) {
+  ProcessEngineFactoryBean factoryBean = new ProcessEngineFactoryBean();
+  factoryBean.setProcessEngineConfiguration(engineConfiguration);
+  return factoryBean;
+}
+
+@Bean
+public ProcessEngine processEngine(ProcessEngineFactoryBean factoryBean) throws Exception {
+  return factoryBean.getObject();
+}
+
+@Bean
+public RepositoryService repositoryService(ProcessEngine processEngine) {
+  return processEngine.getRepositoryService();
+}
+
+@Bean
+public RuntimeService runtimeService(ProcessEngine processEngine) {
+  return processEngine.getRuntimeService();
+}
+
+@Bean
+public TaskService taskService(ProcessEngine processEngine) {
+  return processEngine.getTaskService();
+}
+
+@Bean
+public HistoryService historyService(ProcessEngine processEngine) {
+  return processEngine.getHistoryService();
+}
+
+@Bean
+public ManagementService managementService(ProcessEngine processEngine) {
+  return processEngine.getManagementService();
+}
+</code></pre><h2 id=build-and-run>Build and Run</h2><p>Rebuild the WAR file with <code>mvn package</code> and redeploy it. The embedded process engine now starts up together
+with the web application.</p></div></div></div><script>(function(){document.querySelectorAll('.content-text table').forEach(function(table){if(table.closest('.tsm-tbl-wrap, .tbl-wrap'))return;var wrap=document.createElement('div');wrap.className='table-scroll-wrap';table.parentNode.insertBefore(wrap,table);wrap.appendChild(table);});})();</script><div class=page-toc><h3>On this page</h3><nav id=TableOfContents><ul><li><a href=#declare-a-datasource-and-transactionmanager>Declare a DataSource and TransactionManager</a></li><li><a href=#configure-the-process-engine>Configure the Process Engine</a></li><li><a href=#build-and-expose-the-process-engine>Build and Expose the Process Engine</a><ul><li><a href=#build-and-run>Build and Run</a></li></ul></li></ul></nav></div><footer class=page-footer><div class=row><div class=col-xs-12><p class=pull-right><a href=# target=_self>Back to top</a></p><p><a href=http://eximeebpms.org>eximeebpms.org</a> and <a href=http://docs.eximeebpms.org>docs.eximeebpms.org</a> are part of EximeeBPMS project — <a href=https://eximeebpms.org/document/eximee-bpms-privacy-policy//>Privacy Statement</a> – <a hre=https://consdata.com/en/about-us/contact>Consdata S.A.</a><br>The EximeeBPMS documentation is based on <a href=https://docs.camunda.org/>Camunda 7 Docs</a> from Camunda. Some redesign & naming adoptation was made.</p><p><a rel=license href=http://creativecommons.org/licenses/by-sa/3.0/><img alt="Creative Commons License" style=border-width:0 src=https://i.creativecommons.org/l/by-sa/3.0/80x15.png></a> The content on this site is licensed under a <a rel=license href=http://creativecommons.org/licenses/by-sa/3.0/>Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</p></div></div></footer></div><script type=text/javascript src=/get-started/js/docs.cbff8263fbd14dde61207b9e69cf59a449ee0cdaf49d1c9edbf5b24858818fdc.js integrity="sha256-y/&#43;CY/vRTd5hIHueac9ZpEnuDNr0nRye2/WySFiBj9w="></script><script type=text/javascript src=/get-started/js/copy.0d263bdcc7c86b4b507b9feeae5e6cfe13cd1714517d71ad3879ff1718d30360.js integrity="sha256-DSY73MfIa0tQe5/url5s/hPNFxRRfXGtOHn/FxjTA2A="></script></body></html>

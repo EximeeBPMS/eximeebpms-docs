@@ -42,7 +42,7 @@ by changing the <code>app/cockpit/scripts/config.js</code> configuration file as
   },
 }
 </code></pre><h1 id=localization>Localization</h1><p>Cockpit can be localized. EximeeBPMS maintains English and German translation files.
-You can find and download community maintained translation files at the <a href=https://github.com/camunda/camunda-webapp-translations>Camunda webapp translations repository</a>.</p><p>The localization of Cockpit is contained in the <code>app/cockpit/locales/</code> directory. This
+You can find and download community maintained translation files at the <a href=https://github.com/camunda-community-hub/camunda-7-webapp-translations>Camunda webapp translations repository</a>.</p><p>The localization of Cockpit is contained in the <code>app/cockpit/locales/</code> directory. This
 directory contains a separate localization file for every available language. The file name
 consists of the language code and the suffix <code>.json</code> (e.g., <code>en.json</code>).</p><p>Cockpit uses a locale file corresponding to the language settings of the browser. You can
 set the <code>availableLocales</code> property in the configuration file to provide a list of available
@@ -63,7 +63,7 @@ custom frontend module as described in <a href=/manual/latest/webapps/cockpit/ex
   customScripts: 
     ['custom-module/module.js']
 };
-</code></pre><p>This includes a <code>custom-module/module.js</code> file. The path is relative to the <code>app/cockpit</code> folder in the EximeeBPMS webapp .war file.</p><p>You can find a complete example about how to use <code>customScripts</code> to develop a Cockpit Plugin in the <a href=https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit/cockpit-cats>Camunda 7 examples repository</a>.</p><h2 id=legacy-custom-scripts>Legacy Custom Scripts</h2><p>Custom Scripts can be included using the <code>requireJsConfig</code> property to the <code>app/cockpit/scripts/config.js</code>. You can include these custom scripts using the custom <a href=https://requirejs.org/docs/api.html#config>requireJS configuration</a>.</p><pre><code class=language-Javascript>export default {
+</code></pre><p>This includes a <code>custom-module/module.js</code> file. The path is relative to the <code>app/cockpit</code> folder in the EximeeBPMS webapp .war file.</p><p>You can find a complete example about how to use <code>customScripts</code> to develop a Cockpit Plugin in the <a href=https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/cockpit/cockpit-cats>EximeeBPMS examples repository</a>.</p><h2 id=legacy-custom-scripts>Legacy Custom Scripts</h2><p>Custom Scripts can be included using the <code>requireJsConfig</code> property to the <code>app/cockpit/scripts/config.js</code>. You can include these custom scripts using the custom <a href=https://requirejs.org/docs/api.html#config>requireJS configuration</a>.</p><pre><code class=language-Javascript>export default {
   // …
   requireJsConfig: {
     // names of angular modules defined in your custom script files.
@@ -89,7 +89,7 @@ of Cockpit, a <code>bpmnJs</code> property must be added to the <code>app/cockpi
     ]
   }
 }
-</code></pre><p>You can find an example on how to add an additional bpmn.js module to Cockpit in the <a href=https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit/cockpit-bpmn-js-module>Camunda 7 examples repository</a>.</p><h2 id=moddle-extensions>Moddle Extensions</h2><p>The BPMN moddle can be extended by adding a <code>moddleExtensions</code> property. Each moddle extension has a unique name (key)
+</code></pre><p>You can find an example on how to add an additional bpmn.js module to Cockpit in the <a href=https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/cockpit/cockpit-bpmn-js-module>EximeeBPMS examples repository</a>.</p><h2 id=moddle-extensions>Moddle Extensions</h2><p>The BPMN moddle can be extended by adding a <code>moddleExtensions</code> property. Each moddle extension has a unique name (key)
 and a path (value) to the JSON file of the moddle extension. The path is relative to the <code>app/cockpit</code> folder in the
 .war file of the EximeeBPMS Webapp. The suffix <code>.json</code> of the file is added automatically and must not be specified.</p><pre><code class=language-json>export default {
   // …

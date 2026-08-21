@@ -94,7 +94,7 @@ configuration.getTransformer()
   .add(myTransformListener);
 </code></pre><h3 id=register-dmn-element-transform-handler>Register DMN Element Transform Handler</h3><p>While the transform listener allows modifying of the transformed objects, it does not support instantiating custom subclasses.
 This can be achieved using a custom <a href=/manual/1.3.0/reference/javadoc/?org/eximeebpms/bpm/dmn/engine/impl/spi/transform/DmnElementTransformHandler.html>transform handler</a>
-.</p><p>A transform handler is registered for a given <a href=https://github.com/camunda/camunda-dmn-model>DMN model API</a> type like a <code>DecisionTable</code>.</p><p>First, implement a transform handler which can transform a <a href=/manual/1.3.0/reference/javadoc/?org/eximeebpms/bpm/model/dmn/instance/DecisionTable.html>decision table</a>
+.</p><p>A transform handler is registered for a given <a href=/manual/1.3.0/reference/javadoc/org/eximeebpms/bpm/model/dmn/package-summary.html>DMN model API</a> type like a <code>DecisionTable</code>.</p><p>First, implement a transform handler which can transform a <a href=/manual/1.3.0/reference/javadoc/?org/eximeebpms/bpm/model/dmn/instance/DecisionTable.html>decision table</a>
 .</p><pre><code class=language-java>public  class MyDecisionTableHandler extends DmnElementTransformHandler&lt;DecisionTable, MyDecisionTableImpl&gt; {
 
   public MyDecisionTableImpl handleElement(DmnElementTransformContext context, DecisionTable element) {
