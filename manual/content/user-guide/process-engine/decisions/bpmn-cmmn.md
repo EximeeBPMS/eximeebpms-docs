@@ -24,7 +24,7 @@ definition. The decision definition is evaluated when the task is executed.
 ```xml
 <definitions id="taskAssigneeExample"
   xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"
+  xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn"
   targetNamespace="Examples">
 
   <process id="process">
@@ -44,36 +44,6 @@ definition. The decision definition is evaluated when the task is executed.
 
 For more information on how to reference a decision definition from a business
 rule task, please refer to the [BPMN 2.0 reference][business rule task].
-
-## DMN Decision Task
-
-{{< note title="" class="warning" >}}
-The CMMN decision task described below is part of CMMN, which is deprecated since 1.3.0 and will be removed in EximeeBPMS 1.4.0. Use the BPMN Business Rule Task instead for new implementations.
-{{< /note >}}
-
-The CMMN decision task references a [deployed] decision definition.
-The decision definition is invoked when the task is activated.
-
-```xml
-<definitions id="definitions"
-                  xmlns="http://www.omg.org/spec/CMMN/20151109/MODEL"
-                  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/cmmn"
-                  targetNamespace="Examples">
-  <case id="case">
-    <casePlanModel id="CasePlanModel_1">
-      <planItem id="PI_DecisionTask_1" definitionRef="DecisionTask_1" />
-      <decisionTask id="DecisionTask_1"
-                    decisionRef="myDecision"
-                    eximeebpms:mapDecisionResult="singleEntry"
-                    eximeebpms:resultVariable="result">
-      </decisionTask>
-    </casePlanModel>
-  </case>
-</definitions>
-```
-
-For more information on how to reference a decision definition from a decision
-task, please refer to the [CMMN 1.1 reference][decision task].
 
 # The Decision Result
 
@@ -181,14 +151,6 @@ BPMN:
                   eximeebpms:resultVariable="result" />
 ```
 
-CMMN:
-```xml
-<decisionTask id="DecisionTask_1"
-              decisionRef="myDecision"
-              eximeebpms:mapDecisionResult="singleEntry"
-              eximeebpms:resultVariable="result">
-```
-
 {{< note title="Name of the Result Variable" class="warning" >}}
 
 The result variable should not have the name `decisionResult` since the
@@ -256,39 +218,6 @@ public class MyDecisionResultListener implements ExecutionListener {
     DmnDecisionResult decisionResult = (DmnDecisionResult) execution.getVariable("decisionResult");
     String result = decisionResult.getSingleResult().get("result");
     String reason = decisionResult.getSingleResult().get("reason");
-    // ...
-  }
-
-}
-```
-
-### Custom Mapping to Case Variables
-
-(This mapping mechanism is specific to CMMN case variables; see the deprecation notice above.)
-
-If a decision task is used to invoke a decision inside a CMMN case, the
-decision result can be passed to a case variable by using a case execution
-listener which is attached to the decision task.
-
-```xml
-<decisionTask id="decisionTask" decisionRef="myDecision">
-  <extensionElements>
-    <eximeebpms:caseExecutionListener event="complete"
-      class="org.eximeebpms.bpm.example.MyDecisionResultListener" />
-  </extensionElements>
-</decisionTask>
-```
-
-```java
-public class MyDecisionResultListener implements CaseExecutionListener {
-
-  @Override
-  public void notify(DelegateCaseExecution caseExecution) throws Exception;
-    DmnDecisionResult decisionResult = (DmnDecisionResult) caseExecution.getVariable("decisionResult");
-    String result = decisionResult.getSingleResult().get("result");
-    String reason = decisionResult.getSingleResult().get("reason");
-    // ...
-    caseExecution.setVariable("result", result);
     // ...
   }
 
@@ -420,7 +349,6 @@ in the platform, not only in DMN decisions.
 [decision literal expression]: {{< ref "/reference/dmn/decision-literal-expression/_index.md" >}}
 [deployed]: {{< ref "/user-guide/process-engine/decisions/repository.md" >}}
 [business rule task]: {{< ref "/reference/bpmn20/tasks/business-rule-task.md" >}}
-[decision task]: {{< ref "/reference/cmmn11/tasks/decision-task.md" >}}
 [Typed Value API]: {{< ref "/user-guide/process-engine/variables.md#typed-value-api" >}}
 [object value serialization]: {{< ref "/user-guide/process-engine/variables.md#object-value-serialization" >}}
 [output variable mapping]: {{< ref "/user-guide/process-engine/variables.md#input-output-variable-mapping" >}}
