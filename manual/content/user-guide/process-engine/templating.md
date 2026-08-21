@@ -28,8 +28,10 @@ The following template engines are provided as optional community extensions:
 * [Saxon XQuery](https://www.saxonica.com/html/documentation12/using-xquery/)
 * [Saxon XSLT](https://www.saxonica.com/html/documentation12/using-xsl/)
 
-The script engine wrapper implementations can be found in the
+The script engine wrapper implementations for Apache Velocity and Saxon XQuery can be found in the
 [camunda-7-template-engines-jsr223][camunda-7-template-engines-jsr223] community hub repository.
+The Saxon XSLT wrapper is maintained directly as part of [eximeebpms-examples][xslt-example]
+rather than depending on that repository (see the full example below).
 
 # Install a Template Engine
 
@@ -203,4 +205,4 @@ examples' repository.
 [camunda-7-template-engines-jsr223]: https://github.com/camunda-community-hub/camunda-7-template-engines-jsr223
 [use-scripts]: {{< ref "/user-guide/process-engine/scripting.md" >}}
 [script-source]: {{< ref "/user-guide/process-engine/scripting.md#script-source" >}}
-[xslt-example]: https://github.com/camunda/camunda-bpm-examples/tree/master/scripttask/xslt-scripttask
+[xslt-example]: https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/scripttask/xslt-scripttask

@@ -35,7 +35,7 @@ Assume that you have the following authorization requirement: *As a regular user
 
 If the engine is embedded into a Java application, the application can easily ensure this by restricting the task query on the `assignee` property. The application can guarantee this since the EximeeBPMS API is not directly exposed to the user.
 
-By contrast, if the Camunda Rest API is directly exposed over the network to a Javascript application, then a malicious user, once authenticated, can send a request to the server querying all tasks, even the ones that are not assigned to this user. In this case, authorization needs to be turned on to ensure the user only sees the tasks which he is authorized to see, regardless of the query parameters.
+By contrast, if the EximeeBPMS Rest API is directly exposed over the network to a Javascript application, then a malicious user, once authenticated, can send a request to the server querying all tasks, even the ones that are not assigned to this user. In this case, authorization needs to be turned on to ensure the user only sees the tasks which he is authorized to see, regardless of the query parameters.
 
 # Basic Principles
 

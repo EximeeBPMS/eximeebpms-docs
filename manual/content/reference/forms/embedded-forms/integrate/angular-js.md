@@ -13,12 +13,8 @@ menu:
 
 # Including the Angular Distribution
 
-Make sure you include the AngularJS build of the Forms SDK:
-
-```html
-<script src="angular.min.js" type="text/javascript"></script>
-<script src="camunda-bpm-sdk-angular.js" type="text/javascript"></script>
-```
+Make sure your bundle includes the AngularJS build of the Forms SDK (`lib/angularjs/forms`, see
+[Getting a Distribution]({{< ref "/reference/forms/embedded-forms/integrate/getting-a-distribution.md" >}})) alongside AngularJS itself.
 
 
 # Loading the Forms Module

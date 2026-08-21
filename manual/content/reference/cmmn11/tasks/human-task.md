@@ -138,7 +138,7 @@ attribute:
 The form key is a symbolic value which can be set in the CMMN XML file by using the extension
 attribute `formKey` and retrieved at runtime using the process engine API.
 
-If the user task form is displayed inside the Camunda Tasklist, the format of the formKey must follow
+If the user task form is displayed inside the EximeeBPMS Tasklist, the format of the formKey must follow
 special rules. [See the corresponding section in the user guide for details]({{< ref "/user-guide/task-forms/_index.md" >}}).
 
 In custom applications, the value of the form key can be chosen freely. In a custom application the

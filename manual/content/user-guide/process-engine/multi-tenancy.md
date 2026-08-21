@@ -28,10 +28,10 @@ Note that transparent tenant separation is not implemented for all APIs. For exa
 It is also possible for all tenants to share the same process and decision definitions without deploying them for each tenant. Shared definitions can simplify management of the deployments in case of a larger amount of tenants.
 
 {{< note title="Examples" class="info" >}}
-Find [examples on GitHub](https://github.com/camunda/camunda-bpm-examples) that show how to use tenant-identifiers with
+Find [examples on GitHub](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy) that show how to use tenant-identifiers with
 
-* [Embedded Process Engine](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/tenant-identifier-embedded)
-* [Shared Process Engine](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/tenant-identifier-shared)
+* [Embedded Process Engine](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-embedded)
+* [Shared Process Engine](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-shared)
 {{< /note >}}
 
 
@@ -342,7 +342,7 @@ This can be achieved by a usage pattern we call "Shared Definitions".
 By the term *usage pattern* we mean that it is not a feature of EximeeBPMS per se but rather a specific way to use it to achieve the desired behavior.
 
 {{< note title="Example" class="info" >}}
-You can find an [example](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/tenant-identifier-shared-definitions) on [GitHub](https://github.com/camunda/camunda-bpm-examples) that shows how to use shared definitions.
+You can find an [example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-shared-definitions) on [GitHub](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy) that shows how to use shared definitions.
 {{< /note >}}
 
 ### Deploy a Shared Definition
@@ -451,11 +451,11 @@ So far, we have seen that shared resources are a useful pattern if tenants have 
 
 A common pattern of how to deal with this is to extract the tenant-specific behavior in a separate process which is then invoked using a call activity. Tenant specific decision logic (i.e., decision tables) using a business rules task are also common.
 
-To realize this, the call activity or business rule task needs to select the correct definition to invoke based on the tenant id of the current process instance. The [Shared Resources Example](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/tenant-identifier-shared-definitions) shows how to achieve this.
+To realize this, the call activity or business rule task needs to select the correct definition to invoke based on the tenant id of the current process instance. The [Shared Resources Example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-shared-definitions) shows how to achieve this.
 
 See also:
 
-* [Shared Resources Example](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/tenant-identifier-shared-definitions)
+* [Shared Resources Example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-shared-definitions)
 * [Called Element Tenant Id]({{< ref "/reference/bpmn20/subprocesses/call-activity.md#calledelement-tenant-id" >}})
 * [Case Tenant Id]({{< ref "/reference/bpmn20/subprocesses/call-activity.md#case-tenant-id" >}}) for call activities.
 * [Decision Ref Tenant Id]({{< ref "/reference/bpmn20/tasks/business-rule-task.md#decisionref-tenant-id" >}}) for business rule tasks.
@@ -469,7 +469,7 @@ Multi-Tenancy can be achieved by providing one process engine per tenant. Each p
 The process engines can run on the same server so that all share the same computational resources such as a data source (when isolating via schemas or tables) or a thread pool for asynchronous job execution. 
 
 {{< note title="Tutorial" class="info" >}}
-  You can see the [example](https://github.com/camunda/camunda-bpm-examples/tree/master/multi-tenancy/schema-isolation) how to implement multi-tenancy with data isolation by schemas.
+  You can see the [example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/schema-isolation) how to implement multi-tenancy with data isolation by schemas.
 {{< /note >}}
 
 ## Configure the Process Engines

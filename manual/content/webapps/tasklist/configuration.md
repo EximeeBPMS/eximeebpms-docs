@@ -45,7 +45,7 @@ export default {
 # Localization
 
 Tasklist can be localized. EximeeBPMS maintains English and German translation files. 
-You can find and download community maintained translation files at the [Camunda webapp translations repository](https://github.com/camunda/camunda-webapp-translations).
+You can find and download community maintained translation files at the [Camunda webapp translations repository](https://github.com/camunda-community-hub/camunda-7-webapp-translations).
 
 The localization of Tasklist is contained in the `app/tasklist/locales/` directory. This
 directory contains a separate localization file for every available language. The file name
@@ -90,7 +90,7 @@ export default {
 ```
 This includes a `custom-module/module.js` file. The path is relative to the `app/tasklist` folder in the EximeeBPMS webapp .war file.
 
-You can find a complete example about how to use `customScripts` to develop a Tasklist Plugin in the [Camunda 7 examples repository](https://github.com/camunda/camunda-bpm-examples/tree/master/tasklist/cats-plugin).
+You can find a complete example about how to use `customScripts` to develop a Tasklist Plugin in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/tasklist/cats-plugin).
 
 
 

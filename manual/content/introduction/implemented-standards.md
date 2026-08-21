@@ -53,13 +53,13 @@ EximeeBPMS supports the 1.1 version of DMN.
 
 [OMG]: http://www.omg.org/
 [modelers]: https://camunda.com/platform/modeler/
-[BPMN Modeling Tutorial]: https://camunda.org/bpmn/tutorial/
-[BPMN Modeling Reference]: https://camunda.org/bpmn/reference/
+[BPMN Modeling Tutorial]: https://camunda.com/bpmn/
+[BPMN Modeling Reference]: https://camunda.com/bpmn/reference/
 [Quick Start (Java / JS)]: /get-started/quick-start/
 [BPMN Implementation Reference]: {{< ref "/reference/bpmn20/_index.md" >}}
 [CMMN Implementation Reference]: {{< ref "/reference/cmmn11/_index.md" >}}
 [DMN Getting Started]: /get-started/dmn11/
 [DMN Implementation Reference]: {{< ref "/reference/dmn/_index.md" >}}
-[DMN Modeling Tutorial]: https://camunda.org/dmn/tutorial/
+[DMN Modeling Tutorial]: https://camunda.com/dmn/
 [Process Engine]: {{< ref "/user-guide/process-engine/_index.md" >}}
 [DMN Engine]: {{< ref "/user-guide/dmn-engine/_index.md" >}}
