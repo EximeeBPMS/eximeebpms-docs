@@ -28,7 +28,7 @@ params:
     id: "security"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "docs/1.3.0/security"
+    branch: "docs/1.4.0/security"
 
 outputs:
   home:

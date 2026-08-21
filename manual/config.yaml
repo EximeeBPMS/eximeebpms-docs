@@ -1,5 +1,5 @@
 ---
-baseURL: "/manual/1.3.0/"
+baseURL: "/manual/1.4.0/"
 locale: "en-us"
 title: "EximeeBPMS documentation "
 themesDir: "../themes"
@@ -26,10 +26,10 @@ params:
       url: "/security"
   section:
     id: "manual"
-    version: "1.3.0"
+    version: "1.4.0"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "docs/1.3.0/manual"
+    branch: "docs/1.4.0/manual"
 
 outputs:
   home:
