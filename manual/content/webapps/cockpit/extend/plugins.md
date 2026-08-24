@@ -171,7 +171,7 @@ The first argument of the `#result` function is a (`Promise`).
 
 ### Login Data
 
-**Name:** `cockit.login.data`\
+**Name:** `cockpit.login.data`\
 **REST Endpoint:** `POST /eximeebpms/api/admin/auth/user/default/login/cockpit`
 
 When a user clicks on the **Login** button of the login form, the plugin points `#result` function is called.
@@ -237,6 +237,16 @@ The `cockpit.dashboard` plugin point will allow to add your custom views at the 
 
 {{< img src="../../img/plugin-points/plugin-point-cockpit-processes-dashboard.jpg" title="Dashboard" >}}
 
+## Processes Action
+
+**Name:** `cockpit.processes.action`
+
+Rendered as a per-row action on the Processes Dashboard, for each listed process definition.
+
+This additional data is passed into the render function:
+
+  * `processDefinitionId`
+
 ## Decisions Dashboard
 
 **Name:** `cockpit.decisions.dashboard`
@@ -267,6 +277,22 @@ This additional data is passed into the render function:
 
   * `processDefinitionId`
 
+## Process Definition History Tab
+
+**Name:** `cockpit.processDefinition.history.tab`
+
+Rendered as an additional tab on a process definition's History view, alongside [Process Definition Runtime Tab](#process-definition-runtime-tab). This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
+
+```Javascript
+properties: {
+  label: "My Plugin"
+}
+```
+
+This additional data is passed into the render function:
+
+  * `processDefinitionId`
+
 ## Process Instance Runtime Tab
 
 **Name:** `cockpit.processInstance.runtime.tab`
@@ -274,6 +300,22 @@ This additional data is passed into the render function:
 {{< img src="../../img/plugin-points/plugin-point-process-instance-details.jpg" title="Process Instance Runtime Tab" >}}
 
 This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
+
+```Javascript
+properties: {
+  label: "My Plugin"
+}
+```
+
+This additional data is passed into the render function:
+
+  * `processInstanceId`
+
+## Process Instance History Tab
+
+**Name:** `cockpit.processInstance.history.tab`
+
+Rendered as an additional tab on a process instance's History view, alongside [Process Instance Runtime Tab](#process-instance-runtime-tab). This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
 
 ```Javascript
 properties: {
@@ -295,11 +337,31 @@ This additional data is passed into the render function:
 
   * `processDefinitionId`
 
+## Process Definition History Action
+
+**Name:** `cockpit.processDefinition.history.action`
+
+Rendered alongside [Process Definition Runtime Action](#process-definition-runtime-action), but on a process definition's History view.
+
+This additional data is passed into the render function:
+
+  * `processDefinitionId`
+
 ## Process Instance Runtime Action
 
 **Name:** `cockpit.processInstance.runtime.action`
 
 {{< img src="../../img/plugin-points/plugin-point-process-instance-runtime-action.jpg" title="Process Instance Runtime Action" >}}
+
+This additional data is passed into the render function:
+
+  * `processInstanceId`
+
+## Process Instance History Action
+
+**Name:** `cockpit.processInstance.history.action`
+
+Rendered alongside [Process Instance Runtime Action](#process-instance-runtime-action), but on a process instance's History view.
 
 This additional data is passed into the render function:
 
@@ -352,6 +414,48 @@ This additional data is passed into the render function:
 Diagram overlay plugins are a little different from other plugins.
 This plugin point does not receive a DOM node to render into but an instance of the Diagram viewer to create an overlay. See [Process Definition Diagram Overlay](#process-definition-diagram-overlay) for an example.
 
+
+This additional data is passed into the render function:
+
+  * `processInstanceId`
+
+## Process Definition Diagram Action
+
+**Name:** `cockpit.processDefinition.diagram.action`
+
+Unlike [Process Definition Diagram Overlay](#process-definition-diagram-overlay), this plugin point receives the Diagram viewer instance directly, in addition to the definition id.
+
+This additional data is passed into the render function:
+
+  * `viewer`
+  * `processDefinitionId`
+
+## Process Definition History Diagram Plugin
+
+**Name:** `cockpit.processDefinition.history.diagram.plugin`
+
+Rendered alongside [Process Definition Diagram Overlay](#process-definition-diagram-overlay), but on a process definition's History view.
+
+This additional data is passed into the render function:
+
+  * `processDefinitionId`
+
+## Process Definition History Diagram Action
+
+**Name:** `cockpit.processDefinition.history.diagram.action`
+
+Rendered alongside [Process Definition Diagram Action](#process-definition-diagram-action), but on a process definition's History view.
+
+This additional data is passed into the render function:
+
+  * `viewer`
+  * `processDefinitionId`
+
+## Process Instance History Diagram Plugin
+
+**Name:** `cockpit.processInstance.history.diagram.plugin`
+
+Rendered alongside [Process Instance Diagram Overlay](#process-instance-diagram-overlay), but on a process instance's History view.
 
 This additional data is passed into the render function:
 
@@ -449,108 +553,25 @@ This additional data is passed into the render function:
 
   * `decisionInstanceId`
 
-## Case Definition Tab
+## Decision Requirements Diagram Definition Tab
 
-**Name:** `cockpit.caseDefinition.tab`
+**Name:** `cockpit.drd.definition.tab`
 
-{{< img src="../../img/plugin-points/plugin-point-case-definition-tab.jpg" title="Case Definition Tab" >}}
-
-This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
-
-```Javascript
-properties: {
-  label: "My Plugin"
-}
-```
+Rendered as an additional tab on a decision definition's Decision Requirements Diagram (DRD) view.
 
 This additional data is passed into the render function:
 
-  * `decisionInstanceId`
+  * `drdDefinitionId`
 
-## Case Definition Action
+## Decision Requirements Diagram Instance Tab
 
-**Name:** `cockpit.caseDefinition.action`
+**Name:** `cockpit.drd.instance.tab`
 
-{{< img src="../../img/plugin-points/plugin-point-case-definition-action.jpg" title="Case Definition Action" >}}
-
-This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
-
-```Javascript
-properties: {
-  label: "My Plugin"
-}
-```
+Rendered as an additional tab on a decision instance's Decision Requirements Diagram (DRD) view.
 
 This additional data is passed into the render function:
 
-  * `caseDefinitionId`
-
-## Case Definition Diagram Overlay
-
-**Name:** `cockpit.caseDefinition.diagram.overlay`
-
-{{< img src="../../img/plugin-points/plugin-point-case-definition-diagram-overlay.jpg" title="Case Definition Diagram Overlay" >}}
-
-## Case Definition Diagram Plugin
-
-**Name:** `cockpit.caseDefinition.diagram.plugin`
-
-{{< img src="../../img/plugin-points/plugin-point-case-definition-diagram-overlay.jpg" title="Case Definition Diagram Overlay" >}}
-
-Diagram overlay plugins are a little different from other plugins.
-This plugin point does not receive a DOM node to render into but an instance of the Diagram viewer to create an overlay. See [Process Definition Diagram Overlay](#process-definition-diagram-overlay) for an example.
-
-This additional data is passed into the render function:
-
-  * `caseDefinitionId`
-
-## Case Instance Tab
-
-**Name:** `cockpit.caseInstance.tab`
-
-{{< img src="../../img/plugin-points/plugin-point-case-instance-tab.jpg" title="Case Instance Tab" >}}
-
-This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
-
-```Javascript
-properties: {
-  label: "My Plugin"
-}
-```
-
-This additional data is passed into the render function:
-
-  * `caseInstanceId`
-
-## Case Instance Action
-
-**Name:** `cockpit.caseInstance.action`
-
-{{< img src="../../img/plugin-points/plugin-point-case-instance-action.jpg" title="Case Instance Action" >}}
-
-This additional data is passed into the render function:
-
-  * `caseInstanceId`
-
-## Case Instance Diagram Overlay
-
-**Name:** `cockpit.caseInstance.diagram.overlay`
-
-{{< img src="../../img/plugin-points/plugin-point-case-instance-diagram-overlay.jpg" title="Case Instance Diagram Overlay" >}}
-
-## Case Instance Diagram Plugin
-
-**Name:** `cockpit.caseInstance.diagram.plugin`
-
-{{< img src="../../img/plugin-points/plugin-point-case-instance-diagram-overlay.jpg" title="Case Instance Diagram Overlay" >}}
-
-Diagram overlay plugins are a little different from other plugins.
-This plugin point does not receive a DOM node to render into but an instance of the Diagram viewer to create an overlay. See [Process Definition Diagram Overlay](#process-definition-diagram-overlay) for an example.
-
-This additional data is passed into the render function:
-
-  * `caseDefinitionId`
-  * `caseInstanceId`
+  * `rootDecisionInstanceId`
 
 ## Repository Resource Action
 
@@ -573,6 +594,16 @@ This additional data is passed into the render function:
 
   * `deploymentId`
   * `resourceId`
+
+## Repository Deployment Action
+
+**Name:** `cockpit.repository.deployment.action`
+
+Rendered as a per-deployment action in the Repository's Deployments view.
+
+This additional data is passed into the render function:
+
+  * `deploymentId`
 
 ## Open Task Dashboard
 
