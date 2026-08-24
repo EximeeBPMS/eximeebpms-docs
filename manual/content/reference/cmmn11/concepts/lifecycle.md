@@ -55,7 +55,6 @@ This formal lifecycle model is exposed via the `CaseService` API in EximeeBPMS. 
 CaseExecution caseExecution = caseService.createCaseExecutionQuery().activityId("taskA").singleResult();
 caseExecution.isAvailable();
 caseExecution.isActive();
-caseExecution.isCompleted();
 ...
 ```
 
