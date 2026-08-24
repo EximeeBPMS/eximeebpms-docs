@@ -25,7 +25,7 @@ EximeeBPMS Connect HTTP client uses the Apache HTTP client to make HTTP requests
 
 ## Default Configuration
 
-By default, the HTTP client uses Apache's default configuration and respects the [system properties that are supported by HTTP client](https://hc.apache.org/httpcomponents-client-4.5.x/current/httpclient/apidocs/org/apache/http/impl/client/HttpClientBuilder.html).
+By default, the HTTP client uses Apache's default configuration and respects the [system properties that are supported by HTTP client](https://hc.apache.org/httpcomponents-client-5.5.x/current/httpclient5/apidocs/org/apache/hc/client5/http/impl/classic/HttpClientBuilder.html).
 ## Custom Configuration
 
 If you want to reconfigure the client going beyond the default configuration options, e.g. you want to configure another connection manager, the easiest way is to register
@@ -34,8 +34,9 @@ a new connector configurator.
 ```java
 package org.eximeebpms.connect.example;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.eximeebpms.connect.httpclient.impl.AbstractHttpConnector;
 import org.eximeebpms.connect.spi.ConnectorConfigurator;
 
@@ -46,9 +47,12 @@ public class HttpConnectorConfigurator implements ConnectorConfigurator<HttpConn
   }
 
   public void configure(HttpConnector connector) {
+    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+    connectionManager.setDefaultMaxPerRoute(10);
+    connectionManager.setMaxTotal(200);
+
     CloseableHttpClient client = HttpClients.custom()
-      .setMaxConnPerRoute(10)
-      .setMaxConnTotal(200)
+      .setConnectionManager(connectionManager)
       .build();
     ((AbstractHttpConnector) connector).setHttpClient(client);
   }
