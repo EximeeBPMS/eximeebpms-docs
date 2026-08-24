@@ -523,4 +523,4 @@ Additional management operations are `ExternalTaskService#unlock`, `ExternalTask
 Setting the retries is useful when a task has 0 retries left and must be resumed manually. With the last method the priority can 
 be set to a higher value for more important or to a lower value for less important external tasks.
 
-There are also operations `ExternalTaskService#setRetriesSync` and `ExternalTaskService#setRetriesAsync` to set retries for multiple external tasks synchronously or asynchronously.
+There are also operations `ExternalTaskService#setRetries(List)` and `ExternalTaskService#setRetriesAsync` to set retries for multiple external tasks synchronously or asynchronously.
