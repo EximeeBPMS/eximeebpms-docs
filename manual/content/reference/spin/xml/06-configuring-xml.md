@@ -16,7 +16,7 @@ Therefore, the XML data format uses instances of `javax.xml.parsers.DocumentBuil
 [configuration mechanism]({{< ref "/reference/spin/extending-spin.md#configuring-data-formats" >}}).
 
 For example, a custom application may provide an implementation of `org.eximeebpms.spin.spi.DataFormatConfigurator` that exchanges 
-the `JAXBContext`. Spin uses and caches the context to improve performance.
+the `JAXBContext`. By default, Spin creates a new context on every use (`DefaultJaxBContextProvider` performs no caching); a custom `JaxBContextProvider` can add caching if desired.
 
 The data format class to register a configurator for is `org.eximeebpms.spin.impl.xml.dom.format.DomXmlDataFormat`. 
 An instance of this class provides setter methods (for the entities mentioned above) that can be used to replace the 
