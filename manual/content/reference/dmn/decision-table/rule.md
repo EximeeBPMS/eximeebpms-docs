@@ -135,7 +135,7 @@ language, which is set on the `definitions` XML element, is used.
 ```
 
 In case no global expression language is set, the default expression language
-is used instead. The default expression language for output entries is JUEL.
+is used instead. The default expression language for output entries is FEEL.
 Please refer to the [User Guide][default EL] to read more about expression
 languages.
 
