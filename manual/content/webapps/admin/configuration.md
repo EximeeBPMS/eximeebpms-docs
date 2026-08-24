@@ -140,19 +140,6 @@ export default {
 
 **Note:** This only affects the Admin Operation Log. For the Cockpit Operation Log, check out the [Cockpit configuration]({{<ref "/webapps/cockpit/extend/configuration.md#user-operation-log-annotation-length" >}}).
 
-# Task worker metrics
-
-The task worker metrics (TW) on the metrics page are displayed by default. You can disable this behavior by adjusting the `config.js` as follows:
-
-```javascript
-export default {
-  // …
-  alwaysShowUniqueTaskWorkerMetrics: false
-}
-```
-
-If disabled, the metrics can still be displayed on-demand via a checkbox.
-
 # Advanced styles customization
 
 In addition to the basic `user-styles.css` file, you can edit the source style and layout files
