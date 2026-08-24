@@ -200,6 +200,22 @@ export default {
 
 If the value of this property is `true`, the flag's checkbox in cockpit will be selected by default. When the property is not present, the default value is `ƒalse`. This flag is used when deleting process definitions and deployments.
 
+# The `batchOperation` configuration
+
+You can configure the Batch view's behavior by adding a `batchOperation` property in `app/cockpit/scripts/config.js`:
+
+```javascript
+export default {
+  batchOperation: {
+    mode: 'filter',
+    autoLoadEnded: true
+  }
+};
+```
+
+* `mode` selects the query mode used to narrow down process instances or decision instances for a batch operation. Possible values: `filter`, `search`.
+* `autoLoadEnded` selects whether Historic Batches are loaded automatically when navigating to `#/batch`.
+
 # Runtime Activity Instance Metrics (Process Definition)
 
  ```javascript
