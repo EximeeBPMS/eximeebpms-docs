@@ -16,7 +16,7 @@ menu:
 The System Settings menu gives you general information about the process engine. It enables users with system permissions to access certain system information, including diagnostics, metrics.
 
 {{< note title="Accessing the System Settings menu" class="info" >}}
-The System Settings menu is only usable by users which are granted with *All* permission for authorizations.
+The System Settings menu is only usable by users which are granted with *Read* permission for the `System` resource.
 {{< /note >}}
 
 # Diagnostics
