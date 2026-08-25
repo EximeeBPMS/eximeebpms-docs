@@ -45,21 +45,21 @@ In order to enable the Spring Security OAuth2 integration in EximeeBPMS Run, sta
 
 The EximeeBPMS integration has two default auto configurations. Depending on the OAuth2 client
 registration in the application properties (`spring.security.oauth2.client.registration`) either the
-`EximeeBPMSSpringSecurityOAuth2AutoConfiguration` or the `EximeeBPMSBpmSpringSecurityDisableAutoConfiguration` will be activated.
+`EximeeBpmsSpringSecurityOAuth2AutoConfiguration` or the `EximeeBpmsBpmSpringSecurityDisableAutoConfiguration` will be activated.
 
 ## OAuth2 Enabled Configuration
 
 Configuration activates if there is OAuth2 client registration configured. This class configures the Spring
 Security filter chain to secure the EximeeBPMS Webapps.
 
-Spring auto configuration class: {{< javadocref page="org/eximeebpms/bpm/spring/boot/starter/security/oauth2/impl/EximeeBPMSSpringSecurityOAuth2AutoConfiguration.html" text="EximeeBPMSSpringSecurityOAuth2AutoConfiguration" >}}
+Spring auto configuration class: {{< javadocref page="org/eximeebpms/bpm/spring/boot/starter/security/oauth2/EximeeBpmsSpringSecurityOAuth2AutoConfiguration.html" text="EximeeBpmsSpringSecurityOAuth2AutoConfiguration" >}}
 
 ## Spring Security Disabled Auto Configuration
 
 Configuration activates if there is **no** OAuth2 client registration configured. This class configures the Spring
 Security filter chain to a permit all mode.
 
-Spring auto configuration class: {{< javadocref page="org/eximeebpms/bpm/spring/boot/starter/security/oauth2/impl/EximeeBPMSBpmSpringSecurityDisableAutoConfiguration.html" text="EximeeBPMSBpmSpringSecurityDisableAutoConfiguration" >}}
+Spring auto configuration class: {{< javadocref page="org/eximeebpms/bpm/spring/boot/starter/security/oauth2/EximeeBpmsBpmSpringSecurityDisableAutoConfiguration.html" text="EximeeBpmsBpmSpringSecurityDisableAutoConfiguration" >}}
 
 # OAuth2 Client Registration
 
@@ -326,8 +326,8 @@ Either with the `@EnableAutoConfiguration` annotation:
 
 ```java
 @EnableAutoConfiguration(exclude={
-    EximeeBPMSSpringSecurityOAuth2AutoConfiguration.class,
-    EximeeBPMSBpmSpringSecurityDisableAutoConfiguration.class
+    EximeeBpmsSpringSecurityOAuth2AutoConfiguration.class,
+    EximeeBpmsBpmSpringSecurityDisableAutoConfiguration.class
 });
 ```
 
@@ -337,8 +337,8 @@ Or in the application properties:
 spring:
   autoconfigure:
     exclude:
-      - org.eximeebpms.bpm.spring.boot.starter.security.oauth2.EximeeBPMSSpringSecurityOAuth2AutoConfiguration
-      - org.eximeebpms.bpm.spring.boot.starter.security.oauth2.EximeeBPMSBpmSpringSecurityDisableAutoConfiguration
+      - org.eximeebpms.bpm.spring.boot.starter.security.oauth2.EximeeBpmsSpringSecurityOAuth2AutoConfiguration
+      - org.eximeebpms.bpm.spring.boot.starter.security.oauth2.EximeeBpmsBpmSpringSecurityDisableAutoConfiguration
 ```
 
 For more information, please refer to Spring's [Disabling Specific Auto-configuration Classes][DisableAutoConfig] documentation.
