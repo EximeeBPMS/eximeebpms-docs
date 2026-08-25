@@ -40,11 +40,11 @@ humanTask.setName(&quot;new name&quot;);
 
 // read attributes by generic XML model API (with optional namespace)
 String custom1 = humanTask.getAttributeValue(&quot;custom-attribute&quot;);
-String custom2 = humanTask.getAttributeValueNs(&quot;custom-attribute-2&quot;, &quot;http://custom.org/custom&quot;);
+String custom2 = humanTask.getAttributeValueNs(&quot;http://custom.org/custom&quot;, &quot;custom-attribute-2&quot;);
 
 // edit attributes by generic XML model API (with optional namespace)
 humanTask.setAttributeValue(&quot;custom-attribute&quot;, &quot;new value&quot;);
-humanTask.setAttributeValueNs(&quot;custom-attribute&quot;, &quot;http://custom.org/custom&quot;, &quot;new value&quot;);
+humanTask.setAttributeValueNs(&quot;http://custom.org/custom&quot;, &quot;custom-attribute&quot;, &quot;new value&quot;);
 </code></pre><p>You can also access the child elements of an element or references to other elements. For example, a plan item
 references a definition element (like human task, process task, etc.) while the referenced definition element contains
 default control.</p><p>Consider the following simple CMMN model:</p><pre><code class=language-xml>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;

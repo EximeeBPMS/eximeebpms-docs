@@ -41,13 +41,11 @@ decisionTable.setOutputLabel(&quot;new-label&quot;);
 
 // read attributes by generic XML model API (with optional namespace)
 String custom1 = decisionTable.getAttributeValue(&quot;custom-attribute&quot;);
-String custom2 = decisionTable.getAttributeValueNs(&quot;custom-attribute-2&quot;, 
-  &quot;http://camunda.org/custom&quot;);
+String custom2 = decisionTable.getAttributeValueNs(&quot;http://camunda.org/custom&quot;, &quot;custom-attribute-2&quot;);
 
 // edit attributes by generic XML model API (with optional namespace)
 decisionTable.setAttributeValue(&quot;custom-attribute&quot;, &quot;new value&quot;);
-decisionTable.setAttributeValueNs(&quot;custom-attribute&quot;, 
-  &quot;http://camunda.org/custom&quot;, &quot;new value&quot;);
+decisionTable.setAttributeValueNs(&quot;http://camunda.org/custom&quot;, &quot;custom-attribute&quot;, &quot;new value&quot;);
 </code></pre><p>You can also access the child elements of an element or references to other elements. For example,
 a decision has a required decision which it depends on.
 A required decision is represented by a <code>requiredDecision</code> element inside an <code>informationRequirement</code> XML element.</p><p>Consider the following simple DMN model:</p><pre><code class=language-xml>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
