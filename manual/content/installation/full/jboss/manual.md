@@ -156,13 +156,15 @@ The following steps are required to deploy the web application:
 
 1. Download the EximeeBPMS web application that contains the web applications from our Maven Artifactory.
     * For [WildFly ≥27 / JBoss EAP 8](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-wildfly/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-wildfly-$PLATFORM_VERSION.war`.
-
-    **Enterprise Edition:** the artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license — see [Licenses]({{< ref "/introduction/licenses.md" >}}#enterprise-edition).
 2. Optionally, you may change the context path to which the application will be deployed (default is `/eximeebpms`).
     Edit the file `WEB-INF/jboss-web.xml` in the war file and update the `context-root` element accordingly.
 3. Copy the war file to `$WILDFLY_HOME/standalone/deployments`.
 4. Startup WildFly.
 5. Access Cockpit, Tasklist, and Admin via `/eximeebpms/app/cockpit`, `/eximeebpms/app/tasklist` and `/eximeebpms/app/admin`, or under the context path you configured.
+
+{{< enterprise >}}
+The artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license.
+{{< /enterprise >}}
 
 
 ### REST API
@@ -171,8 +173,6 @@ The following steps are required to deploy the REST API:
 
 1. Download the REST API web application archive from our Maven Artifactory.
     * For [WildFly ≥27 / JBoss EAP 8](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-wildfly.war`.
-
-   **Enterprise Edition:** the artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license — see [Licenses]({{< ref "/introduction/licenses.md" >}}#enterprise-edition).
 2. Optionally, you may change the context path to which the REST API will be deployed (default is `/engine-rest`).
    Edit the file `WEB-INF/jboss-web.xml` in the war file and update the `context-root` element accordingly.
 3. Copy the war file to `$WILDFLY_HOME/standalone/deployments`.
@@ -180,6 +180,10 @@ The following steps are required to deploy the REST API:
 5. Access the REST API on the context path you configured.
    For example, <a href="http://localhost:8080/engine-rest/engine">http://localhost:8080/engine-rest/engine</a> should return the names of all engines of the platform,
    provided that you deployed the application in the context `/engine-rest`.
+
+{{< enterprise >}}
+The artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license.
+{{< /enterprise >}}
 
 
 ### EximeeBPMS Connect Plugin
