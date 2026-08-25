@@ -459,7 +459,7 @@ See the <a href="{{<ref "/user-guide/spring-boot-integration/the-spring-event-br
 <tr><td colspan="4"><b>Management</b></td></tr>
 <tr>
 <td><code>eximeebpms.bpm.management</code></td>
-<td><code>.health.eximeebpms.enabled</code></td>
+<td><code>.health.camunda.enabled</code></td>
 <td>Enables default eximeebpms health indicators</td>
 <td><code>true</code></td>
 </tr>
