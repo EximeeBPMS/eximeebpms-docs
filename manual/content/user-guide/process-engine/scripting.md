@@ -12,7 +12,7 @@ menu:
 
 
 EximeeBPMS supports scripting with JSR-223 compatible script engine implementations. Currently we
-test the integration for Groovy, JavaScript, JRuby and Jython. To use a scripting engine
+test the integration for Groovy, JavaScript and Jython. JRuby is also supported. To use a scripting engine
 it is necessary to add the corresponding jar to the classpath.
 
 {{< note title="" class="info" >}}

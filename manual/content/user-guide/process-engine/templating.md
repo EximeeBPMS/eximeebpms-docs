@@ -28,10 +28,10 @@ The following template engines are provided as optional community extensions:
 * [Saxon XQuery](https://www.saxonica.com/html/documentation12/using-xquery/)
 * [Saxon XSLT](https://www.saxonica.com/html/documentation12/using-xsl/)
 
-The script engine wrapper implementations for Apache Velocity and Saxon XQuery can be found in the
+The script engine wrapper implementations can be found in the
 [camunda-7-template-engines-jsr223][camunda-7-template-engines-jsr223] community hub repository.
-The Saxon XSLT wrapper is maintained directly as part of [eximeebpms-examples][xslt-example]
-rather than depending on that repository (see the full example below).
+A full, runnable XSLT example built on top of that wrapper is also available in
+[eximeebpms-examples][xslt-example] (see the full example below).
 
 # Install a Template Engine
 
@@ -68,20 +68,20 @@ Here are the Maven coordinates of the community extensions:
 
   <!-- saxon xquery -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xquery</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xquery</artifactId>
   </dependency>
 
   <!-- saxon xslt -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xslt</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xslt</artifactId>
   </dependency>
 
   <!-- apache velocity -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-velocity</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-velocity</artifactId>
   </dependency>
 
 </dependencies>
@@ -160,8 +160,8 @@ dependency must be added as dependencies to the maven `pom.xml` file:
 
   <!-- XSLT -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xslt</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xslt</artifactId>
   </dependency>
 
 </dependencies>
