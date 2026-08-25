@@ -66,20 +66,20 @@ Here are the Maven coordinates of the community extensions:
 
   <!-- saxon xquery -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xquery</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xquery</artifactId>
   </dependency>
 
   <!-- saxon xslt -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xslt</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xslt</artifactId>
   </dependency>
 
   <!-- apache velocity -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-velocity</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-velocity</artifactId>
   </dependency>
 
 </dependencies>
@@ -158,8 +158,8 @@ dependency must be added as dependencies to the maven `pom.xml` file:
 
   <!-- XSLT -->
   <dependency>
-    <groupId>org.eximeebpms.community.template.engine</groupId>
-    <artifactId>eximeebpms-template-engine-xslt</artifactId>
+    <groupId>org.camunda.community.template.engine</groupId>
+    <artifactId>camunda-7-template-engine-xslt</artifactId>
   </dependency>
 
 </dependencies>
