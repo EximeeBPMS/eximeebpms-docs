@@ -243,7 +243,7 @@ The following table shows the possible configuration settings and the default be
     <td><code>contentTypeOptionsValue</code></td>
     <td>
       A custom value for the header can be specified.<br><br>
-      <strong>Note:</strong> Property is ignored when <code>contentSecurityPolicyDisabled</code> is set to <code>true</code>
+      <strong>Note:</strong> Property is ignored when <code>contentTypeOptionsDisabled</code> is set to <code>true</code>
     </td>
     <td><code>nosniff</code></td>
   </tr>
