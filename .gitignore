@@ -11,3 +11,6 @@ worktree-*/
 .hugo_build.lock
 themes/
 .idea
+
+# Agent-prepared commit message drafts (owner reviews, never auto-committed)
+.gitmessage
