@@ -40,11 +40,11 @@ start.setName(&quot;new name&quot;);
 
 // read attributes by generic XML model API (with optional namespace)
 String custom1 = start.getAttributeValue(&quot;custom-attribute&quot;);
-String custom2 = start.getAttributeValueNs(&quot;custom-attribute-2&quot;, &quot;http://camunda.org/custom&quot;);
+String custom2 = start.getAttributeValueNs(&quot;http://camunda.org/custom&quot;, &quot;custom-attribute-2&quot;);
 
 // edit attributes by generic XML model API (with optional namespace)
 start.setAttributeValue(&quot;custom-attribute&quot;, &quot;new value&quot;);
-start.setAttributeValueNs(&quot;custom-attribute&quot;, &quot;http://camunda.org/custom&quot;, &quot;new value&quot;);
+start.setAttributeValueNs(&quot;http://camunda.org/custom&quot;, &quot;custom-attribute&quot;, &quot;new value&quot;);
 </code></pre><p>You can also access the child elements of an element or references to other elements. For example, a sequence flow
 references a source and a target element while a flow node (like start event, tasks, etc.) has child elements
 for incoming and outgoing sequence flows.</p><p>For example, the following BPMN model was created by the BPMN model API as an example for a simple process.</p><pre><code class=language-xml>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;
