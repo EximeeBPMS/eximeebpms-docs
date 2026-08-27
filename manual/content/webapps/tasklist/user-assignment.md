@@ -22,10 +22,9 @@ This works as follows:
 
 {{< img src="../img/tasklist-task-form-modeler.png" title="User Task Assignment" >}}
 
-You can read up on how to implement the inital user assignment for BPMN User Tasks and CMMN Human Tasks in the corresponding reference sections:
+You can read up on how to implement the inital user assignment for BPMN User Tasks in the corresponding reference section:
 
 * [Implementing user assignments for BPMN User Tasks][bpmn-user-assignment]
-* [Implementing user assignments for CMMN Human Tasks][cmmn-user-assignment] (CMMN is deprecated since 1.3.0 and will be removed in 1.4.0)
 
 # Claiming a task in Tasklist
 
@@ -35,5 +34,4 @@ Claiming a task sets the assignee of the task to the user who claimed the task.
 See the [Claiming, unclaiming and reassigning tasks]({{< ref "/webapps/tasklist/dashboard.md#claim-unclaim-and-reassign-tasks" >}}) section for more information.
 
 [bpmn-user-assignment]: {{< ref "/reference/bpmn20/tasks/user-task.md#user-assignment" >}}
-[cmmn-user-assignment]: {{< ref "/reference/cmmn11/tasks/human-task.md#user-assignment" >}}
 [filter]: {{< ref "/webapps/tasklist/filters.md" >}}

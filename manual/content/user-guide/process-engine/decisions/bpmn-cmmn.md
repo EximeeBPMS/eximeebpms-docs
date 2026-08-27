@@ -91,7 +91,7 @@ using a predefined or a custom mapping of the decision result, if necessary.
 
 The engine includes predefined mappings of the decision result for common use
 cases. The mapping is similar to an [output variable mapping]. It extracts a
-value from the decision result which is saved in a process/case variable. The
+value from the decision result which is saved in a process variable. The
 following mappings are available:
 
 <table class="table table-striped">
@@ -140,7 +140,7 @@ relref "#limitations-of-the-serialization-of-the-mapping-result" >}}).
 
 {{< /note >}}
 
-To specify the name of the process/case variable to store the result of the
+To specify the name of the process variable to store the result of the
 mapping, the `eximeebpms:resultVariable` attribute is used.
 
 BPMN:
@@ -229,7 +229,7 @@ public class MyDecisionResultListener implements ExecutionListener {
 The predefined mappings `singleResult`, `collectEntries` and `resultList` map
 the decision result to Java collections. The implementation of the collections
 depends on the used JDK and contains untyped values as Objects. When a collection
-is saved as process/case variable then it is serialized as object value because
+is saved as process variable then it is serialized as object value because
 there is no suitable primitive value type. Depending on the used [object value
 serialization], this can lead to deserialization problems.
 
@@ -244,7 +244,7 @@ default.
 The same problems can occur by using a custom output variable mapping since
 `DmnDecisionResult` has methods that return the same collections as the
 predefined mappers. Additionally, it is not recommended to save a
-`DmnDecisionResult` or a `DmnDecisionResultEntries` as process/case variable because
+`DmnDecisionResult` or a `DmnDecisionResultEntries` as process variable because
 the underlying implementation can change in a new version of EximeeBPMS.
 
 To prevent any of these problems, you should use primitive variables only.
@@ -256,10 +256,10 @@ by yourself.
 DMN Decision tables and Decision Literal Expressions contain multiple expressions which will be evaluated by the
 DMN engine. For more information about the expressions of a decision
 please see our [DMN 1.3 reference][decision table]. These expressions can
-access all process/case variables which are available in the scope of the
+access all process variables which are available in the scope of the
 calling task. The variables are provided through a read-only variable context.
 
-As a shorthand, process/case variables can be directly referenced by name in
+As a shorthand, process variables can be directly referenced by name in
 expressions. For example, if a process variable `foo` exists, then this
 variable can be used in an input expression, input entry and output entry of a decision table 
 by its name.
@@ -268,7 +268,7 @@ by its name.
 <input id="input">
   <!--
     this input expression will return the value
-    of the process/case variable `foo`
+    of the process variable `foo`
   -->
   <inputExpression>
     <text>foo</text>
@@ -276,7 +276,7 @@ by its name.
 </input>
 ```
 
-The returned value of the process/case variable in the expression will
+The returned value of the process variable in the expression will
 be a normal object and not a [typed value][Typed Value API]. If you want
 to use the typed value in your expression, you have to get the variable
 from the variable context. The following snippet does the same as the above
@@ -287,7 +287,7 @@ its unwrapped value.
 <input id="input">
   <!--
     this input expression uses the variable context to
-    get the typed value of the process/case variable `foo`
+    get the typed value of the process variable `foo`
   -->
   <inputExpression>
     <text>

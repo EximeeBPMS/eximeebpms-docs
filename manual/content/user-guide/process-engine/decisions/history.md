@@ -11,8 +11,8 @@ menu:
     pre: "Audit evaluated Decisions"
 ---
 
-After a decision definition has been evaluated either from a BPMN process, CMMN
-case or through the Decision Service, the inputs and outputs are saved in the
+After a decision definition has been evaluated either from a BPMN process
+or through the Decision Service, the inputs and outputs are saved in the
 History of the platform. The history entity is of type
 `HistoricDecisionInstance` and has the event type `evaluate`.
 
@@ -62,28 +62,6 @@ historicDecisionInstances = historyService
 historicDecisionInstances = historyService
   .createHistoricDecisionInstanceQuery()
   .processInstanceId("processInstanceId")
-  .list();
-```
-
-Decisions which were evaluated from a [CMMN decision task] can be filtered
-by the case definition id or key and case instance id. (Filtering by case definition/instance applies to the CMMN decision task, which is deprecated since 1.3.0 and will be removed in 1.4.0.)
-
-```java
-HistoryService historyService = processEngine.getHistoryService();
-
-List<HistoricDecisionInstance> historicDecisionInstances = historyService
-  .createHistoricDecisionInstanceQuery()
-  .caseDefinitionId("caseDefinitionId")
-  .list();
-
-historicDecisionInstances = historyService
-  .createHistoricDecisionInstanceQuery()
-  .caseDefinitionKey("caseDefinitionKey")
-  .list();
-
-historicDecisionInstances = historyService
-  .createHistoricDecisionInstanceQuery()
-  .caseInstanceId("caseInstanceId")
   .list();
 ```
 
@@ -218,4 +196,3 @@ You can audit the evaluated decision definitions in the [Cockpit] webapp.
 [History and Audit Event Log]: {{< ref "/user-guide/process-engine/history/history-configuration.md" >}}
 [DMN 1.3 reference]: {{< ref "/reference/dmn/decision-table/hit-policy.md" >}}
 [BPMN business rule task]: {{< ref "/reference/bpmn20/tasks/business-rule-task.md#using-camunda-dmn-engine" >}}
-[CMMN decision task]: {{< ref "/reference/cmmn11/tasks/decision-task.md" >}}

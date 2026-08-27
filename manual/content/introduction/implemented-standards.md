@@ -10,8 +10,8 @@ menu:
 
 ---
 
-EximeeBPMS implements three different standards in the Business Process Management scope: BPMN 2.0, CMMN 1.1 and DMN 1.3.
-These three standards are defined by the [Object Management Group][OMG] with active collaboration of EximeeBPMS.
+EximeeBPMS implements two different standards in the Business Process Management scope: BPMN 2.0 and DMN 1.3.
+These standards are defined by the [Object Management Group][OMG] with active collaboration of EximeeBPMS.
 
 EximeeBPMS provides open source implementations of execution and [modeling tools][modelers].
 
@@ -26,18 +26,6 @@ EximeeBPMS supports the 2.0 version of BPMN.
 * Tool for modeling BPMN: [BPMN Modeler][modelers]
 * Implementing BPMN Processes: [BPMN Implementation Reference]
 * Executing BPMN: [Process Engine]
-
-# CMMN
-
-{{< note title="" class="warning" >}}
-CMMN support is deprecated since EximeeBPMS 1.3.0 and will be removed in 1.4.0. New process applications should use BPMN for workflow/case-like scenarios instead of CMMN.
-{{< /note >}}
-
-Case Management Model and Notation (CMMN) is a standard for Case Management.
-EximeeBPMS supports the 1.1 version of CMMN.
-
-* Implementing CMMN Cases: [CMMN Implementation Reference]
-* Executing CMMN: [Process Engine]
 
 # DMN
 
@@ -57,7 +45,6 @@ EximeeBPMS supports the 1.1 version of DMN.
 [BPMN Modeling Reference]: https://camunda.com/bpmn/reference/
 [Quick Start (Java / JS)]: /get-started/quick-start/
 [BPMN Implementation Reference]: {{< ref "/reference/bpmn20/_index.md" >}}
-[CMMN Implementation Reference]: {{< ref "/reference/cmmn11/_index.md" >}}
 [DMN Getting Started]: /get-started/dmn11/
 [DMN Implementation Reference]: {{< ref "/reference/dmn/_index.md" >}}
 [DMN Modeling Tutorial]: https://camunda.com/dmn/

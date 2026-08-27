@@ -312,7 +312,7 @@ The available properties are as follows:
 <tr>
 <td><code>.deployment-resource-pattern</code></td>
 <td>Location for auto deployment</td>
-<td><code>classpath*:**/*.bpmn, classpath*:**/*.bpmn20.xml, classpath*:**/*.dmn, classpath*:**/*.dmn11.xml, classpath*:**/*.cmmn, classpath*:**/*.cmmn10.xml, classpath*:**/*.cmmn11.xml</code><br/>Note: `.cmmn`/`.cmmn10.xml`/`.cmmn11.xml` patterns will be removed from the default value together with CMMN support in 1.4.0.</td>
+<td><code>classpath*:**/*.bpmn, classpath*:**/*.bpmn20.xml, classpath*:**/*.dmn, classpath*:**/*.dmn11.xml</code></td>
 </tr>
 
 <tr><td colspan="4"><b>Job Execution</b></td></tr>

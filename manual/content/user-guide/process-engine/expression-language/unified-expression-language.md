@@ -227,8 +227,8 @@ For further details on the functionality of error event definitions in the conte
 
 ## Value
 
-Different BPMN and CMMN elements allow to specify their content or an attribute value by an
-expression. Please see the corresponding sections for [BPMN][] and [CMMN][] in the references
+Different BPMN elements allow to specify their content or an attribute value by an
+expression. Please see the corresponding section for [BPMN][] in the references
 for more detailed examples.
 
 
@@ -278,11 +278,6 @@ evaluating expressions:
       <td><code>externalTask</code></td>
       <td><code>{{< javadocref page="org/eximeebpms/bpm/engine/externaltask/ExternalTask.html" text="ExternalTask" >}}</code></td>
       <td>Available during an external task context activity (e.g. in <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#erroreventdefinition" >}}">eximeebpms:errorEventDefinition</a> expressions).</td>
-    </tr>
-    <tr>
-      <td><code>caseExecution</code></td>
-      <td><code>{{< javadocref page="org/eximeebpms/bpm/engine/delegate/DelegateCaseExecution.html" text="DelegateCaseExecution" >}}</code></td>
-      <td>Available in a CMMN execution context. (CMMN is deprecated since 1.3.0 and will be removed in 1.4.0.)</td>
     </tr>
     <tr>
       <td><code>authenticatedUserId</code></td>
@@ -392,5 +387,4 @@ If the EximeeBPMS Spin process engine plugin is activated, the Spin functions `S
 [Spring]: {{< ref "/user-guide/spring-framework-integration/_index.md#expression-resolving" >}}
 [CDI]: {{< ref "/user-guide/cdi-java-ee-integration/expression-resolving.md" >}}
 [BPMN]: {{< ref "/reference/bpmn20/_index.md" >}}
-[CMMN]: {{< ref "/reference/cmmn11/_index.md" >}}
 [spin-section]: {{< ref "/user-guide/data-formats/_index.md" >}}
