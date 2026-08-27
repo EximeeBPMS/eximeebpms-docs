@@ -54,6 +54,9 @@ jobs:
           hugo-version: '0.54.0'
           extended: true
 
+      - name: Install Pagefind
+        run: npm install -g pagefind@1.5.2
+
       - name: Build Hugo sites
         run: |
           LATEST="${{ steps.versions.outputs.latest }}"
@@ -81,6 +84,11 @@ jobs:
                     "public-manual-${version}/reference/javadoc/"
             fi
 
+            # Build this version's full-text search index (BACKLOG-0023):
+            # one independent index per version, scoped to exactly what was
+            # just built for it
+            pagefind --site "$(pwd)/public-manual-${version}"
+
             if [ "${version}" = "${LATEST}" ]; then
               # Build manual/latest
               hugo --minify \
@@ -98,12 +106,17 @@ jobs:
                       "public-manual-latest/reference/javadoc/"
               fi
 
+              # manual/latest mirrors this version's content exactly, so reuse
+              # its just-built index instead of indexing it a second time
+              cp -r "$(pwd)/public-manual-${version}/pagefind" "$(pwd)/public-manual-latest/pagefind"
+
               # Build get-started
               if [ -d "worktree-${version}/get-started" ]; then
                 hugo --minify \
                   -s "worktree-${version}/get-started" \
                   --baseURL "/get-started/" \
                   -d "$(pwd)/public-get-started"
+                pagefind --site "$(pwd)/public-get-started"
               fi
 
               # Build security
@@ -112,6 +125,7 @@ jobs:
                   -s "worktree-${version}/security" \
                   --baseURL "/security/" \
                   -d "$(pwd)/public-security"
+                pagefind --site "$(pwd)/public-security"
               fi
             fi
 
