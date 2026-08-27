@@ -12,7 +12,7 @@ menu:
 ---
 
 The decision service is a part of the process engine's [Services API]. It allows
-to evaluate a deployed decision definition independently from BPMN and CMMN. (CMMN support is deprecated as of 1.3.0 and will be removed in 1.4.0; this does not affect the Decision Service itself.)
+to evaluate a deployed decision definition independently from BPMN.
 
 # Evaluating a Decision
 

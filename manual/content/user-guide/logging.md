@@ -165,18 +165,6 @@ The process engine logs on the following categories
     <td>logs the start and end of all commands that the engine performs</td>
   </tr>
   <tr>
-    <td><code>org.eximeebpms.bpm.engine.cmmn.behavior</code></td>
-    <td>logs exceptions that occur during cmmn execution for incompatible cmmn behavior</td>
-  </tr>
-  <tr>
-    <td><code>org.eximeebpms.bpm.engine.cmmn.operation</code></td>
-    <td>logs exceptions during execution of cmmn operations</td>
-  </tr>
-  <tr>
-    <td><code>org.eximeebpms.bpm.engine.cmmn.transformer</code></td>
-    <td>logs cmmn transformer operations performed by the engine</td>
-  </tr>
-  <tr>
     <td><code>org.eximeebpms.bpm.engine.context</code></td>
     <td>
       command context logs including executing atomic operations and bpmn stack traces during exceptions<br/>
@@ -297,7 +285,6 @@ However, some of the statements are not covered by only these two loggers. The f
 * `org.eximeebpms.bpm.engine.impl.persistence.entity`
 * `org.eximeebpms.bpm.engine.impl.history.event`
 * `org.eximeebpms.bpm.engine.impl.batch`
-* `org.eximeebpms.bpm.engine.impl.cmmn.entity`
 * `org.eximeebpms.bpm.engine.impl.dmn.entity.repository`
 * `org.eximeebpms.bpm.engine.history`
 

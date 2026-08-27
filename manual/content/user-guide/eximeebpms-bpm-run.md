@@ -170,7 +170,7 @@ EximeeBPMS Run is pre-configured to use a file-based H2 database for testing. Th
 
 ## Deploy BPMN Models
 
-In the unpacked distro, you will find a `resources` folder. All files (including BPMN, DMN, CMMN, form, and script files) will be deployed when you start EximeeBPMS Run. (Note: CMMN support is deprecated as of 1.3.0 and will be removed in 1.4.0.)
+In the unpacked distro, you will find a `resources` folder. All files (including BPMN, DMN, form, and script files) will be deployed when you start EximeeBPMS Run.
 
 You can reference forms and scripts in the BPMN diagram with `embedded:deployment:/my-form.html`, `eximeebpms-forms:deployment:/myform.form`, or `deployment:/my-script.js`. The deployment requires adding an extra `/` as a prefix to the filename.
 

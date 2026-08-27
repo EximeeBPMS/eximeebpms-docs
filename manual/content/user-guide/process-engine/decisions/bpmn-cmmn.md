@@ -1,20 +1,20 @@
 ---
 
-title: 'Invoke Decisions from Processes and Cases'
+title: 'Invoke Decisions from Processes'
 weight: 40
 
 menu:
   main:
-    name: "Decisions in BPMN & CMMN"
+    name: "Decisions in BPMN"
     identifier: "user-guide-process-engine-decisions-bpmn"
     parent: "user-guide-process-engine-decisions"
-    pre: "Invoke Decisions from BPMN Processes and CMMN Cases"
+    pre: "Invoke Decisions from BPMN Processes"
 ---
 
 
-# BPMN & CMMN Integration
+# BPMN Integration
 
-This section explains how to invoke DMN decision from BPMN and CMMN.
+This section explains how to invoke DMN decisions from BPMN.
 
 ## BPMN Business Rule Task
 

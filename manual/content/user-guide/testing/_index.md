@@ -11,8 +11,8 @@ menu:
 
 ---
 
-Testing BPMN processes, CMMN cases (and also DMN decisions) is just as important as testing code.
-This section explains how to write unit tests and integration tests with EximeeBPMS and explains some best practice and guidelines. Note: CMMN support is deprecated since 1.3.0 and scheduled for removal in 1.4.0; the testing guidance for CMMN cases below applies until then.
+Testing BPMN processes (and also DMN decisions) is just as important as testing code.
+This section explains how to write unit tests and integration tests with EximeeBPMS and explains some best practice and guidelines.
 
 
 # Unit Tests
@@ -358,7 +358,7 @@ The feature to [start a process instance at a set of activities]({{< ref "/user-
 
 ## Scoping Tests
 
-BPMN processes, CMMN cases and DMN decisions do not exist in isolation. Consider the example of a BPMN process: firstly, the process itself is executed by the EximeeBPMS engine which requires a database. Next, the process is "not just the process". It can contain expressions, scripts and often calls out to custom Java classes which may in turn again call out to services, either locally or remotely. To test the process, all these things need to be present, otherwise the test cannot work.
+BPMN processes and DMN decisions do not exist in isolation. Consider the example of a BPMN process: firstly, the process itself is executed by the EximeeBPMS engine which requires a database. Next, the process is "not just the process". It can contain expressions, scripts and often calls out to custom Java classes which may in turn again call out to services, either locally or remotely. To test the process, all these things need to be present, otherwise the test cannot work.
 
 Setting all of this up just to run a unit test is expensive. This is why, in practice, it makes sense to apply a concept which we call test scoping. Scoping the test means limiting the amount of infrastructure required to run the test. Things outside of the scope of the test are mocked.
 

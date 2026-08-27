@@ -14,7 +14,7 @@ For users to be able to work on the tasks they should work on, they must be able
 
 This works as follows:
 
-1. Initial Assignment: when a task is created, it is initially assigned to a user or group according to the configuration in the BPMN process (or the CMMN case).
+1. Initial Assignment: when a task is created, it is initially assigned to a user or group according to the configuration in the BPMN process.
 2. Building Filters: [filters][filter] then allow users to find tasks which are assigned to them or to the groups they belong to.
 3. Claiming group tasks: if a task is not directly assigned to a given user, the user must claim the task before working on it.
 

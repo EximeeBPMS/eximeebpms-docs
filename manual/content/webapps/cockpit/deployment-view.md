@@ -33,4 +33,4 @@ To delete a deployment, hover over the deployment  and click on the deletion ico
 
 # Definition Resources
 
-For resources that contain definitions (BPMN, DMN and CMMN files), a preview of the diagram or the table is displayed on the right side of the page as well as the version number of the definitions contained in this resource. At the bottom of the page, there is a list of definitions with a link to the respective definition pages. (CMMN file previews will be removed together with CMMN support in 1.4.0.)
+For resources that contain definitions (BPMN and DMN files), a preview of the diagram or the table is displayed on the right side of the page as well as the version number of the definitions contained in this resource. At the bottom of the page, there is a list of definitions with a link to the respective definition pages.

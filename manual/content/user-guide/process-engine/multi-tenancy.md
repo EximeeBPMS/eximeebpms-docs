@@ -81,7 +81,6 @@ When the [Automatic Resource Deployment]({{< ref "/user-guide/spring-framework-i
 <bean id="processEngineConfiguration" class="org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration">
   <property name="deploymentResources">
     <array>
-      <value>classpath*:/org/eximeebpms/bpm/engine/spring/test/autodeployment/autodeploy.*.cmmn</value>
       <value>classpath*:/org/eximeebpms/bpm/engine/spring/test/autodeployment/autodeploy.*.bpmn20.xml</value>
     </array>
   </property>

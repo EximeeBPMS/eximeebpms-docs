@@ -99,7 +99,6 @@ You can set any process engine configuration properties under the `quarkus.exime
 convert any property names from `camelCase` to the `kebab-case` format, like in the following example:
 
 ```properties
-quarkus.eximeebpms.generic-config.cmmn-enabled=false
 quarkus.eximeebpms.generic-config.dmn-enabled=false
 quarkus.eximeebpms.generic-config.history=none
 ```
@@ -217,7 +216,6 @@ engine configuration, job executor and data source:
 
 ```properties
 # process engine configuration
-quarkus.eximeebpms.generic-config.cmmn-enabled=false
 quarkus.eximeebpms.generic-config.dmn-enabled=false
 quarkus.eximeebpms.generic-config.history=none
 

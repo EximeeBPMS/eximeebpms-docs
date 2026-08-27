@@ -17,10 +17,6 @@ As the impact of the settings discussed here largely depends on the setup and wo
 
 The task query is one of the heaviest used and most powerful queries of the process engine API. Due to its rich feature set, it can also become complex in SQL and may perform badly. 
 
-## Disabling CMMN and Standalone Tasks
+## Disabling Standalone Tasks
 
-{{< note title="" class="warning" >}}
-CMMN support is deprecated since 1.3.0 and will be removed in EximeeBPMS 1.4.0. Once CMMN is removed, the `cmmnEnabled` flag and the CMMN-related task-query joins described below no longer apply; only `standaloneTasksEnabled` will remain relevant.
-{{< /note >}}
-
-To perform transparent access checks, the task query joins the authorization table (`ACT_RU_AUTHORIZATION`). For any kind of process-related filters, it joins the process definition table (`ACT_RE_PROCDEF`). By default, the query uses a left join for these operations. If CMMN and standalone tasks (tasks that are neither related to a BPMN process, nor a CMMN case) are not used, the engine configuration flags `cmmnEnabled` and `standaloneTasksEnabled` can be set to `false`. Then, the left joins are replaced by inner joins which perform better on some databases. See the [configuration properties reference]({{< ref "/reference/deployment-descriptors/tags/process-engine.md#configuration-properties" >}}) for details on these settings.
+To perform transparent access checks, the task query joins the authorization table (`ACT_RU_AUTHORIZATION`). For any kind of process-related filters, it joins the process definition table (`ACT_RE_PROCDEF`). By default, the query uses a left join for these operations. If standalone tasks (tasks that are not related to a BPMN process) are not used, the engine configuration flag `standaloneTasksEnabled` can be set to `false`. Then, the left joins are replaced by inner joins which perform better on some databases. See the [configuration properties reference]({{< ref "/reference/deployment-descriptors/tags/process-engine.md#configuration-properties" >}}) for details on this setting.

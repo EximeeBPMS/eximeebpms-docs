@@ -13,7 +13,7 @@ menu:
 
 BPMN 2.0 makes a distinction between an embedded subprocess and a call activity. From a conceptual point of view, both will call a subprocess when process execution arrives at the activity.
 
-The difference is that the call activity references a process that is external to the process definition, whereas the subprocess is embedded within the original process definition. The main use case for the call activity is to have a reusable process definition that can be called from multiple other process definitions. Although not yet part of the BPMN specification, it is also possible to call a CMMN case definition.
+The difference is that the call activity references a process that is external to the process definition, whereas the subprocess is embedded within the original process definition. The main use case for the call activity is to have a reusable process definition that can be called from multiple other process definitions.
 
 When process execution arrives at the call activity, a new process instance is created, which is used to execute the subprocess, potentially creating parallel child executions as within a regular process. The main process instance waits until the subprocess is completely ended, and continues the original process afterwards.
 
@@ -288,61 +288,6 @@ The XML looks as follows:
 
 There is nothing special about the process definition of the subprocess. It could also be used without being called from another process.
 
-# Create a Case Instance
-
-{{< note title="" class="warning" >}}
-Calling a CMMN case instance from a call activity relies on CMMN, which is deprecated since 1.3.0 and will be removed in EximeeBPMS 1.4.0. Consider calling a BPMN process instead for new implementations.
-{{< /note >}}
-
-A call activity can also be used to create a new CMMN case instance as a subordinate of the corresponding process instance. The call activity completes as soon as the created case instance reaches the state `COMPLETED` for the first time. In contrast to calling a BPMN process, the attribute `caseRef` instead of the attribute `calledElement` must be used to reference a case definition by its key. This means that the latest case definition version is always called.
-
-## Case Binding
-
-To call another version of a case definition it is possible to define the attributes `caseBinding` and `caseVersion` in the call activity. Both attributes are optional.
-
-CaseBinding has three different values:
-
-*   latest: always call the latest case definition version (which is also the default behaviour if the attribute isn't defined)
-*   deployment: if called case  definition is part of the same deployment as the calling process definition, use the version from deployment
-*   version: call a fixed version of the case definition, in this case `caseVersion` is required
-
-```xml
-<callActivity id="callSubProcess" camunda:caseRef="checkCreditCase"
-  camunda:caseBinding="latest|deployment|version"
-  camunda:caseVersion="17">
-</callActivity>
-```
-
-## Case Tenant Id
-
-The call activity must take multi tenancy into account when resolving the case definition to be called.
-
-The [default behavior](#default-tenant-resolution) is the same as when resolving BPMN Process Definitions (i.e., the tenant id of the calling process definition is used to resolve the called case definition.)
-
-In order to override the default behavior, the tenant id for resolving the called case definition can be specified explicitly using the `camunda:caseTenantId` attribute:
-
-```xml
-<callActivity id="callSubProcess" camunda:caseRef="checkCreditCase"
-  camunda:caseTenantId="TENANT_1">
-</callActivity>
-```
-
-If the tenant id is not known at design time, an expression can be used as well:
-
-```xml
-<callActivity id="callSubProcess" camunda:caseRef="checkCreditCase"
-  camunda:caseTenantId="${ myBean.calculateTenantId(variable) }">
-</callActivity>
-```
-
-An expression also allows using the tenant id of the calling process instance instead of the calling process definition:
-
-```xml
-<callActivity id="callSubProcess" camunda:caseRef="checkCreditCase"
-  camunda:caseTenantId="${ execution.tenantId }">
-</callActivity>
-```
-
 # Camunda Extensions
 
 <table class="table table-striped">
@@ -355,10 +300,6 @@ An expression also allows using the tenant id of the calling process instance in
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#calledelementversion" >}}">camunda:calledElementVersion</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#calledelementversiontag" >}}">camunda:calledElementVersionTag</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#calledelementtenantid" >}}">camunda:calledElementTenantId</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#casebinding" >}}">camunda:caseBinding</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#caseref" >}}">camunda:caseRef</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#caseversion" >}}">camunda:caseVersion</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#casetenantid" >}}">camunda:caseTenantId</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#exclusive" >}}">camunda:exclusive</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#jobpriority" >}}">camunda:jobPriority</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-attributes.md#variablemappingclass" >}}">camunda:variableMappingClass</a>,
@@ -388,20 +329,7 @@ An expression also allows using the tenant id of the calling process instance in
       the attribute <code>camunda:calledElementBinding</code> equals <code>version</code>
     </td>
   </tr>
-  <tr>
-    <td></td>
-    <td>
-      The attribute <code>calledElement</code> cannot be used in combination
-      with the attribute <code>camunda:caseRef</code> and vice versa.
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>
-      The attribute <code>camunda:caseVersion</code> should only be set if
-      the attribute <code>camunda:caseBinding</code> equals <code>version</code>
-    </td>
-  </tr>
+
 </table>
 
 # Additional Resources

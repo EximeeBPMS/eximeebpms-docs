@@ -193,9 +193,9 @@ Business Events are disabled by default; enabling them and routing Script Guard 
 
 [Deployments]({{< ref "/user-guide/process-engine/deployments.md" >}}) to the process engine can contain resources that are interpreted like code:
 
-* BPMN, DMN, CMMN models that the process engine executes on the EximeeBPMS server
-* Scripts and templates in various languages (Javascript, Groovy, Freemarker, ...) that the BPMN, DMN, CMMN models reference and that the process engine executes on the EximeeBPMS server
-* Java EL expressions that BPMN, DMN, CMMN models include and that are executed on the EximeeBPMS server
+* BPMN, DMN models that the process engine executes on the EximeeBPMS server
+* Scripts and templates in various languages (Javascript, Groovy, Freemarker, ...) that the BPMN, DMN models reference and that the process engine executes on the EximeeBPMS server
+* Java EL expressions that BPMN, DMN models include and that are executed on the EximeeBPMS server
 * Forms that a client application like EximeeBPMS Tasklist renders in the browser of the end user
 
 EximeeBPMS does not provide a safe sandbox environment for the execution and rendering of these resources. Attackers that are able to make deployments can effectively perform remote code execution in the EximeeBPMS system. It is therefore critical that only trusted users and systems can make deployments. 

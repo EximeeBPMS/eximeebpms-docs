@@ -250,25 +250,6 @@ The following is a list with the most commonly used process engine configuration
     </td>
   </tr>
 
-  <tr>
-    <td><code>cmmnEnabled</code></td>
-    <td>Boolean</td>
-    <td>
-        <strong>Deprecated:</strong> this flag applies to CMMN execution, which is deprecated since 1.3.0 and will be removed together with this flag in EximeeBPMS 1.4.0.
-        <p>
-        When set to <code>false</code>, the following behavior changes:
-        <ul>
-         <li>The automated schema maintenance (creating and dropping tables, see property <code>databaseSchemaUpdate</code>)
-           does not cover the tables required for CMMN execution.</li>
-         <li>CMMN resources are not deployed as case definitions to the engine.</li>
-         <li>Tasks from CMMN cases are not returned by the task query.</li>
-       </ul>
-        Default value is <code>true</code>.
-      <p>
-        <strong>Values:</strong> <code>true</code>, <code>false</code> (Boolean).
-      </p>
-    </td>
-  </tr>
 
   <tr>
     <td><code>databaseSchemaUpdate</code></td>
@@ -1242,7 +1223,7 @@ The history time to live defines the number of days using a time specified by th
   <tr id="enforceHistoryTimeToLive">
     <td><code>enforceHistoryTimeToLive</code></td>
     <td>Boolean</td>
-    <td>Feature flag that prevents the deployment or redeployment of any model resource (BPMN, DMN, CMMN) that contains a <code>historyTimeToLive</code> of <code>null</code> by throwing a <code>ProcessEngineException</code>. Default value: <code>true</code>.
+    <td>Feature flag that prevents the deployment or redeployment of any model resource (BPMN, DMN) that contains a <code>historyTimeToLive</code> of <code>null</code> by throwing a <code>ProcessEngineException</code>. Default value: <code>true</code>.
     </td>
   </tr>
   <tr>
