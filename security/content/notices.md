@@ -15,6 +15,50 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-12
+
+**Publication Date:** August 28, 2026
+
+**Product affected:** EximeeBPMS engine (Enterprise Edition)
+
+**Impact:**
+
+The versions of Apache HttpComponents Core 5 and Netty bundled with EximeeBPMS Enterprise had the following vulnerabilities:
+
+- [CVE-2026-54399](https://github.com/advisories/GHSA-hf6x-8p5f-cgmf) — Apache HttpComponents Core HTTP/1 header parsing can cause memory-exhaustion denial of service
+- [CVE-2026-54428](https://github.com/advisories/GHSA-v3jc-474w-2wm6) — Apache HttpComponents Core HPackDecoder allows unlimited header list size before the SETTINGS ACK
+- [CVE-2026-59901](https://github.com/advisories/GHSA-558v-64gr-wgg4) — Netty `Bzip2Decoder` infinite loop in the RLE state machine hangs the event-loop thread
+- [CVE-2026-55851](https://github.com/advisories/GHSA-q6cq-mhr2-jmr5) — Netty `codec-haproxy` signed-byte sentinel collision in `HAProxyMessageDecoder` leads to unbounded memory exhaustion
+- [CVE-2026-56819](https://github.com/advisories/GHSA-93wv-jw9v-4972) — Netty HTTP/2 decompression leaks a `ByteBuf` reference count when the decompressor channel is already closed, causing direct-memory exhaustion
+- [CVE-2026-55831](https://github.com/advisories/GHSA-6jqx-86gh-f27w) — Netty SPDY SETTINGS frame count materializes an unbounded settings map
+- [CVE-2026-56745](https://github.com/advisories/GHSA-jppx-w49h-x2qq) — Netty `SpdyHttpDecoder` `ByteBuf` reference leak on `RST_STREAM` leads to native memory exhaustion
+- [CVE-2026-55833](https://github.com/advisories/GHSA-mvh2-crg5-v77c) — Netty SPDY zlib header block continues decoded expansion after `maxHeaderSize` truncation
+- [CVE-2026-33870](https://github.com/advisories/GHSA-pwqr-wmgm-9rr8) — Netty HTTP request smuggling via chunked-extension quoted-string parsing
+- [CVE-2026-42584](https://github.com/advisories/GHSA-57rv-r2g8-2cj3) — Netty `HttpClientCodec` response desynchronization
+- [CVE-2026-42587](https://github.com/advisories/GHSA-f6hv-jmp6-3vwv) — Netty `HttpContentDecompressor` `maxAllocation` bypass when `Content-Encoding` is `br`/`zstd`/`snappy`, enabling a decompression-bomb denial of service
+- [CVE-2026-44891](https://github.com/advisories/GHSA-vhch-2wf3-m8rp) — Netty denial of service via unbounded headers in `StompSubframeDecoder`
+- [CVE-2026-56817](https://github.com/advisories/GHSA-4qhr-g3c6-fcfx) — Netty XML: unconfigured XML factory with active DTD and entity handling
+- [CVE-2026-73507](https://github.com/advisories/GHSA-v74w-7mr3-4qg3) — Netty denial of service in `XmlFrameDecoder` via CPU exhaustion
+- [CVE-2026-44249](https://github.com/advisories/GHSA-3qp7-7mw8-wx86) — Netty IPv6 subnet-filter bypass via incorrect comparator masking
+- [CVE-2026-50010](https://github.com/advisories/GHSA-c653-97m9-rcg9) — Netty wrapping a plain trust manager silently disables hostname verification
+- [CVE-2026-45416](https://github.com/advisories/GHSA-x4gw-5cx5-pgmh) — Netty SNI handler pre-allocates up to 16 MiB from nine attacker-controlled bytes
+- [CVE-2026-56820](https://github.com/advisories/GHSA-272m-gcwp-mpwg) — Netty missing CertificateID validation in OCSP responses allows replay attacks
+- [CVE-2026-56821](https://github.com/advisories/GHSA-g7hg-vrcf-mvmr) — Netty accepts out-of-date OCSP responses in `OcspServerCertificateValidator`
+- [CVE-2026-56822](https://github.com/advisories/GHSA-wc96-39fc-566f) — Netty TOCTOU race in `OcspServerCertificateValidator`
+- [CVE-2026-47691](https://github.com/advisories/GHSA-5pvg-856g-cp85) — Netty insufficient bailiwick validation for NS records
+- [CVE-2026-45674](https://github.com/advisories/GHSA-676x-f7gg-47vc) — Netty vulnerable to DNS cache poisoning via missing bailiwick checks in CNAME records
+- [CVE-2026-59902](https://github.com/advisories/GHSA-2qj4-mmr9-4v2f) — Netty memory exhaustion in `SctpMessageCompletionHandler`
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤5.4.2 or Netty ≤4.1.136.Final, up to and including 1.3.2-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition), Apache HttpComponents Core 5 upgraded to 5.4.3 and Netty to 4.1.137.Final. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version.
+
+---
+
 ## Notice EXBPMS-11
 
 **Publication Date:** July 15, 2026
