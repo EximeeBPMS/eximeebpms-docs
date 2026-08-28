@@ -1,156 +1,21 @@
 name: Deploy Hugo Docs to GitHub Pages
 
+# Stub only. The real build/deploy logic lives solely in this same file on
+# master and runs here via workflow_call - do not paste the full job back
+# in here. A previous version of this file WAS a full, independently
+# maintained copy that silently froze at branch-creation time and never
+# picked up any later change made on master (confirmed: all docs/X.Y.Z
+# branches were still on a pre-runner-rename, pre-Pagefind copy), so a
+# push here quietly redeployed the whole site with stale build logic and
+# undid whatever had just been fixed on master. See master's
+# .github/workflows/hugo.yml for the full rationale.
+
 on:
   push:
     branches:
-      - master
       - 'docs/**'
-  workflow_dispatch: {}
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
+      - '!docs/*-ee-next'
 
 jobs:
   deploy:
-    runs-on: self-hosted
-
-    steps:
-      - name: Checkout master
-        uses: actions/checkout@v4
-        with:
-          ref: master
-          fetch-depth: 0
-
-      - name: Fetch docs branches
-        run: git fetch origin 'refs/heads/docs/*:refs/heads/docs/*'
-
-      - name: Read versions config
-        id: versions
-        run: |
-          LATEST=$(grep '^latest:' versions.yaml | sed 's/latest: //;s/"//g;s/ //g')
-          VERSIONS=$(grep '^  - ' versions.yaml | sed 's/  - //;s/"//g' | tr '\n' ' ' | xargs)
-          echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
-          echo "versions=${VERSIONS}" >> "$GITHUB_OUTPUT"
-          echo "Latest: ${LATEST}, Versions: ${VERSIONS}"
-
-      - name: Install Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.54.0'
-          extended: true
-
-      - name: Build Hugo sites
-        run: |
-          LATEST="${{ steps.versions.outputs.latest }}"
-          VERSIONS="${{ steps.versions.outputs.versions }}"
-
-          for version in $VERSIONS; do
-            echo "=== Building docs/${version} ==="
-            git worktree add "worktree-${version}" "docs/${version}"
-            cp -r themes "worktree-${version}/"
-
-            # Build versioned manual
-            hugo --minify \
-              -s "worktree-${version}/manual" \
-              --baseURL "/manual/${version}/" \
-              -d "$(pwd)/public-manual-${version}"
-
-            # Copy javadoc into build output
-            if [ -d "worktree-${version}/manual/javadoc" ]; then
-              mkdir -p "public-manual-${version}/reference/javadoc"
-              cp -r "worktree-${version}/manual/javadoc/." \
-                    "public-manual-${version}/reference/javadoc/"
-            fi
-
-            if [ "${version}" = "${LATEST}" ]; then
-              # Build manual/latest
-              hugo --minify \
-                -s "worktree-${version}/manual" \
-                --baseURL "/manual/latest/" \
-                -d "$(pwd)/public-manual-latest"
-
-              # Build get-started
-              if [ -d "worktree-${version}/get-started" ]; then
-                hugo --minify \
-                  -s "worktree-${version}/get-started" \
-                  --baseURL "/get-started/" \
-                  -d "$(pwd)/public-get-started"
-              fi
-
-              # Build security
-              if [ -d "worktree-${version}/security" ]; then
-                hugo --minify \
-                  -s "worktree-${version}/security" \
-                  --baseURL "/security/" \
-                  -d "$(pwd)/public-security"
-              fi
-            fi
-
-            # Stage this branch's own REST API reference (if any), to override
-            # master's rest/ for this version at deploy time
-            if [ -d "worktree-${version}/rest" ]; then
-              mkdir -p "$(pwd)/rest-overrides"
-              cp -r "worktree-${version}/rest/." "$(pwd)/rest-overrides/"
-            fi
-
-            git worktree remove --force "worktree-${version}"
-          done
-
-      - name: Checkout gh-pages branch
-        uses: actions/checkout@v4
-        with:
-          ref: gh-pages
-          path: gh-pages
-
-      - name: Deploy to gh-pages
-        run: |
-          LATEST="${{ steps.versions.outputs.latest }}"
-          VERSIONS="${{ steps.versions.outputs.versions }}"
-
-          rm -rf gh-pages/docs/*
-          mkdir -p gh-pages/docs
-
-          # Deploy each versioned manual
-          for version in $VERSIONS; do
-            mkdir -p "gh-pages/docs/manual/${version}"
-            cp -r "public-manual-${version}/." "gh-pages/docs/manual/${version}/"
-          done
-
-          # Deploy manual/latest and root pages (from latest version)
-          mkdir -p gh-pages/docs/manual/latest
-          cp -r public-manual-latest/. gh-pages/docs/manual/latest/
-          cp -r public-manual-latest/. gh-pages/docs/
-
-          # Deploy get-started
-          if [ -d public-get-started ]; then
-            mkdir -p gh-pages/docs/get-started
-            cp -r public-get-started/. gh-pages/docs/get-started/
-          fi
-
-          # Deploy security
-          if [ -d public-security ]; then
-            mkdir -p gh-pages/docs/security
-            cp -r public-security/. gh-pages/docs/security/
-          fi
-
-          # REST docs and CNAME
-          mkdir -p gh-pages/docs/rest
-          cp -r rest/. gh-pages/docs/rest/
-
-          # Per-version REST docs committed on a docs/X.Y.Z branch override master's
-          if [ -d rest-overrides ]; then
-            cp -r rest-overrides/. gh-pages/docs/rest/
-          fi
-
-          cp CNAME gh-pages/docs/
-
-      - name: Commit and push changes
-        run: |
-          cd gh-pages
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Actions"
-          git add .
-          git commit -m "Deploy updates to GitHub Pages" || echo "No changes to commit"
-          git push origin gh-pages
+    uses: EximeeBPMS/eximeebpms-docs/.github/workflows/hugo.yml@master
