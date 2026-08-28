@@ -23,5 +23,9 @@
 
     {{ $copyScript := resources.Get "js/copy.js" | fingerprint }}
     <script type="text/javascript" src="{{ $copyScript.Permalink }}" integrity="{{ $copyScript.Data.Integrity }}"></script>
+
+    <script>window.__PAGEFIND_BASE__ = "{{ .Site.BaseURL }}pagefind/";</script>
+    {{ $searchScript := resources.Get "js/search.js" | fingerprint }}
+    <script type="text/javascript" src="{{ $searchScript.Permalink }}" integrity="{{ $searchScript.Data.Integrity }}"></script>
 </body>
 </html>
