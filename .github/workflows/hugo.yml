@@ -1,12 +1,21 @@
 name: Deploy Hugo Docs to GitHub Pages
 
+# Each docs/X.Y.Z branch pushes trigger this same workflow via a tiny stub
+# file on that branch (`uses: EximeeBPMS/eximeebpms-docs/.github/workflows/hugo.yml@master`,
+# workflow_call below) rather than each branch carrying its own full copy of
+# this file. Every docs/X.Y.Z branch's own copy of this file used to be a
+# byte-for-byte duplicate that only ever got frozen at branch-creation time
+# and never updated again - confirmed all 5 existing branches were still on
+# a pre-runner-rename, pre-Pagefind copy, so a push to any of them silently
+# redeployed the whole site with stale build logic, undoing whatever had
+# just been fixed here. Don't let a future edit reintroduce a full copy on
+# a docs/X.Y.Z branch; that's the exact mistake this restructuring fixes.
 on:
   push:
     branches:
       - master
-      - 'docs/**'
-      - '!docs/*-ee-next'
   workflow_dispatch: {}
+  workflow_call: {}
 
 # Every run rebuilds and pushes the *entire* multi-version site to the same
 # gh-pages branch (the per-version loop below reads all of versions.yaml,
