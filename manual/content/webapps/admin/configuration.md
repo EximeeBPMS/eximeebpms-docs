@@ -153,12 +153,12 @@ at the variables defined in the following files:
  - `node_modules/eximeebpms-commons-ui/resources/less/cam-variables.less`
    overrides some Bootstrap variables (above) and add some custom ones
 
-## Compiling with Grunt
+## Compiling the frontend assets
 
-From within the `eximeebpms-bpm-webapp` directory:
+From within the `webapps/frontend` directory:
 
 ```sh
-grunt build:admin
+npm run build
 ```
 
-The command will build the front-end assets (of Admin), styles included.
+The command runs a webpack production build of the front-end assets for all web applications (Admin included), styles included.

@@ -407,7 +407,7 @@ public class CustomScriptEngineResolver extends DefaultScriptEngineResolver {
   }
 
   @Override
-  protected void configureGraalJsScriptEngine(ScriptEngine scriptEngine) {
+  protected void configureGraalJsScriptEngine(String language, ScriptEngine scriptEngine) {
     // do nothing
   }
 

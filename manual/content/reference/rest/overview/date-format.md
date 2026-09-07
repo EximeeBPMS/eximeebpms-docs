@@ -52,9 +52,9 @@ To achieve this, you can edit the `WEB-INF/web.xml` file as follows:
 </web-app>
 ```
 
-With this configuration the REST API will return dates with millisecond
-precision and timezone information. Also, new dates with milliseconds and timezone information 
-can be submitted to the REST API without losing these details.
+With this configuration the REST API will return dates without millisecond
+precision or timezone information. Also, new dates submitted to the REST API
+with milliseconds and timezone information will lose these details.
 
 {{< note title="Webapps compatibility" class="warning" >}}
 Be aware that, to be able to use the EximeeBPMS webapps, the date format must correspond to the following:

@@ -51,7 +51,7 @@ Alternatively, a `javax.sql.DataSource` implementation can be used (e.g., DBCP f
 
 ```xml
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
-  <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+  <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
   <property name="url" value="jdbc:mysql://localhost:3306/eximeebpms?sendFractionalSeconds=false" />
   <property name="username" value="eximeebpms" />
   <property name="password" value="eximeebpms" />

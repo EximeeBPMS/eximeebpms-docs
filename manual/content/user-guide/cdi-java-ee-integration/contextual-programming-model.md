@@ -27,8 +27,8 @@ When resolving `@BusinessProcessScoped` beans or injecting process variables, we
 The EximeeBPMS CDI integration provides the `org.eximeebpms.bpm.engine.cdi.BusinessProcess` bean for controlling the association, most prominently:
 
 * The `startProcessBy*(...)`-methods, mirroring the respective methods exposed by the `RuntimeService` allowing to start and subsequently associate a business process.
-* The `resumeProcessById(String processInstanceId)`, allowing to associate the process instance with the provided Id.
-* The `resumeTaskById(String taskId)`, allowing to associate the task with the provided Id (and by extension, the corresponding process instance).
+* The `associateExecutionById(String executionId)`, allowing to associate the process instance with the provided Id.
+* The `startTask(String taskId)`, allowing to associate the task with the provided Id (and by extension, the corresponding process instance).
 
 Once a unit of work like a user task is completed, the `completeTask()` method can be called to disassociate the conversation/request from the process instance.
 This signals the engine that the current task is completed and makes the process instance proceed.

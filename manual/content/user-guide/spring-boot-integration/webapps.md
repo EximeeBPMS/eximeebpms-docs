@@ -17,7 +17,7 @@ To enable the [Web Applications]({{<ref "/webapps/_index.md">}}) you can use the
 <dependency>
   <groupId>org.eximeebpms.bpm.springboot</groupId>
   <artifactId>eximeebpms-bpm-spring-boot-starter-webapp</artifactId>
-  <version>{project-version}</version>
+  <version>{{< minor-version >}}.0</version>
 </dependency>
 ```
 

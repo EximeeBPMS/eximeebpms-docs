@@ -28,7 +28,7 @@ public class MyApplication {
 }
 ```
 
-Some configuration can be done via Spring Boot configuration parameters. Check [the list of currently available parameters]({{<ref "/user-guide/spring-boot-integration/configuration.md#camunda-bpm-application">}}). 
+Some configuration can be done via Spring Boot configuration parameters. Check [the list of currently available parameters]({{<ref "/user-guide/spring-boot-integration/configuration.md#eximeebpms-engine-properties">}}). 
 
 ## Using Deployment Callbacks
 

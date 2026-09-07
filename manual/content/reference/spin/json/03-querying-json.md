@@ -53,7 +53,7 @@ import static org.eximeebpms.spin.Spin.JSON;
 
 String json = "{\"child\": [{\"id\": 1,\"name\": \"Lucy\",\"sex\": \"female\"},{\"id\": 2,\"name\": \"Tracy\",\"sex\": \"female\"}],\"number\": 1,\"boolean\": true}";
 
-Double count = JSON(json).jsonPath("$.number").numberValue();
+Number count = JSON(json).jsonPath("$.number").numberValue();
 ```
 
 

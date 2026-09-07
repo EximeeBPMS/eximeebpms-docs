@@ -191,17 +191,6 @@ runtimeService
 
 When a signal is thrown within a process (i.e., intermediate signal event or signal end event) then the signal is delivered to definitions and executions which belong to the same tenant as the calling execution or no tenant.
 
-### Create a Case Instance
-
-To create an instance by key of a case definition which is deployed for multiple tenants, the tenant identifier has to be passed to the {{< javadocref page="org/eximeebpms/bpm/engine/runtime/CaseInstanceBuilder.html" text="CaseInstanceBuilder" >}}.
-
-```java
-caseService
-  .withCaseDefinitionByKey("key")
-  .caseDefinitionTenantId("tenant1")
-  .execute();
-```
-
 ### Evaluate a Decision Table
 
 To evaluate a decision table by key which is deployed for multiple tenants, the tenant identifier has to be passed to the {{< javadocref page="org/eximeebpms/bpm/engine/dmn/DecisionEvaluationBuilder.html" text="DecisionEvaluationBuilder" >}}.
@@ -380,7 +369,7 @@ repositoryService.createProcessDefinitionQuery()
 When creating (starting) a new process instance, the tenant id of the process definition is propagated to the process instance.
 Shared resources  do not have a tenant id which means that no tenant id is propagated automatically. To have the tenant id of the user who starts the process instances assigned  to the process instance, an implementation of the {{< javadocref page="org/eximeebpms/bpm/engine/impl/cfg/multitenancy/TenantIdProvider.html" text="TenantIdProvider" >}} SPI needs to be provided.
 
-The `TenantIdProvider` receives a callback when an instance of a process definition, case definition or decision definition is created. It can then assign a tenant id to the newly created instance (or not).
+The `TenantIdProvider` receives a callback when an instance of a process definition or a historic decision definition is created. It can then assign a tenant id to the newly created instance (or not).
 
 The following example shows how to assign a tenant id to an instance based on the current authentication:
 
@@ -389,11 +378,6 @@ public class CustomTenantIdProvider implements TenantIdProvider {
 
   @Override
   public String provideTenantIdForProcessInstance(TenantIdProviderProcessInstanceContext ctx) {
-    return getTenantIdOfCurrentAuthentication();
-  }
-
-  @Override
-  public String provideTenantIdForCaseInstance(TenantIdProviderCaseInstanceContext ctx) {
     return getTenantIdOfCurrentAuthentication();
   }
 
@@ -456,7 +440,6 @@ See also:
 
 * [Shared Resources Example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/multi-tenancy/tenant-identifier-shared-definitions)
 * [Called Element Tenant Id]({{< ref "/reference/bpmn20/subprocesses/call-activity.md#calledelement-tenant-id" >}})
-* [Case Tenant Id]({{< ref "/reference/bpmn20/subprocesses/call-activity.md#case-tenant-id" >}}) for call activities.
 * [Decision Ref Tenant Id]({{< ref "/reference/bpmn20/tasks/business-rule-task.md#decisionref-tenant-id" >}}) for business rule tasks.
 
 # One Process Engine Per Tenant

@@ -209,7 +209,6 @@ In the table below we list some of the more common and useful filters that you c
           </td>
         </tr>
         <tr>
-        <tr>
           <td>
             Tasks due after a specific timespan
           </td>

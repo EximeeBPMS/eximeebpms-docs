@@ -15,7 +15,7 @@ Each version of EximeeBPMS is bound to a specific version of the **External Task
 
 ## Java Client
 
-The [Java External Task Client](https://github.com/EximeeBPMS/eximeebpms/tree/master/clients/java) always shares the same version number as the EximeeBPMS release it ships with:
+The [Java External Task Client](https://github.com/EximeeBPMS/eximeebpms/tree/main/clients/java) always shares the same version number as the EximeeBPMS release it ships with:
 
 <table class="table table-striped">
   <tr>
@@ -41,6 +41,10 @@ The [Java External Task Client](https://github.com/EximeeBPMS/eximeebpms/tree/ma
   <tr>
     <td>1.3.1-ee (Enterprise Edition)</td>
     <td>1.3.1-ee</td>
+  </tr>
+  <tr>
+    <td>1.3.2-ee (Enterprise Edition)</td>
+    <td>1.3.2-ee</td>
   </tr>
 </table>
 

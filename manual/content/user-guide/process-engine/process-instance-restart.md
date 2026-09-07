@@ -36,7 +36,7 @@ runtimeService.deleteProcessInstance(processInstance.getId(), "any reason");
 After that, the manager decides to restore the last state of that process instance.
 
 ```java
-runtimeService.restartProcessInstance(processInstance.getProcessDefinitionId())
+runtimeService.restartProcessInstances(processInstance.getProcessDefinitionId())
 	.startBeforeActivity("receivePayment")
 	.startBeforeActivity("shipOrder")
 	.processInstanceIds(processInstance.getId())

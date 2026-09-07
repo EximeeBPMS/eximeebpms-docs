@@ -19,7 +19,7 @@ all breaking changes.
 If you don't want to migrate your DMN models right now, you can also restore the legacy FEEL 
 behavior by flipping a config flag:
 
-* To see how this legacy behavior can be enabled again in Camunda 7, please see the
+* To see how this legacy behavior can be enabled again in EximeeBPMS, please see the
 [dmnFeelEnableLegacyBehavior][legacy behavior flag] engine configuration property.
 * To enable this behavior in a standalone DMN Engine setup, please refer to the `DefaultDmnEngineConfiguration`
 [enableFeelLegacyBehavior][fluent feel flag setter] and [setEnableFeelLegacyBehavior][feel flag setter] 

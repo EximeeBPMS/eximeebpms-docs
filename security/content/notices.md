@@ -55,7 +55,7 @@ EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition), Apache HttpComponents Core 5 upgraded to 5.4.3 and Netty to 4.1.137.Final. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version.
+Fix merged to the `eximeebpms-enterprise` main branch (Apache HttpComponents Core 5 upgraded to 5.4.3, Netty to 4.1.137.Final), pending its next Enterprise Edition patch release. Not yet shipped in a Community Edition release.
 
 ---
 

@@ -89,7 +89,7 @@ For usage of expression language on conditional events, see the following exampl
 
 ```xml
 <conditionalEventDefinition>
-  <condition type="tFormalExpression">var1 == 1</condition language="feel">
+  <condition type="tFormalExpression" language="feel">var1 == 1</condition>
 </conditionalEventDefinition>
 ```
 
@@ -148,7 +148,7 @@ To learn how EximeeBPMS Spin can be used together with the Scala FEEL Engine vis
 ## Spin Plugin Requirement for Complex FEEL Mappings
 
 When using FEEL to define complex input parameters (such as nested objects or contexts in BPMN input/output mappings) the
-<a href="{{< ref "/user-guide/data-formats/configuring-spin-integration#camunda-engine-plugin-spin" >}}">eximeebpms-engine-plugin-spin</a>
+<a href="{{< ref "/user-guide/data-formats/configuring-spin-integration#eximeebpms-engine-plugin-spin" >}}">eximeebpms-engine-plugin-spin</a>
  **must** be present on the classpath.
 
 Without the Spin plugin:

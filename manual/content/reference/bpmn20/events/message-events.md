@@ -22,7 +22,7 @@ A message event definition is declared by using the `messageEventDefinition` ele
 ```xml
 <definitions id="definitions"
   xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:camunda="http://activiti.org/bpmn"
+  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
   targetNamespace="Examples"
   xmlns:tns="Examples">
 
@@ -255,7 +255,7 @@ The XML representation of a message start event is the normal start event declar
 ```xml
 <definitions id="definitions"
   xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
-  xmlns:camunda="http://activiti.org/bpmn"
+  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
   targetNamespace="Examples"
   xmlns:tns="Examples">
 

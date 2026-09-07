@@ -99,7 +99,7 @@ The table displays:
         <code>time("11:45:30+02:00")</code><br>
         <code>time("10:31:10@Europe/Paris")</code>
     </td>
-    <td><code>org.eximeebpms.feel.syntaxtree.ZonedTime</code></td>
+    <td><code>org.camunda.feel.syntaxtree.ZonedTime</code></td>
     <td>object</td>
   </tr>
   <tr>

@@ -31,5 +31,6 @@ import static org.eximeebpms.spin.Spin.JSON;
 
 SpinJsonNode jsonNode = JSON("{\"customer\": \"Kermit\"}");
 
-StringWriter writer = jsonNode.writeToWriter(new StringWriter());
+StringWriter writer = new StringWriter();
+jsonNode.writeToWriter(writer);
 ```
