@@ -401,7 +401,7 @@ A task listener supports the following attributes:
     Note that the **timeout** event requires a [timerEventDefinition][timerEventDefinition] child
     element in the task listener and will only be fired if the [Job Executor][job-executor] is enabled.
 
-* **class**: the delegation class that must be called. This class must implement the `org.eximeebpms.bpm.engine.impl.pvm.delegate.TaskListener` interface.
+* **class**: the delegation class that must be called. This class must implement the `org.eximeebpms.bpm.engine.delegate.TaskListener` interface.
 
     ```java
     public class MyTaskCreateListener implements TaskListener {
