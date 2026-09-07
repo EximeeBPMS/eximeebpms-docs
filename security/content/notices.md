@@ -15,6 +15,30 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-13
+
+**Publication Date:** September 7, 2026
+
+**Product affected:** EximeeBPMS engine, Connect, and webapps modules' test suite and local-development tooling (Enterprise Edition) — **not** a shipped production artifact; see Impact.
+
+**Impact:**
+
+The bundled version of Jetty used by the WireMock-based test suites (`connect`, `engine`, `engine-rest`, `qa`) and by webapps' embedded local-development server (`mvn jetty:run -Pdevelop`/`-Pdev-e2e`, contributor tooling only — never part of a released Tomcat/WildFly distribution WAR) had the following vulnerability:
+
+- [CVE-2026-10050](https://github.com/jetty/jetty.project/security/advisories/GHSA-2fvj-hgj9-j2gr) — Jetty Digest Authentication uses lossy ISO-8859-1 encoding to compute the response hash, letting an attacker who knows a victim's username bypass Digest auth by substituting non-Latin-1 password characters with `?`
+
+Since Jetty is only ever a test/dev-tooling dependency in this codebase — excluded from every released JAR/WAR by Maven's test scope, and never bundled with the Tomcat/WildFly distributions customers actually deploy — no released production artifact was ever exposed to this vulnerability. It was flagged by dependency scanning against the test/dev classpath only.
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition releases bundling the vulnerable Jetty versions in test/dev scope, up to and including 1.3.2-ee
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition): the WireMock-based test suites' bundled Jetty forced to 12.0.39, and webapps' local-development server migrated off Jetty 11 onto `jetty-ee10-maven-plugin` 12.1.12. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version.
+
+---
+
 ## Notice EXBPMS-12
 
 **Publication Date:** August 28, 2026
