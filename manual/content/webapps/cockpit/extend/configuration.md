@@ -198,7 +198,7 @@ export default {
 };
 ```
 
-If the value of this property is `true`, the flag's checkbox in cockpit will be selected by default. When the property is not present, the default value is `ƒalse`. This flag is used when deleting process definitions and deployments.
+If the value of this property is `true`, the flag's checkbox in cockpit will be selected by default. When the property is not present, the default value is `false`. This flag is used when deleting process definitions and deployments.
 
 # The `batchOperation` configuration
 

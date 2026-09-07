@@ -29,8 +29,8 @@ not be guaranteed which type the flow element will be.
 public class ExampleCaseExecutionListener implements CaseExecutionListener {
 
   public void notify(DelegateCaseExecution caseExecution) throws Exception {
-    CmmnModelInstance modelInstance = execution.getCmmnModelInstance();
-    CmmnElement cmmnElement = execution.getCmmnModelElementInstance();
+    CmmnModelInstance modelInstance = caseExecution.getCmmnModelInstance();
+    CmmnElement cmmnElement = caseExecution.getCmmnModelElementInstance();
   }
 }
 ```

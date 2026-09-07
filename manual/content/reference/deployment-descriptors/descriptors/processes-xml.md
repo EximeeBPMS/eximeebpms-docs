@@ -19,7 +19,7 @@ See the [processes.xml]({{< ref "/user-guide/process-applications/the-processes-
 
 # Xml Schema Namespace
 
-The namespace for the processes.xml file is `http://www.camunda.org/schema/1.0/ProcessApplication`. The XSD file can be found in the `camunda-engine.jar` file.
+The namespace for the processes.xml file is `http://www.camunda.org/schema/1.0/ProcessApplication`. The XSD file can be found in the `eximeebpms-engine.jar` file.
 
 
 # Empty processes.xml

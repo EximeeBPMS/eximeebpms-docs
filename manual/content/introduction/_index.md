@@ -24,7 +24,7 @@ To give you an overview of EximeeBPMS, the following illustration shows the most
 EximeeBPMS is distributed in two editions:
 
 * **Community Edition (CE)** — the open-source edition, currently at **1.3.0**. Publicly available under the [Apache License 2.0]({{< ref "/introduction/licenses.md" >}}).
-* **Enterprise Edition (EE)** — currently at **1.3.1-ee**. Built on a Community Edition baseline with additional features and an accelerated patch/security-fix cadence. Not publicly available — access is provided only under an [Enterprise Edition subscription]({{< ref "/introduction/licenses.md" >}}#enterprise-edition) arranged with your EximeeBPMS account team.
+* **Enterprise Edition (EE)** — currently at **1.3.2-ee**. Built on a Community Edition baseline with additional features and an accelerated patch/security-fix cadence. Not publicly available — access is provided only under an [Enterprise Edition subscription]({{< ref "/introduction/licenses.md" >}}#enterprise-edition) arranged with your EximeeBPMS account team.
 
 Unless a page or section explicitly says otherwise, the documentation describes Community Edition behavior; pages that differ between editions call out the Enterprise Edition addition in its own section. See:
 

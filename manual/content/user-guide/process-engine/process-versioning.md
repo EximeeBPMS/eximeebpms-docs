@@ -131,14 +131,14 @@ The following example shows how to start a process instance of the latest proces
 definition for a version tag:
 
 ```java
-ProcessDefinition pd = processEngine.getRepositoryService().createProcessDefinitionQuery()
+List<ProcessDefinition> pdList = processEngine.getRepositoryService().createProcessDefinitionQuery()
     .processDefinitionKey("invoice")
     .versionTag("1.5-patch2")
-    .orderByVersion().
+    .orderByProcessDefinitionVersion()
     .desc()
     .listPage(0,1);
 
-processEngine.getRuntimeService().startProcessInstanceById(pd.getId());
+processEngine.getRuntimeService().startProcessInstanceById(pdList.get(0).getId());
 ```
 
 {{< note title="Version Tag" class="info" >}}

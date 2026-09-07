@@ -569,7 +569,7 @@ ProcessInstanceQuery processInstanceQuery = runtimeService.createProcessInstance
 runtimeService.createModification("exampleProcessDefinitionId")
   .cancelAllForActivity("exampleActivityId:1")
   .startBeforeActivity("exampleActivityId:2")
-  .processInstanceIds(processInstanceQuery)
+  .processInstanceQuery(processInstanceQuery)
   .processInstanceIds("processInstanceId:1", "processInstanceId:2")
   .execute();
 ```
@@ -610,7 +610,7 @@ Use the `annotation` option to pass an arbitrary text annotation for auditing re
 runtimeService.createProcessInstanceModification(processInstanceId)
   .cancelAllForActivity("declineLoanApplication")
   .startBeforeActivity("processStartEvent")
-  .annotation("Modified to resolve an error.")
+  .setAnnotation("Modified to resolve an error.")
   .execute();
 ```
 It will be visible in [User Operation Log]({{< ref "/user-guide/process-engine/history/user-operation-log.md#annotation-of-user-operation-logs" >}}) for the performed modification.

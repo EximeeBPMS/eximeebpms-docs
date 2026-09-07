@@ -103,7 +103,7 @@ The CMMN concept of `performerRef` can be used to assign a task to a single user
 ```xml
 <case ... >
   ...
-  <humanTask id="theTask" name='important task' perfomerRef="aCaseRole" />
+  <humanTask id="theTask" name='important task' performerRef="aCaseRole" />
   <caseRoles id="aCaseRole" name="kermit" />
 
 </case>
@@ -157,7 +157,7 @@ When performing a task query, it is possible to retrieve the form key as well. T
 if the form keys need to be retrieved for a complete list of tasks:
 
 ```java
-List<Task> tasks = TaskService.createTaskQuery()
+List<Task> tasks = taskService.createTaskQuery()
   .assignee("jonny")
   .initializeFormKeys() // must be invoked
   .list();
@@ -197,7 +197,7 @@ make sure the form keys are initialized.
   <tr>
     <th>Constraints</th>
     <td>
-      The attribute <code>camunda:assignee</code> cannot be used simultaneously with the <code>perfomerRef</code>
+      The attribute <code>camunda:assignee</code> cannot be used simultaneously with the <code>performerRef</code>
       attribute on a human task element.
     </td>
   </tr>

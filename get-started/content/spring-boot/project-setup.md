@@ -51,7 +51,7 @@ We also use `spring-boot-maven-plugin`, which does all the magic for packaging S
 
   <properties>
     <eximeebpms.spring-boot.version>1.0.0</eximeebpms.spring-boot.version>
-    <spring-boot.version>3.4.4</spring-boot.version>
+    <spring-boot.version>4.0.3</spring-boot.version>
     <maven.compiler.release>17</maven.compiler.release>
   </properties>
   

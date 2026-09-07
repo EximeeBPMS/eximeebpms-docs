@@ -63,7 +63,7 @@ The following is an example of a case task that calls the `checkCreditCase` case
 
 ```xml
 <caseTask id="checkCreditCase" caseRef="checkCreditCase"
-  camunda:caseBinding="latest|deployment|version"
+  camunda:caseBinding="version"
   camunda:caseVersion="3">
 </caseTask>
 ```
@@ -90,7 +90,7 @@ The `camunda:caseTenantId` attribute allows to explicitly specify a tenant id:
 ```xml
 <caseTask id="checkCreditCase" caseRef="checkCreditCase"
   camunda:caseTenantId="TENANT_1">
-</casetask>
+</caseTask>
 ```
 
 If the tenant id is not known at design time, an expression can be used as well:

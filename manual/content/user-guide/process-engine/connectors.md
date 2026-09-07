@@ -39,7 +39,7 @@ As EximeeBPMS Connect is available only partially when using the process engine 
 The following `connect` artifacts exist:
 
 * `eximeebpms-connect-core`: a jar that contains only the core Connect classes. The artifact already is available as dependency to the process engine. In addition to `eximeebpms-connect-core`, single connector implementations like `eximeebpms-connect-http-client` and `eximeebpms-connect-soap-http-client` exist. These dependencies should be used when the default connectors have to be reconfigured or when custom connector implementations are used.
-* `eximeebpms-connect-connectors-all`: a single jar without dependencies that contains the HTTP and SOAP connectors.
+* `eximeebpms-connect-connectors-all`: a single jar that contains the HTTP and SOAP connectors together with their dependencies, shaded and relocated to avoid conflicts with other versions of the same dependencies elsewhere on the classpath.
 * `eximeebpms-engine-plugin-connect`: a process engine plugin to add Connect to EximeeBPMS.
 
 
@@ -127,7 +127,7 @@ This artifact contains the HTTP and SOAP connectors as well as their dependencie
 To use a connector, you have to add the EximeeBPMS extension element [connector]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#camunda-connector" >}}). The connector is configured by a unique [connectorId]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#camunda-connectorid" >}}), which specifies the used connector implementation. The ids of the currently supported connectors can be found at the beginning of this section. Additionally, an [input/output mapping]({{< ref "/user-guide/process-engine/variables.md#input-output-variable-mapping" >}}) is used to configure the connector. The required input parameters and the available output parameters depend on the connector implementation. Additional input parameters can also be provided to be used within the connector.
 
 As an example, a shortened configuration of the EximeeBPMS SOAP connector implementation is shown. A complete [example](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/servicetask/soap-service) can be found in the [EximeeBPMS examples repository](https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples) on GitHub.
-                                                                                                                          https://github.com/EximeeBPMS/eximeebpms-bpm-examples/tree/servicetask/soap-service
+
 ```xml
 <serviceTask id="soapRequest" name="Simple SOAP Request">
   <extensionElements>

@@ -51,7 +51,7 @@ The next step consists of setting up the Maven dependencies for your new process
   <packaging>war</packaging>
 
   <properties>
-    <eximeebpms.version>1.0.0</eximeebpms.version>
+    <eximeebpms.version>1.3.0</eximeebpms.version>
     <maven.compiler.release>11</maven.compiler.release>
   </properties>
 

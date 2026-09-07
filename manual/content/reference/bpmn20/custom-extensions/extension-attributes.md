@@ -578,7 +578,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
       <a href="{{< ref "/reference/bpmn20/tasks/send-task.md" >}}">Send Task</a>,
       Message Event Definition of <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-intermediate-throwing-event" >}}">Message Intermediate Throwing Event</a> or <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-end-event" >}}">Message End Event</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#tasklistener" >}}">camunda:taskListener</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListner</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListener</a>
     </td>
   </tr>
 </table>
@@ -809,7 +809,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
       <a href="{{< ref "/reference/bpmn20/tasks/send-task.md" >}}">Send Task</a>,
       Message Event Definition of <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-intermediate-throwing-event" >}}">Message Intermediate Throwing Event</a> or <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-end-event" >}}">Message End Event</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#tasklistener" >}}">camunda:taskListener</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListner</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListener</a>
     </td>
   </tr>
 </table>
@@ -1098,7 +1098,7 @@ The following attributes are extension attributes for the `camunda` namespace `h
       <a href="{{< ref "/reference/bpmn20/tasks/send-task.md" >}}">Send Task</a>,
       Message Event Definition of <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-intermediate-throwing-event" >}}">Message Intermediate Throwing Event</a> or <a href="{{< ref "/reference/bpmn20/events/message-events.md#message-end-event" >}}">Message End Event</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#tasklistener" >}}">camunda:taskListener</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListner</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">camunda:executionListener</a>
     </td>
   </tr>
 </table>

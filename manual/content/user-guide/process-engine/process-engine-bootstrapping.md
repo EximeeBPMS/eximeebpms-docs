@@ -19,7 +19,7 @@ You have a number of options to configure and create a process engine depending 
 You manage the process engine as part of your application. The following ways exist to configure it:
 
 * [Programmatically via Java API]({{< relref "#bootstrap-a-process-engine-using-the-java-api" >}})
-* [Via XML configuration]({{< relref "#configure-process-engine-using-camunda-cfg-xml" >}})
+* [Via XML configuration]({{< relref "#configure-process-engine-using-eximeebpms-cfg-xml" >}})
 * [Via Spring]({{< ref "/user-guide/spring-framework-integration/_index.md" >}})
 
 
@@ -62,7 +62,7 @@ ProcessEngine processEngine = ProcessEngineConfiguration.createStandaloneInMemPr
 ```
 
 
-## Configure Process Engine Using camunda cfg XML
+## Configure Process Engine Using eximeebpms cfg XML
 
 The easiest way to configure your Process Engine is through an XML file called `eximeebpms.cfg.xml`. Using that you can simply do:
 

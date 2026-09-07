@@ -140,7 +140,7 @@ It is represented by a `knowledgeSource` element inside the `definitions` elemen
   
   <decision id="dish" name="Dish">
     <authorityRequirement>
-      <requiredDecision href="#cookbook" />
+      <requiredAuthority href="#cookbook" />
     </authorityRequirement>
     <!-- ... -->
 </definitions>

@@ -118,7 +118,7 @@ In the above example, sentry is evaluated when the `create` event on the variabl
 Variable event that occurs in the scope of the execution triggers the sentry with variableOnParts in the following conditions:
 
 * `variableName` and `variableEvent` defined in the variableOnPart of the sentry matches the occurred variable event and the associated variable name.
-* There exists no variable of the same name in the ancestory path of the sentry between the execution scope of the sentry and the execution scope of the variable event occurrence (the scope of the variable definition)
+* There exists no variable of the same name in the ancestry path of the sentry between the execution scope of the sentry and the execution scope of the variable event occurrence (the scope of the variable definition)
 
 Consider the below example in which there are two human tasks. `HumanTask1` is defined inside the case model and the `HumanTask_2` is defined inside the stage.
 Each human task is attached with a entry criterion sentry and both the sentries are evaluated when the update event for the variable `foo` occurs.
@@ -143,4 +143,4 @@ Sentries allow a flexible definition of event occurrences and data-based conditi
 * A valid sentry must have at least one of the sentry parts (OnPart or IfPart or VariableOnPart).
 * A sentry without OnParts is fulfilled when the IfPart evaluates to `true` and all the VariableOnParts have occurred.
 * A sentry without an IfPart is fulfilled when all OnParts and all the VariableOnParts have occurred.
-* A sentry without variableOnPart is fullfilled when all the OnParts and IfPart are fulfilled.
+* A sentry without variableOnPart is fulfilled when all the OnParts and IfPart are fulfilled.

@@ -117,6 +117,20 @@ quarkus.camunda.id-generator=uuid-v1
 <property name="id-generator">uuid-v1</property>
 ```
 
+## Prefixed UUID Generator (Spring Boot only)
+
+Spring Boot applications can prepend the application's `spring.application.name` to every
+generated `StrongUuidGenerator` (UUID v7) identifier, joined by a `-`. This is useful for telling
+identifiers apart at a glance when several applications share a database or a log stream.
+
+```yaml
+eximeebpms.bpm:
+  id-generator: prefixed
+```
+
+`spring.application.name` must be set to a non-blank value for this option to work. This option
+has no Quarkus or `bpm-platform.xml` equivalent.
+
 ## Migration Note
 
 | Version | Default generator | UUID version |

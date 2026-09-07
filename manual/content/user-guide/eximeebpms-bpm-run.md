@@ -181,7 +181,7 @@ Deployments via the {{< restref page="createDeployment" text="REST API" tag="Dep
 Just like all the other distros, you can tailor EximeeBPMS Run to your needs. To do this, you only have to edit one of the [configuration files](#choose-between-default-and-production-configuration) that you can find in the configuration folder.
 
 {{< note title="Note:" class="info" >}}
-EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/EximeeBPMS/eximeebpms/tree/master/spring-boot-starter). 
+EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.com/EximeeBPMS/eximeebpms/tree/main/spring-boot-starter). 
 All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the eximeebpms-spring-boot-starter are available to customize EximeeBPMS Run.
 {{< /note >}}
 
@@ -510,7 +510,7 @@ are however still accessible on the classpath of EximeeBPMS Run. Consult the [ex
       <td rowspan="15"><code>eximeebpms.bpm.run.example</code></td>
       <td><code>.enabled</code></td>
       <td>Switch to enable the example application.</td>
-      <td><code>false</code></td>
+      <td><code>true</code></td>
   </tr>
 </table>
 
@@ -571,7 +571,7 @@ After starting EximeeBPMS Run, you can access the webapps via https://localhost:
 EximeeBPMS provides fine-grained and customizable logging. An overview of the available logging categories can be found in the [Logging User Guide]({{< ref "/user-guide/logging.md#process-engine" >}}).
 To configure the logging behavior in EximeeBPMS Run, customize your configuration file with the following properties.
 
-For more information on logging configuration visit the [Spring Boot Logging Guide](https://docs.spring.io/spring-boot/docs/2.4.0/reference/html/spring-boot-features.html#boot-features-logging).
+For more information on logging configuration visit the [Spring Boot Logging Guide](https://docs.spring.io/spring-boot/reference/features/logging.html).
 
 <table class="table desc-table">
   <tr>
