@@ -212,7 +212,7 @@ This would cancel the Task and cause a <strong>delete</strong> event to be fired
 event loop.</p><h2 id=defining-a-task-listener>Defining a Task Listener</h2><p>A task listener supports the following attributes:</p><ul><li><p><strong>event (required)</strong>: the type of task event on which the task listener will be invoked.
 Possible events are: <strong>create</strong>, <strong>assignment</strong>, <strong>update</strong>, <strong>complete</strong>, <strong>delete</strong> and
 <strong>timeout</strong>;</p><p>Note that the <strong>timeout</strong> event requires a <a href=/manual/latest/reference/bpmn20/events/timer-events/#defining-a-timer>timerEventDefinition</a> child
-element in the task listener and will only be fired if the <a href=/manual/latest/user-guide/process-engine/the-job-executor/>Job Executor</a> is enabled.</p></li><li><p><strong>class</strong>: the delegation class that must be called. This class must implement the <code>org.eximeebpms.bpm.engine.impl.pvm.delegate.TaskListener</code> interface.</p><pre><code class=language-java>public class MyTaskCreateListener implements TaskListener {
+element in the task listener and will only be fired if the <a href=/manual/latest/user-guide/process-engine/the-job-executor/>Job Executor</a> is enabled.</p></li><li><p><strong>class</strong>: the delegation class that must be called. This class must implement the <code>org.eximeebpms.bpm.engine.delegate.TaskListener</code> interface.</p><pre><code class=language-java>public class MyTaskCreateListener implements TaskListener {
 
   public void notify(DelegateTask delegateTask) {
     // Custom logic goes here
