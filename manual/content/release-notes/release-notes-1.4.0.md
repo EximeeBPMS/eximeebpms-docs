@@ -23,7 +23,7 @@ menu:
 - [**javax (legacy) namespace support dropped**](#javax-legacy-namespace-support-dropped) — the engine and its distributions are now Jakarta-only
 - **Java 21 baseline** — up from Java 17; JDK 25 is additionally verified in CI
 - [**Five CVE fixes**](#security) ported over from the Enterprise Edition track (jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty / Apache Ant)
-- [**UUID v1 legacy generator removal deferred**](#legacy-uuid-v1-generator-removal-deferred) — corrects the removal announced for 1.4.0 in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); the generator remains available and deprecated
+- [**UUID v1 legacy generator removed**](#legacy-uuid-v1-generator-removed) — as announced in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); `id-generator=uuid-v1` now silently falls back to the default (UUID v7) with a startup warning instead of activating the legacy generator
 - Fixed a race in the External Task Client where `stop()` could return before an in-flight task handler invocation had finished
 
 ---
@@ -60,6 +60,12 @@ Following the deprecation announced in 1.3.0, the `distro/wildfly26` distributio
 
 The engine and its Spring Boot / Quarkus integrations, distributions, and clients are now built exclusively against the **Jakarta EE** namespace; the `javax`-based legacy build path is removed. This mirrors the Enterprise Edition, which dropped `javax` support earlier. Embedded-engine users still referencing `javax.*` APIs for engine integration need to migrate to the corresponding `jakarta.*` types before upgrading.
 
+### Legacy UUID v1 Generator Removed {#legacy-uuid-v1-generator-removed}
+
+Following the deprecation announced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator) (Community Edition) / [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) (Enterprise Edition), `UuidV1Generator` is **removed** in 1.4.0. Setting `id-generator` to `uuid-v1` (Spring Boot, Quarkus, or `bpm-platform.xml`) no longer selects it — the process engine falls back to `StrongUuidGenerator` (UUID v7, the default) instead, and logs a warning at startup. Remove the `id-generator=uuid-v1` setting from your configuration; it no longer has any effect.
+
+→ [Id Generators — Legacy UUID v1 Generator]({{< ref "/user-guide/process-engine/id-generator.md" >}}#legacy-uuid-v1-generator-removed)
+
 ---
 
 ## Changed
@@ -75,16 +81,6 @@ A broad set of dependencies was updated, including several security-motivated up
 ### SQL Migration Scripts Split Between 1.3 and 1.4
 
 Schema migration scripts are now split per target version instead of being bundled together, giving the engine a dedicated `1.3-to-1.4` upgrade path — this is what the CMMN-removal migration (see above) runs on.
-
----
-
-## Deprecations
-
-### Legacy UUID v1 Generator Removal Deferred {#legacy-uuid-v1-generator-removal-deferred}
-
-The [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator) announced that the deprecated `id-generator=uuid-v1` legacy fallback (`UuidV1Generator`) would be removed in 1.4.0. **That removal has not happened** — `UuidV1Generator` and the `uuid-v1` configuration value remain available in 1.4.0, still deprecated, for environments that have not yet migrated off UUID v1. Do not rely on this generator long-term; migrate to the default `StrongUuidGenerator` (UUID v7) when possible.
-
-→ [Id Generators — Legacy UUID v1 Generator]({{< ref "/user-guide/process-engine/id-generator.md" >}}#legacy-uuid-v1-generator-deprecated)
 
 ---
 
