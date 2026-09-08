@@ -30,7 +30,7 @@ deployment for a DMN file in the classpath.
 
 ```java
 String resourceName = "MyDecision.dmn11.xml";
-Deploymnet deployment = processEngine
+Deployment deployment = processEngine
   .getRepositoryService()
   .createDeployment()
   .addClasspathResource(resourceName)

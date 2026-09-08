@@ -527,17 +527,6 @@ The following describes the operations logged in the user operation log and the 
     </td>
   </tr>
   <tr>
-    <td>CaseDefinition</td>
-    <td>UpdateHistoryTimeToLive</td>
-	<td>Operator</td>
-    <td>
-      <ul>
-        <li><strong>historyTimeToLive</strong>: the new history time to live.</li>
-        <li><strong>caseDefinitionKey</strong>: the key of the case definition whose history time to live is updated.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
     <td>Job</td>
     <td>ActivateJob</td>
 	<td>Operator</td>

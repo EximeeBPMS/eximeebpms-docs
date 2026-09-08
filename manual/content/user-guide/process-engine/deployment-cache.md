@@ -20,7 +20,6 @@ If one has many process definitions, the cache might occupy a large amount of me
 By changing the maximum capacity, the configuration effects all of the following cache components:
 
  * Process definition
- * Case definition
  * Decision definition
  * Decision requirements definition
    

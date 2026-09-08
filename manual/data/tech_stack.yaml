@@ -59,14 +59,14 @@ categories:
   - name: Application Servers
     components:
       - name: Apache Tomcat
-        sub: "Jakarta · 10.x"
+        sub: "Jakarta · 11.x"
         values:
           v1.0.0: { value: "10.1.36" }
           v1.1.0: { value: "10.1.43", change: up }
           v1.2.0: { value: "10.1.50", change: up }
           v1.3.0: { value: "10.1.50" }
-          v1.4.0: { value: "10.1.56", change: up }
-          ent: { value: "10.1.56", change: up }
+          v1.4.0: { value: "11.0.24", change: mj }
+          ent: { value: "11.0.25", change: mj }
       - name: Apache Tomcat
         sub: "javax legacy · 9.x"
         values:
@@ -103,7 +103,7 @@ categories:
           v1.2.0: { value: "7.0.5", change: mj, note: "jakarta-only; Spring 5 removed" }
           v1.3.0: { value: "7.0.5" }
           v1.4.0: { value: "7.0.8", change: up }
-          ent: { value: "7.0.8", change: up }
+          ent: { value: "7.0.9", change: up }
       - name: Spring Boot
         values:
           v1.0.0: { value: "3.4.4" }
@@ -111,7 +111,7 @@ categories:
           v1.2.0: { value: "4.0.3", change: mj }
           v1.3.0: { value: "4.0.3" }
           v1.4.0: { value: "4.1.0", change: up }
-          ent: { value: "4.1.0", change: up }
+          ent: { value: "4.1.1", change: up }
       - name: Quarkus
         values:
           v1.0.0: { value: "3.20.0" }
@@ -156,8 +156,8 @@ categories:
           v1.1.0: { value: "2.15.2" }
           v1.2.0: { value: "2.15.2" }
           v1.3.0: { value: "2.15.2" }
-          v1.4.0: { value: "2.21.4", change: mj, note: "Fixes CVE-2023-35116" }
-          ent: { value: "2.21.4", change: up, badge: Upgrade }
+          v1.4.0: { value: "2.22.1", change: mj, note: "Fixes CVE-2023-35116" }
+          ent: { value: "2.22.1", change: up, badge: Upgrade }
       - name: FEEL-Scala
         sub: "DMN Engine"
         values:
@@ -174,7 +174,7 @@ categories:
           v1.2.0: { value: "4.0.22" }
           v1.3.0: { value: "4.0.22" }
           v1.4.0: { value: "5.0.6", change: mj }
-          ent: { value: "5.0.6", change: mj }
+          ent: { value: "5.0.8", change: mj }
       - name: FreeMarker
         values:
           v1.0.0: { value: "2.3.31" }
@@ -194,7 +194,7 @@ categories:
           v1.2.0: { value: "1.2.0" }
           v1.3.0: { value: "1.2.0" }
           v1.4.0: { value: "1.7.0", change: mj }
-          ent: { value: "1.7.0", change: mj }
+          ent: { value: "1.12.0-ee", change: mj, note: "eximeebpms-enterprise-bpm-spring-boot-monitor — a separately versioned fork, not the same artifact as the OSS column" }
 
   - name: "Supported Databases — JDBC Drivers"
     components:

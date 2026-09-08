@@ -79,7 +79,7 @@ EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition), Apache HttpComponents Core 5 upgraded to 5.4.3 and Netty to 4.1.137.Final. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version.
+Fix merged to the `eximeebpms-enterprise` main branch (Apache HttpComponents Core 5 upgraded to 5.4.3, Netty to 4.1.137.Final), pending its next Enterprise Edition patch release. Not yet shipped in a Community Edition release.
 
 ---
 
@@ -128,7 +128,7 @@ EximeeBPMS Enterprise Edition releases using Tomcat 10 ≤10.1.52, up to and inc
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.55. Also fixed in EximeeBPMS 1.4.0 (Community Edition), Tomcat 10 upgraded to 10.1.56.
+Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.55. Also fixed in EximeeBPMS 1.4.0 (Community Edition), Tomcat upgraded to 11.0.24.
 
 ---
 
@@ -202,7 +202,7 @@ EximeeBPMS 1.2.0 through 1.2.15-ee
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.2.16-ee (Enterprise Edition), jackson-databind upgraded to 2.21.3. Also fixed in EximeeBPMS 1.4.0 (Community Edition), jackson-databind upgraded to 2.21.4.
+Fixed in EximeeBPMS 1.2.16-ee (Enterprise Edition), jackson-databind upgraded to 2.21.3. Also fixed in EximeeBPMS 1.4.0 (Community Edition), jackson-databind upgraded to 2.22.1.
 
 ---
 

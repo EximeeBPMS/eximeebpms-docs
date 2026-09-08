@@ -18,9 +18,7 @@ The history level controls the amount of data the process engine provides via th
 * `NONE`: no history events are fired.
 * `ACTIVITY`: the following events are fired:
     * Process Instance START, UPDATE, END, MIGRATE: fired as process instances are being started, updated, ended and migrated
-    * Case Instance CREATE, UPDATE, CLOSE: fired as case instances are being created, updated and closed
     * Activity Instance START, UPDATE, END, MIGRATE: fired as activity instances are being started, updated, ended and migrated
-    * Case Activity Instance CREATE, UPDATE, END: fired as case activity instances are being created, updated and ended
     * Task Instance CREATE, UPDATE, COMPLETE, DELETE, MIGRATE: fired as task instances are being created, updated (i.e., re-assigned, delegated etc.), completed, deleted and migrated.
 * `AUDIT`: in addition to the events provided by history level `ACTIVITY`, the following events are fired:
     * Variable Instance CREATE, UPDATE, DELETE, MIGRATE: fired as process variables are created, updated, deleted and migrated. The default history backend (DbHistoryEventHandler) writes variable instance events to the historic variable instance database table. Rows in this table are updated as variable instances are updated, meaning that only the last value of a process variable will be available.
@@ -112,13 +110,11 @@ The default history database writes History Events to the appropriate database t
 
 ## History entities
 
-There are the following History entities, which - in contrast to the runtime data - will also remain present in the DB after process and case instances have been completed:
+There are the following History entities, which - in contrast to the runtime data - will also remain present in the DB after process instances have been completed:
 
 * `HistoricProcessInstances` containing information about current and past process instances.
 * `HistoricVariableInstances` containing information about the latest state a variable held in a process instance.
-* `HistoricCaseInstances` containing information about current and past case instances.
 * `HistoricActivityInstances` containing information about a single execution of an activity.
-* `HistoricCaseActivityInstances` containing information about a single execution of a case activity.
 * `HistoricTaskInstances` containing information about current and past (completed and deleted) task instances.
 * `HistoricDetails` containing various kinds of information related to either a historic process instances, an activity instance or a task instance.
 * `HistoricIncidents` containing information about current and past (i.e., deleted or resolved) incidents.
@@ -145,8 +141,8 @@ Among them following states can be triggered externally, for example through RES
 ### Query history
 
 The HistoryService exposes the methods `createHistoricProcessInstanceQuery()`,
-`createHistoricVariableInstanceQuery()`, `createHistoricCaseInstanceQuery()`,
-`createHistoricActivityInstanceQuery()`, `createHistoricCaseActivityInstanceQuery()`,
+`createHistoricVariableInstanceQuery()`,
+`createHistoricActivityInstanceQuery()`,
 `createHistoricDetailQuery()`,
 `createHistoricTaskInstanceQuery()`,
 `createHistoricIncidentQuery()`,
@@ -171,19 +167,6 @@ historyService.createHistoricProcessInstanceQuery()
   .listPage(0, 10);
 ```
 
-**HistoricCaseInstanceQuery**
-
-Get the ten `HistoricCaseInstances` that are closed and that took the most time to be closed (the longest duration) of all closed cases with definition 'XXX'.
-
-```java
-historyService.createHistoricCaseInstanceQuery()
-  .closed()
-  .caseDefinitionId("XXX")
-  .orderByCaseInstanceDuration().desc()
-  .listPage(0, 10);
-```
-
-
 **HistoricActivityInstanceQuery**
 
 Get the last `HistoricActivityInstance` of type 'serviceTask' that has been finished in any process that uses the processDefinition with id 'XXX'.
@@ -194,18 +177,6 @@ historyService.createHistoricActivityInstanceQuery()
   .processDefinitionId("XXX")
   .finished()
   .orderByHistoricActivityInstanceEndTime().desc()
-  .listPage(0, 1);
-```
-
-**HistoricCaseActivityInstanceQuery**
-
-Get the last `HistoricCaseActivityInstance` that has been finished in any case that uses the caseDefinition with id 'XXX'.
-
-``` java
-historyService.createHistoricCaseActivityInstanceQuery()
-  .caseDefinitionId("XXX")
-  .finished()
-  .orderByHistoricCaseActivityInstanceEndTime().desc()
   .listPage(0, 1);
 ```
 
@@ -409,19 +380,19 @@ The supported period times and the confinement of the query works analogously to
 
 #### Finished instance report
 
-Retrieves a report of finished process, decision or case instances. The report helps the user to tune the history time to live for definitions. They can see a summary of the historic data which can be cleaned after history cleanup. The output fields are definition id, key, name, version, count of the finished instances and count of the 'cleanable' instances.
+Retrieves a report of cleanable historic process instances, decision instances or batches. The report helps the user to tune the history time to live for definitions. They can see a summary of the historic data which can be cleaned after history cleanup. The output fields are definition id, key, name, version, count of the finished instances and count of the 'cleanable' instances.
 
 ```java
 historyService
-  .createHistoricFinishedProcessInstanceReport()
+  .createCleanableHistoricProcessInstanceReport()
   .list();
 
 historyService
-  .createHistoricFinishedDecisionInstanceReport()
+  .createCleanableHistoricDecisionInstanceReport()
   .list();
 
 historyService
-  .createHistoricFinishedCaseInstanceReport()
+  .createCleanableHistoricBatchReport()
   .list();
 ```
 

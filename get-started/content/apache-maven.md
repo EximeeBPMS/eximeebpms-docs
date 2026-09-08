@@ -24,7 +24,7 @@ Most EximeeBPMS artifacts are pushed to [maven central](https://central.sonatype
     <dependency>
       <groupId>org.eximeebpms.bpm</groupId>
       <artifactId>eximeebpms-bom</artifactId>
-      <version>1.0.0</version>
+      <version>1.3.0</version>
       <scope>import</scope>
       <type>pom</type>
     </dependency>
@@ -84,7 +84,7 @@ This BOM allows to use the DMN engine standalone without the BPMN engine and the
   <dependency>
     <groupId>org.eximeebpms.bpm.dmn</groupId>
     <artifactId>eximeebpms-engine-dmn-bom</artifactId>
-    <version>1.0</version>
+    <version>1.3.0</version>
     <type>pom</type>
     <scope>import</scope>
   </dependency>
@@ -113,8 +113,8 @@ It is not needed when using `eximeebpms-engine` because that already contains th
 
 # EximeeBPMS Artifact Storage
 
-In order to browse the EximeeBPMS artifacts, here are the link you can use.
-[eximeebpms.org/download/](https://repo1.maven.org/maven2/org/eximeebpms/). 
+In order to browse the EximeeBPMS artifacts, you can use
+[this Maven Central directory listing](https://repo1.maven.org/maven2/org/eximeebpms/).
 
 
 # Other EximeeBPMS Modules:

@@ -46,7 +46,7 @@ The "General Data" category contains information about the process engine:
 
 * Installation - an id that is stored as process engine configuration property
 * Product name - the name of the product (i.e., `EximeeBPMS BPM Runtime`)
-* Product version - the version of the process engine (i.e., `7.X.Y`)
+* Product version - the version of the process engine (i.e., `1.X.Y`)
 * Product edition - the edition of the product
 * License key - the customer name, expiry date and enabled features as well as the raw license info
 
@@ -137,5 +137,5 @@ The counts are collected from the start of the engine or the last reported time 
 
 ## Source code 
 
-In case you want further details, you can have a look at the implementation of the diagnostics topic in [our codebase](https://github.com/EximeeBPMS/eximeebpms/blob/master/engine/src/main/java/org/eximeebpms/bpm/engine/impl/diagnostics/DiagnosticsCollector.java). The link leads you to the current `master` version of the feature.
+In case you want further details, you can have a look at the implementation of the diagnostics topic in [our codebase](https://github.com/EximeeBPMS/eximeebpms/blob/main/engine/src/main/java/org/eximeebpms/bpm/engine/impl/diagnostics/DiagnosticsCollector.java). The link leads you to the current `main` version of the feature.
 

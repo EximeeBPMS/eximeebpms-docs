@@ -34,7 +34,7 @@ assertTrue(hasAttr);
 ```java
 import static org.eximeebpms.spin.Spin.XML;
 
-SpinXmlDomAttribute attribute = XML("<order id=\"order1\" />").attr("id");
+SpinXmlAttribute attribute = XML("<order id=\"order1\" />").attr("id");
 String id = XML("<order id=\"order1\" />").attr("id").value();
 ```
 
@@ -47,7 +47,7 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<order xmlns:cam=\"http://camunda.org/example\" id=\"order1\" cam:name=\"order1\" />";
 
-SpinXmlDomAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
+SpinXmlAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
 ```
 
 You can also get a collection of all attributes or only of a specific namespace.
@@ -58,7 +58,7 @@ import static org.eximeebpms.spin.Spin.XML;
 String xml = "<order xmlns:cam=\"http://camunda.org/example\" id=\"order1\" cam:name=\"order1\" />";
 
 // All attributes
-SpinCollection<SpinXmlDomAttribute> attributes = XML(xml).attrs();
+SpinList<SpinXmlAttribute> attributes = XML(xml).attrs();
 
 // All attributes of a specific namespace
 attributes = XML(xml).attrs("http://camunda.org/example");
@@ -89,7 +89,7 @@ String xml = "<order id=\"order1\" />";
 
 XML(xml).attr("id", "newId");
 
-SpinXmlDomAttribute attribute = XML(xml).attr("id");
+SpinXmlAttribute attribute = XML(xml).attr("id");
 attribute.value("newId");
 ```
 
@@ -102,7 +102,7 @@ String xml = "<order xmlns:cam=\"http://camunda.org/example\" id=\"order1\" cam:
 
 XML(xml).attrNs("http://camunda.org/example", "name", "newName");
 
-SpinXmlDomAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
+SpinXmlAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
 attribute.value("newName");
 ```
 
@@ -115,12 +115,12 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<order id=\"order1\" />";
 
-SpinXmlDomElement element = XML(xml).removeAttr("id");
-assertFalse(element.hasAttr("id));
+SpinXmlElement element = XML(xml).removeAttr("id");
+assertFalse(element.hasAttr("id"));
 
-SpinXmlDomAttribute attribute = XML(xml).attr("id");
+SpinXmlAttribute attribute = XML(xml).attr("id");
 element = attribute.remove();
-assertFalse(element.hasAttr("id));
+assertFalse(element.hasAttr("id"));
 ```
 
 You can also specify the namespace of the attribute to remove.
@@ -130,11 +130,11 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<order xmlns:cam=\"http://camunda.org/example\" id=\"order1\" cam:name=\"name\" />";
 
-SpinXmlDomElement element = XML(xml).removeAttrNs("http://camunda.org/example", "name");
-assertFalse(element.hasAttrNs("http://camunda.org/example/", "name"));
+SpinXmlElement element = XML(xml).removeAttrNs("http://camunda.org/example", "name");
+assertFalse(element.hasAttrNs("http://camunda.org/example", "name"));
 
-SpinXmlDomAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
-element = attribute.remove()
+SpinXmlAttribute attribute = XML(xml).attrNs("http://camunda.org/example", "name");
+element = attribute.remove();
 assertFalse(element.hasAttrNs("http://camunda.org/example", "name"));
 ```
 
@@ -146,7 +146,7 @@ It is possible to read and write the text content of an XML element with the `te
 ```java
 import static org.eximeebpms.spin.Spin.XML;
 
-SpinXmlDomElement element = XML("<customer>Foo</customer>");
+SpinXmlElement element = XML("<customer>Foo</customer>");
 assertEquals("Foo", element.textContent());
 element.textContent("Bar");
 ```
@@ -164,11 +164,11 @@ import static org.eximeebpms.spin.Spin.XML;
 String xml = "<order xmlns:cam=\"http://camunda.org/example\">" +
       "<date/><cam:due/><item/><item/><cam:op/><cam:op/></order>";
 
-SpinXmlDomElement date = XML(xml).childElement("date");
-SpinXmlDomElement due = XML(xml).childElement("http://camunda.org/example", "due");
+SpinXmlElement date = XML(xml).childElement("date");
+SpinXmlElement due = XML(xml).childElement("http://camunda.org/example", "due");
 
-SpinCollection<SpinXmlDomElement> items = XML(xml).childElements("item");
-SpinCollection<SpinXmlDomElement> ops = XML(xml).childElements("http://camunda.org/example", "ops");
+SpinList<SpinXmlElement> items = XML(xml).childElements("item");
+SpinList<SpinXmlElement> ops = XML(xml).childElements("http://camunda.org/example", "ops");
 ```
 
 ## Append Child Elements
@@ -234,7 +234,7 @@ assert order_id == '1231'
 
 element = S(xml).attr('order', 'order1')
 assert element.hasAttr('order')
-assert element.Attr('order').value() == 'order1'
+assert element.attr('order').value() == 'order1'
 
 element.removeAttr('order')
 assert not element.hasAttr('order')

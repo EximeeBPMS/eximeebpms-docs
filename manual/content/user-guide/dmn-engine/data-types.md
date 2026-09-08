@@ -74,12 +74,17 @@ transformed into an untyped value by default.
 ## Working with Dates
 
 The DMN engine supports a `date` type which is a combination of date and time.
-By default, the data type transformer accept objects of the types:
+By default, the data type transformer accepts objects of the types:
 
 * `java.util.Date`
 * Strings having the format `yyyy-MM-dd'T'HH:mm:ss`
 * `java.time.LocalDateTime`
-* `java.time.ZonedDateTime` 
+* `java.time.ZonedDateTime`
+* `java.time.LocalDate`
+* `java.time.LocalTime`
+* `java.time.Duration`
+* `java.time.Period`
+* FEEL's `ZonedTime` (`org.camunda.feel.syntaxtree.ZonedTime`)
 
 If you prefer another format or different representation of a date,
 implement a custom type and [replace the default transformer][data-type-transformer].

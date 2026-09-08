@@ -23,7 +23,7 @@ menu:
 - [**javax (legacy) namespace support dropped**](#javax-legacy-namespace-support-dropped) — the engine and its distributions are now Jakarta-only
 - **Java 21 baseline** — up from Java 17; JDK 25 is additionally verified in CI
 - [**Five CVE fixes**](#security) ported over from the Enterprise Edition track (jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty / Apache Ant)
-- [**UUID v1 legacy generator removal deferred**](#legacy-uuid-v1-generator-removal-deferred) — corrects the removal announced for 1.4.0 in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); the generator remains available and deprecated
+- [**UUID v1 legacy generator removed**](#legacy-uuid-v1-generator-removed) — as announced in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); `id-generator=uuid-v1` now silently falls back to the default (UUID v7) with a startup warning instead of activating the legacy generator
 - Fixed a race in the External Task Client where `stop()` could return before an in-flight task handler invocation had finished
 
 ---
@@ -54,11 +54,17 @@ Unlike a hard rejection, a `.cmmn` file included in a deployment is now simply *
 
 ### Legacy Application Server Support (Tomcat 9, WildFly 26) Removed {#legacy-application-server-support-tomcat-9-wildfly-26-removed}
 
-Following the deprecation announced in 1.3.0, the `distro/wildfly26` distribution module and the Tomcat 9 QA test runtime are removed. Supported containers are now **Tomcat 10.1.56+** and **WildFly 40.0.1.Final+** — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) and [Supported Environments]({{< ref "/introduction/supported-environments.md" >}}).
+Following the deprecation announced in 1.3.0, the `distro/wildfly26` distribution module and the Tomcat 9 QA test runtime are removed. Supported containers are now **Tomcat 11.0.24+** and **WildFly 40.0.1.Final+** — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) and [Supported Environments]({{< ref "/introduction/supported-environments.md" >}}).
 
 ### javax (Legacy) Namespace Support Dropped {#javax-legacy-namespace-support-dropped}
 
 The engine and its Spring Boot / Quarkus integrations, distributions, and clients are now built exclusively against the **Jakarta EE** namespace; the `javax`-based legacy build path is removed. This mirrors the Enterprise Edition, which dropped `javax` support earlier. Embedded-engine users still referencing `javax.*` APIs for engine integration need to migrate to the corresponding `jakarta.*` types before upgrading.
+
+### Legacy UUID v1 Generator Removed {#legacy-uuid-v1-generator-removed}
+
+Following the deprecation announced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator) (Community Edition) / [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) (Enterprise Edition), `UuidV1Generator` is **removed** in 1.4.0. Setting `id-generator` to `uuid-v1` (Spring Boot, Quarkus, or `bpm-platform.xml`) no longer selects it — the process engine falls back to `StrongUuidGenerator` (UUID v7, the default) instead, and logs a warning at startup. Remove the `id-generator=uuid-v1` setting from your configuration; it no longer has any effect.
+
+→ [Id Generators — Legacy UUID v1 Generator]({{< ref "/user-guide/process-engine/id-generator.md" >}}#legacy-uuid-v1-generator-removed)
 
 ---
 
@@ -78,16 +84,6 @@ Schema migration scripts are now split per target version instead of being bundl
 
 ---
 
-## Deprecations
-
-### Legacy UUID v1 Generator Removal Deferred {#legacy-uuid-v1-generator-removal-deferred}
-
-The [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator) announced that the deprecated `id-generator=uuid-v1` legacy fallback (`UuidV1Generator`) would be removed in 1.4.0. **That removal has not happened** — `UuidV1Generator` and the `uuid-v1` configuration value remain available in 1.4.0, still deprecated, for environments that have not yet migrated off UUID v1. Do not rely on this generator long-term; migrate to the default `StrongUuidGenerator` (UUID v7) when possible.
-
-→ [Id Generators — Legacy UUID v1 Generator]({{< ref "/user-guide/process-engine/id-generator.md" >}}#legacy-uuid-v1-generator-deprecated)
-
----
-
 ## Bug Fixes
 
 ### External Task Client — `stop()` Could Return Before In-Flight Executions Finished
@@ -102,10 +98,10 @@ Five CVE fixes previously shipped only in the Enterprise Edition track are now i
 
 | Notice | Component | CVEs | Fixed via |
 |---|---|---|---|
-| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) | jackson-databind → 2.21.4 |
+| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) | jackson-databind → 2.22.1 |
 | [EXBPMS-8](/security/notices/#notice-exbpms-8) | Jython | [CVE-2016-4000](https://nvd.nist.gov/vuln/detail/CVE-2016-4000) | Jython → 2.7.4 |
 | [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) | Spring Framework → 7.0.8 |
-| [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat / Tomcat Native | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) | Tomcat → 10.1.56 |
+| [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat / Tomcat Native | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) | Tomcat → 11.0.24 |
 | [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) | Netty → 4.1.135.Final, Apache Ant → 1.10.17 |
 
 {{< note title="" class="info" >}}

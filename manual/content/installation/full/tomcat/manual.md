@@ -36,8 +36,8 @@ The above workaround is not guaranteed to work for cases with bean references be
 
 The following test scenarios fail on Tomcat 10:
 
-* [CallActivityContextSwitchTest](https://github.com/EximeeBPMS/eximeebpms/blob/f37877b822dabcbf3cee5806bd5833d18cdcb543/qa/integration-tests-engine/src/test/java/org/camunda/bpm/integrationtest/functional/context/CallActivityContextSwitchTest.java)
-* [CdiBeanCallActivityResolutionTest](https://github.com/EximeeBPMS/eximeebpms/blob/f37877b822dabcbf3cee5806bd5833d18cdcb543/qa/integration-tests-engine/src/test/java/org/camunda/bpm/integrationtest/functional/cdi/CdiBeanCallActivityResolutionTest.java)
+* [CallActivityContextSwitchTest](https://github.com/EximeeBPMS/eximeebpms/blob/main/qa/integration-tests-engine-jakarta/src/test/java/org/eximeebpms/bpm/integrationtest/functional/context/CallActivityContextSwitchTest.java)
+* [CdiBeanCallActivityResolutionTest](https://github.com/EximeeBPMS/eximeebpms/blob/main/qa/integration-tests-engine-jakarta/src/test/java/org/eximeebpms/bpm/integrationtest/functional/cdi/CdiBeanCallActivityResolutionTest.java)
 {{< /note >}}
 
 
@@ -98,18 +98,18 @@ For more information on the creation of JDBC datasources have a look at the docu
 [9.0](https://tomcat.apache.org/tomcat-9.0-doc/jndi-datasource-examples-howto.html).
 
 
-## Add Camunda Services
+## Add EximeeBPMS Services
 
 Copy the following blocks from `${TOMCAT_DISTRIBUTION}/server/apache-tomcat-${TOMCAT_VERSION}/conf/server.xml`
   into `${TOMCAT_HOME}/conf/server.xml`:
 
 ```xml
-     <Resource name="global/camunda-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService" auth="Container"
+     <Resource name="global/eximeebpms/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService" auth="Container"
               type="org.eximeebpms.bpm.ProcessEngineService"
               description="EximeeBPMS Platform Process Engine Service"
               factory="org.eximeebpms.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory" />
 
-    <Resource name="global/camunda-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService" auth="Container"
+    <Resource name="global/eximeebpms/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService" auth="Container"
               type="org.eximeebpms.bpm.ProcessApplicationService"
               description="EximeeBPMS Platform Process Application Service"
               factory="org.eximeebpms.bpm.container.impl.jndi.ProcessApplicationServiceObjectFactory" />
@@ -175,7 +175,7 @@ This section describes how to install optional EximeeBPMS dependencies onto a To
 The following steps are required to deploy the applications:
 
 1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/).
-    * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/tomcat/eximeebpms-bpm-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
+    * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
     * For [Tomcat 9](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
 
    **Enterprise Edition:** the artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license — see [Licenses]({{< ref "/introduction/licenses.md" >}}#enterprise-edition).
@@ -285,9 +285,9 @@ Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUT
 
 Add the following artifacts (if not existing) from the folder `$TOMCAT_DISTRIBUTION/lib/` to the folder `$TOMCAT_HOME/lib/`:
 
-* `graal-sdk-21.1.0.jar`
-* `icu4j-68.2.jar`
-* `js-21.1.0.jar`
-* `js-scriptengine-21.1.0.jar`
-* `regex-21.1.0.jar`
-* `truffle-api-21.1.0.jar`
+* `graal-sdk-21.3.12.jar`
+* `icu4j-71.1.jar`
+* `js-21.3.12.jar`
+* `js-scriptengine-21.3.12.jar`
+* `regex-21.3.12.jar`
+* `truffle-api-21.3.12.jar`

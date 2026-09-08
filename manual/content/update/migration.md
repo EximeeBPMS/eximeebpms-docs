@@ -146,12 +146,12 @@ After understanding the migration process from Camunda to EximeeBPMS, you can pe
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>3.5.1</version>
             </plugin>
             <plugin>
                 <groupId>org.openrewrite.maven</groupId>
                 <artifactId>rewrite-maven-plugin</artifactId>
-                <version>6.3.2</version>
+                <version>6.44.0</version>
                 <configuration>
                     <configLocation>
                         ${maven.multiModuleProjectDirectory}/replace-camunda-with-eximeebpms.yml

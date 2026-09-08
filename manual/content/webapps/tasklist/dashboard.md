@@ -76,8 +76,11 @@ When your search contains one of the Variables mentioned above, two checkboxes a
 
 Tasklist provides `IN` operator support for the following query criteria:
 
+* Process Definition Key
+* Activity Instance ID
+* Assignee
+* Task Definition Key
 * Tenant ID
-* Process instance ID
 
 By default, the criteria defined in the search are linked together with a logical `AND` ([conjunctive normal form](https://en.wikipedia.org/wiki/Conjunctive_normal_form)).
 Occasionally, you may search for multiple query criterion values. The `IN` operator allows searching for multiple values where any of the values match.

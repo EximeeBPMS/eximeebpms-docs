@@ -256,7 +256,6 @@ options:
 
 ## List of Resources Which Support Caching
 
-* Case Definition: `org.eximeebpms.bpm.engine.rest.hal.caseDefinition.HalCaseDefinition`
 * Group: `org.eximeebpms.bpm.engine.rest.hal.group.HalGroup`
 * Identity Links (of a Task): `org.eximeebpms.bpm.engine.rest.hal.identitylink.HalIdentityLink`
 * Process Definition: `org.eximeebpms.bpm.engine.rest.hal.processDefinition.HalProcessDefinition`
