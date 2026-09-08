@@ -37,7 +37,7 @@ Script Guard operates in three modes:
   </tr>
 </table>
 
-The mode can be changed at runtime via the [REST API](#rest-api) without restarting the engine. All engine nodes pick up the new configuration within 30 seconds.
+The mode is only ever *read* from static configuration once — the first time the engine starts against a database with no Script Guard configuration stored yet. From then on the database is authoritative, and the mode can only be changed at runtime via the [REST API](#rest-api), without restarting the engine — see [Configuration](#configuration) for exactly how that works. All engine nodes pick up a REST-driven change within 30 seconds.
 
 # Blocked Patterns
 
@@ -79,7 +79,18 @@ The built-in policy checks the script source (case-insensitively) against the fo
 
 # Configuration
 
-Script Guard is configured via Spring Boot application properties under the `eximeebpms.bpm.script-security` prefix:
+Script Guard's enforcement mode and allowlist have two representations — keeping them straight matters:
+
+- **Static configuration** — a Spring Boot property, or a `bpm-platform.xml` property on a plain-XML deployment — supplies only the ***initial*** value. It is read exactly once: the first time the engine starts against a database that has no Script Guard configuration stored yet (a fresh install, or an upgrade from a version that predates Script Guard).
+- **The database** (`ACT_GE_PROPERTY`) holds the ***current, authoritative*** value from that point on. Every later engine start reads whatever is already stored there and ignores static configuration entirely. The only way to change the mode or allowlist afterward is the [REST API](#rest-api) — `PUT /script-security/config` — or a direct write to `ACT_GE_PROPERTY`.
+
+{{< note title="" class="warning" >}}
+Editing `mode`/`allowlisted-process-definition-keys` in `application.yml`, or `scriptSecurityMode`/`scriptSecurityAllowlistedProcessDefinitionKeys` in `bpm-platform.xml`, and restarting the engine has **no effect** once a Script Guard configuration row already exists in the database — which, in practice, means every start after the very first one. Use [`PUT /script-security/config`](#update-configuration) to change the mode or allowlist on a running system.
+{{< /note >}}
+
+## Spring Boot
+
+Configured via Spring Boot application properties under the `eximeebpms.bpm.script-security` prefix:
 
 ```yaml
 eximeebpms:
@@ -104,13 +115,13 @@ eximeebpms:
     <td><code>mode</code></td>
     <td><code>ENFORCE</code> | <code>AUDIT</code> | <code>DISABLED</code></td>
     <td><code>ENFORCE</code></td>
-    <td>Enforcement mode on startup. Can be changed at runtime via the REST API without restarting.</td>
+    <td>Initial enforcement mode — read once on first start, as described above. Change it afterward via the REST API.</td>
   </tr>
   <tr>
     <td><code>allowlisted-process-definition-keys</code></td>
     <td><code>list</code></td>
     <td>empty</td>
-    <td>Process definition keys whose scripts skip all security checks. Can be extended at runtime via the REST API.</td>
+    <td>Initial allowlist — process definition keys whose scripts skip all security checks, read once on first start. Extend it afterward via the REST API.</td>
   </tr>
   <tr>
     <td><code>violation-store-size</code></td>
@@ -126,6 +137,49 @@ eximeebpms:
   </tr>
 </table>
 
+## Tomcat / plain XML (`bpm-platform.xml`)
+
+A deployment that doesn't use the Spring Boot starter — the Tomcat distribution, or any other container driven by `bpm-platform.xml` — configures the same initial mode and allowlist as plain process-engine properties, no custom `ProcessEnginePlugin` required:
+
+```xml
+<property name="scriptSecurityMode">AUDIT</property>
+<property name="scriptSecurityAllowlistedProcessDefinitionKeys">my-trusted-process,legacy-migration-process</property>
+<property name="scriptViolationRetentionDays">30</property>
+```
+
+<table class="table desc-table">
+  <tr>
+    <th>Property</th>
+    <th>Type</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>scriptSecurityMode</code></td>
+    <td><code>ENFORCE</code> | <code>AUDIT</code> | <code>DISABLED</code></td>
+    <td><code>ENFORCE</code></td>
+    <td>Initial enforcement mode — same one-time-read, database-authoritative-afterward behavior as the Spring Boot <code>mode</code> property above.</td>
+  </tr>
+  <tr>
+    <td><code>scriptSecurityAllowlistedProcessDefinitionKeys</code></td>
+    <td>comma-separated list</td>
+    <td>empty</td>
+    <td>Initial allowlist, read once on first start. Extend it afterward via the REST API.</td>
+  </tr>
+  <tr>
+    <td><code>scriptViolationRetentionDays</code></td>
+    <td><code>integer</code></td>
+    <td><code>0</code></td>
+    <td>Same as Spring Boot's <code>retention-days</code> — number of days to retain violation records. <code>0</code> disables automatic cleanup. Unlike <code>scriptSecurityMode</code>, this is read fresh from the engine configuration at every cleanup run (see below), not database-authoritative — there's no REST endpoint to change it at runtime on either deployment model.</td>
+  </tr>
+</table>
+
+A Tomcat/plain-XML deployment persists violations to `ACT_RU_SCRIPT_VIOLATION`, forwards them to the business-event/SIEM outbox, and answers `PUT /script-security/config` exactly like a Spring Boot deployment — no custom `ProcessEnginePlugin` needed for any of it. `violation-store-size` remains a Spring Boot–only YAML property with no equivalent here.
+
+{{< note title="" class="info" >}}
+Violation retention/cleanup runs as a single engine-native background job (not a Spring `@Scheduled` task), so it behaves identically regardless of deployment model: it's created automatically on first engine start whenever `scriptViolationRetentionDays`/`retention-days` is greater than zero, deletes expired rows roughly once a day, and keeps rescheduling itself even while the value is `0` — so raising it later takes effect on the next run, without a restart.
+{{< /note >}}
+
 {{< note title="" class="info" >}}
 Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the schema migration (Community Edition: shipped in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#script-guard); Enterprise Edition: shipped in [1.2.13-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-13-ee)).
 {{< /note >}}
@@ -134,7 +188,7 @@ Script Guard stores its runtime configuration and violation records in the datab
 
 Processes that intentionally use constructs blocked by the policy can be placed on an allowlist. Scripts belonging to allowlisted processes skip all security checks.
 
-The allowlist can be set statically in `application.yml` (see [Configuration](#configuration)) or updated at runtime via the [REST API](#rest-api). Runtime updates are stored in the `ACT_GE_PROPERTY` table and propagate to all engine nodes within 30 seconds.
+The allowlist's *initial* value can be set statically — in `application.yml` (Spring Boot) or `bpm-platform.xml` (Tomcat/plain XML) — see [Configuration](#configuration). From the first engine start onward it lives in the `ACT_GE_PROPERTY` table and can only be changed via the [REST API](#rest-api); static configuration is not consulted again. Updates propagate to all engine nodes within 30 seconds.
 
 {{< note title="" class="warning" >}}
 Allowlisting disables all Script Guard checks for the listed processes. Prefer enabling `AUDIT` mode first to identify which patterns are actually used before committing to an allowlist.
@@ -168,7 +222,7 @@ All endpoints require the `ALL` permission on the `SYSTEM` resource (i.e., the `
 
 ## Get Configuration
 
-Returns the current Script Guard configuration.
+Returns the current Script Guard configuration — the database-backed value described in [Configuration](#configuration), not the static configuration file.
 
 **`GET /script-security/config`**
 
