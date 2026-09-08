@@ -174,9 +174,7 @@ This section describes how to install optional EximeeBPMS dependencies onto a To
 
 The following steps are required to deploy the applications:
 
-1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/).
-    * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
-    * For [Tomcat 9](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-$PLATFORM_VERSION.war`.
+1. Download the EximeeBPMS web application that contains both applications from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/webapp/eximeebpms-webapp-tomcat-jakarta/). Since 1.4.0 drops `javax` (legacy namespace) support, there is only one artifact: `$PLATFORM_VERSION/eximeebpms-webapp-tomcat-jakarta-$PLATFORM_VERSION.war`.
 
    **Enterprise Edition:** the artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license — see [Licenses]({{< ref "/introduction/licenses.md" >}}#enterprise-edition).
 2. Copy the war file to `$TOMCAT_HOME/webapps/eximeebpms.war`.
@@ -190,9 +188,7 @@ The following steps are required to deploy the applications:
 The following steps are required to deploy the REST API:
 
 1. Download the REST API web application archive from our [Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest/).
-    Choose the correct version named `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 10](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest-jakarta/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
-    * For [Tomcat 9](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest/), the name of the artifact is `$PLATFORM_VERSION/eximeebpms-engine-rest-$PLATFORM_VERSION-tomcat.war`.
+    Since 1.4.0 drops `javax` (legacy namespace) support, there is only one artifact, from the [Jakarta Artifact Repository](https://repo1.maven.org/maven2/org/eximeebpms/bpm/eximeebpms-engine-rest-jakarta/): `$PLATFORM_VERSION/eximeebpms-engine-rest-jakarta-$PLATFORM_VERSION-tomcat.war`.
 
     **Enterprise Edition:** the artifact is instead obtained from the private Enterprise Edition repository, using the credentials provided with your license — see [Licenses]({{< ref "/introduction/licenses.md" >}}#enterprise-edition).
 2. Copy the war file to `$TOMCAT_HOME/webapps`.

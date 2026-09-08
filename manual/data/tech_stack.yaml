@@ -65,7 +65,7 @@ categories:
           v1.1.0: { value: "10.1.43", change: up }
           v1.2.0: { value: "10.1.50", change: up }
           v1.3.0: { value: "10.1.50" }
-          v1.4.0: { value: "11.0.24", change: mj }
+          v1.4.0: { value: "11.0.25", change: mj }
           ent: { value: "11.0.25", change: mj }
       - name: Apache Tomcat
         sub: "javax legacy · 9.x"
@@ -82,7 +82,7 @@ categories:
           v1.1.0: { value: "37.0.0.Final", change: mj }
           v1.2.0: { value: "37.0.0.Final" }
           v1.3.0: { value: "37.0.0.Final" }
-          v1.4.0: { value: "40.0.1.Final", change: mj }
+          v1.4.0: { value: "41.0.1.Final", change: mj }
           ent: { value: "41.0.1.Final", change: mj }
       - name: WildFly legacy
         sub: "26.x"
@@ -110,7 +110,7 @@ categories:
           v1.1.0: { value: "3.5.5", change: up }
           v1.2.0: { value: "4.0.3", change: mj }
           v1.3.0: { value: "4.0.3" }
-          v1.4.0: { value: "4.1.0", change: up }
+          v1.4.0: { value: "4.1.1", change: up }
           ent: { value: "4.1.1", change: up }
       - name: Quarkus
         values:

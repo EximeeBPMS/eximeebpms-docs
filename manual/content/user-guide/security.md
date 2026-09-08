@@ -418,10 +418,10 @@ The exact configuration and the defaults differ among application servers.
 
 Please find below external documentation on how to configure your application server correctly:
 
-* Tomcat 9.0+
+* Tomcat 11.0+
     * Official Documentation
-        * [Security Considerations](https://tomcat.apache.org/tomcat-9.0-doc/security-howto.html#Valves)
-        * [Error Reporter Valve](https://tomcat.apache.org/tomcat-9.0-doc/config/valve.html#Error_Report_Valve)
+        * [Security Considerations](https://tomcat.apache.org/tomcat-11.0-doc/security-howto.html#Valves)
+        * [Error Reporter Valve](https://tomcat.apache.org/tomcat-11.0-doc/config/valve.html#Error_Report_Valve)
     * Alternative Resources
         * [Securing Tomcat](https://wiki.owasp.org/index.php/Securing_tomcat)
 * Wildfly 12.0+: Official Documentation
