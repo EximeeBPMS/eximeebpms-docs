@@ -81,7 +81,7 @@ var object = {
   &quot;new_entry&quot;: 1,
   &quot;new_entry2&quot;: &quot;Yeah!&quot;
 };
-json.prop(&quot;new_array&quot;, object);
+json.prop(&quot;new_object&quot;, object);
 </code></pre></li></ul><h1 id=remove-json-properties>Remove JSON Properties</h1><p>There are 2 ways to remove properties from a JSON object.</p><ul><li><code>.deleteProp(&quot;name&quot;)</code> - Removes a property with given name.</li><li><code>.deleteProp(&lt;List of names&gt;)</code> - Removes one or more properties with given names.</li></ul><p>For more details see the following examples for Javascript and Java.</p><p>Java:</p><pre><code class=language-java>import static org.eximeebpms.spin.Spin.*;
 
 SpinJsonNode json = JSON(&quot;{\&quot;customer\&quot;: \&quot;Kermit\&quot;, \&quot;language\&quot;: \&quot;en\&quot;}&quot;);
@@ -93,7 +93,7 @@ listOfNames.add(&quot;language&quot;);
 json.deleteProp(&quot;customer&quot;);
 
 // removes customer and language
-json.deleteProp(list);
+json.deleteProp(listOfNames);
 </code></pre><p>Javascript:</p><pre><code class=language-javascript>var json = S('{&quot;customer&quot;: [&quot;Kermit&quot;, &quot;Waldo&quot;], &quot;language&quot;: &quot;en&quot;}');
 var list = [&quot;customer&quot;, &quot;en&quot;];
 
@@ -135,7 +135,7 @@ list.append(&quot;test2&quot;); // at the end of the list there should now be &q
 list.remove(&quot;test2&quot;); // Aaaand now, it is gone ;)
 
 list.insertAt(1, &quot;test3&quot;); // test3 should now be inserted before testdata2
-list.removeAt(1, &quot;test3&quot;); // Aaaand now, it is gone ;)
+list.removeAt(1); // Aaaand now, it is gone ;)
 
 list.insertBefore(true, &quot;test4&quot;); // now there should be test4 on index 4
 list.insertAfter(true, 5); // So now 5 is on index 6
@@ -146,7 +146,7 @@ list.append(&quot;test2&quot;); // at the end of the list there should now be &q
 list.remove(&quot;test2&quot;); // Aaaand now, it is gone ;)
 
 list.insertAt(1, &quot;test3&quot;); // test3 should now be inserted before testdata2
-list.removeAt(1, &quot;test3&quot;); // Aaaand now, it is gone ;)
+list.removeAt(1); // Aaaand now, it is gone ;)
 
 list.insertBefore(true, &quot;test4&quot;); // now there should be test4 on index 4
 list.insertAfter(true, 5); // So now 5 is on index 6

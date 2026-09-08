@@ -52,7 +52,7 @@ rely on retrieving unlimited results.</p><h2 id=paginated-queries>Paginated Quer
   .listPage(20, 50);
 </code></pre><p>The query shown above retrieves 50 results starting at the result with the index 20.</p><h2 id=or-queries>OR Queries</h2><p>The default behavior of the query API links filter criteria together with an AND expression.
 OR queries enable building queries in which filter criteria are linked together with an OR expression.</p><div class="note bg-info docs-info"><h3>Heads-up!</h3><p><ul><li>This functionality is only available for task and process instance queries (runtime &amp; history).</li><li>The following methods cannot be applied to an OR query: orderBy&hellip;(), initializeFormKeys(),
-withCandidateGroups(), withoutCandidateGroups(), withCandidateUsers(), withoutCandidateUsers(), incidentIdIn().</li></ul></p></div><p>After calling <code>or()</code>, a chain of several filter criteria could follow. Each filter criterion is linked together
+withCandidateGroups(), withoutCandidateGroups(), withCandidateUsers(), withoutCandidateUsers().</li></ul></p></div><p>After calling <code>or()</code>, a chain of several filter criteria could follow. Each filter criterion is linked together
 with an OR expression. The invocation of <code>endOr()</code> marks the end of the OR query. Calling these two methods is comparable
 to putting the filter criteria in brackets.</p><pre><code class=language-java>List&lt;Task&gt; tasks = taskService.createTaskQuery()
   .taskAssignee(&quot;John Munda&quot;)

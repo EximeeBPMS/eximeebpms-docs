@@ -43,14 +43,14 @@ pd.getVersionTag();
     .versionTagLike(&quot;1.5-%&quot;)
     .list();
 </code></pre><p>The following example shows how to start a process instance of the latest process
-definition for a version tag:</p><pre><code class=language-java>ProcessDefinition pd = processEngine.getRepositoryService().createProcessDefinitionQuery()
+definition for a version tag:</p><pre><code class=language-java>List&lt;ProcessDefinition&gt; pdList = processEngine.getRepositoryService().createProcessDefinitionQuery()
     .processDefinitionKey(&quot;invoice&quot;)
     .versionTag(&quot;1.5-patch2&quot;)
-    .orderByVersion().
+    .orderByProcessDefinitionVersion()
     .desc()
     .listPage(0,1);
 
-processEngine.getRuntimeService().startProcessInstanceById(pd.getId());
+processEngine.getRuntimeService().startProcessInstanceById(pdList.get(0).getId());
 </code></pre><div class="note bg-info docs-info"><h3>Version Tag</h3><p>The version tag is only for tagging and will neither influence the <code>startProcessInstanceByKey</code>
 nor the <code>startProcessInstanceById</code> behavior.</p></div><div class="note bg-info docs-info"><h3>Latest Version</h3><p>The Process Definition <code>version</code> and <code>versionTag</code> are separate properties. When querying with
 <code>ProcessDefinitionQuery#latestVersion()</code>, the Process Definition with the largest <code>version</code> number is located for

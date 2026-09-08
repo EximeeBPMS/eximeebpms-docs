@@ -31,8 +31,8 @@
       &lt;milestone id=&quot;Milestone_1&quot; name=&quot;A Milestone&quot; /&gt;
     &lt;/casePlanModel&gt;
   &lt;/case&gt;
-&lt;/defintions&gt;
-</code></pre><p>In this case, the milestone will complete as soon as as the human task completes.</p><p>A milestone cannot have exit criteria.</p><div class="alert alert-info"><p><strong>Always define Milestones with Entry Criteria</strong></p><p>A milestone without entry criteria is fulfilled as soon as the stage it is contained in becomes active. For example, a milestone item that is defined on the case definition level is completed as soon as the case is instantiated. It is therefore advisable to define at least one entry criterion for a milestone plan item.</p></div><h2 id=checking-milestones>Checking Milestones</h2><p>In order to check whether a milestone has occurred, the history service can be used. The following checks the state of a milestone instance:</p><pre><code class=language-java>HistoricCaseActivityInstance milestoneInstance = historyService
+&lt;/definitions&gt;
+</code></pre><p>In this case, the milestone will complete as soon as the human task completes.</p><p>A milestone cannot have exit criteria.</p><div class="alert alert-info"><p><strong>Always define Milestones with Entry Criteria</strong></p><p>A milestone without entry criteria is fulfilled as soon as the stage it is contained in becomes active. For example, a milestone item that is defined on the case definition level is completed as soon as the case is instantiated. It is therefore advisable to define at least one entry criterion for a milestone plan item.</p></div><h2 id=checking-milestones>Checking Milestones</h2><p>In order to check whether a milestone has occurred, the history service can be used. The following checks the state of a milestone instance:</p><pre><code class=language-java>HistoricCaseActivityInstance milestoneInstance = historyService
   .createHistoricCaseActivityInstanceQuery()
   .caseInstanceId(&quot;aCaseInstanceId&quot;)
   .caseActivityId(&quot;theMilestone&quot;)

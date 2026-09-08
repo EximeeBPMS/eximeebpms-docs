@@ -18,7 +18,7 @@ Values: <code>true</code> (default), <code>false</code>.</p><p>Known issues with
 &lt;property name=&quot;jdbcUsername&quot; value=&quot;sa&quot; /&gt;
 &lt;property name=&quot;jdbcPassword&quot; value=&quot;&quot; /&gt;
 </code></pre><p>Alternatively, a <code>javax.sql.DataSource</code> implementation can be used (e.g., DBCP from Apache Commons):</p><pre><code class=language-xml>&lt;bean id=&quot;dataSource&quot; class=&quot;org.apache.commons.dbcp.BasicDataSource&quot; &gt;
-  &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.jdbc.Driver&quot; /&gt;
+  &lt;property name=&quot;driverClassName&quot; value=&quot;com.mysql.cj.jdbc.Driver&quot; /&gt;
   &lt;property name=&quot;url&quot; value=&quot;jdbc:mysql://localhost:3306/eximeebpms?sendFractionalSeconds=false&quot; /&gt;
   &lt;property name=&quot;username&quot; value=&quot;eximeebpms&quot; /&gt;
   &lt;property name=&quot;password&quot; value=&quot;eximeebpms&quot; /&gt;

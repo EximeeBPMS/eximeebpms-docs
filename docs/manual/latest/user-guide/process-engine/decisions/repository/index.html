@@ -19,7 +19,7 @@ a process application. The platform will recognize all files with a <code>.dmn</
 <code>.dmn11.xml</code> file extension as DMN resources.</p><h2 id=deploying-a-decision-using-the-repository-service>Deploying a decision using the Repository Service</h2><p>Use the Repository Service to create a new deployment and add
 DMN resources to it. The following code, for example, will create a new
 deployment for a DMN file in the classpath.</p><pre><code class=language-java>String resourceName = &quot;MyDecision.dmn11.xml&quot;;
-Deploymnet deployment = processEngine
+Deployment deployment = processEngine
   .getRepositoryService()
   .createDeployment()
   .addClasspathResource(resourceName)

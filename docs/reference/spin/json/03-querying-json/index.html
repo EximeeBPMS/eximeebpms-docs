@@ -31,7 +31,7 @@ String value = JSON(json).jsonPath(&quot;$.child[0].name&quot;).stringValue();
 
 String json = &quot;{\&quot;child\&quot;: [{\&quot;id\&quot;: 1,\&quot;name\&quot;: \&quot;Lucy\&quot;,\&quot;sex\&quot;: \&quot;female\&quot;},{\&quot;id\&quot;: 2,\&quot;name\&quot;: \&quot;Tracy\&quot;,\&quot;sex\&quot;: \&quot;female\&quot;}],\&quot;number\&quot;: 1,\&quot;boolean\&quot;: true}&quot;;
 
-Double count = JSON(json).jsonPath(&quot;$.number&quot;).numberValue();
+Number count = JSON(json).jsonPath(&quot;$.number&quot;).numberValue();
 </code></pre><h1 id=querying-a-boolean>Querying a Boolean</h1><pre><code class=language-java>import static org.eximeebpms.spin.Spin.JSON;
 
 String json = &quot;{\&quot;child\&quot;: [{\&quot;id\&quot;: 1,\&quot;name\&quot;: \&quot;Lucy\&quot;,\&quot;sex\&quot;: \&quot;female\&quot;},{\&quot;id\&quot;: 2,\&quot;name\&quot;: \&quot;Tracy\&quot;,\&quot;sex\&quot;: \&quot;female\&quot;}],\&quot;number\&quot;: 1,\&quot;boolean\&quot;: true}&quot;;

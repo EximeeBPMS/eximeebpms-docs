@@ -22,7 +22,7 @@ public class MyApplication {
 ...
 
 }
-</code></pre><p>Some configuration can be done via Spring Boot configuration parameters. Check <a href=/manual/latest/user-guide/spring-boot-integration/configuration/#camunda-bpm-application>the list of currently available parameters</a>.</p><h2 id=using-deployment-callbacks>Using Deployment Callbacks</h2><p>As when using <code>@EnableProcessApplication</code> we don&rsquo;t extend the <code>ProcessApplication</code> class,
+</code></pre><p>Some configuration can be done via Spring Boot configuration parameters. Check <a href=/manual/latest/user-guide/spring-boot-integration/configuration/#eximeebpms-engine-properties>the list of currently available parameters</a>.</p><h2 id=using-deployment-callbacks>Using Deployment Callbacks</h2><p>As when using <code>@EnableProcessApplication</code> we don&rsquo;t extend the <code>ProcessApplication</code> class,
 we can&rsquo;t use <code>@PostDeploy</code> and <code>@PreUndeploy</code> method annotations. Instead these callbacks
 are provided via Spring event publishing mechanism. So you can use the following event listeners:</p><pre><code class=language-java>@EventListener
 public void onPostDeploy(PostDeployEvent event) {

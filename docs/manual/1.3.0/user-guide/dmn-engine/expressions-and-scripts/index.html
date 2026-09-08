@@ -43,7 +43,7 @@ elements <code>inputExpression</code>, <code>inputEntry</code>, <code>outputEntr
     &lt;/decisionTable&gt;
   &lt;/decision&gt;
 
-   &lt;decision id=&quot;decision2 name=&quot;Decision 2&quot;&gt;
+   &lt;decision id=&quot;decision2&quot; name=&quot;Decision 2&quot;&gt;
     &lt;!-- the literal expression determines the value of this decision --&gt;
     &lt;literalExpression&gt;
       &lt;text&gt;a + b&lt;/text&gt;
@@ -51,7 +51,7 @@ elements <code>inputExpression</code>, <code>inputEntry</code>, <code>outputEntr
   &lt;/decision&gt;
   
 &lt;/definitions&gt;
-</code></pre><h1 id=supported-expression-languages>Supported Expression Languages</h1><p>The EximeeBPMS DMN engine supports two expression languages out of the box:</p><ul><li><code>JUEL</code>: A EximeeBPMS-maintained <a href=http://juel.sourceforge.net/>implementation</a> of the Java <a href=https://jakarta.ee/specifications/expression-language/4.0/>Unified Expression Language</a></li><li><code>FEEL</code>: The Friendly Enough Expression Language of the <a href=http://www.omg.org/spec/DMN/>DMN 1.2</a> standard.</li></ul><p>Depending on the JDK you use, there may also be a <code>Javascript</code> implementation
+</code></pre><h1 id=supported-expression-languages>Supported Expression Languages</h1><p>The EximeeBPMS DMN engine supports two expression languages out of the box:</p><ul><li><code>JUEL</code>: A EximeeBPMS-maintained <a href=http://juel.sourceforge.net/>implementation</a> of the Java <a href=https://jakarta.ee/specifications/expression-language/4.0/>Unified Expression Language</a></li><li><code>FEEL</code>: The Friendly Enough Expression Language of the <a href=http://www.omg.org/spec/DMN/>DMN 1.3</a> standard.</li></ul><p>Depending on the JDK you use, there may also be a <code>Javascript</code> implementation
 available like <a href=https://developer.mozilla.org/de/docs/Rhino>Rhino</a> or <a href=https://blogs.oracle.com/nashorn/>Nashhorn</a>.</p><p>You can also use every other script language which provides a <a href="https://www.jcp.org/en/jsr/detail?id=223">JSR-223</a>
 implementation. This includes <code>groovy</code>, <code>python</code> and <code>ruby</code>. To use these
 languages you have to add the corresponding dependency to your project.</p><p>For example, to use <code>groovy</code> as language for expressions add these dependencies
@@ -102,7 +102,7 @@ the <code>definitions</code> element:</p><pre><code class=language-xml>&lt;!-- t
     &lt;/decisionTable&gt;
   &lt;/decision&gt;
 &lt;/definitions&gt;
-</code></pre><p>Additionally, it is possible to change the default expression language in the default DMN engine configuration as described in the <a href=/manual/1.3.0/user-guide/dmn-engine/embed/#change-default-expression-languages>user guide</a>.</p><h1 id=configuring-the-expression-language>Configuring the Expression Language</h1><p>It is also possible to set the language for each expression individually using the <code>expressionLanguage</code> attribute:</p><pre><code class=language-xml>&lt;definitions xmlns=&quot;https://www.omg.org/spec/DMN/20191111/MODEL/&quot; id=&quot;definitions&quot; name=&quot;definitions&quot; namespace=&quot;http://camunda.org/schema/1.0/dmn&quot;&gt;
+</code></pre><p>Additionally, it is possible to change the default expression language in the default DMN engine configuration as described in the <a href=/manual/1.3.0/user-guide/dmn-engine/embed/#change-default-expression-languages>user guide</a>.</p><h1 id=configuring-the-expression-language>Configuring the Expression Language</h1><p>It is also possible to set the language for each expression individually using the <code>expressionLanguage</code> attribute:</p><pre><code class=language-xml>&lt;definitions xmlns=&quot;https://www.omg.org/spec/DMN/20191111/MODEL/&quot; id=&quot;definitions&quot; name=&quot;definitions&quot; namespace=&quot;http://eximeebpms.org/schema/1.0/dmn&quot;&gt;
   
   &lt;decision id=&quot;decision&quot; name=&quot;Decision&quot;&gt;
     &lt;decisionTable&gt;

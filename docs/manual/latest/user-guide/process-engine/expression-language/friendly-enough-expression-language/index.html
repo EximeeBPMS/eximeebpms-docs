@@ -21,7 +21,7 @@ of the type <code>tFormalExpression</code>. The text content of the element is t
     &lt;/conditionExpression&gt;
   &lt;/sequenceFlow&gt;
 </code></pre><p>For usage of expression language on conditional events, see the following example:</p><pre><code class=language-xml>&lt;conditionalEventDefinition&gt;
-  &lt;condition type=&quot;tFormalExpression&quot;&gt;var1 == 1&lt;/condition language=&quot;feel&quot;&gt;
+  &lt;condition type=&quot;tFormalExpression&quot; language=&quot;feel&quot;&gt;var1 == 1&lt;/condition&gt;
 &lt;/conditionalEventDefinition&gt;
 </code></pre><h2 id=inputoutput-parameters>inputOutput Parameters</h2><p>With the EximeeBPMS <code>inputOutput</code> extension element you can map an <code>inputParameter</code> or <code>outputParameter</code>
 with expression language.</p><p>For usage of expression language on <code>inputParameter</code> mapping, see the following example:</p><pre><code class=language-xml>  &lt;serviceTask id=&quot;task&quot; eximeebpms:class=&quot;org.eximeebpms.bpm.example.SumDelegate&quot;&gt;
@@ -43,7 +43,7 @@ for more detailed examples.</p><h1 id=availability-of-variables-and-functions-in
 </code></pre><p>The list of variable types that is supported by FEEL can be found in the <a href=/manual/latest/user-guide/dmn-engine/feel/type-handling/>FEEL Engine Type Handling</a> page.</p><h2 id=custom-functions>Custom Functions</h2><p>EximeeBPMS provides a wrapper for the FEEL Scala Engine to implement Custom Functions, which can be
 called in expressions and unary tests.
 To learn more visit the <a href=/manual/latest/user-guide/dmn-engine/feel/custom-functions/>FEEL Engine Custom Functions</a> page.</p><h2 id=built-in-eximeebpms-spin-functions>Built-In EximeeBPMS Spin Functions</h2><p>To learn how EximeeBPMS Spin can be used together with the Scala FEEL Engine visit the <a href=/manual/latest/user-guide/dmn-engine/feel/type-handling/#spin-types>FEEL Engine Spin Integration</a> page.</p><h1 id=plugin-requirements>Plugin Requirements</h1><h2 id=spin-plugin-requirement-for-complex-feel-mappings>Spin Plugin Requirement for Complex FEEL Mappings</h2><p>When using FEEL to define complex input parameters (such as nested objects or contexts in BPMN input/output mappings) the
-<a href=/manual/latest/user-guide/data-formats/configuring-spin-integration/#camunda-engine-plugin-spin>eximeebpms-engine-plugin-spin</a>
+<a href=/manual/latest/user-guide/data-formats/configuring-spin-integration/#eximeebpms-engine-plugin-spin>eximeebpms-engine-plugin-spin</a>
 <strong>must</strong> be present on the classpath.</p><p>Without the Spin plugin:</p><ul><li><strong>Simple values and shallow maps</strong> can still be evaluated using FEEL.</li><li><strong>Complex nested contexts</strong> (e.g., a map containing another map) <strong>will fail</strong> with a runtime error when accessed in Java delegates or other components expecting Java types.</li><li>FEEL expressions involving these structures will not be correctly parsed or mapped.</li></ul><h2 id=example>Example</h2><p>The following BPMN example defines a nested input parameter using a FEEL expression:</p><pre><code class=language-xml>&lt;eximeebpms:inputParameter name=&quot;context&quot;&gt;
   &lt;eximeebpms:script scriptFormat=&quot;feel&quot;&gt;
     {
