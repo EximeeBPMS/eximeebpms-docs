@@ -138,6 +138,16 @@ The CI integration test matrix now runs against **JDK 21** (still the primary su
 
 → [Tech Stack]({{< ref "/introduction/tech-stack.md" >}})
 
+#### Tomcat Upgraded to 11.0 {#tomcat-110}
+
+The dependency-managed Tomcat version (`version.tomcat`, which the standalone `eximeebpms-bpm-tomcat` distribution bundles) moves from **Tomcat 10.1.56** to **Tomcat 11.0.24** — Servlet 6.1 / Jakarta EE 11, up from Servlet 6.0 / Jakarta EE 10. This is a container generation change, not a routine patch bump.
+
+{{< note title="" class="warning" >}}
+If you run the standalone Tomcat distribution, upgrading to 1.3.1-ee or later changes your servlet container's major version. Web application archives (`eximeebpms-webapp-tomcat-jakarta`, `eximeebpms-engine-rest-jakarta`) deployed to your own, separately managed Tomcat instance are not forced onto Tomcat 11 by this change.
+{{< /note >}}
+
+→ [Tech Stack]({{< ref "/introduction/tech-stack.md" >}})
+
 #### Build & CI
 
 - SQL migration scripts are now split between the upcoming 1.3 and 1.4 schema versions: the `ACT_RU_SCRIPT_VIOLATION` table creation (previously bundled into the 1.2-to-1.3 upgrade script) moves to its own dedicated schema component upgrade, and the 1.3-to-1.4 upgrade path becomes an explicit, independently taggable Liquibase changeset (`1.3-to-1.4`). This release does not otherwise change the database schema: the [Business Events](#business-events-expansion) added in this release reuse the existing generic `ACT_RU_BUS_EVT_OBX` outbox table (see [Business Event Outbox]({{< ref "/user-guide/process-engine/database/database-schema.md" >}}#business-event-outbox-act_ru_bus_evt_obx)) — no new tables or columns were required.
