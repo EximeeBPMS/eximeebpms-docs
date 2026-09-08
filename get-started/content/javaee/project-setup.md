@@ -17,7 +17,7 @@ First, let's set up the project in the IDE of your choice, the following descrip
 # Requirements
 
 The project requires Java 17 or later, and a Jakarta EE 10-compliant application server. This tutorial deploys
-to [WildFly](https://www.wildfly.org/) 40.
+to [WildFly](https://www.wildfly.org/) 37.
 
 # Set Up a Java Project
 

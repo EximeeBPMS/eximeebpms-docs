@@ -11,12 +11,12 @@ menu:
 ---
 
 
-Camunda provides a public API. This section covers the definition of the public API and backwards compatibility for version updates.
+EximeeBPMS provides a public API. This section covers the definition of the public API and backwards compatibility for version updates.
 
 
 # Definition of Public API
 
-The Camunda public API is limited to the following items:
+The EximeeBPMS public API is limited to the following items:
 
 Java API: 
 

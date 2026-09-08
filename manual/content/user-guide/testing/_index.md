@@ -243,7 +243,7 @@ You can now see the engine database and use it to understand how and why your un
 
 # EximeeBPMS Assertions
 
-Additional to normal JUnit assertions, [EximeeBPMS Assert](https://github.com/eximeebpms/eximeebpms-bpm-platform/tree/{{< minor-version >}}.0/test-utils/assert) adds a fluent API for asserting typical scenarios in a process integrating with [AssertJ](https://joel-costigliola.github.io/assertj/).
+Additional to normal JUnit assertions, [EximeeBPMS Assert](https://github.com/EximeeBPMS/eximeebpms/tree/main/test-utils/assert) adds a fluent API for asserting typical scenarios in a process integrating with [AssertJ](https://joel-costigliola.github.io/assertj/).
 
 ```java
 assertThat(processInstance).isWaitingAt("UserTask_InformCustomer");
@@ -284,7 +284,7 @@ Each version of EximeeBPMS Assert is bound to a specific version of EximeeBPMS a
 Nevertheless, each version of EximeeBPMS Assert can be combined with newer patch versions of the EximeeBPMS engine, though such combinations must be thoroughly tested before being used in production.
 All versions prior to 3.0.0 belong to the community extension are not part of the official EximeeBPMS product support.
 
-With EximeeBPMS 1.0.0 the project was moved into the [EximeeBPMS repository](https://github.com/eximeebpms/eximeebpms) and will use the same versioning as EximeeBPMS.
+With EximeeBPMS 1.0.0 the project was moved into the [EximeeBPMS repository](https://github.com/EximeeBPMS/eximeebpms) and will use the same versioning as EximeeBPMS.
 
 <table class="table table-striped">
   <tr>

@@ -101,7 +101,7 @@ ORDER BY ci.CASE_INST_ID_, aci.CREATE_TIME_;
 
 ## 4. Deployment validation
 
-**1.4.0 behavior:** deploying a package that contains a `.cmmn`, `.cmmn10.xml`, or `.cmmn11.xml` file results in the **whole deployment being explicitly rejected** with a clear error — files are never silently skipped.
+**1.4.0 behavior:** a `.cmmn`, `.cmmn10.xml`, or `.cmmn11.xml` file included in a deployment is **not rejected** — no deployer recognizes it anymore, so it is stored as an opaque, silently inert deployment resource. The deployment itself succeeds; only the CMMN file's content is never processed. Auditing your deployment artifacts before upgrading is therefore the only reliable way to catch CMMN usage.
 
 **Audit your deployment artifacts before upgrading** — search your repositories and CI/CD pipelines for CMMN files:
 

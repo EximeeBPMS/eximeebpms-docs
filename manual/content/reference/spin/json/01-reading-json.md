@@ -220,7 +220,7 @@ or one of the 2 following container types:
       "new_entry": 1,
       "new_entry2": "Yeah!"
     };
-    json.prop("new_array", object);
+    json.prop("new_object", object);
     ```
 
 
@@ -247,7 +247,7 @@ listOfNames.add("language");
 json.deleteProp("customer");
 
 // removes customer and language
-json.deleteProp(list);
+json.deleteProp(listOfNames);
 ```
 
 Javascript:
@@ -329,7 +329,7 @@ list.append("test2"); // at the end of the list there should now be "test2"
 list.remove("test2"); // Aaaand now, it is gone ;)
 
 list.insertAt(1, "test3"); // test3 should now be inserted before testdata2
-list.removeAt(1, "test3"); // Aaaand now, it is gone ;)
+list.removeAt(1); // Aaaand now, it is gone ;)
 
 list.insertBefore(true, "test4"); // now there should be test4 on index 4
 list.insertAfter(true, 5); // So now 5 is on index 6
@@ -343,7 +343,7 @@ list.append("test2"); // at the end of the list there should now be "test2"
 list.remove("test2"); // Aaaand now, it is gone ;)
 
 list.insertAt(1, "test3"); // test3 should now be inserted before testdata2
-list.removeAt(1, "test3"); // Aaaand now, it is gone ;)
+list.removeAt(1); // Aaaand now, it is gone ;)
 
 list.insertBefore(true, "test4"); // now there should be test4 on index 4
 list.insertAfter(true, 5); // So now 5 is on index 6

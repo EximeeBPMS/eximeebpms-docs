@@ -47,6 +47,14 @@ The extension's *counters* are driven by the process engine's history events, so
     <td><code>activity</code></td>
   </tr>
   <tr>
+    <td><code>eximeebpms.tasks.created</code>, <code>.completed</code>, <code>.deleted</code></td>
+    <td><code>activity</code></td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.external.tasks.started</code>, <code>.ended</code></td>
+    <td><code>activity</code></td>
+  </tr>
+  <tr>
     <td><code>eximeebpms.incidents.created</code>, <code>.resolved</code>, <code>.deleted</code></td>
     <td><code>full</code></td>
   </tr>
@@ -154,6 +162,21 @@ The three counters above require <code>history-level: full</code> — see [Histo
     <th>Description</th>
   </tr>
   <tr>
+    <td><code>eximeebpms.tasks.created</code></td>
+    <td>Counter</td>
+    <td>Incremented when a task is created.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.tasks.completed</code></td>
+    <td>Counter</td>
+    <td>Incremented when a task is completed.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.tasks.deleted</code></td>
+    <td>Counter</td>
+    <td>Incremented when a task is deleted (any non-completion removal, e.g. process instance cancellation).</td>
+  </tr>
+  <tr>
     <td><code>eximeebpms.tasks.open.total</code></td>
     <td>Gauge</td>
     <td>Number of currently open tasks.</td>
@@ -177,6 +200,16 @@ The three counters above require <code>history-level: full</code> — see [Histo
     <th>Meter</th>
     <th>Type</th>
     <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.external.tasks.started</code></td>
+    <td>Counter</td>
+    <td>Incremented when an external task is created.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.external.tasks.ended</code></td>
+    <td>Counter</td>
+    <td>Incremented when an external task completes successfully or is deleted.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.external.tasks.open.total</code></td>
@@ -220,7 +253,7 @@ The three counters above require <code>history-level: full</code> — see [Histo
   </tr>
   <tr>
     <td><code>eximeebpms.script.violations.total</code></td>
-    <td>Counter</td>
+    <td>Gauge</td>
     <td>Total Script Guard violations recorded since the instance started, independent of tag values.</td>
   </tr>
 </table>
@@ -269,6 +302,12 @@ Meters are tagged as follows:
     - `tenant.id`
     - `process.definition.id`
     - `process.definition.key`
+- Script Guard violation counter (`eximeebpms.script.violations`, not the `.total` gauge, which carries no tags):
+    - `process.definition.key`
+    - `activity.id`
+    - `language`
+    - `origin`
+    - `rule.code`
 
 # Configuration
 

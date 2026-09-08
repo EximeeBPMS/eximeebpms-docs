@@ -16,7 +16,7 @@ process engine. The documentation assumes some familiarity with [Quarkus CDI sup
 {{< javadocref page="org/eximeebpms/bpm/engine/repository/DeploymentBuilder.html" text="DeploymentBuilder" >}} API.
 
 The EximeeBPMS Engine Quarkus Extension only supports programmatic deployments. A user can observe for the
-`EximeeBPMSEngineStartupEvent` CDI event. The `EximeeBPMSEngineStartupEvent` signals that a process engine has been
+`CamundaEngineStartupEvent` CDI event. The `CamundaEngineStartupEvent` signals that a process engine has been
 successfully bootstrapped, and a deployment can be performed.
 
 The following example shows how a single process engine deployment can be performed in a Quarkus application:
@@ -28,7 +28,7 @@ public class MyConfig {
   @Inject
   RepositoryService repositoryService;
 
-  public void createDeployment(@Observes EximeeBPMSEngineStartupEvent event) {
+  public void createDeployment(@Observes CamundaEngineStartupEvent event) {
     repositoryService.createDeployment()
         .addClasspathResource("resources/bpmn/simpleProcess.bpmn")
         .deploy();
@@ -38,7 +38,7 @@ public class MyConfig {
 ```
 
 However, a Quarkus application doesn't have to be limited to a single process engine deployment. You can observe for
-the `EximeeBPMSEngineStartupEvent` in multiple methods, and perform multiple deployments with a finer-grained control
+the `CamundaEngineStartupEvent` in multiple methods, and perform multiple deployments with a finer-grained control
 over the deployed resources.
 
 ```java
@@ -48,14 +48,14 @@ public class MyConfig {
   @Inject
   RepositoryService repositoryService;
 
-  public void createDeployment1(@Observes EximeeBPMSEngineStartupEvent event) {
+  public void createDeployment1(@Observes CamundaEngineStartupEvent event) {
     repositoryService.createDeployment()
         .name("deployment-1")
         .addClasspathResource("resources/bpmn/one/simpleProcess1.bpmn")
         .deploy();
   }
 
-  public void createDeployment2(@Observes EximeeBPMSEngineStartupEvent event) {
+  public void createDeployment2(@Observes CamundaEngineStartupEvent event) {
     repositoryService.createDeployment()
         .name("deployment-2")
         .addClasspathResource("resources/bpmn/two/simpleProcess2.bpmn")

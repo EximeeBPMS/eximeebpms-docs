@@ -188,17 +188,17 @@ using [less](http://lesscss.org/) to change the overall appearance of Tasklist.
 If you want to customize the interface with `less`, you should probably start by having a look
 at the variables defined in the following files:
 
- - `node_modules/eximeebpms-commons-ui/node_modules/bootstrap/less/variables.less`
+ - `node_modules/bootstrap/less/variables.less`
    defines the original Bootstrap variables
- - `node_modules/eximeebpms-commons-ui/resources/less/cam-variables.less`
+ - `ui/tasklist/client/styles/_app-variables.less`
    overrides some Bootstrap variables (above) and add some custom ones
 
-## Compiling with Grunt
+## Compiling
 
-From within the `eximeebpms-bpm-webapp` directory:
+From within the `webapps/frontend` directory:
 
 ```sh
-grunt build:tasklist
+npm run build
 ```
 
-The command will build the frontend assets (of Tasklist), styles included.
+The command will build the frontend assets (of all webapps, Tasklist included), styles included.

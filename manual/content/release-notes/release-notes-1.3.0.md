@@ -11,7 +11,7 @@ menu:
 
 ---
 
-**Edition:** Community &nbsp;|&nbsp; **Release date:** TBD
+**Edition:** Community &nbsp;|&nbsp; **Release date:** 17.07.2026
 
 ---
 
@@ -95,7 +95,7 @@ IDs generated after the upgrade use UUID v7 format. Existing rows are not affect
 
 ### CMMN Support (Deprecated — Removal in 1.4.0)
 
-Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be **removed in 1.4.0**. This decision reflects marginal CMMN adoption and EximeeBPMS's strategic focus on BPMN, Human Workflow, and business orchestration — the areas of highest value for banking and insurance customers. The change applies to both the Open Source and Enterprise editions at the same time.
+Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be **removed in 1.4.0**. This decision reflects marginal CMMN adoption and EximeeBPMS's strategic focus on BPMN, Human Workflow, and business orchestration — the areas of highest value for banking and insurance customers. The change applies to both the Open Source and Enterprise editions, though not at the same time: the Enterprise Edition already removed CMMN support ahead of this schedule, in 1.2.19-ee — see [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for the full per-edition timeline.
 
 **Behavior in 1.3.0:** no functional changes. The engine logs a warning at startup when it detects CMMN definitions or data in the database, and when a deployment contains a `.cmmn` file. The `CaseService` Java API and the `/case-*` REST endpoints are marked as deprecated.
 

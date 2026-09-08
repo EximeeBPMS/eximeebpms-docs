@@ -276,7 +276,7 @@ ObjectValue typedObjectValue = Variables
 boolean isDeserialized = retrievedTypedObjectValue.isDeserialized();
 
 // returns the format used by the engine to serialize the value into the database
-String serializationDataFormat = retrievedTypedObjectValue.getSerializationDateFormat();
+String serializationDataFormat = retrievedTypedObjectValue.getSerializationDataFormat();
 
 // returns the serialized representation of the variable; the actual value depends on the serialization format used
 String serializedValue = retrievedTypedObjectValue.getValueSerialized();

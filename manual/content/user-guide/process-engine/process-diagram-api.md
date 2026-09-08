@@ -40,4 +40,4 @@ viewer.importXML(xml, function(err) {
 });
 ```
 
-Alternatively, you can use the  [bpmn-viewer widget](https://github.com/EximeeBPMS/eximeebpms/blob/master/webapps/frontend/eximeebpms-commons-ui/lib/widgets/bpmn-viewer/cam-widget-bpmn-viewer.html) from the EximeeBPMS commons UI.
+Alternatively, you can use the  [bpmn-viewer widget](https://github.com/EximeeBPMS/eximeebpms/blob/main/webapps/frontend/eximeebpms-commons-ui/lib/widgets/bpmn-viewer/cam-widget-bpmn-viewer.html) from the EximeeBPMS commons UI.

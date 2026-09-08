@@ -59,7 +59,7 @@ The following elements are extension elements for the `camunda` namespace `http:
   <tr>
     <th>Constraints</th>
     <td colspan="2">
-      The <code>event</code> attribute is required and must be one of the lifecycle events that are valid for the plan item it is defined on. For regular tasks, these are: <code>create</code>, <code>enable</code>, <code>disable</code>, <code>reenable</code>, <code>start</code>, <code>manualStart</code>, <code>complete</code>, <code>reactivate</code>, <code>terminate</code>, <code>exit</code, <code>parentTerminate</code>, <code>suspend</code>, <code>resume</code>, <code>parentSuspend</code>, <code>parentSuspend</code>, <code>close</code>, <code>occur</code>
+      The <code>event</code> attribute is required and must be one of the lifecycle events that are valid for the plan item it is defined on. For regular tasks, these are: <code>create</code>, <code>enable</code>, <code>disable</code>, <code>reenable</code>, <code>start</code>, <code>manualStart</code>, <code>complete</code>, <code>reactivate</code>, <code>terminate</code>, <code>exit</code>, <code>parentTerminate</code>, <code>suspend</code>, <code>resume</code>, <code>parentSuspend</code>, <code>close</code>, <code>occur</code>
     </td>
   </tr>
   <tr>

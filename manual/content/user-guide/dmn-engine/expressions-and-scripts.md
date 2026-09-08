@@ -57,7 +57,7 @@ elements `inputExpression`, `inputEntry`, `outputEntry` and `literalExpression`:
     </decisionTable>
   </decision>
 
-   <decision id="decision2 name="Decision 2">
+   <decision id="decision2" name="Decision 2">
     <!-- the literal expression determines the value of this decision -->
     <literalExpression>
       <text>a + b</text>
@@ -72,7 +72,7 @@ elements `inputExpression`, `inputEntry`, `outputEntry` and `literalExpression`:
 The EximeeBPMS DMN engine supports two expression languages out of the box:
 
 - `JUEL`: A EximeeBPMS-maintained [implementation][juel] of the Java [Unified Expression Language][EL]
-- `FEEL`: The Friendly Enough Expression Language of the [DMN 1.2] standard.
+- `FEEL`: The Friendly Enough Expression Language of the [DMN 1.3] standard.
 
 Depending on the JDK you use, there may also be a `Javascript` implementation
 available like [Rhino] or [Nashhorn].
@@ -160,7 +160,7 @@ Additionally, it is possible to change the default expression language in the de
 It is also possible to set the language for each expression individually using the `expressionLanguage` attribute:
 
 ```xml
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://camunda.org/schema/1.0/dmn">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="definitions" name="definitions" namespace="http://eximeebpms.org/schema/1.0/dmn">
   
   <decision id="decision" name="Decision">
     <decisionTable>
@@ -205,7 +205,7 @@ the script engine before using it.
 [decision literal expression]: {{< ref "/reference/dmn/decision-literal-expression/_index.md" >}}
 [juel]: http://juel.sourceforge.net/
 [EL]: https://jakarta.ee/specifications/expression-language/4.0/
-[DMN 1.2]: http://www.omg.org/spec/DMN/
+[DMN 1.3]: http://www.omg.org/spec/DMN/
 [Rhino]: https://developer.mozilla.org/de/docs/Rhino
 [Nashhorn]: https://blogs.oracle.com/nashorn/
 [JSR-223]: https://www.jcp.org/en/jsr/detail?id=223

@@ -20,7 +20,7 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<root><child id=\"child\"><a id=\"a\"/><a id=\"b\"/></child></root>";
 
-SpinXmlTreeElement child = XML(xml).xPath("/root/child").element();
+SpinXmlElement child = XML(xml).xPath("/root/child").element();
 ```
 
 
@@ -31,7 +31,7 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<root><child id=\"child\"><a id=\"a\"/><a id=\"b\"/></child></root>";
 
-SpinList<SpinXmlTreeElement> childs = XML(xml).xPath("/root/child/a").elementList();
+SpinList<SpinXmlElement> childs = XML(xml).xPath("/root/child/a").elementList();
 ```
 
 
@@ -42,7 +42,7 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<root><child id=\"child\"><a id=\"a\"/><a id=\"b\"/></child></root>";
 
-SpinXmlTreeAttribute attribute = XML(xml).xPath("/root/child/@id").attribute();
+SpinXmlAttribute attribute = XML(xml).xPath("/root/child/@id").attribute();
 ```
 
 
@@ -53,7 +53,7 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<root><child id=\"child\"><a id=\"a\"/><a id=\"b\"/></child></root>";
 
-SpinList<SpinXmlTreeAttribute> attributes = XML(xml).xPath("/root/child/a/@id").attributeList();
+SpinList<SpinXmlAttribute> attributes = XML(xml).xPath("/root/child/a/@id").attributeList();
 ```
 
 
@@ -102,8 +102,8 @@ import static org.eximeebpms.spin.Spin.XML;
 
 String xml = "<root xmlns:t=\"http://camunda.org\"><t:child id=\"child\"><a id=\"a\"/></t:child></root>";
 
-SpinXmlTreeElement child = XML(xml).xPath("/root/t:child")
-                                   .ns("t", "http://camunda.org");
+SpinXmlElement child = XML(xml).xPath("/root/t:child")
+                                   .ns("t", "http://camunda.org")
                                    .element();
 ```
 
@@ -118,8 +118,8 @@ Map<String, String> namespaceMap = new HashMap<String, String>();
 namespaceMap.put("t", "http://camunda.org");
 namespaceMap.put("s", "http://camunda.com");
 
-SpinXmlTreeElement child = XML(xml).xPath("/root/t:child")
-                                   .ns(namespaceMap);
+SpinXmlElement child = XML(xml).xPath("/root/t:child")
+                                   .ns(namespaceMap)
                                    .element();
 ```
 

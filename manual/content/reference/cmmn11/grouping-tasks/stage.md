@@ -58,7 +58,7 @@ Furthermore, a case always refers to one stage as its *case plan model*. The cas
 
     <humanTask id="calculateCredit" name="Calculate Credit" />
 
-    <humanTask id="calculateHousekeepingBill" name="Calculate Hausekeeping Bill" />
+    <humanTask id="calculateHousekeepingBill" name="Calculate Housekeeping Bill" />
 
     <stage id="checkCredit">
 

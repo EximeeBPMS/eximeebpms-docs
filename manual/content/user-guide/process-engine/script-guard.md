@@ -288,7 +288,7 @@ ScriptValidationResult result = ruleSet.validate(scriptSource, ScriptOrigin.USER
 
 if (!result.isClean()) {
   for (ScriptSecurityRuleMatch match : result.getMatches()) {
-    System.out.println(match.getRuleCode() + ": " + match.getReason());
+    System.out.println(match.ruleCode() + ": " + match.reason());
   }
 }
 ```

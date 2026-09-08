@@ -20,7 +20,7 @@ At salt generation, a random 16-byte per-user value is created, which is generat
 
 If it is necessary to use a more secure hash algorithm, you can provide your own implementation.
 
-You can do this by implementing the `PasswordEncryptor` interface from the `org.eximeebpms.bpm.engine.impl.digest` package. The interface ensures that all necessary functions for password hashing are implemented. You can have a look at the classes `Base64EncodedHashDigest` and `ShaHashDigest` from the `org.eximeebpms.bpm.engine.impl.digest` package to see how this is done in EximeeBPMS. A template for your own implementation could look as follows:
+You can do this by implementing the `PasswordEncryptor` interface from the `org.eximeebpms.bpm.engine.impl.digest` package. The interface ensures that all necessary functions for password hashing are implemented. You can have a look at the classes `Base64EncodedHashDigest` and `Sha512HashDigest` (the current default implementation) from the `org.eximeebpms.bpm.engine.impl.digest` package to see how this is done in EximeeBPMS. A template for your own implementation could look as follows:
 
 
 ```java

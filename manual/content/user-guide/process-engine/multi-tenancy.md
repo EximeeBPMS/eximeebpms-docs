@@ -280,17 +280,23 @@ The process engine's Identity Service can be used to manage users, groups and te
 The following example shows how to retrieve the lists of groups and tenants for a given user and then use these lists when setting the authentication:
 
 ```java
-List<Tenant> groups = identityService.createGroupQuery()
+List<String> groupIds = identityService.createGroupQuery()
   .userMember(userId)
-  .list();
+  .list()
+  .stream()
+  .map(Group::getId)
+  .collect(Collectors.toList());
 
-List<Tenant> tenants = identityService.createTenantQuery()
+List<String> tenantIds = identityService.createTenantQuery()
   .userMember(userId)
   .includingGroupsOfUser(true)
-  .list();
+  .list()
+  .stream()
+  .map(Tenant::getId)
+  .collect(Collectors.toList());
 
 try {
-  identityService.setAuthentication(userId, groups, tenants);
+  identityService.setAuthentication(userId, groupIds, tenantIds);
 
   // get all tasks visible to user.
   taskService.createTaskQuery().list();

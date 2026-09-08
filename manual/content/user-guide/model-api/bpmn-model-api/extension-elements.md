@@ -32,7 +32,7 @@ Collection<ModelElementInstance> elements = extensionElements.getElements();
 After that you can add or remove extension elements to the collection.
 
 ```java
-EximeeBpmsFormData formData = modelInstance.newInstance(EximeeBpmsFormData.class);
+CamundaFormData formData = modelInstance.newInstance(CamundaFormData.class);
 extensionElements.getElements().add(formData);
 extensionElements.getElements().remove(formData);
 ```
@@ -43,7 +43,7 @@ You can also access a query-like interface to filter the extension elements.
 extensionElements.getElementsQuery().count();
 extensionElements.getElementsQuery().list();
 extensionElements.getElementsQuery().singleResult();
-extensionElements.getElementsQuery().filterByType(EximeeBpmsFormData.class).singleResult();
+extensionElements.getElementsQuery().filterByType(CamundaFormData.class).singleResult();
 ```
 
 Additionally, there are some shortcuts to add new extension elements. You can use
@@ -54,14 +54,14 @@ so that you can set attributes or add child elements.
 
 ```java
 ModelElementInstance element = extensionElements.addExtensionElement("http://example.com/bpmn", "myExtensionElement");
-EximeeBpmsExecutionListener listener = extensionElements.addExtensionElement(EximeeBpmsExecutionListener.class);
+CamundaExecutionListener listener = extensionElements.addExtensionElement(CamundaExecutionListener.class);
 ```
 
 Another helper method exists for the fluent builder API which allows you to add prior defined extension elements.
 
 ```java
-EximeeBpmsExecutionListener eximeeBpmsExecutionListener = modelInstance.newInstance(EximeeBpmsExecutionListener.class);
-eximeeBpmsExecutionListener.setCamundaClass("org.eximeebpms.bpm.MyJavaDelegte");
+CamundaExecutionListener camundaExecutionListener = modelInstance.newInstance(CamundaExecutionListener.class);
+camundaExecutionListener.setCamundaClass("org.eximeebpms.bpm.MyJavaDelegate");
 startEvent.builder()
-  .addExtensionElement(eximeeBpmsExecutionListener);
+  .addExtensionElement(camundaExecutionListener);
 ```
