@@ -17,3 +17,5 @@ public-local/
 
 # temporary git worktrees created during build
 worktree-*/
+
+.gitmessage

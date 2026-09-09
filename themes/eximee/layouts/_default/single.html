@@ -16,12 +16,111 @@
 
 <script>
   (function () {
+    function openTableModal(table) {
+      var overlay = document.createElement('div');
+      overlay.className = 'table-modal-overlay';
+
+      // `content` is a fixed-size box that never scrolls itself — the
+      // close button lives directly in it (plain position:absolute, no
+      // fixed/sticky viewport math needed) and stays put regardless of
+      // how far `scrollArea` below is scrolled in either direction.
+      var content = document.createElement('div');
+      content.className = 'table-modal-content';
+
+      var closeBtn = document.createElement('button');
+      closeBtn.type = 'button';
+      closeBtn.className = 'table-modal-close';
+      closeBtn.setAttribute('aria-label', 'Close');
+      closeBtn.innerHTML = '&times;';
+
+      var scrollArea = document.createElement('div');
+      scrollArea.className = 'table-modal-scroll';
+      scrollArea.appendChild(table.cloneNode(true));
+
+      content.appendChild(closeBtn);
+      content.appendChild(scrollArea);
+      overlay.appendChild(content);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+
+      function close() {
+        overlay.remove();
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', onKeydown);
+      }
+      function onKeydown(e) {
+        if (e.key === 'Escape') close();
+      }
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay) close();
+      });
+      closeBtn.addEventListener('click', close);
+      document.addEventListener('keydown', onKeydown);
+    }
+
     document.querySelectorAll('.content-text table').forEach(function (table) {
       if (table.closest('.tsm-tbl-wrap, .tbl-wrap')) return;
+
+      // `outer` never scrolls itself — it's just a positioning context so
+      // the expand button can sit at a fixed spot on screen (top-right of
+      // the table) instead of scrolling away with `wrap`'s content when
+      // the table is scrolled horizontally.
+      var outer = document.createElement('div');
+      outer.className = 'table-scroll-outer';
+      table.parentNode.insertBefore(outer, table);
+
       var wrap = document.createElement('div');
       wrap.className = 'table-scroll-wrap';
-      table.parentNode.insertBefore(wrap, table);
+      outer.appendChild(wrap);
       wrap.appendChild(table);
+
+      // Only offer "view full width" (and the mirrored top scrollbar
+      // below) for tables that actually overflow — no point cluttering
+      // ones that already fit.
+      if (wrap.scrollWidth > wrap.clientWidth) {
+        // Long tables (many rows) put the browser's native horizontal
+        // scrollbar — which sits at the very bottom of the wrap — far out
+        // of reach while reading a row near the top. Mirror it in a thin,
+        // sticky bar pinned just under the fixed top nav, synced both ways.
+        var topBar = document.createElement('div');
+        topBar.className = 'table-scroll-topbar';
+        topBar.setAttribute('aria-hidden', 'true');
+        var topBarInner = document.createElement('div');
+        topBarInner.className = 'table-scroll-topbar-inner';
+        topBarInner.style.width = wrap.scrollWidth + 'px';
+        topBar.appendChild(topBarInner);
+        outer.insertBefore(topBar, wrap);
+
+        var syncing = false;
+        topBar.addEventListener('scroll', function () {
+          if (syncing) return;
+          syncing = true;
+          wrap.scrollLeft = topBar.scrollLeft;
+          syncing = false;
+        });
+        wrap.addEventListener('scroll', function () {
+          if (syncing) return;
+          syncing = true;
+          topBar.scrollLeft = wrap.scrollLeft;
+          syncing = false;
+        });
+
+        var expandBtn = document.createElement('button');
+        expandBtn.type = 'button';
+        expandBtn.className = 'table-expand-btn';
+        expandBtn.title = 'View table full width';
+        expandBtn.setAttribute('aria-label', 'View table full width');
+        expandBtn.innerHTML = '&#x2922;';
+        expandBtn.addEventListener('click', function () {
+          openTableModal(table);
+        });
+        // Positioned against `outer` (via offsetTop, its nearest
+        // positioned ancestor) — a plain, non-scrolling absolute position,
+        // so it can't be scrolled out of view by `wrap`'s own scrolling.
+        expandBtn.style.top = (wrap.offsetTop + 6) + 'px';
+        outer.appendChild(expandBtn);
+      }
     });
   })();
 </script>
