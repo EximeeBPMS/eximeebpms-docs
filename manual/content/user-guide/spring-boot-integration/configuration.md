@@ -829,7 +829,7 @@ When setting to <code>/</code>, the legacy behavior of EximeeBPMS Spring Boot St
 
 <tr><td colspan="4"><b>Admin User</b></td></tr>
 <tr>
-<td rowspan="3"><code>eximeebpms.bpm.admin-user</code></td>
+<td rowspan="4"><code>eximeebpms.bpm.admin-user</code></td>
 <td><code>.id</code></td>
 <td>The username (e.g., 'admin')</td>
 <td>-</td>
@@ -846,6 +846,25 @@ When setting to <code>/</code>, the legacy behavior of EximeeBPMS Spring Boot St
 <td>Additional (optional) user attributes</td>
 <td>Defaults to value of 'id'</td>
 </tr>
+
+<tr>
+<td><code>.allow-with-external-identity-provider</code></td>
+<td>Allows creating this admin user even when an OAuth2/OIDC client registration or a read-only identity provider (e.g. LDAP) is also configured. Without it, startup fails fast instead — see the note below.</td>
+<td><code>false</code></td>
+</tr>
+
+{{< note title="Note:" class="info" >}}
+  If <code>eximeebpms.bpm.admin-user.id</code> is set while an OAuth2/OIDC
+  client registration (see <a href="../spring-security">Spring Security</a>)
+  or a read-only identity provider (e.g. the LDAP identity provider plugin)
+  is also configured, startup fails with a configuration error instead of
+  creating the admin user — creating a full-privilege local account
+  alongside an external identity provider is usually unintentional. Set
+  <code>.allow-with-external-identity-provider: true</code> to do it
+  anyway: against an OAuth2/OIDC provider the account is created as usual;
+  against a read-only provider it cannot be created at all (that provider
+  doesn't accept writes), so startup instead continues without creating it.
+{{< /note >}}
 
 <tr><td colspan="4"><b>Filter</b></td></tr>
 <tr>
