@@ -12,7 +12,11 @@
      body text         #334165
    ---------------------------------------------------------- */
 
-.content-text table {
+/* Also matched against `.table-modal-content table` throughout this
+   section — the full-width modal clones the table outside `.content-text`,
+   so without this it would render completely unstyled. */
+.content-text table,
+.table-modal-content table {
     border-collapse: collapse !important;
     border-spacing: 0 !important;
     font-size: 13px;
@@ -25,7 +29,8 @@
 }
 
 /* Header cells */
-.content-text table th {
+.content-text table th,
+.table-modal-content table th {
     padding: 10px 14px !important;
     background-color: #18253D !important;
     color: rgba(255, 255, 255, 0.80) !important;
@@ -40,12 +45,14 @@
     vertical-align: bottom;
 }
 
-.content-text table th:last-child {
+.content-text table th:last-child,
+.table-modal-content table th:last-child {
     border-right: none !important;
 }
 
 /* Body cells */
-.content-text table td {
+.content-text table td,
+.table-modal-content table td {
     padding: 9px 14px !important;
     border: 1px solid #DDE3F0 !important;
     vertical-align: top;
@@ -53,17 +60,20 @@
 }
 
 /* Alternating rows */
-.content-text table tbody tr:nth-child(even) td {
+.content-text table tbody tr:nth-child(even) td,
+.table-modal-content table tbody tr:nth-child(even) td {
     background-color: #F4F7FD !important;
 }
 
 /* Hover */
-.content-text table tbody tr:hover td {
+.content-text table tbody tr:hover td,
+.table-modal-content table tbody tr:hover td {
     background-color: #EBF2FF !important;
 }
 
 /* Inline code inside table cells */
-.content-text table code {
+.content-text table code,
+.table-modal-content table code {
     padding: 1px 5px !important;
     background-color: rgba(33, 85, 212, 0.07) !important;
     border: 1px solid rgba(33, 85, 212, 0.14) !important;
@@ -73,14 +83,33 @@
     white-space: nowrap;
 }
 
+/* Long unbroken inline code — e.g. fully-qualified Java class names in a
+   plain bullet list — previously overflowed the content column straight
+   into the TOC sidebar with no line break opportunity at all. Table cells
+   above keep their own, more specific `white-space: nowrap` (intentional
+   for short property tokens) and are unaffected by this. */
+.content-text code {
+    overflow-wrap: anywhere;
+}
+
 /* Links inside cells */
-.content-text table a {
+.content-text table a,
+.table-modal-content table a {
     color: #2155D4;
     text-decoration: none;
 }
 
-.content-text table a:hover {
+.content-text table a:hover,
+.table-modal-content table a:hover {
     text-decoration: underline;
+}
+
+/* Non-scrolling positioning context injected by single.html JS — wraps the
+   top scrollbar, the scrollable wrap and the expand button together, so the
+   button can be pinned to a fixed on-screen spot instead of scrolling away
+   with the wrap's own (horizontally scrolled) content. */
+.table-scroll-outer {
+    position: relative;
 }
 
 /* Scrollable wrapper injected by single.html JS */
@@ -88,10 +117,168 @@
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     margin-bottom: 24px;
+    /* Visible scrollbar — a wide table used to just cut off mid-cell with
+       no hint there was more to scroll to; this makes the existing
+       horizontal scroll discoverable instead of looking broken. */
+    scrollbar-width: thin;
+    scrollbar-color: #2155D4 #EEF2FB;
 }
 
 .table-scroll-wrap table {
     margin-bottom: 0 !important;
+}
+
+.table-scroll-wrap::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-scroll-wrap::-webkit-scrollbar-track {
+    background: #EEF2FB;
+    border-radius: 5px;
+}
+
+.table-scroll-wrap::-webkit-scrollbar-thumb {
+    background-color: #2155D4;
+    border-radius: 5px;
+}
+
+.table-scroll-wrap::-webkit-scrollbar-thumb:hover {
+    background-color: #18409e;
+}
+
+/* Mirrored top scrollbar — only added by JS for tables tall enough that
+   the real (bottom) scrollbar is out of reach from most rows. Sticky just
+   under the fixed top nav (43px) so it's usable no matter how far down
+   the table you've scrolled. */
+.table-scroll-topbar {
+    position: sticky;
+    top: 43px;
+    z-index: 3;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 14px;
+    margin-bottom: 4px;
+    background: #EEF2FB;
+    border: 1px solid #DDE3F0;
+    border-radius: 5px;
+    scrollbar-width: thin;
+    scrollbar-color: #2155D4 #EEF2FB;
+}
+
+.table-scroll-topbar-inner {
+    height: 1px;
+}
+
+.table-scroll-topbar::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-scroll-topbar::-webkit-scrollbar-track {
+    background: #EEF2FB;
+    border-radius: 5px;
+}
+
+.table-scroll-topbar::-webkit-scrollbar-thumb {
+    background-color: #2155D4;
+    border-radius: 5px;
+}
+
+/* Expand button — only added by JS when a table actually overflows its
+   wrapper; opens the same table full-width in a modal instead of scrolling.
+   Positioned against `.table-scroll-outer` (`top` set inline by JS from
+   `wrap.offsetTop`) rather than `.table-scroll-wrap` itself, so it can't be
+   scrolled out of view when the wrap is scrolled horizontally. */
+.table-expand-btn {
+    position: absolute;
+    right: 6px;
+    z-index: 2;
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 1px solid #DDE3F0;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #2155D4;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(24, 37, 61, 0.12);
+}
+
+.table-expand-btn:hover {
+    background: #EBF2FF;
+    border-color: #2155D4;
+}
+
+/* Full-width table modal, opened by the expand button */
+.table-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 24px;
+    background: rgba(24, 37, 61, 0.55);
+    overflow: auto;
+}
+
+/* The modal box itself never scrolls — it's a fixed-size positioning
+   context for the close button. `.table-modal-scroll` inside it is the
+   actual scrolling element, so the close button (a plain, ordinary
+   position:absolute child, no fixed/sticky viewport math) can't be
+   scrolled out of view in either direction. */
+.table-modal-content {
+    position: relative;
+    max-width: 100%;
+    /* `%` doesn't work here — the flex-item content box has no definite
+       height for `.table-modal-scroll`'s max-height to resolve against
+       (an auto-height ancestor), which silently disabled the intended
+       internal scroll entirely and let the table render at full height. */
+    max-height: 90vh;
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(24, 37, 61, 0.35);
+}
+
+.table-modal-scroll {
+    max-width: 100%;
+    max-height: 90vh;
+    overflow: auto;
+    padding: 32px 20px 20px;
+}
+
+.table-modal-content table {
+    margin-bottom: 0 !important;
+}
+
+/* Frozen column headers — stick to the top of the modal's own scroll
+   area, so they stay visible while scrolling down through many rows. */
+.table-modal-content table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.table-modal-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 1px 4px rgba(24, 37, 61, 0.3);
+    color: #334165;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.table-modal-close:hover {
+    color: #2155D4;
 }
 
 /* ----------------------------------------------------------
