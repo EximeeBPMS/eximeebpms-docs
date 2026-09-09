@@ -90,6 +90,8 @@ This is deliberate: a production deployment is usually a fleet of engine nodes (
 Editing `mode`/`allowlisted-process-definition-keys` in `application.yml`, or `scriptSecurityMode`/`scriptSecurityAllowlistedProcessDefinitionKeys` in `bpm-platform.xml`, and restarting the engine has **no effect** once a Script Guard configuration row already exists in the database — which, in practice, means every start after the very first one, on a single-node setup too. Use [`PUT /script-security/config`](#update-configuration) to change the mode or allowlist on a running system.
 {{< /note >}}
 
+An unrecognized `mode`/`scriptSecurityMode` value (a typo, e.g. `ENFORCEE`) is **not** silently treated as `ENFORCE` — the engine fails to start, on either deployment model, with an error naming the invalid value and the three valid ones (`ENFORCE`, `AUDIT`, `DISABLED`; matching is case-insensitive). Fix the value and restart.
+
 ## Spring Boot
 
 Configured via Spring Boot application properties under the `eximeebpms.bpm.script-security` prefix:
