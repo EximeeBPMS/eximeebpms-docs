@@ -297,8 +297,6 @@ This additional data is passed into the render function:
 
 **Name:** `cockpit.processInstance.runtime.tab`
 
-{{< img src="../../img/plugin-points/plugin-point-process-instance-details.jpg" title="Process Instance Runtime Tab" >}}
-
 This plugin points properties contain the attribute `label`, which will be rendered in the navigation even when the plugin is not selected.
 
 ```Javascript
