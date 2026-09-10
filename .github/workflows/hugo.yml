@@ -75,6 +75,7 @@ jobs:
         run: |
           LATEST="${{ steps.versions.outputs.latest }}"
           VERSIONS="${{ steps.versions.outputs.versions }}"
+          image_checks_failed=""
 
           for version in $VERSIONS; do
             echo "=== Building docs/${version} ==="
@@ -84,6 +85,41 @@ jobs:
             # Version-select dropdown content, derived from versions.yaml
             # (adr/0022) - overwrites this worktree's own copy, never committed.
             ./render-version-data.sh "${version}" "worktree-${version}/manual/data/versions.yaml"
+
+            # Image reference integrity. Runs after the theme copy above so
+            # bpmn/cmmn-symbol shortcodes resolve against
+            # themes/eximee/static/img/short-codes/.
+            #
+            # Enforcing: a broken image reference blocks the deploy. Every
+            # branch in versions.yaml was brought to zero dangling
+            # references under BPMS-601 (BACKLOG-0089, BACKLOG-0091), so
+            # this starts from a clean baseline and only fires on a
+            # regression.
+            #
+            # Note the failure is deferred to after the loop rather than
+            # raised here. Every version still gets checked and built, so one
+            # run tells you about every affected branch instead of stopping
+            # at the first - and the deploy steps are separate steps, so
+            # exiting non-zero at the end of this one is what actually
+            # withholds publication.
+            #
+            # Deliberately NOT piped into tee: the default shell is
+            # "bash -e" without pipefail, so a pipeline's status is tee's,
+            # and the check's own exit code would be silently discarded.
+            if ./check-images.sh "worktree-${version}" > "images-${version}.log" 2>&1; then
+              cat "images-${version}.log"
+            else
+              cat "images-${version}.log"
+              image_checks_failed="${image_checks_failed} docs/${version}"
+              echo "::error title=Image checks::docs/${version}: see the job summary"
+            fi
+            {
+              printf '<details><summary>Image checks: docs/%s</summary>\n\n' "${version}"
+              printf '```\n'
+              grep -E '^(FAIL|NOTE)' "images-${version}.log" || true
+              sed -n '/^images (published/,/no sibling (needs/p' "images-${version}.log"
+              printf '```\n</details>\n\n'
+            } >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
             # Build versioned manual
             hugo --minify \
@@ -152,6 +188,15 @@ jobs:
 
             git worktree remove --force "worktree-${version}"
           done
+
+          # Withhold publication if any version failed its image checks.
+          # Placed after the loop so the run reports every affected branch.
+          if [ -n "${image_checks_failed}" ]; then
+            echo "Image checks failed for:${image_checks_failed}"
+            echo "Nothing is deployed. Fix the reported references, or see" \
+                 "eximeebpms-factory's screenshot-freshness-gate.md."
+            exit 1
+          fi
 
       - name: Checkout gh-pages branch
         uses: actions/checkout@v7
