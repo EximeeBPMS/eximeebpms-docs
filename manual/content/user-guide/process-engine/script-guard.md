@@ -79,7 +79,11 @@ The built-in policy checks the script source (case-insensitively) against the fo
 
 # Configuration
 
-Script Guard is configured via Spring Boot application properties under the `eximeebpms.bpm.script-security` prefix:
+Script Guard is configured through the process engine configuration, and can be set either with Spring Boot application properties or, since [1.3.3-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#script-guard-in-container-deployments), directly on the engine configuration in a standalone `bpm-platform.xml` or WildFly subsystem deployment.
+
+## Spring Boot
+
+Properties live under the `eximeebpms.bpm.script-security` prefix:
 
 ```yaml
 eximeebpms:
@@ -126,6 +130,30 @@ eximeebpms:
   </tr>
 </table>
 
+## Standalone and application-server deployments
+
+The same settings are process engine configuration properties, so they can be set in `bpm-platform.xml`'s `<process-engine>` `<properties>` block (and equivalently in the WildFly subsystem configuration):
+
+```xml
+<properties>
+  <property name="scriptSecurityMode">ENFORCE</property>
+  <property name="scriptSecurityAllowlistedProcessDefinitionKeys">my-trusted-process,legacy-migration-process</property>
+  <property name="scriptViolationRetentionDays">30</property>
+</properties>
+```
+
+<table class="table desc-table">
+  <tr>
+    <th>Engine configuration property</th>
+    <th>Spring Boot equivalent</th>
+  </tr>
+  <tr><td><code>scriptSecurityMode</code></td><td><code>mode</code></td></tr>
+  <tr><td><code>scriptSecurityAllowlistedProcessDefinitionKeys</code></td><td><code>allowlisted-process-definition-keys</code></td></tr>
+  <tr><td><code>scriptViolationRetentionDays</code></td><td><code>retention-days</code></td></tr>
+</table>
+
+An unrecognized `scriptSecurityMode` value fails engine startup, listing the valid values, rather than being silently ignored.
+
 {{< note title="" class="info" >}}
 Script Guard stores its runtime configuration and violation records in the database. The `ACT_RU_SCRIPT_VIOLATION` table is created automatically during the schema migration (Community Edition: shipped in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#script-guard); Enterprise Edition: shipped in [1.2.13-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-13-ee)).
 {{< /note >}}
@@ -134,7 +162,7 @@ Script Guard stores its runtime configuration and violation records in the datab
 
 Processes that intentionally use constructs blocked by the policy can be placed on an allowlist. Scripts belonging to allowlisted processes skip all security checks.
 
-The allowlist can be set statically in `application.yml` (see [Configuration](#configuration)) or updated at runtime via the [REST API](#rest-api). Runtime updates are stored in the `ACT_GE_PROPERTY` table and propagate to all engine nodes within 30 seconds.
+The allowlist can be set statically in `application.yml` or `bpm-platform.xml` (see [Configuration](#configuration)) or updated at runtime via the [REST API](#rest-api). Runtime updates are stored in the `ACT_GE_PROPERTY` table and propagate to all engine nodes within 30 seconds.
 
 {{< note title="" class="warning" >}}
 Allowlisting disables all Script Guard checks for the listed processes. Prefer enabling `AUDIT` mode first to identify which patterns are actually used before committing to an allowlist.

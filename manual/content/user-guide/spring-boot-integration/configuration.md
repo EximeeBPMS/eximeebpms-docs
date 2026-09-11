@@ -823,7 +823,7 @@ When setting to <code>/</code>, the legacy behavior of EximeeBPMS Spring Boot St
 
 <tr><td colspan="4"><b>Admin User</b></td></tr>
 <tr>
-<td rowspan="3"><code>eximeebpms.bpm.admin-user</code></td>
+<td rowspan="4"><code>eximeebpms.bpm.admin-user</code></td>
 <td><code>.id</code></td>
 <td>The username (e.g., 'admin')</td>
 <td>-</td>
@@ -839,6 +839,12 @@ When setting to <code>/</code>, the legacy behavior of EximeeBPMS Spring Boot St
 <td><code>.firstName</code>, <code>.lastName</code>, <code>.email</code></td>
 <td>Additional (optional) user attributes</td>
 <td>Defaults to value of 'id'</td>
+</tr>
+
+<tr>
+<td><code>.allow-with-external-identity-provider</code></td>
+<td><i>Enterprise Edition, since <a href="{{< ref "/release-notes/release-notes-1.3-ee.md" >}}#admin-user-bootstrap-guard">1.3.3-ee</a>.</i> Allows the admin-user bootstrap to run even when an external identity provider is active. See the note below.</td>
+<td><code>false</code></td>
 </tr>
 
 <tr><td colspan="4"><b>Filter</b></td></tr>
@@ -905,6 +911,14 @@ eximeebpms:
   Overriding an already exposed property using the <code>generic-properties</code>
   keyword does not effect the process engine configuration. All exposed properties
   can only be overridden with their exposed identifier.
+{{< /note >}}
+
+{{< note title="Admin user and external identity providers" class="warning" >}}
+Setting `admin-user.id` while an external identity provider is active fails startup with an explicit error. This covers both an OAuth2/OIDC client registration (`spring.security.oauth2.client.registration.*`) and any read-only identity provider, such as the LDAP plugin.
+
+Creating a local admin account in either setup was never useful: behind SSO it is created silently, outside the identity provider that actually authenticates users; with a read-only provider the engine previously crashed with an opaque `ProcessEngineException` about a missing `WritableIdentityProvider` session factory.
+
+Set `eximeebpms.bpm.admin-user.allow-with-external-identity-provider` to `true` to opt back into the previous behaviour. With a writable provider (OAuth2/SSO) the account is then created as before; with a read-only provider (LDAP) creation is skipped and a `WARN` is logged, since a read-only provider cannot be written to regardless of intent.
 {{< /note >}}
 
 ### Examples

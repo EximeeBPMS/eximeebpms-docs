@@ -15,6 +15,132 @@ menu:
 
 ---
 
+## 1.3.3-ee {#133-ee}
+
+**Release date:** 10.09.2026
+
+### Highlights
+
+- **[Script Guard outside Spring Boot](#script-guard-in-container-deployments)** — enforcement mode, allowlisting, violation persistence and business-event forwarding now work in plain-XML and application-server deployments, not just Spring Boot
+- **[Selective history exclusion](#history-exclusion-by-process-definition-key)** — turn history recording off for named process definitions without lowering the history level for the whole engine
+- **[Admin-user bootstrap guard](#admin-user-bootstrap-guard)** — the Spring Boot starter now refuses to start when a local admin account is configured alongside SSO or LDAP, instead of silently creating it or failing obscurely
+- **Telemetry field renamed** — see [Breaking Changes](#133-breaking) below
+- **All remaining Critical/High dependency alerts outside `webapps` are closed** — see [Security](#133-security)
+
+### New Features
+
+#### Script Guard in Container Deployments {#script-guard-in-container-deployments}
+
+[Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) was previously configurable only through the Spring Boot starter. Its configuration now lives on the process engine configuration itself, so a standalone `bpm-platform.xml` deployment on Tomcat, or a WildFly subsystem deployment, gets the same behaviour a Spring Boot deployment has always had: the enforcement mode (`ENFORCE`, `AUDIT`, `DISABLED`), the process-definition allowlist, violation persistence to `ACT_RU_SCRIPT_VIOLATION`, and forwarding of violations to the business-event outbox for SIEM consumption.
+
+An unrecognized mode value is now rejected when the engine is built, rather than being silently ignored — a typo in `scriptSecurityMode` fails startup with the list of valid values instead of leaving enforcement in an unintended state.
+
+Recorded violations can also be aged out automatically: `scriptViolationRetentionDays` (`0`, the default, keeps them indefinitely) drives a cleanup job that removes violation records older than the configured retention. That cleanup now runs on the engine's own job executor instead of a Spring-scheduled task, which is what makes it work outside Spring Boot — the undocumented `eximeebpms.bpm.script-security.cleanup-cron` property that used to drive its schedule is gone and is no longer read.
+
+→ [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})
+→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+
+#### History Exclusion by Process Definition Key {#history-exclusion-by-process-definition-key}
+
+`historyExcludedProcessDefinitionKeys` (Spring Boot: `eximeebpms.bpm.history-excluded-process-definition-keys`) lists process definition keys for which no history is recorded at all, whatever the configured history level. High-volume technical processes can therefore be excluded individually instead of forcing the whole engine down to a lower history level.
+
+Filtering happens at persistence time. Batch history (`HistoricBatchEntity`) is never covered by the exclusion, because a batch is not scoped to a single process definition.
+
+→ [History Configuration]({{< ref "/user-guide/process-engine/history/history-configuration.md" >}})
+
+#### Admin-user Bootstrap Guard {#admin-user-bootstrap-guard}
+
+The Spring Boot starter's `eximeebpms.bpm.admin-user.*` bootstrap now fails startup with an explicit error when `admin-user.id` is set while an external identity provider is active — either an OAuth2/OIDC client registration under `spring.security.oauth2.client.registration.*`, or a read-only identity provider such as the LDAP plugin.
+
+Previously the two combinations failed in two different unhelpful ways: with SSO the local admin account was created silently behind the identity provider's back, and with a read-only provider the engine crashed with an opaque `ProcessEngineException` about a missing `WritableIdentityProvider` session factory.
+
+The previous behaviour is still available deliberately, via `eximeebpms.bpm.admin-user.allow-with-external-identity-provider` (default `false`). With a writable provider the account is created as before; with a read-only provider creation is skipped and a `WARN` is logged, since writing to a read-only provider cannot succeed regardless of intent.
+
+→ [Spring Boot Integration — Configuration]({{< ref "/user-guide/spring-boot-integration/configuration.md" >}})
+
+### Breaking Changes {#133-breaking}
+
+#### Telemetry Field Renamed to `eximeebpms-integration`
+
+The diagnostics/telemetry payload's `camunda-integration` field is renamed to `eximeebpms-integration`, completing the rebranding of the data contract. This is the serialized field name, so it changes what the diagnostics data actually contains.
+
+{{< note title="" class="warning" >}}
+If you collect diagnostics data and parse it downstream — a dashboard, a SIEM pipeline, an internal inventory — update the field name. The old name is no longer emitted.
+
+The REST API reference for the 1.3 line still documents the old field name; it is generated from the 1.3.0 baseline and has not been regenerated for this patch.
+{{< /note >}}
+
+→ [Diagnostics Data]({{< ref "/user-guide/process-engine/diagnostics-data.md" >}})
+
+#### `camunda:caseRef` Rejected at Deploy Time
+
+A call activity carrying `camunda:caseRef` — a reference to a CMMN case — is now rejected when the process definition is deployed, with an error naming the attribute and pointing at `calledElement`. Previously such a definition deployed successfully and only failed later, at process start, once the removed CMMN support was actually reached.
+
+Process definitions that still carry `caseRef` and deployed without complaint before will now be refused at deployment. That is the intended outcome: they could never have run.
+
+→ [CMMN Removal — Migration Guide]({{< ref "/update/cmmn-removal.md" >}})
+
+#### `uuid-v1` Id Generator Removed
+
+`UuidV1Generator`, deprecated since 1.3.0, is removed. Setting the id generator to `uuid-v1` — through `bpm-platform.xml`, `eximeebpms.bpm.id-generator`, `quarkus.camunda.id-generator` or the WildFly subsystem — no longer instantiates it.
+
+This is not a hard failure: the engine falls back to the default `StrongUuidGenerator` (UUID v7) and logs a warning (`EnginePersistenceLogger` code `111`), so a leftover `uuid-v1` setting keeps the engine starting, just with the default generator.
+
+#### `enabledEventTypes` Property Removed
+
+The business-events `enabledEventTypes` property (`<property name="enabledEventTypes">`, standalone `bpm-platform.xml` only — never exposed through the Spring Boot starter or Quarkus) is removed. It was parsed and stored but never read by any stage of the produce → outbox-write → dispatch pipeline, so setting it had no effect. No filtering mechanism elsewhere in the engine supersedes it.
+
+→ [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}})
+
+### Technical Updates
+
+#### System Settings Menu Now Respects Its Backend Permission
+
+Admin's **System Settings** menu entry is now shown only to users holding `READ` on the `System` resource — the permission its backend already required. Users without it no longer see a menu entry that leads to a rejected request.
+
+→ [Admin — System Management]({{< ref "/webapps/admin/system-management.md" >}})
+
+#### Microsoft SQL Server: `image` Columns Replaced with `varbinary(max)`
+
+The deprecated `image` column type is replaced with `varbinary(max)` on `ACT_GE_BYTEARRAY.BYTES_`, `ACT_HI_COMMENT.FULL_MSG_` and `ACT_ID_INFO.PASSWORD_`. New installations get `varbinary(max)` from the create scripts; existing installations keep `image` until the `1.3-to-1.4` upgrade script, which now converts the three columns in place.
+
+`image` has been deprecated by Microsoft for years and is slated for removal; the two types are otherwise equivalent for the engine's use.
+
+→ [Database Schema]({{< ref "/user-guide/process-engine/database/database-schema.md" >}})
+
+#### Monitoring Extension Switched to the Enterprise Fork
+
+The Spring Boot starter now depends on `eximeebpms-enterprise-bpm-spring-boot-monitor` `1.12.0-ee` instead of the Community artifact `eximeebpms-bpm-spring-boot-monitor` `1.7.0`. The two are separately versioned; the Enterprise fork tracks Enterprise's own release train.
+
+→ [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+→ [Tech Stack]({{< ref "/introduction/tech-stack.md" >}})
+
+#### Other Changes
+
+- Batch job configuration byte arrays are now written with a name (`batch.jobConfiguration`), a resource type and a creation timestamp instead of leaving all three null — previously the only rows in `ACT_GE_BYTEARRAY` that could be neither attributed to a mechanism nor dated. Additive, new rows only; no schema change.
+- `bpm-platform.xml` `<property>` values can now target `Set<String>`/`List<String>` setters as comma-separated lists, not just `int`/`long`/`float`/`boolean`/`String`. As a side effect `adminGroups`, `adminUsers` and `registeredDeployments` become configurable through plain XML property syntax.
+- Tomcat is pinned to 11.0.25 across both the standalone distribution and the Spring Boot runtime, and WildFly is bumped to 41.0.1.Final (WildFly Core 33.0.1.Final).
+- Tasklist's internal form type tag is renamed from `camunda-forms` to `eximeebpms-forms`, matching the `eximeebpms-forms:` form key it has always used. Custom Tasklist plugins that branch on `form.type` need updating.
+
+### Bug Fixes
+
+- History events whose payload is binary — job log and external-task log stack traces, and object-typed DMN decision inputs and outputs — wrote that payload to `ACT_GE_BYTEARRAY` before any `HistoryEventHandler` had decided whether to persist the event. A handler that declined the event left an unreferenced row behind that nothing pointed at, that no cleanup sweep could reach (its removal time was null) and that no query could distinguish from live data. The byte array is now created by the handler instead. **Contract note:** a custom handler that persists these events through its own path, rather than delegating to `DbHistoryEventHandler`, now receives the payload on the event itself with the byte-array id unset, and must create the byte array if it wants the payload stored.
+- `HistoricBatchEntity` declared an `id` field shadowing the one on `HistoryEvent`. The subclass field was dead — both accessors always resolved to the superclass field — but a reflective, field-based serializer such as Gson saw two fields named `id` and threw, making batch history events unserializable in any custom `HistoryEventHandler` using one. The shadowing field is removed; accessor behaviour is unchanged.
+- On WildFly, the `httpclient5` module descriptor did not declare the JDK's `jdk.net` module, which httpclient5 5.6.4 reaches from a static initializer. Every engine with the Connect plugin enabled — in practice all of them — failed with `NoClassDefFoundError` the first time it built an HTTP client. Tomcat's flat classpath was unaffected.
+- The dependency-graph refresh job checked for an exact hour to disambiguate its two daily triggers, but the shared runner pool routinely starts a scheduled run hours late, so the check never matched and the job silently no-op'd while reporting success. It now uses a delay-tolerant threshold.
+
+### Security {#133-security}
+
+This release closes every remaining Critical and High severity dependency alert outside the `webapps` module.
+
+- `httpclient5`/`httpcore5` to 5.6.4/5.4.3, `netty` to 4.1.137.Final, `unirest-java` to 3.14.5, `testcontainers` to 2.0.5, `h2` (QA Spring Boot runtime) to 2.4.240, `plexus-utils` to 3.6.1, `xalan` to 2.7.3, `guava` to 33.7.1-jre, `httpclient` to 4.5.14, `lz4-java` to 1.11.2, `opentelemetry` to 1.65.0, `handlebars` to 4.5.4.
+- `wiremock` (test scope) migrated from `com.github.tomakehurst:wiremock` 2.27.2 to `org.wiremock:wiremock-jetty12` 3.13.2, which brings Jetty 12 instead of the end-of-life Jetty 11 line — forced on to 12.0.39 to clear CVE-2026-1605 and CVE-2026-10050. `webapps`'s own Jetty usage and its local-development Jetty Maven plugin moved to the Jetty 12 EE10 artifacts (12.1.12) for the same reason.
+- Several `jackson-*` and `json-smart` coordinates were resolving a bundled, vulnerable version despite the project already pinning patched ones, because no `dependencyManagement` entry wired the pin into that part of the reactor. Those entries are now in place.
+
+For the full list of security notices, see the [Security Notices](/security/notices/) page.
+
+---
+
 ## 1.3.2-ee {#132-ee}
 
 **Release date:** 11.08.2026

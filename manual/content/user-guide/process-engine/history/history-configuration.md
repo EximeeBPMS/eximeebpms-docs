@@ -65,6 +65,30 @@ Note that when using the default history backend, the history level is stored in
 
 
 
+## Exclude individual process definitions
+
+{{< note title="Enterprise Edition only" class="info" >}}
+Available since [1.3.3-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#history-exclusion-by-process-definition-key).
+{{< /note >}}
+
+The history level applies to the whole engine. To keep it where you need it while suppressing history for individual, high-volume technical processes, list their process definition keys in `historyExcludedProcessDefinitionKeys`. No history is recorded for those definitions, whatever the configured history level.
+
+```xml
+<property name="historyExcludedProcessDefinitionKeys">technical-polling-process,bulk-import-process</property>
+```
+
+```yaml
+eximeebpms:
+  bpm:
+    history-excluded-process-definition-keys:
+      - technical-polling-process
+      - bulk-import-process
+```
+
+In Java, use `ProcessEngineConfiguration.setHistoryExcludedProcessDefinitionKeys(Set<String>)`.
+
+Filtering happens at persistence time, so excluded definitions produce no historic rows at all rather than rows that are cleaned up later. Batch history (`HistoricBatchEntity`) is never covered by the exclusion, because a batch is not scoped to a single process definition.
+
 ## Default history implementation
 
 The default history database writes History Events to the appropriate database tables. The database tables can then be queried using the `HistoryService` or using the REST API.
