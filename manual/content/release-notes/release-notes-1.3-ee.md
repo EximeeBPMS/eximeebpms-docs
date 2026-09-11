@@ -67,7 +67,7 @@ The diagnostics/telemetry payload's `camunda-integration` field is renamed to `e
 {{< note title="" class="warning" >}}
 If you collect diagnostics data and parse it downstream — a dashboard, a SIEM pipeline, an internal inventory — update the field name. The old name is no longer emitted.
 
-The REST API reference for the 1.3 line still documents the old field name; it is generated from the 1.3.0 baseline and has not been regenerated for this patch.
+The REST API reference for the 1.3 line documents the Community Edition API, which keeps the old field name — Community Edition 1.3.0 emits `camunda-integration`. The rename applies to Enterprise Edition from this release onward.
 {{< /note >}}
 
 → [Diagnostics Data]({{< ref "/user-guide/process-engine/diagnostics-data.md" >}})
