@@ -10,6 +10,18 @@ menu:
 
 ---
 
+{{< note title="Renamed in 1.4.0" class="warning" >}}
+These methods were named `camunda…` before 1.4.0 (for example
+`camundaAsyncBefore()`, `getCamundaFormKey()`, `setCamundaClass()`). The old
+names still exist and still work throughout 1.4.x, but they are deprecated
+and **will be removed in 1.5.0** — migrate with a mechanical rename,
+`camundaX` → `eximeeBpmsX` and `getCamundaX` → `getEximeeBpmsX`.
+
+Nothing changes in the XML: the extension namespace URI and the attribute
+names in your `.bpmn` and `.dmn` files are untouched.
+{{< /note >}}
+
+
 
 [Custom extension elements]({{< ref "/reference/bpmn20/custom-extensions/_index.md" >}}) are a standardized way to extend the BPMN model.
 The [EximeeBPMS extension elements]({{< ref "/reference/bpmn20/custom-extensions/extension-elements.md" >}}) are fully implemented in the BPMN model API, but unknown extension elements can also easily be accessed and added.
@@ -32,7 +44,7 @@ Collection<ModelElementInstance> elements = extensionElements.getElements();
 After that you can add or remove extension elements to the collection.
 
 ```java
-CamundaFormData formData = modelInstance.newInstance(CamundaFormData.class);
+EximeeBpmsFormData formData = modelInstance.newInstance(EximeeBpmsFormData.class);
 extensionElements.getElements().add(formData);
 extensionElements.getElements().remove(formData);
 ```
@@ -43,7 +55,7 @@ You can also access a query-like interface to filter the extension elements.
 extensionElements.getElementsQuery().count();
 extensionElements.getElementsQuery().list();
 extensionElements.getElementsQuery().singleResult();
-extensionElements.getElementsQuery().filterByType(CamundaFormData.class).singleResult();
+extensionElements.getElementsQuery().filterByType(EximeeBpmsFormData.class).singleResult();
 ```
 
 Additionally, there are some shortcuts to add new extension elements. You can use
@@ -54,14 +66,14 @@ so that you can set attributes or add child elements.
 
 ```java
 ModelElementInstance element = extensionElements.addExtensionElement("http://example.com/bpmn", "myExtensionElement");
-CamundaExecutionListener listener = extensionElements.addExtensionElement(CamundaExecutionListener.class);
+EximeeBpmsExecutionListener listener = extensionElements.addExtensionElement(EximeeBpmsExecutionListener.class);
 ```
 
 Another helper method exists for the fluent builder API which allows you to add prior defined extension elements.
 
 ```java
-CamundaExecutionListener camundaExecutionListener = modelInstance.newInstance(CamundaExecutionListener.class);
-camundaExecutionListener.setCamundaClass("org.eximeebpms.bpm.MyJavaDelegate");
+EximeeBpmsExecutionListener executionListener = modelInstance.newInstance(EximeeBpmsExecutionListener.class);
+executionListener.setEximeeBpmsClass("org.eximeebpms.bpm.MyJavaDelegate");
 startEvent.builder()
-  .addExtensionElement(camundaExecutionListener);
+  .addExtensionElement(executionListener);
 ```
