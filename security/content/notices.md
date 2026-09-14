@@ -35,7 +35,7 @@ EximeeBPMS Enterprise Edition releases bundling the vulnerable Jetty versions in
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition): the WireMock-based test suites' bundled Jetty forced to 12.0.39, and webapps' local-development server migrated off Jetty 11 onto `jetty-ee10-maven-plugin` 12.1.12. This fix has not yet shipped in a Community Edition release; it is expected in the next CE minor version.
+Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition): the WireMock-based test suites' bundled Jetty forced to 12.0.39, and webapps' local-development server migrated off Jetty 11 onto `jetty-ee10-maven-plugin` 12.1.12. Also fixed in EximeeBPMS 1.4.0 (Community Edition), with the same two versions.
 
 ---
 
@@ -79,7 +79,7 @@ EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤
 
 **Solution:**
 
-Fix merged to the `eximeebpms-enterprise` main branch (Apache HttpComponents Core 5 upgraded to 5.4.3, Netty to 4.1.137.Final), pending its next Enterprise Edition patch release. Not yet shipped in a Community Edition release.
+Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition), Apache HttpComponents Core 5 upgraded to 5.4.3 and Netty to 4.1.137.Final. Also fixed in EximeeBPMS 1.4.0 (Community Edition), with the same versions.
 
 ---
 

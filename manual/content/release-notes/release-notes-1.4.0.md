@@ -141,7 +141,7 @@ Two method families were already deprecated before this change and get counterpa
 
 ## Security
 
-Five CVE fixes previously shipped only in the Enterprise Edition track are now included in the Community Edition, via the dependency upgrades in this release. Full details for each are published on the [Security Notices](/security/notices/) page.
+Six sets of CVE fixes previously shipped only in the Enterprise Edition track are now included in the Community Edition, via the dependency upgrades in this release. Full details for each are published on the [Security Notices](/security/notices/) page.
 
 | Notice | Component | CVEs | Fixed via |
 |---|---|---|---|
@@ -150,7 +150,10 @@ Five CVE fixes previously shipped only in the Enterprise Edition track are now i
 | [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) | Spring Framework → 7.0.8 |
 | [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat / Tomcat Native | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) | Tomcat → 11.0.25 |
 | [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) | Netty → 4.1.135.Final, Apache Ant → 1.10.17 |
+| [EXBPMS-12](/security/notices/#notice-exbpms-12) | Apache HttpComponents Core 5 / Netty | 23 CVEs — see the notice for the full list | HttpComponents Core 5 → 5.4.3, Netty → 4.1.137.Final |
 
 {{< note title="" class="info" >}}
+[EXBPMS-13](/security/notices/#notice-exbpms-13) is also resolved in this release (WireMock's bundled Jetty forced to 12.0.39, webapps' local-development server moved onto the Jetty EE10 Maven plugin 12.1.12), but it is deliberately not listed above: Jetty is a test- and tooling-only dependency here, excluded from every released artifact, so no shipped component was ever affected.
+
 The remaining dependency updates in this release (H2, Liquibase, MySQL Connector/J, Oracle JDBC, PostgreSQL JDBC, Microsoft SQL Server JDBC, Kafka Clients, RESTEasy, Groovy, Jakarta XML Bind API, ShrinkWrap Resolvers, Spring Boot, WildFly, and others) are routine security-motivated bumps; no additional CVE was identified whose affected-version range matches this release's starting versions for those components.
 {{< /note >}}
