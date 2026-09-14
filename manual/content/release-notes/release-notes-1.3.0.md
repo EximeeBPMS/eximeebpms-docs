@@ -43,11 +43,11 @@ The policy is enabled by default and can be scoped with an allowlist of process 
 #### Configuration
 
 ```properties
-eximeebpms.bpm.script-security.enabled=true
+eximeebpms.bpm.script-security.mode=ENFORCE
 eximeebpms.bpm.script-security.allowlisted-process-definition-keys=
 ```
 
-`allowlisted-process-definition-keys` accepts a comma-separated list of process definition keys that are exempted from policy enforcement.
+`mode` accepts `ENFORCE` (the default), `AUDIT` — record violations but let execution continue — and `DISABLED`. `allowlisted-process-definition-keys` accepts a comma-separated list of process definition keys that are exempted from policy enforcement.
 
 ### Configurable OAuth2 Endpoints
 
