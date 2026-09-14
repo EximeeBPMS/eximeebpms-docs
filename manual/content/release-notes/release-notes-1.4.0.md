@@ -25,6 +25,8 @@ menu:
 - [**Five CVE fixes**](#security) ported over from the Enterprise Edition track (jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty / Apache Ant)
 - [**UUID v1 legacy generator removed**](#legacy-uuid-v1-generator-removed) — as announced in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); `id-generator=uuid-v1` now silently falls back to the default (UUID v7) with a startup warning instead of activating the legacy generator
 - Fixed a race in the External Task Client where `stop()` could return before an in-flight task handler invocation had finished
+- [**Script Guard now behaves the same on Tomcat and WildFly**](#script-guard-container-deployments-configuration-and-retention) as it did on Spring Boot — violation persistence, business-event forwarding and database-authoritative policy, configured from `bpm-platform.xml`. The engine's boolean `scriptSecurityEnabled` configuration is replaced by the three-valued `scriptSecurityMode`
+- [**Admin user bootstrap refuses to run beside an external identity provider**](#admin-user-bootstrap-refuses-to-run-beside-an-external-identity-provider) — `admin-user.id` together with OAuth2/OIDC or LDAP now fails startup instead of quietly creating a local full-privilege account
 - [**Model API `camunda…` methods deprecated**](#model-api-camunda-method-names) — every `camunda`-named method on the BPMN and DMN Model APIs gains an `eximeeBpms…` counterpart; the old names keep working throughout 1.4.x and are removed in 1.5.0. No `.bpmn`/`.dmn` file changes
 
 ---
@@ -84,6 +86,24 @@ The minimum and CI-verified Java version moves from **17** to **21**. **JDK 25**
 ### Dependency Updates
 
 A broad set of dependencies was updated, including several security-motivated upgrades — see [Security](#security) below and the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the full, version-by-version breakdown (Spring Boot, Spring Framework, Quarkus, Groovy, Jackson, Liquibase, Tomcat, WildFly, Netty, Apache Ant, database JDBC drivers, and more).
+
+### Script Guard — Container Deployments, Configuration, and Retention {#script-guard-container-deployments-configuration-and-retention}
+
+Script Guard shipped in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}), but only a Spring Boot application got the whole mechanism. From 1.4.0 a plain-XML container deployment (Tomcat, WildFly, anything driven by `bpm-platform.xml`) gets the same behaviour: violations are persisted to `ACT_RU_SCRIPT_VIOLATION`, forwarded to the business-event outbox, and the configured mode and allowlist are seeded into `ACT_GE_PROPERTY` on first start. That last part is what makes the Script Guard REST API's hot policy reload work on those deployments too, instead of the policy being fixed for the lifetime of the process. Three properties are read from `bpm-platform.xml`: `scriptSecurityMode`, `scriptSecurityAllowlistedProcessDefinitionKeys` and `scriptViolationRetentionDays`.
+
+**Breaking — engine configuration API.** `ProcessEngineConfigurationImpl`'s boolean `scriptSecurityEnabled` is replaced by the three-valued `scriptSecurityMode` (`ENFORCE` — the default, `AUDIT`, `DISABLED`). `isScriptSecurityEnabled()` and `setScriptSecurityEnabled(boolean)` are gone: `setScriptSecurityEnabled(false)` becomes `setScriptSecurityMode("DISABLED")`, and `isScriptSecurityDisabled()`/`isScriptSecurityAuditMode()` query the current setting. An unrecognized value now fails engine startup with a configuration error instead of being silently ignored. The Spring Boot property `eximeebpms.bpm.script-security.mode` is unaffected — it already took these three values in 1.3.0.
+
+**Breaking — Spring Boot retention schedule.** `eximeebpms.bpm.script-security.cleanup-cron`, and the scheduled bean behind it, are removed. Violation retention is now an engine-native job: it is created whenever `retention-days` is positive, deletes violations older than that, and reschedules itself 24 hours ahead. It therefore runs identically on every deployment model and no longer needs `@EnableScheduling` on the application — but the cleanup schedule is no longer configurable as a cron expression.
+
+→ [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})
+
+### Admin User Bootstrap Refuses to Run Beside an External Identity Provider {#admin-user-bootstrap-refuses-to-run-beside-an-external-identity-provider}
+
+**Breaking.** Setting `eximeebpms.bpm.admin-user.id` while an OAuth2/OIDC client registration (`spring.security.oauth2.client.registration.*`) or a read-only identity provider — such as the LDAP identity provider plugin — is also configured now **fails startup** with a configuration error. Previously the first case quietly created a local, full-privilege account alongside single sign-on, and the second failed with an opaque `ProcessEngineException` about a missing `WritableIdentityProvider` session factory.
+
+Set the new `eximeebpms.bpm.admin-user.allow-with-external-identity-provider` (default `false`) to keep the old behaviour deliberately — for example for a break-glass account. With a writable provider the account is then created as before; with a read-only provider it cannot be created at all, so startup continues without it and logs a warning instead. When single sign-on is the intended sign-in path, prefer granting administrator rights through the [Administrator Authorization Plugin]({{< ref "/user-guide/process-engine/authorization-service.md#the-administrator-authorization-plugin" >}}), which grants them to an existing identity rather than creating a second, local one.
+
+→ [Spring Boot Configuration]({{< ref "/user-guide/spring-boot-integration/configuration.md" >}}) · [Spring Security]({{< ref "/user-guide/spring-boot-integration/spring-security.md" >}})
 
 ### SQL Migration Scripts Split Between 1.3 and 1.4
 
