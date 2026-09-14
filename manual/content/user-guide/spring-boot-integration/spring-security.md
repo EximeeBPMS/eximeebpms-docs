@@ -91,7 +91,9 @@ Make sure to correctly configure which token attribute should be used as the Use
 
 For creating initial authorizations in your application, you have the following options available:
 
-1. The `eximeebpms.bpm.admin-user` property to create an administrator user with authorizations:
+1. The [Administrator Authorization Plugin]({{< ref "/user-guide/process-engine/authorization-service.md#the-administrator-authorization-plugin" >}})
+to grant administrator authorizations for a particular OAuth2 user or group — the recommended option when OAuth2/SSO is your sign-in path, since it doesn't create a local account alongside it.
+2. The `eximeebpms.bpm.admin-user` property to create a local administrator user with authorizations:
    ```yaml
    eximeebpms.bpm:
      admin-user:
@@ -102,15 +104,20 @@ For creating initial authorizations in your application, you have the following 
    ```
 
   - See [EximeeBPMS Engine Properties]({{< ref "/user-guide/spring-boot-integration/configuration#eximeebpms-engine-properties" >}}) documentation for more details.
-2. The [Administrator Authorization Plugin]({{< ref "/user-guide/process-engine/authorization-service.md#the-administrator-authorization-plugin" >}})
-to grant administrator authorizations for a particular OAuth2 user or group.
+
+{{< note title="Heads Up!" class="warning" >}}
+Setting `admin-user.id` while an OAuth2 client registration is also configured (as on this page) now fails
+startup with a configuration error by design — creating a full-privilege local account alongside SSO is
+usually unintentional. If you deliberately want both (e.g. a local break-glass account), set
+`eximeebpms.bpm.admin-user.allow-with-external-identity-provider: true`. Otherwise, prefer option 1 above.
+{{< /note >}}
 
 # OAuth2 Identity Provider
 
 Additionally to the OAuth2 login, EximeeBPMS also provides support to use groups from OAuth2.
 This is achieved with a custom [identity service]({{< ref "/user-guide/process-engine/identity-service.md" >}}), called {{< javadocref page="org/eximeebpms/bpm/spring/boot/starter/security/oauth2/impl/OAuth2IdentityProvider.html" text="OAuth2IdentityProvider" >}}.
 
-This is a read-only identity provider that configures user's groups from the [Spring Security's granted authorities][Authorities].
+This is a **writable** identity provider (not read-only, unlike the LDAP identity provider) that configures user's groups from the [Spring Security's granted authorities][Authorities].
 This identity provider also supports the default EximeeBPMS Database Identity Service as a fallback for authentications for the REST API.
 
 The identity provider is activated by default. You can override this with the following properties:
