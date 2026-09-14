@@ -25,6 +25,7 @@ menu:
 - [**Five CVE fixes**](#security) ported over from the Enterprise Edition track (jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty / Apache Ant)
 - [**UUID v1 legacy generator removed**](#legacy-uuid-v1-generator-removed) — as announced in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); `id-generator=uuid-v1` now silently falls back to the default (UUID v7) with a startup warning instead of activating the legacy generator
 - Fixed a race in the External Task Client where `stop()` could return before an in-flight task handler invocation had finished
+- [**Model API `camunda…` methods deprecated**](#model-api-camunda-method-names) — every `camunda`-named method on the BPMN and DMN Model APIs gains an `eximeeBpms…` counterpart; the old names keep working throughout 1.4.x and are removed in 1.5.0. No `.bpmn`/`.dmn` file changes
 
 ---
 
@@ -95,6 +96,26 @@ Schema migration scripts are now split per target version instead of being bundl
 ### External Task Client — `stop()` Could Return Before In-Flight Executions Finished
 
 In the multi-threaded External Task Client introduced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#multi-threaded-external-task-client), calling `stop()` unlocked pending (not-yet-started) tasks correctly, but could return while a task handler invocation already dispatched to the thread pool was still running — racing whatever cleanup the caller performed right after `stop()` returned. `stop()` now additionally waits (up to 10 seconds) for in-flight handler executions to finish before returning.
+
+---
+
+## Deprecations
+
+### Model API `camunda…` Method Names {#model-api-camunda-method-names}
+
+Every `camunda`-named public method on the [BPMN Model API]({{< ref "/user-guide/model-api/bpmn-model-api/_index.md" >}}) and the [DMN Model API]({{< ref "/user-guide/model-api/dmn-model-api/_index.md" >}}) now has an `EximeeBpms`-named counterpart, and the `camunda`-named one is deprecated. This completes a rebrand that previously covered only the extension-element *types* — which is why `UserTask` shipped `getEximeeBpmsFormRef()` next to `getCamundaFormKey()`.
+
+Affected: 80 fluent-builder methods across 19 builder classes (`camundaAsyncBefore()` → `eximeeBpmsAsyncBefore()`, `camundaClass()` → `eximeeBpmsClass()`, `camundaInSourceTarget()` → `eximeeBpmsInSourceTarget()`, …), 147 accessors on 34 interfaces under `org.eximeebpms.bpm.model.bpmn.instance` (`getCamundaFormKey()` → `getEximeeBpmsFormKey()`, …), and 6 accessors on `Decision`/`InputClause` in the DMN Model API.
+
+**Nothing breaks in 1.4.x.** The old names remain and behave identically for the whole 1.4 line. Migration is a mechanical rename — `camundaX` → `eximeeBpmsX`, `getCamundaX` → `getEximeeBpmsX`.
+
+{{< note title="Scheduled for removal in 1.5.0" class="warning" >}}
+The `camunda`-named methods are annotated `@Deprecated(forRemoval = true)` and **will be removed in 1.5.0**. Plan the rename during the 1.4 line rather than at the 1.5.0 upgrade.
+{{< /note >}}
+
+Two method families were already deprecated before this change and get counterparts that are themselves deprecated, so that a bulk rename still compiles — use the replacement named in each case rather than the new alias: `camundaAsync()`/`camundaAsync(boolean)` (use `eximeeBpmsAsyncBefore()` or `eximeeBpmsAsyncAfter()`) and `Decision.getCamundaHistoryTimeToLive(Integer)` with its setter (use the `String`-typed variant).
+
+**Your `.bpmn` and `.dmn` files are unaffected.** The extension namespace URI stays `http://camunda.org/schema/1.0/bpmn` (and `…/1.0/dmn`) and the attribute names stay as they are — the engine resolves extension attributes by namespace URI, not by Java method name or XML prefix. No process definition needs editing, and no redeployment is required for this change.
 
 ---
 

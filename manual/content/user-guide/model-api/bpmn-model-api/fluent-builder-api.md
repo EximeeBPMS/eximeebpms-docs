@@ -10,6 +10,18 @@ menu:
 
 ---
 
+{{< note title="Renamed in 1.4.0" class="warning" >}}
+These methods were named `camunda…` before 1.4.0 (for example
+`camundaAsyncBefore()`, `getCamundaFormKey()`, `setCamundaClass()`). The old
+names still exist and still work throughout 1.4.x, but they are deprecated
+and **will be removed in 1.5.0** — migrate with a mechanical rename,
+`camundaX` → `eximeeBpmsX` and `getCamundaX` → `getEximeeBpmsX`.
+
+Nothing changes in the XML: the extension namespace URI and the attribute
+names in your `.bpmn` and `.dmn` files are untouched.
+{{< /note >}}
+
+
 To create simple BPMN processes we provide a fluent builder API. With this API you can easily create basic
 processes in a few lines of code. In the [generate process fluent api](https://github.com/eximeebpms/eximeebpms-bpm-examples/tree/master/bpmn-model-api/generate-process-fluent-api) quickstart we
 demonstrate how to create a rather complex process with 5 tasks and 2 gateways within less than 50 lines of code.
@@ -155,7 +167,7 @@ process building or you can detach it and create flow elements of the subprocess
 BpmnModelInstance modelInstance = Bpmn.createProcess()
   .startEvent()
   .subProcess()
-    .camundaAsync()
+    .eximeeBpmsAsyncBefore()
     .embeddedSubProcess()
       .startEvent()
       .userTask()
@@ -175,24 +187,24 @@ modelInstance = Bpmn.createProcess()
 
 SubProcess subProcess = (SubProcess) modelInstance.getModelElementById("subProcess");
 subProcess.builder()
-  .camundaAsync()
+  .eximeeBpmsAsyncBefore()
   .embeddedSubProcess()
     .startEvent()
     .userTask()
     .endEvent();
 ```
 
-The example below shows how to create a throwing signal event definition and define the payload that this signal will contain. By using the `camundaIn` methods, it is possible to define which process variables will be included in the signal payload, define an expression that will be resolved in the signal-catching process instances, or declare that all of the process variables in the signal-throwing process instance should be passed. It is also possible to define a business key that will be assigned to the signal-catching process instances.
+The example below shows how to create a throwing signal event definition and define the payload that this signal will contain. By using the `eximeeBpmsIn` methods, it is possible to define which process variables will be included in the signal payload, define an expression that will be resolved in the signal-catching process instances, or declare that all of the process variables in the signal-throwing process instance should be passed. It is also possible to define a business key that will be assigned to the signal-catching process instances.
 
 ```java
 BpmnModelInstance modelInstance = Bpmn.createProcess()
   .startEvent()
   .intermediateThrowEvent("throw")
     .signalEventDefinition("signal")
-      .camundaInSourceTarget("source", "target1")
-      .camundaInSourceExpressionTarget("${'sourceExpression'}", "target2")
-      .camundaInAllVariables("all", true)
-      .camundaInBusinessKey("aBusinessKey")
+      .eximeeBpmsInSourceTarget("source", "target1")
+      .eximeeBpmsInSourceExpressionTarget("${'sourceExpression'}", "target2")
+      .eximeeBpmsInAllVariables("all", true)
+      .eximeeBpmsInBusinessKey("aBusinessKey")
       .throwEventDefinitionDone()
   .endEvent()
   .done();
@@ -236,29 +248,29 @@ userTask.builder()
 
 ## Controlling Transaction Boundaries
 
-The transaction boundaries of a process created with the fluent builder API can be controlled using the `camundaAsyncBefore()` and `camundaAsyncAfter()` methods offered for various process constructs.
+The transaction boundaries of a process created with the fluent builder API can be controlled using the `eximeeBpmsAsyncBefore()` and `eximeeBpmsAsyncAfter()` methods offered for various process constructs.
 
 ```java
 BpmnModelInstance modelInstance = Bpmn.createProcess()
   .startEvent()
   .serviceTask("servicetask")
-    .camundaAsyncBefore()
+    .eximeeBpmsAsyncBefore()
   .userTask("task")
-    .camundaAsyncAfter()
+    .eximeeBpmsAsyncAfter()
   .done();
 ```
 
 The service task in the example above will have a transaction boundary before its execution and the user task will have a transaction boundary after its completion.
 
-If an activity has [multi-instance characteristics][multi-instance], the  `camundaAsyncBefore()` and `camundaAsyncAfter()` methods apply to the multi-instance body as a whole. The transaction boundaries of the individual occurrences (instances) of the multi-instance can be controlled with similar methods, called from **within** the multi-instance builder.
+If an activity has [multi-instance characteristics][multi-instance], the  `eximeeBpmsAsyncBefore()` and `eximeeBpmsAsyncAfter()` methods apply to the multi-instance body as a whole. The transaction boundaries of the individual occurrences (instances) of the multi-instance can be controlled with similar methods, called from **within** the multi-instance builder.
 
 ```java
 BpmnModelInstance modelInstance = Bpmn.createProcess()
   .startEvent()
   .serviceTask("servicetask")
-    .camundaAsyncBefore() // multi-instance body
+    .eximeeBpmsAsyncBefore() // multi-instance body
     .multiInstance()
-      .camundaAsyncBefore() // every instance
+      .eximeeBpmsAsyncBefore() // every instance
       .parallel()
     .multiInstanceDone()
   .endEvent()
