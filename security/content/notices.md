@@ -19,7 +19,7 @@ for our reporting process and disclosure timeline.
 
 **Publication Date:** September 7, 2026
 
-**Product affected:** EximeeBPMS engine, Connect, and webapps modules' test suite and local-development tooling (Enterprise Edition) — **not** a shipped production artifact; see Impact.
+**Product affected:** EximeeBPMS engine, Connect, and webapps modules' test suite and local-development tooling — **not** a shipped production artifact; see Impact.
 
 **Impact:**
 
@@ -31,7 +31,7 @@ Since Jetty is only ever a test/dev-tooling dependency in this codebase — excl
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition releases bundling the vulnerable Jetty versions in test/dev scope, up to and including 1.3.2-ee
+EximeeBPMS Enterprise Edition releases bundling the vulnerable Jetty versions in test/dev scope, up to and including 1.3.2-ee, and all Community Edition releases up to and including 1.3.0 (which used Jetty 11.0.26 in the same scope)
 
 **Solution:**
 
@@ -43,7 +43,7 @@ Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition): the WireMock-based test suite
 
 **Publication Date:** August 28, 2026
 
-**Product affected:** EximeeBPMS engine (Enterprise Edition)
+**Product affected:** EximeeBPMS engine
 
 **Impact:**
 
@@ -75,7 +75,7 @@ The versions of Apache HttpComponents Core 5 and Netty bundled with EximeeBPMS E
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤5.4.2 or Netty ≤4.1.136.Final, up to and including 1.3.2-ee
+EximeeBPMS Enterprise Edition releases bundling Apache HttpComponents Core 5 ≤5.4.2 or Netty ≤4.1.136.Final, up to and including 1.3.2-ee, and all Community Edition releases up to and including 1.3.0 (which shipped Apache HttpComponents Core 5.3.4 and Netty 4.1.89.Final)
 
 **Solution:**
 
@@ -87,11 +87,11 @@ Fixed in EximeeBPMS 1.3.3-ee (Enterprise Edition), Apache HttpComponents Core 5 
 
 **Publication Date:** July 15, 2026
 
-**Product affected:** EximeeBPMS engine (Enterprise Edition)
+**Product affected:** EximeeBPMS engine
 
 **Impact:**
 
-The versions of Netty and Apache Ant bundled with EximeeBPMS Enterprise had the following vulnerabilities:
+The version of Netty bundled with EximeeBPMS, and the version of Apache Ant it built against, had the following vulnerabilities. **Apache Ant is a `provided`-scope build-time dependency and is not shipped in any EximeeBPMS distribution, in either edition** — the engine jar contains three Ant task classes (`DeployBarTask`, `LaunchTask`, `LaunchThread`) for deploying a BAR file or launching a script from an Ant build, and they run against whatever Ant the user supplies. The Apache Ant entries below therefore describe the version this project pinned for its own build, not an artefact delivered to you:
 
 - [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v) — Netty's `HttpPostRequestDecoder` can be driven to unbounded memory allocation via a crafted multipart/chunked POST request, causing denial of service
 - [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373) / [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374) — reading a crafted tar or zip-derived archive during the build causes Apache Ant to allocate unbounded memory, causing denial of service
@@ -99,7 +99,7 @@ The versions of Netty and Apache Ant bundled with EximeeBPMS Enterprise had the 
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition releases bundling Netty ≤4.1.107.Final or Apache Ant ≤1.10.10, up to and including 1.2.18-ee
+EximeeBPMS Enterprise Edition releases bundling Netty ≤4.1.107.Final or Apache Ant ≤1.10.10, up to and including 1.2.18-ee, and all Community Edition releases up to and including 1.3.0 (which shipped Netty 4.1.89.Final and Apache Ant 1.7.1). The Apache Ant part applies to the build-time pin only — no EximeeBPMS distribution, in either edition, contains an Apache Ant jar
 
 **Solution:**
 
@@ -111,7 +111,7 @@ Fixed in EximeeBPMS 1.2.19-ee (Enterprise Edition), Netty upgraded to 4.1.135.Fi
 
 **Publication Date:** June 16, 2026
 
-**Product affected:** EximeeBPMS engine (Enterprise Edition)
+**Product affected:** EximeeBPMS engine
 
 **Impact:**
 
@@ -124,7 +124,7 @@ The version of Apache Tomcat and Apache Tomcat Native bundled with EximeeBPMS En
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition releases using Tomcat 10 ≤10.1.52, up to and including 1.2.17-ee
+EximeeBPMS Enterprise Edition releases using Tomcat 10 ≤10.1.52, up to and including 1.2.17-ee, and all Community Edition releases up to and including 1.3.0 (which shipped Tomcat 10.1.50)
 
 **Solution:**
 
@@ -136,7 +136,7 @@ Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Tomcat 10 upgraded to 10.1.5
 
 **Publication Date:** June 16, 2026
 
-**Product affected:** EximeeBPMS engine (Enterprise Edition)
+**Product affected:** EximeeBPMS engine
 
 **Impact:**
 
@@ -150,7 +150,7 @@ The version of Spring Framework bundled with EximeeBPMS Enterprise had the follo
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition releases using Spring Framework ≤7.0.6, up to and including 1.2.17-ee
+EximeeBPMS Enterprise Edition releases using Spring Framework ≤7.0.6, up to and including 1.2.17-ee, and all Community Edition releases up to and including 1.3.0 (which shipped Spring Framework 7.0.5)
 
 **Solution:**
 
@@ -162,7 +162,7 @@ Fixed in EximeeBPMS 1.2.18-ee (Enterprise Edition), Spring Framework upgraded to
 
 **Publication Date:** June 3, 2026
 
-**Product affected:** EximeeBPMS engine — Jython scripting (Enterprise Edition)
+**Product affected:** EximeeBPMS engine — Jython scripting
 
 **Impact:**
 
@@ -174,7 +174,7 @@ Exploitable if process definitions use Jython scripts.
 
 **Affected versions:**
 
-All EximeeBPMS Enterprise Edition releases prior to 1.2.17-ee that enable the Jython scripting engine
+All EximeeBPMS Enterprise Edition releases prior to 1.2.17-ee that enable the Jython scripting engine, and all Community Edition releases up to and including 1.3.0 that enable it (1.3.0 shipped Jython 2.5.3)
 
 **Solution:**
 
@@ -186,7 +186,7 @@ Fixed in EximeeBPMS 1.2.17-ee (Enterprise Edition). Also fixed in EximeeBPMS 1.4
 
 **Publication Date:** June 2, 2026
 
-**Product affected:** EximeeBPMS engine — JSON variable serialization (Enterprise Edition)
+**Product affected:** EximeeBPMS engine — JSON variable serialization
 
 **Impact:**
 
@@ -198,7 +198,7 @@ Disputed by the Jackson maintainers as not externally exploitable; included here
 
 **Affected versions:**
 
-EximeeBPMS 1.2.0 through 1.2.15-ee
+EximeeBPMS 1.2.0 through 1.2.15-ee (Enterprise Edition), and all Community Edition releases up to and including 1.3.0 (which shipped jackson-databind 2.15.2)
 
 **Solution:**
 
