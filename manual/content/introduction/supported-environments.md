@@ -33,6 +33,7 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 ## Container-Managed Process Engine and EximeeBPMS Cockpit, Tasklist, Admin
 
 * Apache Tomcat 11.0 (Tomcat 9.0 support removed in Community Edition as of 1.4.0, having been deprecated since 1.3.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
+  * The `eximeebpms-bpm-tomcat` **distribution** ships and is supported on Tomcat 11.0. The **web application archives** (`eximeebpms-webapp-tomcat-jakarta`, `eximeebpms-engine-rest-jakarta`) also deploy and run on a Tomcat **10.1** container you manage yourself — verified against Tomcat 10.1.50 on 2026-09-15; both declare a Servlet 3.0 descriptor and use no Servlet 6.1 feature.
 * JBoss EAP 7.4 / 8.0
 * WildFly Application Server 41.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
 

@@ -31,6 +31,34 @@ menu:
 
 ---
 
+## Breaking changes
+
+Everything on this list requires a decision or an action before you upgrade. Each entry links to the detail below.
+
+**Supported container: Tomcat 11.** The standalone `eximeebpms-bpm-tomcat` distribution runs on **Tomcat 11.0.25** — Servlet 6.1, Jakarta EE 11, up from Servlet 6.0 / Jakarta EE 10 on the Tomcat 10.1 line that 1.3.0 shipped. This is a container generation change, not a patch bump. The **Run distribution is not affected** — it embeds Tomcat through Spring Boot and has been on the Tomcat 11 line since 1.3.0. Deploying the web application archives into your **own** Tomcat 10.1 still works — verified, see the detail. → [detail](#legacy-application-server-support-tomcat-9-wildfly-26-removed)
+
+**Tomcat 9 and WildFly 26 distributions removed.** Both were the `javax`-namespace distributions, and this release builds Jakarta artifacts only. Upgrade the container before you upgrade EximeeBPMS. → [detail](#legacy-application-server-support-tomcat-9-wildfly-26-removed)
+
+**javax (legacy) namespace dropped.** Recompile against the `jakarta.*` APIs and replace every `javax`-targeted artifact with its Jakarta counterpart. There is no javax-compatible build of this release. → [detail](#javax-legacy-namespace-support-dropped)
+
+**CMMN support removed.** Complete or terminate every active case instance before upgrading — the migration halts before making any schema change while rows remain in `ACT_RU_CASE_EXECUTION`. Once it proceeds, CMMN history and deployed case definitions are dropped unconditionally. There is no migrator; the replacement path is remodeling the case in BPMN. → [detail](#cmmn-support-removed) · [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}})
+
+**`camunda:caseRef` on a call activity is rejected at deploy time.** Previously such a model deployed and failed when the process instance started. Remove the attribute from every call activity that still carries it and redeploy those process definitions before upgrading — a model that keeps it now fails deployment.
+
+**Java 21 is the minimum.** Up from Java 17. → [detail](#java-21-baseline)
+
+**Script Guard: `scriptSecurityEnabled` is replaced by `scriptSecurityMode`.** `isScriptSecurityEnabled()` / `setScriptSecurityEnabled(boolean)` are gone; `setScriptSecurityEnabled(false)` becomes `setScriptSecurityMode("DISABLED")`. An unrecognized value now fails engine startup instead of being ignored. → [detail](#script-guard-container-deployments-configuration-and-retention)
+
+**Script Guard: `eximeebpms.bpm.script-security.cleanup-cron` is removed.** Violation retention is now an engine job on a fixed 24-hour interval, gated on `retention-days`. Applications that only customized the schedule can drop the property; the cleanup frequency is no longer configurable. → [detail](#script-guard-container-deployments-configuration-and-retention)
+
+**Admin-user bootstrap fails fast beside an external identity provider.** `eximeebpms.bpm.admin-user.id` together with an OAuth2/OIDC client registration or a read-only identity provider now fails startup. Set `eximeebpms.bpm.admin-user.allow-with-external-identity-provider` to keep the old behaviour deliberately. → [detail](#admin-user-bootstrap-refuses-to-run-beside-an-external-identity-provider)
+
+**Telemetry payload field renamed.** The serialized field `camunda-integration` becomes `eximeebpms-integration`, and the reported product name is `EximeeBPMS BPM Runtime`. Anything parsing collected diagnostics — a dashboard, a SIEM pipeline, an inventory job — must be updated; the old key is no longer emitted.
+
+**SQL Server: `image` columns become `varbinary(max)`.** `ACT_ID_INFO.PASSWORD_`, `ACT_GE_BYTEARRAY.BYTES_` and `ACT_HI_COMMENT.FULL_MSG_` are converted by the `1.3-to-1.4` upgrade script, because Microsoft has deprecated `image`/`text`/`ntext`. Nothing to plan for: the two types share the same LOB storage, so SQL Server applies this as a metadata-only change — measured on a 1 GB `ACT_GE_BYTEARRAY` at 4 ms, with no LOB page rewritten. No maintenance window is needed.
+
+---
+
 ## New Features
 
 ### Business Events
@@ -66,7 +94,11 @@ This is a statement about what this platform builds, not about Tomcat 9 itself: 
 {{< note title="Tomcat 10.1 → 11: a container generation change, not just a Tomcat 9 removal" class="warning" >}}
 Alongside the Tomcat 9 removal above, the standalone `eximeebpms-bpm-tomcat` distribution itself moves from the **Tomcat 10.1** line to **Tomcat 11** (Servlet 6.1, Jakarta EE 11 — up from Servlet 6.0 / Jakarta EE 10). If you are running the Tomcat distribution — including if you were already on Tomcat 10.1, not just Tomcat 9 — this is a container upgrade, not a patch bump: plan for it the same way you would any major application-server upgrade.
 
-Whether the 1.4.0 web application archives (`eximeebpms-webapp-tomcat-jakarta`, `eximeebpms-engine-rest-jakarta`) still start correctly if you deploy them to your own Tomcat 10.1 instance, rather than upgrading the container, is not yet confirmed either way — check the [Supported Environments]({{< ref "/introduction/supported-environments.md" >}}) page for the current answer before relying on it.
+**This does not apply to the Run distribution.** `eximeebpms-bpm-run` embeds Tomcat through Spring Boot, and Spring Boot moved to the Tomcat 11 line a release earlier: 1.3.0 shipped Spring Boot 4.0.3, which manages Tomcat 11.0.18, so Run was never on Tomcat 10.1. Nothing about its container changes here. 1.4.0 only pins the embedded Tomcat explicitly to the same patch release as the standalone distribution (11.0.25) — Spring Boot 4.1.1 manages 11.0.24 — so that every Tomcat jar on the classpath comes from one release.
+
+**The web application archives themselves still deploy on Tomcat 10.1.** If you run your own container and deploy `eximeebpms-webapp-tomcat-jakarta` and `eximeebpms-engine-rest-jakarta` into it, rather than using our distribution, you are not forced onto Tomcat 11 by this release. Verified on 2026-09-15 against a stock **Tomcat 10.1.50** — the version 1.3.0 shipped — with the 1.4.0 platform libraries and `bpm-platform.xml`: the server started in 12 seconds with no warning or error in `catalina.out`, the engine came up (`ENGINE-00001 Process Engine default created`, job executor acquiring), `GET /engine-rest/engine` returned `[{"name":"default"}]` and Cockpit redirected to the first-run admin setup page as it should on an empty database.
+
+This is not an accident of versions: both archives declare a **Servlet 3.0** deployment descriptor (`web-app version="3.0"`) and carry `jakarta.*` classes, so they ask for no Servlet 6.1 feature. Tomcat 10.1 (Servlet 6.0) satisfies them as fully as Tomcat 11 does. The supported container for the *distribution* is still Tomcat 11 — see [Supported Environments]({{< ref "/introduction/supported-environments.md" >}}).
 {{< /note >}}
 
 ### javax (Legacy) Namespace Support Dropped {#javax-legacy-namespace-support-dropped}
