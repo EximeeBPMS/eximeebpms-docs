@@ -97,10 +97,10 @@ Clustered or replicated databases are supported given the following conditions. 
 
 # Java
 
-* Java 11 / 17 (Community Edition) / 21 (Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (Compatibility is tested with Eclipse Temurin JDK)
+* Java 21, in both editions — the Community Edition baseline moved from 17 to 21 in 1.4.0, matching the Enterprise Edition (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})). Compatibility is tested with Eclipse Temurin JDK.
 
 {{< note title="" class="info" >}}
-As of Enterprise Edition 1.3.1-ee, the CI test matrix additionally verifies compatibility with **JDK 25**. This is compatibility testing ahead of a possible future baseline bump, not yet an officially supported target under the policy below — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}).
+As of Community Edition 1.4.0 and Enterprise Edition 1.3.1-ee, the CI test matrix additionally verifies compatibility with **JDK 25**. This is compatibility testing ahead of a possible future baseline bump, not yet an officially supported target under the policy below — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}).
 {{< /note >}}
 
 
