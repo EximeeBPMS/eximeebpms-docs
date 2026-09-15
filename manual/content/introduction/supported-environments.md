@@ -54,6 +54,35 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
   * Azure SQL Database
 * H2 2.4 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
 
+## Verified in continuous integration
+
+"Supported" above and "exercised by our automated tests" are not the same list, and this section states the
+difference rather than leaving it to be inferred. Everything in the list above is supported; the table below
+says which of it the integration suites actually run against, and at which version.
+
+| Database | Version exercised in CI | When |
+|---|---|---|
+| H2 | 2.4.240 (embedded) | Every nightly run |
+| PostgreSQL | `postgres:13` | Every nightly run |
+| MySQL | `mysql:8` | On request only (manual workflow run) |
+| Microsoft SQL Server | `mcr.microsoft.com/mssql/server:2019-latest` | On request only (manual workflow run) |
+| Oracle | — | Not exercised in CI |
+| IBM DB2 | — | Not exercised in CI |
+| Amazon Aurora PostgreSQL | — | Not exercised in CI |
+| Microsoft Azure SQL | — | Not exercised in CI |
+
+The integration suites run nightly against **H2 and PostgreSQL**; MySQL and SQL Server are part of the same
+matrix but are selected explicitly when the workflow is started by hand. Two consequences worth stating plainly:
+
+- The CI PostgreSQL image is the **13** line, below the PostgreSQL 14 minimum declared above. The supported range
+  is not lowered by this: it reflects what the engine is built and released against, and the CI pin has simply not
+  been raised alongside it.
+- Oracle, IBM DB2, Aurora and Azure SQL are supported on the strength of the engine's database abstraction and the
+  vendor JDBC drivers shipped with it, not on the strength of an automated suite running against them in this
+  project's CI.
+
+Nothing in the supported list changed in this release; no minimum version was raised.
+
 ## Database Clustering & Replication
 
 Clustered or replicated databases are supported given the following conditions. The communication between EximeeBPMS and the database cluster has to match with the corresponding non-clustered / non-replicated configuration. It is especially important that the configuration of the database cluster guarantees the equivalent behavior of READ-COMMITTED isolation level.
