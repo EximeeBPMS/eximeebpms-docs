@@ -11,7 +11,7 @@ menu:
 
 ---
 
-**Edition:** Community &nbsp;|&nbsp; **Release date:** TBD
+**Edition:** Community &nbsp;|&nbsp; **Release date:** 17.07.2026
 
 ---
 
