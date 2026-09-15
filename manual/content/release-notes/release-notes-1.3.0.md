@@ -95,7 +95,7 @@ IDs generated after the upgrade use UUID v7 format. Existing rows are not affect
 
 ### CMMN Support (Deprecated — Removal in 1.4.0)
 
-Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be **removed in 1.4.0**. This decision reflects marginal CMMN adoption and EximeeBPMS's strategic focus on BPMN, Human Workflow, and business orchestration — the areas of highest value for banking and insurance customers. The change applies to both the Open Source and Enterprise editions at the same time.
+Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be **removed in 1.4.0**. This decision reflects marginal CMMN adoption and EximeeBPMS's strategic focus on BPMN, Human Workflow, and business orchestration — the areas of highest value for banking and insurance customers. The change applies to both the Open Source and Enterprise editions, though not at the same time: the Enterprise Edition already removed CMMN support ahead of this schedule, in 1.2.19-ee — see [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for the full per-edition timeline.
 
 **Behavior in 1.3.0:** no functional changes. The engine logs a warning at startup when it detects CMMN definitions or data in the database, and when a deployment contains a `.cmmn` file. The `CaseService` Java API and the `/case-*` REST endpoints are marked as deprecated.
 
@@ -161,4 +161,12 @@ Both return tasks for which `jdoe` is a candidate user *or* `sales` is a candida
 
 ## Security
 
-No CVE-targeted fixes in this CE release. For enterprise security patches on the 1.2.x EE track, see [EximeeBPMS 1.2.x EE Release Notes]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}).
+This Community Edition release does not fix any additional CVEs beyond 1.2.0 — none of the dependency versions listed below were bumped in 1.3.0. Five CVE fixes already released in the Enterprise Edition track (1.2.16-ee through 1.2.19-ee) are **not yet included in Community Edition**; the versions below are still the vulnerable ones. Full per-notice detail is published on the [Security Notices](/security/notices/) page. All five were curated into Community Edition in [1.4.0]({{< ref "/release-notes/release-notes-1.4.0.md" >}}#security):
+
+| Notice | Component | Version in 1.3.0 (still vulnerable) | CVEs |
+|---|---|---|---|
+| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | 2.15.2 | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) |
+| [EXBPMS-8](/security/notices/#notice-exbpms-8) | Jython | 2.5.3 | [CVE-2016-4000](https://nvd.nist.gov/vuln/detail/CVE-2016-4000) |
+| [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | 7.0.5 | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) |
+| [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat | 10.1.50 | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) |
+| [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | Netty 4.1.89.Final / Ant 1.7.1 | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) |
