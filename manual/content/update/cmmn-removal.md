@@ -13,16 +13,18 @@ menu:
 ---
 
 {{< note title="CMMN support removed in 1.4.0 (Community Edition)" class="warning" >}}
-CMMN support is **deprecated as of EximeeBPMS 1.3.0** and will be **removed in 1.4.0**. This guide helps you detect CMMN usage in your environment and prepares you for a safe upgrade. It is not a guide to rewriting CMMN models — see [Mapping CMMN patterns to BPMN](#7-mapping-cmmn-patterns-to-bpmn) for that.
+CMMN support was **deprecated in EximeeBPMS 1.3.0** and is **removed in 1.4.0**, the version this page documents. This guide helps you detect CMMN usage in your environment and prepares you for a safe upgrade. **There is no automated migration for CMMN** — no tool converts a case definition into a process definition, and none is planned. The replacement path is remodeling the case in BPMN; this guide is not a guide to doing that, see [Mapping CMMN patterns to BPMN](#7-mapping-cmmn-patterns-to-bpmn) for a starting point.
 {{< /note >}}
 
 {{< note title="Enterprise Edition: already removed as of 1.2.19-ee" class="warning" >}}
-**This page describes the Community Edition timeline above.** For **Enterprise Edition**, CMMN was already **removed** (not merely deprecated) in [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) — ahead of the Community Edition schedule described above. Every statement on this page phrased as "will be removed in 1.4.0" or "as of 1.3.0" should be read as **already true today** for Enterprise Edition 1.2.19-ee and later. The detection queries, data-fate guarantees, and BPMN mapping table below still apply to both editions; only the timing differs.
+**This page is written for the Community Edition upgrade from 1.3.0 to 1.4.0.** **Enterprise Edition** removed CMMN earlier, in [1.2.19-ee]({{< ref "/release-notes/release-notes-1.2-ee.md" >}}#12-19-ee) — ahead of the Community Edition schedule — so on that edition the removal described here has already happened, and the corresponding deprecation landed in 1.2.x rather than 1.3.0. Only the timing differs: the detection queries, the active-instance guard, the data-fate guarantees and the BPMN mapping table below apply to both editions.
 {{< /note >}}
 
-## Why CMMN is being removed
+## Why CMMN was removed
 
-Adoption data shows marginal usage of the CMMN notation. EximeeBPMS is concentrating investment on BPMN, Human Workflow, and business orchestration. **Case management patterns remain fully supported through BPMN** — see the mapping table below.
+CMMN saw little uptake industry-wide, and that is not an EximeeBPMS-specific observation. Camunda — the upstream vendor of the codebase this platform forked from — stopped adding CMMN features in 2020 and said so publicly in [How CMMN never lived up to its potential](https://camunda.com/blog/2020/08/how-cmmn-never-lived-up-to-its-potential/), and CMMN is absent from its successor product: the [Camunda 8 migration journey](https://docs.camunda.io/) documents no CMMN path. Maintaining a notation the upstream project stopped developing six years ago, on a fork, is not something this project can do credibly.
+
+**Case management patterns remain fully supported through BPMN** — see the mapping table below. Remodeling in BPMN is also the path Camunda itself recommends ([CMMN patterns in BPMN](https://camunda.com/blog/2023/07/cmmn-patterns-bpmn/)).
 
 This change applies to both the Open Source and Enterprise editions, though not at the same time — see the Enterprise Edition note above.
 
@@ -114,7 +116,7 @@ Setting `eximeebpms.bpm.cmmn-enabled=false` in 1.3.0 (see step 1) still lets you
 
 ## 5. Impact on embedded engine code
 
-The following public Java API classes and interfaces are marked `@Deprecated` as of 1.3.0 and **will be removed in 1.4.0**. To find usages in your code, search for references to the classes below, or compile with `-Xlint:deprecation`.
+The following public Java API classes and interfaces were marked `@Deprecated` in 1.3.0 and **are removed in 1.4.0**. To find usages in your code, search for references to the classes below, or compile with `-Xlint:deprecation`.
 
 | Package | Classes / interfaces |
 |---|---|
@@ -144,7 +146,7 @@ If your client is generated from the published OpenAPI specification, you will n
 
 ## 7. Mapping CMMN patterns to BPMN
 
-The table below is a starting point, not a mechanical recipe — CMMN patterns do not map 1:1 onto BPMN.
+Remodeling the case in BPMN is the only replacement path — there is no converter. The table below is a starting point, not a mechanical recipe: CMMN patterns do not map 1:1 onto BPMN.
 
 | CMMN pattern | BPMN equivalent |
 |---|---|
