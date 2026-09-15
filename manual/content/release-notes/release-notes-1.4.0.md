@@ -17,12 +17,12 @@ menu:
 
 ## Highlights
 
-- [**Business Events**]({{< ref "/user-guide/process-engine/business-events.md" >}}) — the native business events mechanism with transactional outbox, previously Enterprise Edition only, now ships in the **Community Edition**
+- [**Business Events**]({{< ref "/user-guide/process-engine/business-events.md" >}}) — the native business events mechanism with a transactional outbox. This is the **Event API** named on the [support page](https://eximeebpms.org/support/), and 1.4.0 is the release that delivers it in the Community Edition
 - [**CMMN support removed**](#cmmn-support-removed) — as announced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations); see the [CMMN Deprecation & Removal guide]({{< ref "/update/cmmn-removal.md" >}}) before upgrading
 - [**Tomcat 9 and WildFly 26 removed**](#legacy-application-server-support-tomcat-9-wildfly-26-removed) — as announced in 1.3.0
 - [**javax (legacy) namespace support dropped**](#javax-legacy-namespace-support-dropped) — the engine and its distributions are now Jakarta-only
 - **Java 21 baseline** — up from Java 17; JDK 25 is additionally verified in CI
-- [**Five CVE fixes**](#security) ported over from the Enterprise Edition track (jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty / Apache Ant)
+- [**Every security notice open for the Community Edition is closed**](#security) — EXBPMS-7 through EXBPMS-13, covering jackson-databind, Jython, Spring Framework, Tomcat / Tomcat Native, Netty, Apache Ant, Apache HttpComponents Core and Jetty
 - [**UUID v1 legacy generator removed**](#legacy-uuid-v1-generator-removed) — as announced in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#uuid-v7-as-default-id-generator); `id-generator=uuid-v1` now silently falls back to the default (UUID v7) with a startup warning instead of activating the legacy generator
 - Fixed a race in the External Task Client where `stop()` could return before an in-flight task handler invocation had finished
 - [**Script Guard now behaves the same on Tomcat and WildFly**](#script-guard-container-deployments-configuration-and-retention) as it did on Spring Boot — violation persistence, business-event forwarding and database-authoritative policy, configured from `bpm-platform.xml`. The engine's boolean `scriptSecurityEnabled` configuration is replaced by the three-valued `scriptSecurityMode`
@@ -63,7 +63,7 @@ Everything on this list requires a decision or an action before you upgrade. Eac
 
 ### Business Events
 
-Business Events were introduced in Enterprise Edition 1.2.16-ee and substantially expanded in 1.3.1-ee. As of 1.4.0, the same mechanism ships in the **Community Edition**: the engine publishes a stream of domain-level occurrences (task completions, variable changes, incidents, job/batch/external-task lifecycle, user operation log entries, DMN evaluations, Script Guard violations, and more) to systems outside the engine, using a **transactional outbox** — the outbox write happens in the same database transaction as the underlying change, giving at-least-once delivery without coupling the engine's own transaction to the availability of a downstream system.
+Business events are the **Event API** named on the [support page](https://eximeebpms.org/support/), and 1.4.0 is the release that delivers them in the Community Edition: the engine publishes a stream of domain-level occurrences (task completions, variable changes, incidents, job/batch/external-task lifecycle, user operation log entries, DMN evaluations, Script Guard violations, and more) to systems outside the engine, using a **transactional outbox** — the outbox write happens in the same database transaction as the underlying change, giving at-least-once delivery without coupling the engine's own transaction to the availability of a downstream system.
 
 The feature is **disabled by default**. When enabled, events can be dispatched through the built-in `kafka` publisher or a custom `BusinessEventPublisher` implementation; the event type prefix (default `bpms`) is configurable, and a `BusinessEventService` query API is available for diagnostics.
 
@@ -75,7 +75,11 @@ The feature is **disabled by default**. When enabled, events can be dispatched t
 
 ### CMMN Support Removed {#cmmn-support-removed}
 
-Following the deprecation announced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations), CMMN support is **removed** from the engine in 1.4.0: `CaseService`, the CMMN Java API and model, and the `/case-*` REST endpoints are gone. The `1.3-to-1.4` schema migration deletes CMMN data (deployed case definitions, runtime and historic case data) unconditionally, and halts beforehand if active case instances still exist.
+**Announced.** CMMN was named an obsolete component on the public [support page](https://eximeebpms.org/support/) on 17 April 2025, alongside Camunda Forms and the web applications, and the deprecation was repeated in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations).
+
+**Delivered.** CMMN support is **removed** from the engine in 1.4.0: `CaseService`, the CMMN Java API and model, and the `/case-*` REST endpoints are gone. The `1.3-to-1.4` schema migration deletes CMMN data (deployed case definitions, runtime and historic case data) unconditionally, and halts beforehand if active case instances still exist.
+
+**What to do.** Complete or terminate every active case instance before you upgrade, audit your deployment artifacts for `.cmmn` files, and remodel the cases you still need in BPMN — there is no migrator. The guide below walks through all three.
 
 {{< note title="No deployment-time safety net for leftover .cmmn files" class="warning" >}}
 Unlike a hard rejection, a `.cmmn` file included in a deployment is now simply **not recognized by any deployer** — the deployment succeeds and the file is stored as an inert, unparsed resource. Auditing your deployment artifacts *before* upgrading is the only reliable way to catch CMMN usage; see the guide below.
@@ -177,15 +181,15 @@ Two method families were already deprecated before this change and get counterpa
 
 ## Security
 
-Six sets of CVE fixes previously shipped only in the Enterprise Edition track are now included in the Community Edition, via the dependency upgrades in this release. Full details for each are published on the [Security Notices](/security/notices/) page.
+Six sets of CVE fixes that were open against 1.3.0 are closed in this release, through the dependency upgrades listed below. Each row names the version **this release ships**, which in several cases is later than the version in which the fix first became available. Full details, including the affected version ranges, are on the [Security Notices](/security/notices/) page.
 
 | Notice | Component | CVEs | Fixed via |
 |---|---|---|---|
-| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) | jackson-databind → 2.22.1 |
+| [EXBPMS-7](/security/notices/#notice-exbpms-7) | jackson-databind | [CVE-2023-35116](https://nvd.nist.gov/vuln/detail/CVE-2023-35116) | jackson-databind → 2.22.2 |
 | [EXBPMS-8](/security/notices/#notice-exbpms-8) | Jython | [CVE-2016-4000](https://nvd.nist.gov/vuln/detail/CVE-2016-4000) | Jython → 2.7.4 |
-| [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) | Spring Framework → 7.0.8 |
+| [EXBPMS-9](/security/notices/#notice-exbpms-9) | Spring Framework | [CVE-2026-22740](https://spring.io/security/cve-2026-22740/), [CVE-2026-22741](https://spring.io/security/cve-2026-22741/), [CVE-2026-22745](https://github.com/advisories/GHSA-6p4f-wcwh-5vvm), [CVE-2026-22737](https://spring.io/security/cve-2026-22737/), [CVE-2026-22735](https://spring.io/security/cve-2026-22735/) | Spring Framework → 7.0.9 |
 | [EXBPMS-10](/security/notices/#notice-exbpms-10) | Apache Tomcat / Tomcat Native | [CVE-2026-29145](https://nvd.nist.gov/vuln/detail/CVE-2026-29145), [CVE-2026-29129](https://nvd.nist.gov/vuln/detail/CVE-2026-29129), [CVE-2026-24734](https://nvd.nist.gov/vuln/detail/CVE-2026-24734), [CVE-2026-24733](https://nvd.nist.gov/vuln/detail/CVE-2026-24733) | Tomcat → 11.0.25 |
-| [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) | Netty → 4.1.135.Final, Apache Ant → 1.10.17 |
+| [EXBPMS-11](/security/notices/#notice-exbpms-11) | Netty / Apache Ant | [CVE-2024-29025](https://github.com/advisories/GHSA-5jpm-x58v-624v), [CVE-2021-36373](https://nvd.nist.gov/vuln/detail/CVE-2021-36373), [CVE-2021-36374](https://nvd.nist.gov/vuln/detail/CVE-2021-36374), [CVE-2020-1945](https://nvd.nist.gov/vuln/detail/CVE-2020-1945) | Netty → 4.1.137.Final, Apache Ant → 1.10.17 |
 | [EXBPMS-12](/security/notices/#notice-exbpms-12) | Apache HttpComponents Core 5 / Netty | 23 CVEs — see the notice for the full list | HttpComponents Core 5 → 5.4.3, Netty → 4.1.137.Final |
 
 {{< note title="" class="info" >}}
