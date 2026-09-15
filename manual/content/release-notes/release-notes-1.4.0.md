@@ -59,6 +59,10 @@ Unlike a hard rejection, a `.cmmn` file included in a deployment is now simply *
 
 Following the deprecation announced in 1.3.0, the `distro/wildfly26` distribution module and the Tomcat 9 QA test runtime are removed. Supported containers are now **Tomcat 11.0.25+** and **WildFly 41.0.1.Final+** — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) and [Supported Environments]({{< ref "/introduction/supported-environments.md" >}}).
 
+**Why these two.** Both were the `javax`-namespace distributions. Tomcat 9 is the last Tomcat line built on `javax.servlet`; Tomcat 10 moved the whole servlet API to `jakarta.*`. The `wildfly26` module was likewise assembled from the pre-Jakarta artifacts, while the current WildFly distribution uses the `-jakarta` ones. With the javax namespace dropped in this release (see [below](#javax-legacy-namespace-support-dropped)), the build produces Jakarta artifacts only, and there is nothing left for a javax container to deploy.
+
+This is a statement about what this platform builds, not about Tomcat 9 itself: Apache lists end of support for the Tomcat 9.0.x line as no earlier than 31 March 2027 ([Which version do I want?](https://tomcat.apache.org/whichversion.html)). If you run Tomcat 9, it is your EximeeBPMS distribution that requires the container upgrade, not Tomcat 9 that has run out.
+
 {{< note title="Tomcat 10.1 → 11: a container generation change, not just a Tomcat 9 removal" class="warning" >}}
 Alongside the Tomcat 9 removal above, the standalone `eximeebpms-bpm-tomcat` distribution itself moves from the **Tomcat 10.1** line to **Tomcat 11** (Servlet 6.1, Jakarta EE 11 — up from Servlet 6.0 / Jakarta EE 10). If you are running the Tomcat distribution — including if you were already on Tomcat 10.1, not just Tomcat 9 — this is a container upgrade, not a patch bump: plan for it the same way you would any major application-server upgrade.
 
