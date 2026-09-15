@@ -23,7 +23,7 @@ your <code>pom.xml</code> file:</p><pre><code class=language-xml>&lt;dependency&
 </code></pre><p>Please check out our <a href=https://github.com/EximeeBPMS/eximeebpms-examples/tree/master/examples/spring-boot-starter/external-task-client>External Task Client Spring Boot Starter Examples</a>.</p><p>The Client can subscribe to one or more topic names that are defined in your BPMN process model.
 When the execution waits in an External Task, the Client executes your custom business logic.
 For instance, the customer&rsquo;s credit score is checked, and if successful, the External Task
-can be marked as completed and the execution proceeds.</p><h1 id=requirements>Requirements</h1><p>External Task Client Spring Boot Starter requires Java 17.</p><h2 id=topic-subscription>Topic Subscription</h2><p>The interface which allows implementing the custom business logic and interacting with the Engine is
+can be marked as completed and the execution proceeds.</p><h1 id=requirements>Requirements</h1><p>External Task Client Spring Boot Starter requires Java 21.</p><h2 id=topic-subscription>Topic Subscription</h2><p>The interface which allows implementing the custom business logic and interacting with the Engine is
 called <code>ExternalTaskHandler</code>. A subscription is identified by a topic name and configured with a
 reference to the <code>ExternalTaskHandler</code> bean.</p><p>You can subscribe the Client to the topic name <code>creditScoreChecker</code> by defining a bean with the return
 type <code>ExternalTaskHandler</code> and annotate this bean with:</p><pre><code class=language-java>@ExternalTaskSubscription(&quot;creditScoreChecker&quot;)
