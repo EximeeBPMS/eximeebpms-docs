@@ -75,7 +75,7 @@ The feature is **disabled by default**. When enabled, events can be dispatched t
 
 ### CMMN Support Removed {#cmmn-support-removed}
 
-**Announced.** CMMN was named an obsolete component on the public [support page](https://eximeebpms.org/support/) on 17 April 2025, alongside Camunda Forms and the web applications, and the deprecation was repeated in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations).
+**Announced.** CMMN was named an obsolete component on the public [support page](https://eximeebpms.org/support/) on 17 April 2025, alongside Camunda Forms and the web applications, and the deprecation was repeated in the [1.3.0 release notes]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations). The web applications are the next component on that same path; the [roadmap](https://eximeebpms.org/#roadmapa) carries the dates.
 
 **Delivered.** CMMN support is **removed** from the engine in 1.4.0: `CaseService`, the CMMN Java API and model, and the `/case-*` REST endpoints are gone. The `1.3-to-1.4` schema migration deletes CMMN data (deployed case definitions, runtime and historic case data) unconditionally, and halts beforehand if active case instances still exist.
 
