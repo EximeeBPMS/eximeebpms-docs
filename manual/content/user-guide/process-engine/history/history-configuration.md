@@ -85,7 +85,7 @@ eximeebpms:
       - bulk-import-process
 ```
 
-In Java, use `ProcessEngineConfiguration.setHistoryExcludedProcessDefinitionKeys(Set<String>)`.
+In Java, use `ProcessEngineConfigurationImpl.setHistoryExcludedProcessDefinitionKeys(Set<String>)` — the setter is declared on the implementation class, not on the abstract `ProcessEngineConfiguration`.
 
 Filtering happens at persistence time, so excluded definitions produce no historic rows at all rather than rows that are cleaned up later. Batch history (`HistoricBatchEntity`) is never covered by the exclusion, because a batch is not scoped to a single process definition.
 
