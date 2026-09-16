@@ -15,6 +15,28 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-14
+
+**Publication Date:** September 16, 2026
+
+**Product affected:** EximeeBPMS's WildFly distribution (`eximeebpms-bpm-wildfly`) — specifically the Netty modules the WildFly server distribution (`org.wildfly:wildfly-dist`) bundles internally, not Netty declared as EximeeBPMS's own Maven dependency (that usage is tracked separately; see Notice EXBPMS-12). Also affects `engine-rest`'s own test suite (`engine-rest-jakarta`, test scope only — never shipped in the production REST WAR).
+
+**Impact:**
+
+The version of Netty bundled inside the WildFly application server distribution that EximeeBPMS's WildFly distribution ships had the following vulnerability:
+
+- [CVE-2026-89044](https://github.com/netty/netty/security/advisories/GHSA-hcvj-94mj-jp5c) — Netty fails to properly validate the final transfer coding in the `Transfer-Encoding` header, allowing an attacker to smuggle requests by splitting the header across multiple lines or supplying a value like `chunked, xchunked`
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition 1.3.3-ee and Community Edition 1.4.0 — both the first releases to bundle WildFly 41.0.1.Final (Netty 4.1.137.Final in its bundled modules, in the vulnerable 4.1.133.Final–4.1.137.Final range)
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.4.1-ee (Enterprise Edition, pending release — the first Enterprise patch on the 1.4.0 baseline): `distro/wildfly/modules` now builds override JBoss modules pinning WildFly's bundled Netty to 4.1.138.Final, and `distro/wildfly/assembly/assembly.xml` excludes the vulnerable jars WildFly would otherwise ship at unpack time. The same change bumps `engine-rest-jakarta`'s own test-scope Netty pin to 4.1.138.Final. Pending in the next Community Edition release.
+
+---
+
 ## Notice EXBPMS-13
 
 **Publication Date:** September 7, 2026
