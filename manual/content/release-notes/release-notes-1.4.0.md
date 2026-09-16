@@ -18,6 +18,7 @@ menu:
 ## Highlights
 
 - [**Business Events**]({{< ref "/user-guide/process-engine/business-events.md" >}}) — the native business events mechanism with a transactional outbox. This is the **Event API** named on the [support page](https://eximeebpms.org/support/), and 1.4.0 is the release that delivers it in the Community Edition
+- [**History exclusion by process definition key**](#history-exclusion-by-process-definition-key) — turn history recording off for named process definitions without lowering the history level for the whole engine
 - [**CMMN support removed**](#cmmn-support-removed) — as announced in [1.3.0]({{< ref "/release-notes/release-notes-1.3.0.md" >}}#deprecations); see the [CMMN Deprecation & Removal guide]({{< ref "/update/cmmn-removal.md" >}}) before upgrading
 - [**Tomcat 9 and WildFly 26 removed**](#legacy-application-server-support-tomcat-9-wildfly-26-removed) — as announced in 1.3.0
 - [**javax (legacy) namespace support dropped**](#javax-legacy-namespace-support-dropped) — the engine and its distributions are now Jakarta-only
@@ -68,6 +69,16 @@ Business events are the **Event API** named on the [support page](https://eximee
 The feature is **disabled by default**. When enabled, events can be dispatched through the built-in `kafka` publisher or a custom `BusinessEventPublisher` implementation; the event type prefix (default `bpms`) is configurable, and a `BusinessEventService` query API is available for diagnostics.
 
 → [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) · [Business Event Field Reference]({{< ref "/user-guide/process-engine/business-events-fields.md" >}})
+
+### History Exclusion by Process Definition Key {#history-exclusion-by-process-definition-key}
+
+The history level applies to the whole engine. `historyExcludedProcessDefinitionKeys` (Spring Boot: `eximeebpms.bpm.history-excluded-process-definition-keys`) names process definition keys for which no history is recorded at all, whatever that level is — useful when most processes must be fully audited but a handful of high-volume, low-audit-value technical processes should never reach the history tables.
+
+Filtering happens at persistence time, so an excluded definition produces no historic rows in the first place rather than rows cleaned up later. Two things the exclusion deliberately does not cover: batch history, because a `HistoricBatch` can span several process definitions and has nothing to match against, and a standalone DMN evaluation outside any process. A decision evaluated from a business rule task *inside* an excluded process is excluded with it.
+
+Delivered in the Enterprise Edition first, in [1.3.3-ee]({{< ref "/release-notes/release-notes-1.3-ee.md" >}}#133-ee).
+
+→ [Exclude specific process definitions from history]({{< ref "/user-guide/process-engine/history/history-configuration.md" >}}#exclude-specific-process-definitions-from-history)
 
 ---
 
