@@ -55,6 +55,10 @@ String xmlInput = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><customer xmlns=\"h
 Customer customer = XML(xmlInput).mapTo(Customer.class);
 ```
 
+{{< note title="Type validation" class="info" >}}
+  The target type passed to `mapTo` is, by default, **not** checked against the process engine's deserialization type whitelist — that whitelist (`deserializationTypeValidationEnabled`) guards only `ObjectValue` process-variable deserialization. `mapTo` is validated only when the engine additionally sets `spinMapToTypeValidationEnabled` (see [JSON/XML serialized objects using Spin]({{< ref "/user-guide/security.md#jsonxml-serialized-objects-using-spin" >}})). Where a type name passed to `mapTo(String)` could originate from data you do not control, prefer a fixed, trusted type.
+{{< /note >}}
+
 ## Mapping Java to XML:
 
 We can map the `customer` back to XML as follows:
