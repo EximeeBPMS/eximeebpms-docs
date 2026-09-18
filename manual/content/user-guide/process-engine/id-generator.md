@@ -106,7 +106,7 @@ eximeebpms.bpm:
 
 **Quarkus (`application.properties`):**
 ```properties
-quarkus.camunda.id-generator=uuid-v1
+quarkus.eximeebpms.id-generator=uuid-v1
 # no longer has any effect — remove this
 ```
 
