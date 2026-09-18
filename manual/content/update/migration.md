@@ -12,10 +12,22 @@ menu:
 
 ---
 
-This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.1.0.
+This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.4.0.
 
 {{< note title="Warning" class="warning" >}}
 Before proceeding with the following instructions, please make sure that your Camunda version has been updated to **7.24.0**. Executing the steps on an older version may result in unexpected system behavior.
+{{< /note >}}
+
+{{< note title="EximeeBPMS 1.4.0 is Jakarta-only" class="warning" >}}
+EximeeBPMS **1.4.0 publishes only the Jakarta EE artifacts** — the `javax`-based variants that existed up to 1.3.0 are gone. The recipe therefore rewrites the `javax` Camunda coordinates onto the Jakarta EximeeBPMS artifacts: `camunda-engine-rest` becomes `eximeebpms-engine-rest-jakarta`, `camunda-webapp` becomes `eximeebpms-webapp-jakarta`, `camunda-engine-spring` becomes `eximeebpms-engine-spring-6`, `camunda-wildfly26` becomes `eximeebpms-wildfly`, and so on. If your project was already using Camunda's `-jakarta` artifacts, nothing changes for you.
+
+**The recipe does not rewrite your own `javax.*` Jakarta EE imports** (`javax.servlet`, `javax.enterprise`, `javax.persistence`, …), and this is deliberate: the namespace move is a migration of your project in its own right, independent of the switch from Camunda to EximeeBPMS, and running it separately keeps the two changes reviewable apart. If your code uses those packages, run the namespace migration **first**, verify your project still builds on Camunda, and only then apply this recipe.
+
+OpenRewrite publishes Jakarta migration recipes for exactly this in its `rewrite-migrate-java` module; pick the **Jakarta EE 10** one, since that is the level EximeeBPMS 1.4.0 is built against (`jakarta.jakartaee-bom` 10.0.0, `jakarta.servlet-api` 6.1.0, `jakarta.ws.rs-api` 4.0.0). Imports that belong to Java SE rather than Jakarta EE, such as `javax.sql.DataSource`, are not part of that migration and stay as they are.
+{{< /note >}}
+
+{{< note title="CMMN cannot be migrated" class="warning" >}}
+CMMN is removed in 1.4.0, so the recipe has **no mapping for `camunda-cmmn-model`** — there is no EximeeBPMS artifact to point it at. A project that uses CMMN cannot be migrated by this recipe; see [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}).
 {{< /note >}}
 
 
@@ -74,14 +86,14 @@ Before proceeding with the following instructions, please make sure that your Ca
 	      newKey: eximeebpms.version
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: eximeebpms.version
-	      newValue: 1.0.0
+	      newValue: 1.4.0
 	 
 	  - org.openrewrite.maven.RenamePropertyKey:
 	      oldKey: version.camunda
 	      newKey: version.eximeebpms
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: version.eximeebpms
-	      newValue: 1.0.0
+	      newValue: 1.4.0
 	 
 	...
 	  - org.openrewrite.java.ChangePackage:
@@ -104,7 +116,7 @@ Before proceeding with the following instructions, please make sure that your Ca
 
 	```xml
 	<properties>
-    	<eximeebpms.version>1.0.0</eximeebpms.version>
+    	<eximeebpms.version>1.4.0</eximeebpms.version>
 	</properties>         
 	 
 	<!-- ... --> 
@@ -116,7 +128,7 @@ Before proceeding with the following instructions, please make sure that your Ca
 	    </dependency>
 	    <dependency>
 	        <groupId>org.eximeebpms.bpm</groupId>
-	        <artifactId>eximeebpms-engine-spring</artifactId>
+	        <artifactId>eximeebpms-engine-spring-6</artifactId>
 	    </dependency>
 	    <!-- ... -->
 	</dependencies>
