@@ -18,10 +18,6 @@ This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.3.0.
 Before proceeding with the following instructions, please make sure that your Camunda version has been updated to **7.24.0**. Executing the steps on an older version may result in unexpected system behavior.
 {{< /note >}}
 
-{{< note title="The published recipe now targets 1.4.0" class="warning" >}}
-There is a single `replace-camunda-with-eximeebpms.yml` in the [migration repository](https://github.com/EximeeBPMS/eximeebpms-migration), and it now pins **1.4.0**, not the 1.3.0 this page documents. Downloading it today migrates your project to 1.4.0 — which is Jakarta-only and has no CMMN — so follow the 1.4.0 version of this page instead unless you have a specific reason to stay on 1.3.0. To target 1.3.0, take the recipe as published and change the three `newValue` version properties back to `1.3.0` yourself.
-{{< /note >}}
-
 
 # Migration of a sample project
 
