@@ -12,7 +12,7 @@ menu:
 
 ---
 
-This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.1.0.
+This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.3.0.
 
 {{< note title="Warning" class="warning" >}}
 Before proceeding with the following instructions, please make sure that your Camunda version has been updated to **7.24.0**. Executing the steps on an older version may result in unexpected system behavior.
@@ -74,14 +74,14 @@ Before proceeding with the following instructions, please make sure that your Ca
 	      newKey: eximeebpms.version
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: eximeebpms.version
-	      newValue: 1.0.0
+	      newValue: 1.3.0
 	 
 	  - org.openrewrite.maven.RenamePropertyKey:
 	      oldKey: version.camunda
 	      newKey: version.eximeebpms
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: version.eximeebpms
-	      newValue: 1.0.0
+	      newValue: 1.3.0
 	 
 	...
 	  - org.openrewrite.java.ChangePackage:
@@ -104,7 +104,7 @@ Before proceeding with the following instructions, please make sure that your Ca
 
 	```xml
 	<properties>
-    	<eximeebpms.version>1.0.0</eximeebpms.version>
+    	<eximeebpms.version>1.3.0</eximeebpms.version>
 	</properties>         
 	 
 	<!-- ... --> 
