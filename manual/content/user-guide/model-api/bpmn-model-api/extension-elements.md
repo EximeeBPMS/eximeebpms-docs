@@ -10,12 +10,13 @@ menu:
 
 ---
 
-{{< note title="Renamed in 1.4.0" class="warning" >}}
+{{< note title="Renamed in 1.4.0, old names removed" class="warning" >}}
 These methods were named `camunda…` before 1.4.0 (for example
-`camundaAsyncBefore()`, `getCamundaFormKey()`, `setCamundaClass()`). The old
-names still exist and still work throughout 1.4.x, but they are deprecated
-and **will be removed in 1.5.0** — migrate with a mechanical rename,
-`camundaX` → `eximeeBpmsX` and `getCamundaX` → `getEximeeBpmsX`.
+`camundaAsyncBefore()`, `getCamundaFormKey()`, `setCamundaClass()`). As of
+this release, the old names no longer exist — only the `eximeeBpms…` names
+below work. If you're still calling a `camunda…` method, migrate with a
+mechanical rename, `camundaX` → `eximeeBpmsX` and `getCamundaX` →
+`getEximeeBpmsX`.
 
 Nothing changes in the XML: the extension namespace URI and the attribute
 names in your `.bpmn` and `.dmn` files are untouched.
