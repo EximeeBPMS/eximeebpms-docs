@@ -296,12 +296,20 @@ System.out.println(Bpmn.convertToString(myProcess));
 
 This example creates a BPMN containing both semantic elements (e.g., service task etc.) and diagram elements:
 
+{{< note title="Namespace prefix changed in 1.4.1-ee" class="info" >}}
+The output below is what 1.4.1-ee onward produces. Up to and including 1.4.0,
+the fluent builder declared the same extension namespace URI under the prefix
+`eximeebpms` (`xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn"`) and
+emitted `eximeebpms:`-prefixed extension attributes. Only the generated XML
+changed — a prefix is a document-local label, and both forms parse identically.
+{{< /note >}}
+
 ```xml
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_dfb1f18e-6034-448e-abae-0eb2f41469da" targetNamespace="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+<definitions xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="definitions_dfb1f18e-6034-448e-abae-0eb2f41469da" targetNamespace="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
 
   <!-- Generated BPMN Semantic Elements -->
-  <process id="process-payments" isExecutable="true">
+  <process camunda:historyTimeToLive="P180D" id="process-payments" isExecutable="true">
     <startEvent id="startEvent_2b0abd37-75a9-47dd-9838-63f1390d7515">
       <outgoing>sequenceFlow_b1eec5b5-889d-4e75-854d-59768fbdc8a2</outgoing>
     </startEvent>

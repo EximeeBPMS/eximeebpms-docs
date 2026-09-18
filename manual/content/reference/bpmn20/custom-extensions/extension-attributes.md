@@ -14,6 +14,23 @@ menu:
 
 The following attributes are extension attributes for the `camunda` namespace `http://camunda.org/schema/1.0/bpmn`.
 
+{{< note title="Two namespaces are accepted, from 1.4.1-ee" class="info" >}}
+From 1.4.1-ee onward (Enterprise Edition), extension attributes and elements may
+equally be declared in EximeeBPMS' own namespace,
+`http://eximeebpms.org/schema/1.0/bpmn`. Both are accepted, including mixed
+within a single document, and behave identically — only the namespace URI
+matters, never the prefix that labels it. Earlier versions, 1.4.0 included,
+accept only `http://camunda.org/schema/1.0/bpmn`, and silently ignore extensions
+declared in any other namespace.
+
+EximeeBPMS never *writes* the EximeeBPMS namespace: a model serialized through
+the BPMN Model API always comes out declaring `http://camunda.org/schema/1.0/bpmn`,
+so that files stay readable by tooling that only knows that namespace, such as
+Camunda Modeler. An attribute that arrived in the EximeeBPMS namespace is updated
+in place, in that namespace, so a round-tripped document can come back declaring
+both.
+{{< /note >}}
+
 # assignee
 
 <table class="table table-striped">
