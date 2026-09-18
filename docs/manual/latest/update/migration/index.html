@@ -13,7 +13,7 @@
 <option>1.3.0</option>
 <option>1.2.0</option>
 <option>1.1.0</option>
-<option>1.0.0</option></select></div></div></nav><div class=page-wrapper><div class=page-content data-pagefind-body><div class=container-fluid><div class="col-xs-12 content-header"><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/docs/1.4.0/manual/content/update/migration.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Camunda Migration</h1></div><div class="col-xs-12 content-text"><p>This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.1.0.</p><div class="note bg-warning docs-warning"><h3>Warning</h3><p>Before proceeding with the following instructions, please make sure that your Camunda version has been updated to <strong>7.24.0</strong>. Executing the steps on an older version may result in unexpected system behavior.</p></div><h1 id=migration-of-a-sample-project>Migration of a sample project</h1><ol><li>Review the <a href=https://docs.openrewrite.org/>OpenRewrite documentation</a></li><li><p>Learn how the <em>rewrite-maven-plugin</em> works using the <strong><a href=https://github.com/EximeeBPMS/eximeebpms-migration>sample project</a></strong></p><ol><li><p>Clone the repository</p><pre><code class=language-bash>git clone git@github.com:EximeeBPMS/eximeebpms-migration.git
+<option>1.0.0</option></select></div></div></nav><div class=page-wrapper><div class=page-content data-pagefind-body><div class=container-fluid><div class="col-xs-12 content-header"><div class=edit-on-github><a target=_blank href=https://github.com/EximeeBPMS/eximeebpms-docs/tree/docs/1.4.0/manual/content/update/migration.md><i>Edit on Github</i> <span class=cam-docs-github></span></a></div><h1 class=page-title>Camunda Migration</h1></div><div class="col-xs-12 content-text"><p>This guide helps you migrate Camunda 7.24 to EximeeBPMS 1.4.0.</p><div class="note bg-warning docs-warning"><h3>Warning</h3><p>Before proceeding with the following instructions, please make sure that your Camunda version has been updated to <strong>7.24.0</strong>. Executing the steps on an older version may result in unexpected system behavior.</p></div><div class="note bg-warning docs-warning"><h3>EximeeBPMS 1.4.0 is Jakarta-only</h3><p><p>EximeeBPMS <strong>1.4.0 publishes only the Jakarta EE artifacts</strong> — the <code>javax</code>-based variants that existed up to 1.3.0 are gone. The recipe therefore rewrites the <code>javax</code> Camunda coordinates onto the Jakarta EximeeBPMS artifacts: <code>camunda-engine-rest</code> becomes <code>eximeebpms-engine-rest-jakarta</code>, <code>camunda-webapp</code> becomes <code>eximeebpms-webapp-jakarta</code>, <code>camunda-engine-spring</code> becomes <code>eximeebpms-engine-spring-6</code>, <code>camunda-wildfly26</code> becomes <code>eximeebpms-wildfly</code>, and so on. If your project was already using Camunda&rsquo;s <code>-jakarta</code> artifacts, nothing changes for you.</p><p><strong>The recipe does not rewrite your own <code>javax.*</code> Jakarta EE imports</strong> (<code>javax.servlet</code>, <code>javax.enterprise</code>, <code>javax.persistence</code>, …), and this is deliberate: the namespace move is a migration of your project in its own right, independent of the switch from Camunda to EximeeBPMS, and running it separately keeps the two changes reviewable apart. If your code uses those packages, run the namespace migration <strong>first</strong>, verify your project still builds on Camunda, and only then apply this recipe.</p><p>OpenRewrite publishes Jakarta migration recipes for exactly this in its <code>rewrite-migrate-java</code> module; pick the <strong>Jakarta EE 10</strong> one, since that is the level EximeeBPMS 1.4.0 is built against (<code>jakarta.jakartaee-bom</code> 10.0.0, <code>jakarta.servlet-api</code> 6.1.0, <code>jakarta.ws.rs-api</code> 4.0.0). Imports that belong to Java SE rather than Jakarta EE, such as <code>javax.sql.DataSource</code>, are not part of that migration and stay as they are.</p></p></div><div class="note bg-warning docs-warning"><h3>CMMN cannot be migrated</h3><p>CMMN is removed in 1.4.0, so the recipe has <strong>no mapping for <code>camunda-cmmn-model</code></strong> — there is no EximeeBPMS artifact to point it at. A project that uses CMMN cannot be migrated by this recipe; see <a href=/manual/latest/update/cmmn-removal/>CMMN Deprecation &amp; Removal</a>.</p></div><h1 id=migration-of-a-sample-project>Migration of a sample project</h1><ol><li>Review the <a href=https://docs.openrewrite.org/>OpenRewrite documentation</a></li><li><p>Learn how the <em>rewrite-maven-plugin</em> works using the <strong><a href=https://github.com/EximeeBPMS/eximeebpms-migration>sample project</a></strong></p><ol><li><p>Clone the repository</p><pre><code class=language-bash>git clone git@github.com:EximeeBPMS/eximeebpms-migration.git
 </code></pre></li><li><p>Review the dependencies in the main pom.xml file of the project</p></li></ol><pre><code class=language-xml>&lt;properties&gt;
     &lt;camunda.version&gt;7.24.0&lt;/camunda.version&gt;
 &lt;/properties&gt;    
@@ -51,14 +51,14 @@
 	      newKey: eximeebpms.version
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: eximeebpms.version
-	      newValue: 1.0.0
+	      newValue: 1.4.0
 	 
 	  - org.openrewrite.maven.RenamePropertyKey:
 	      oldKey: version.camunda
 	      newKey: version.eximeebpms
 	  - org.openrewrite.maven.ChangePropertyValue:
 	      key: version.eximeebpms
-	      newValue: 1.0.0
+	      newValue: 1.4.0
 	 
 	...
 	  - org.openrewrite.java.ChangePackage:
@@ -71,10 +71,10 @@
 	      recursive: true</code></pre></div><style>.codebox{border:1px solid #ccc;padding:.5em 1em;margin:1em 0;background-color:#f9f9f9;display:block}li>.codebox{margin-left:0}.codebox-header{margin-bottom:.5em;font-weight:700;font-size:.9em;color:#333}pre{margin:0;overflow-x:auto}</style></p><p>This configuration file replaces Camunda-related package names and versions with those used in EximeeBPMS. It is used by the rewrite-maven-plugin.</p></li><li><p>Perform a test migration.
 After becoming familiar with the plugin, its configuration, and the structure of the sample project, you can run the migration script using the following command:</p><pre><code class=language-bash>mvn rewrite:run
 </code></pre><p>As a result, the dependencies in the pom.xml file and the packages used in the project should be updated, e.g.:</p></li></ol><p>```xml
-<properties><eximeebpms.version>1.0.0</eximeebpms.version></properties></p><p><dependencies><dependency><groupid>org.eximeebpms.bpm</groupid>
+<properties><eximeebpms.version>1.4.0</eximeebpms.version></properties></p><p><dependencies><dependency><groupid>org.eximeebpms.bpm</groupid>
 <artifactid>eximeebpms-engine</artifactid></dependency>
 <dependency><groupid>org.eximeebpms.bpm</groupid>
-<artifactid>eximeebpms-engine-spring</artifactid></dependency></dependencies>
+<artifactid>eximeebpms-engine-spring-6</artifactid></dependency></dependencies>
 ```Now:<div class=codebox><div class=codebox-header><strong>CalculateInterestService.java</strong></div><pre><code class=language-java>
 	package org.example.bpm.getstarted.loanapproval;
  
