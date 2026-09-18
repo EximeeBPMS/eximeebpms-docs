@@ -14,6 +14,16 @@ aliases: [reference/dmn11/custom-extensions/camunda-attributes/]
 
 The following attributes are extension attributes for the `camunda` namespace `http://camunda.org/schema/1.0/dmn`.
 
+{{< note title="Two namespaces are accepted, from 1.4.1-ee" class="info" >}}
+From 1.4.1-ee onward (Enterprise Edition), these attributes may equally be
+declared in EximeeBPMS' own namespace, `http://eximeebpms.org/schema/1.0/dmn`.
+Both are accepted, including mixed within a single document, and behave
+identically. Earlier versions, 1.4.0 included, accept only
+`http://camunda.org/schema/1.0/dmn`. As on the BPMN side, EximeeBPMS never
+*writes* the EximeeBPMS namespace — a model serialized through the DMN Model API
+always comes out declaring `http://camunda.org/schema/1.0/dmn`.
+{{< /note >}}
+
 # historyTimeToLive
 
 <table class="table table-striped">
