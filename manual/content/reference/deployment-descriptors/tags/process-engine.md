@@ -813,6 +813,14 @@ The following is a list with the most commonly used process engine configuration
   </tr>
   
   <tr>
+    <td><a name="spinMapToTypeValidationEnabled"></a><code>spinMapToTypeValidationEnabled</code></td>
+    <td>Boolean</td>
+    <td>
+        Sets if the deserialization type whitelist is additionally applied to Spin's <code>mapTo(Class)</code>/<code>mapTo(String)</code> object mapping, on top of the <code>ObjectValue</code> process-variable deserialization it always covers. Only takes effect when <code>deserializationTypeValidationEnabled</code> is also <code>true</code>, and reuses the same <code>deserializationAllowedPackages</code>/<code>deserializationAllowedClasses</code> lists. See <a href="{{< ref "/user-guide/security.md#jsonxml-serialized-objects-using-spin" >}}">Security Instructions</a> for further information. Default value: <code>false</code>
+    </td>
+  </tr>
+  
+  <tr>
     <td><code>deserializationAllowedPackages</code></td>
     <td>String</td>
     <td>

@@ -77,6 +77,10 @@ The built-in policy checks the script source (case-insensitively) against the fo
   <tr><td><code>SCRIPT_SECURITY_JAVA_TYPE</code></td><td><code>java.type(</code>, <code>Packages.</code></td><td>Host class lookup (GraalVM JS)</td></tr>
 </table>
 
+{{< note title="Scope of these checks" class="info" >}}
+  Script Guard matches patterns in the **script source text**. It does not analyze what a called API does at runtime, so class loading performed *inside* a library method invoked from a script — for example Spin's `mapTo(String)`, which resolves a class by name — is not covered by the patterns above. Constrain that separately: see [type validation for Spin's `mapTo`]({{< ref "/user-guide/security.md#jsonxml-serialized-objects-using-spin" >}}).
+{{< /note >}}
+
 # Configuration
 
 Script Guard's enforcement mode and allowlist have two representations — keeping them straight matters:
