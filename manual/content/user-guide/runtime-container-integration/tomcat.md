@@ -19,11 +19,11 @@ To use the JNDI Bindings for EximeeBPMS Services on Apache Tomcat you have to ad
 ```xml
 <Context>
   <ResourceLink name="ProcessEngineService"
-    global="global/eximeebpms-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService"
+    global="global/eximeebpms/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService"
     type="org.eximeebpms.bpm.ProcessEngineService" />
 
   <ResourceLink name="ProcessApplicationService"
-    global="global/eximeebpms-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService"
+    global="global/eximeebpms/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService"
     type="org.eximeebpms.bpm.ProcessApplicationService" />
 </Context>
 ```

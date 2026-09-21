@@ -48,13 +48,13 @@ If you want the process engine to be registered with the EximeeBPMS ProcessEngin
 -->
   <GlobalNamingResources>
 
-    <Resource name="java:global/eximeebpms-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService"
+    <Resource name="global/eximeebpms/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService"
               auth="Container"
               type="org.eximeebpms.bpm.ProcessEngineService"
               description="EximeeBPMS Platform Process Engine Service"
               factory="org.eximeebpms.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory" />
 
-    <Resource name="java:global/eximeebpms-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService"
+    <Resource name="global/eximeebpms/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService"
               auth="Container"
               type="org.eximeebpms.bpm.ProcessApplicationService"
               description="EximeeBPMS Platform Process Application Service"
