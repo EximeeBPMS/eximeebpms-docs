@@ -28,13 +28,13 @@ class.</p><h1 id=configure-a-container-managed-process-engine-as-a-spring-bean>C
 --&gt;
   &lt;GlobalNamingResources&gt;
 
-    &lt;Resource name=&quot;java:global/eximeebpms-bpm-platform/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService&quot;
+    &lt;Resource name=&quot;global/eximeebpms/process-engine/ProcessEngineService!org.eximeebpms.bpm.ProcessEngineService&quot;
               auth=&quot;Container&quot;
               type=&quot;org.eximeebpms.bpm.ProcessEngineService&quot;
               description=&quot;EximeeBPMS Platform Process Engine Service&quot;
               factory=&quot;org.eximeebpms.bpm.container.impl.jndi.ProcessEngineServiceObjectFactory&quot; /&gt;
 
-    &lt;Resource name=&quot;java:global/eximeebpms-bpm-platform/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService&quot;
+    &lt;Resource name=&quot;global/eximeebpms/process-engine/ProcessApplicationService!org.eximeebpms.bpm.ProcessApplicationService&quot;
               auth=&quot;Container&quot;
               type=&quot;org.eximeebpms.bpm.ProcessApplicationService&quot;
               description=&quot;EximeeBPMS Platform Process Application Service&quot;
