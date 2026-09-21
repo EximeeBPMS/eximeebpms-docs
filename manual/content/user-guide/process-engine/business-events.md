@@ -144,10 +144,10 @@ eximeebpms:
       enabled: true
       publisher: kafka
       prefix: bpms
-      business-event-dispatch-interval-ms: 5000
-      business-event-dispatcher-batch-size: 100
-      business-event-outbox-retention-ms: 604800000   # 7 days
-      business-event-outbox-cleanup-interval-ms: 3600000  # 1 hour
+      dispatch-interval-ms: 5000
+      dispatcher-batch-size: 100
+      outbox-retention-ms: 604800000   # 7 days
+      outbox-cleanup-interval-ms: 3600000  # 1 hour
       publisher-properties:
         kafka.bootstrap-servers: "kafka-1:9092,kafka-2:9092"
         kafka.topic: "eximeebpms.business-events"
@@ -158,15 +158,17 @@ eximeebpms:
   <tr><td><code>enabled</code></td><td><code>false</code></td><td>Master switch for the whole feature. When disabled, no outbox rows are written and the dispatcher does not run.</td></tr>
   <tr><td><code>publisher</code></td><td><code>noop</code></td><td>Symbolic name of the <a href="#built-in-publishers">publisher</a> to dispatch events to.</td></tr>
   <tr><td><code>prefix</code></td><td><code>bpms</code></td><td>Prefix prepended to every business event's fully-qualified type, i.e. the <code>&lt;prefix&gt;</code> in <code>&lt;prefix&gt;:&lt;entity&gt;:&lt;event&gt;</code>. Added in <a href="{{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee">1.3.1-ee</a>. Does not affect the envelope's <code>metadata.origin</code> field, which is always <code>"bpms"</code> — see <a href="#event-envelope">Event Envelope</a>.</td></tr>
-  <tr><td><code>business-event-dispatch-interval-ms</code></td><td><code>5000</code></td><td>How often the dispatcher polls the outbox for undelivered events.</td></tr>
-  <tr><td><code>business-event-dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher per dispatch cycle.</td></tr>
-  <tr><td><code>business-event-outbox-retention-ms</code></td><td><code>604800000</code> (7 days)</td><td>How long delivered outbox rows are kept before cleanup removes them.</td></tr>
-  <tr><td><code>business-event-outbox-cleanup-interval-ms</code></td><td><code>3600000</code> (1 hour)</td><td>How often the cleanup job runs.</td></tr>
+  <tr><td><code>dispatch-interval-ms</code></td><td><code>5000</code></td><td>How often the dispatcher polls the outbox for undelivered events.</td></tr>
+  <tr><td><code>dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher per dispatch cycle.</td></tr>
+  <tr><td><code>outbox-retention-ms</code></td><td><code>604800000</code> (7 days)</td><td>How long delivered outbox rows are kept before cleanup removes them.</td></tr>
+  <tr><td><code>outbox-cleanup-interval-ms</code></td><td><code>3600000</code> (1 hour)</td><td>How often the cleanup job runs.</td></tr>
   <tr><td><code>publisher-properties</code></td><td>empty</td><td>Publisher-specific properties (see below), passed through to <code>BusinessEventPublisher.init(Map)</code>.</td></tr>
 </table>
 
 {{< note title="Upgrading from a release before 1.3.1-ee" class="warning" >}}
 Releases before 1.3.1-ee published events with the hardcoded prefix `camunda7` (e.g. `camunda7:task-instance:complete`). Starting with 1.3.1-ee, the default prefix is `bpms`. If downstream consumers (SIEM rules, stream processors, dashboards) match on the literal type string, either update them to the `bpms:` prefix or set `prefix: camunda7` explicitly to preserve the previous behavior during migration.
+
+The four tuning properties below were renamed in the same release, dropping their `business-event-` segment: `business-event-dispatch-interval-ms` → `dispatch-interval-ms`, `business-event-dispatcher-batch-size` → `dispatcher-batch-size`, `business-event-outbox-retention-ms` → `outbox-retention-ms` and `business-event-outbox-cleanup-interval-ms` → `outbox-cleanup-interval-ms`. The old names bind to nothing and are ignored without any startup warning, so an upgraded engine silently falls back to the defaults. Check your configuration if you tuned any of them.
 {{< /note >}}
 
 # Built-in Publishers
