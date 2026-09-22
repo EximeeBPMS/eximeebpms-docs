@@ -89,6 +89,12 @@ The `create` folder contains the following SQL scripts:
 There are individual SQL scripts for each supported database (`$DATABASENAME`).
 Select the appropriate scripts for your database and run them with your database administration tool (e.g., SqlDeveloper for Oracle).
 
+{{< note title="Heads Up!" class="warning" >}}
+On Microsoft SQL Server, do not run the `create` scripts through `sqlcmd` without the `-I` flag. The schema is
+then created incomplete — all tables present, 57 indexes and five unique constraints missing — with no error
+that survives to the end of the run. See [SQL Server configuration]({{< ref "/user-guide/process-engine/database/mssql-configuration.md#running-the-create-scripts-manually" >}}).
+{{< /note >}}
+
 As you create the tables manually, you have to configure the engine to **not** create tables at startup as well.
 Set the `databaseSchemaUpdate` property to `false` (or, in case you are using Oracle, to `noop`).
 Consult the [manual installation guide]({{< ref "/installation/full/_index.md" >}}) of your distribution for further information on how to achieve that.
