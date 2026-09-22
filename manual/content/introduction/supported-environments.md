@@ -41,18 +41,29 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 
 ## Supported Database Products
 
-* MySQL  8.0
+* MySQL 8.0 / 8.4
+* MariaDB 11.4 / 12.3 (long-term support releases; MariaDB is served by the MySQL dialect)
 * Oracle 19c / 23ai
 * IBM DB2 11.5 (excluding IBM z/OS for all versions)
-* PostgreSQL 14 / 15 / 16 / 17
+* PostgreSQL 14 / 15 / 16 / 17 / 18
 * Amazon Aurora PostgreSQL compatible with PostgreSQL 14 / 15 / 16
-* Microsoft SQL Server 2017 / 2019 / 2022 (see [Configuration Note]({{< ref "/user-guide/process-engine/database/mssql-configuration.md" >}}))
+* Microsoft SQL Server 2017 / 2019 / 2022 / 2025 (see [Configuration Note]({{< ref "/user-guide/process-engine/database/mssql-configuration.md" >}}))
 * Microsoft Azure SQL with EximeeBPMS-supported SQL Server compatibility levels 
   (see [Configuration Note]({{< ref "/user-guide/process-engine/database/mssql-configuration.md#azure-sql-compatibility-levels-supported-by-camunda" >}})): 
   * SQL Server on Azure Virtual Machines
   * Azure SQL Managed Instance
   * Azure SQL Database
 * H2 2.4 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
+
+### Deprecated database versions
+
+The following versions are still supported, but are deprecated and planned for removal in a future
+release. Both reached, or are about to reach, the end of their vendor support:
+
+| Version | Vendor end of life | Status |
+|---|---|---|
+| MySQL 8.0 | 2026-04-30 | Past end of life; superseded by MySQL 8.4 |
+| PostgreSQL 14 | 2026-11-12 | Superseded by PostgreSQL 15 and later |
 
 ## Verified in continuous integration
 
@@ -63,25 +74,29 @@ says which of it the integration suites actually run against, and at which versi
 | Database | Version exercised in CI | When |
 |---|---|---|
 | H2 | 2.4.240 (embedded) | Every nightly run |
-| PostgreSQL | `postgres:13` | Every nightly run |
-| MySQL | `mysql:8` | On request only (manual workflow run) |
-| Microsoft SQL Server | `mcr.microsoft.com/mssql/server:2019-latest` | On request only (manual workflow run) |
-| Oracle | — | Not exercised in CI |
-| IBM DB2 | — | Not exercised in CI |
+| PostgreSQL | `postgres:18` | Every nightly run |
+| MySQL | `mysql:8.4` | On request only (manual workflow run) |
+| MariaDB | `mariadb:12.3` | On request only (manual workflow run) |
+| Microsoft SQL Server | `mcr.microsoft.com/mssql/server:2025-latest` | On request only (manual workflow run) |
+| Oracle | — | On request only (not part of the automated matrix) |
+| IBM DB2 | — | On request only (not part of the automated matrix) |
 | Amazon Aurora PostgreSQL | — | Not exercised in CI |
 | Microsoft Azure SQL | — | Not exercised in CI |
 
-The integration suites run nightly against **H2 and PostgreSQL**; MySQL and SQL Server are part of the same
-matrix but are selected explicitly when the workflow is started by hand. Two consequences worth stating plainly:
+The integration suites run nightly against **H2 and PostgreSQL**; MySQL, MariaDB and SQL Server are part of the
+same matrix but are selected explicitly when the workflow is started by hand. Three points worth stating plainly:
 
-- The CI PostgreSQL image is the **13** line, below the PostgreSQL 14 minimum declared above. The supported range
-  is not lowered by this: it reflects what the engine is built and released against, and the CI pin has simply not
-  been raised alongside it.
-- Oracle, IBM DB2, Aurora and Azure SQL are supported on the strength of the engine's database abstraction and the
-  vendor JDBC drivers shipped with it, not on the strength of an automated suite running against them in this
-  project's CI.
+- Every image above now sits inside the supported range declared in this page. Earlier releases pinned CI to
+  `postgres:13`, below the declared minimum; that discrepancy is resolved.
+- Oracle and IBM DB2 are not part of the automated matrix, but their configuration is retained — a Maven profile
+  and a database branch in the integration-test script — so a run against either can be requested when a change
+  warrants it. They are otherwise supported on the strength of the engine's database abstraction and the vendor
+  JDBC drivers shipped with it.
+- Amazon Aurora PostgreSQL and Microsoft Azure SQL are supported on the same basis, with no on-demand path.
 
-Nothing in the supported list changed in this release; no minimum version was raised.
+Schema creation was additionally verified outside CI by applying the engine's `create` scripts unchanged to
+PostgreSQL 17 and 18, MySQL 8.4, MariaDB 11.4, 12.3 and 13.0, and SQL Server 2017, 2019, 2022 and 2025. All
+produced the full 46-table schema.
 
 ## Database Clustering & Replication
 
