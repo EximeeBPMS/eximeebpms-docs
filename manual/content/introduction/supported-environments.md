@@ -97,10 +97,12 @@ Clustered or replicated databases are supported given the following conditions. 
 
 # Java
 
-* Java 21, in both editions — the Community Edition baseline moved from 17 to 21 in 1.4.0, matching the Enterprise Edition (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})). Compatibility is tested with Eclipse Temurin JDK.
+* Java 21 and Java 25, in both editions. The Community Edition baseline moved from 17 to 21 in 1.4.0, matching the Enterprise Edition; JDK 25 was added as a supported runtime alongside it (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})). Compatibility is tested with Eclipse Temurin JDK.
 
-{{< note title="" class="info" >}}
-As of Community Edition 1.4.0 and Enterprise Edition 1.3.1-ee, the CI test matrix additionally verifies compatibility with **JDK 25**. This is compatibility testing ahead of a possible future baseline bump, not yet an officially supported target under the policy below — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}).
+{{< note title="Supported runtime vs. build target" class="info" >}}
+EximeeBPMS is compiled to **Java 21 bytecode** and runs on both **JDK 21** and **JDK 25** — the supported runtime and the build target are separate. Running on JDK 25 requires no change on your side: a JDK 25 JVM executes Java 21 bytecode.
+
+The published [Docker images]({{< ref "/installation/docker.md" >}}) ship a JDK 25 runtime.
 {{< /note >}}
 
 
