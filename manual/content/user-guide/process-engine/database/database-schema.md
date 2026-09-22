@@ -143,36 +143,28 @@ Older records can be purged automatically by setting `retention-days` in the [Sc
 The following Entity Relationship Diagrams visualize the database tables and their explicit foreign key constraints, grouped by Engine with focus on BPMN, Engine with focus on DMN, the Engine History and the Identity. Please note that the diagrams do not visualize implicit connections between the tables.
 
 {{< note title="" class="info" >}}
-The tables `ACT_RU_BUS_EVT_OBX` (Enterprise Edition, added in 1.2.16-ee) and `ACT_RU_SCRIPT_VIOLATION` (added in 1.3.0) are not shown in the diagrams below, as neither has foreign key relationships to the core tables. Their structures are documented in the [Business Event Outbox](#business-event-outbox-act_ru_bus_evt_obx) and [Script Violation Log](#script-violation-log-act_ru_script_violation) sections above.
+The Community and Enterprise editions declare the same schema, so one set of diagrams covers both. Separate Enterprise Edition diagrams were published until 1.4.0, when business events moved into the Community Edition and the last difference between the two disappeared.
 {{< /note >}}
 
-Where Enterprise Edition's schema differs from Community Edition (currently: BPMN and History), an additional Enterprise Edition diagram is included alongside the Community Edition one.
+These diagrams are generated from the engine's own schema definition rather than drawn by hand, so they describe the tables and foreign keys a release actually creates.
 
 ## Engine BPMN
 
-{{< img src="../../img/erd_723_bpmn.svg" title="BPMN Tables (Community Edition)" >}}
-
-### Enterprise Edition (1.2.19-ee and later)
-
-{{< img src="../../img/erd_ee_bpmn.svg" title="BPMN Tables (Enterprise Edition)" >}}
+{{< img src="../../img/erd_bpmn.svg" title="BPMN Tables" >}}
 
 
 ## Engine DMN
 
-{{< img src="../../img/erd_723_dmn.svg" title="DMN Tables" >}}
+{{< img src="../../img/erd_dmn.svg" title="DMN Tables" >}}
 
 
 ## History
 
-To allow different configurations and to keep the tables more flexible, the history tables contain no foreign key constraints.
+To allow different configurations and to keep the tables more flexible, the history tables contain no foreign key constraints. The relationships shown there are the ones the column names imply — `PROC_INST_ID_`, `TASK_ID_` and the like — drawn as dashed lines to make clear that the database does not enforce them.
 
-{{< img src="../../img/erd_723_history.svg" title="History Tables (Community Edition)" >}}
-
-### Enterprise Edition (1.2.19-ee and later)
-
-{{< img src="../../img/erd_ee_history.svg" title="History Tables (Enterprise Edition)" >}}
+{{< img src="../../img/erd_history.svg" title="History Tables" >}}
 
 
 ## Identity
 
-{{< img src="../../img/erd_723_identity.svg" title="Identity Tables" >}}
+{{< img src="../../img/erd_identity.svg" title="Identity Tables" >}}
