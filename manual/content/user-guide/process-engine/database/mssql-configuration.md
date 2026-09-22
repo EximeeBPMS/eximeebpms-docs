@@ -45,6 +45,24 @@ SET READ_COMMITTED_SNAPSHOT ON
 ```
 where `[process-engine]` contains the name of your database.
 
+# Running the create scripts manually
+
+The SQL Server `create` scripts contain filtered indexes (`create unique index ... where ... is not null`).
+SQL Server requires `QUOTED_IDENTIFIER` to be `ON` when such an index is created, and aborts the statement
+with `Msg 1934` otherwise.
+
+SQL Server Management Studio and the JDBC driver both set `QUOTED_IDENTIFIER ON` by default, so the scripts
+run correctly there — including when the engine creates the schema itself. **`sqlcmd` does not**: it leaves
+the option `OFF` unless started with `-I`.
+
+This matters because the failure is quiet. Run through `sqlcmd` without `-I`, the scripts still create all
+46 tables and every primary key, so the schema looks complete — but each affected script stops at its first
+filtered index and skips every statement after it. 57 of the 204 named indexes are then missing, among them
+five unique constraints: `ACT_UNIQ_AUTH_USER`, `ACT_UNIQ_AUTH_GROUP`, `ACT_UNIQ_TENANT_MEMB_USER`,
+`ACT_UNIQ_TENANT_MEMB_GROUP` and `ACT_UNIQ_VARIABLE`. Verified on SQL Server 2019 and 2025.
+
+Run the scripts with `sqlcmd -I`, or issue `SET QUOTED_IDENTIFIER ON` before them.
+
 # EximeeBPMS support for Azure SQL
 
 This section applies only to the following Microsoft database products:
