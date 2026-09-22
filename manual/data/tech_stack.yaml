@@ -29,7 +29,7 @@ categories:
           v1.2.0: { value: "17" }
           v1.3.0: { value: "17" }
           v1.4.0: { value: "21", change: mj, note: "JDK 25 also verified in CI as of 1.4.0" }
-          ent: { value: "21", change: mj, note: "JDK 25 also verified in CI as of 1.3.1-ee" }
+          ent: { value: "21 / 25", change: mj, note: "compiled to Java 21 bytecode; supported on JDK 21 and 25. Docker images ship JDK 25" }
       - name: Jakarta EE Spec
         values:
           v1.0.0: { value: "10.0.0" }
