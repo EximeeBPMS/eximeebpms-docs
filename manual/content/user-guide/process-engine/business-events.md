@@ -148,6 +148,8 @@ eximeebpms:
       enabled: true
       publisher: kafka
       prefix: bpms
+      enabled-event-types: "*"
+      disabled-event-types: []
       dispatch-interval-ms: 5000
       dispatcher-batch-size: 100
       outbox-retention-ms: 604800000   # 7 days
@@ -162,6 +164,8 @@ eximeebpms:
   <tr><td><code>enabled</code></td><td><code>false</code></td><td>Master switch for the whole feature. When disabled, no outbox rows are written and the dispatcher does not run.</td></tr>
   <tr><td><code>publisher</code></td><td><code>noop</code></td><td>Symbolic name of the <a href="#built-in-publishers">publisher</a> to dispatch events to.</td></tr>
   <tr><td><code>prefix</code></td><td><code>bpms</code></td><td>Prefix prepended to every business event's fully-qualified type, i.e. the <code>&lt;prefix&gt;</code> in <code>&lt;prefix&gt;:&lt;entity&gt;:&lt;event&gt;</code>. Added in <a href="{{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee">1.3.1-ee</a>. Does not affect the envelope's <code>metadata.origin</code> field, which is always <code>"bpms"</code> — see <a href="#event-envelope">Event Envelope</a>.</td></tr>
+  <tr><td><code>enabled-event-types</code></td><td><code>*</code></td><td>Allowlist of published event types — see <a href="#limiting-published-event-types">Limiting Published Event Types</a>. Added in 1.4.1-ee.</td></tr>
+  <tr><td><code>disabled-event-types</code></td><td>empty</td><td>Denylist of published event types, applied after <code>enabled-event-types</code> and taking precedence over it. Added in 1.4.1-ee.</td></tr>
   <tr><td><code>dispatch-interval-ms</code></td><td><code>5000</code></td><td>How often the dispatcher polls the outbox for undelivered events.</td></tr>
   <tr><td><code>dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher per dispatch cycle.</td></tr>
   <tr><td><code>outbox-retention-ms</code></td><td><code>604800000</code> (7 days)</td><td>How long delivered outbox rows are kept before cleanup removes them.</td></tr>
@@ -174,6 +178,89 @@ Releases before 1.3.1-ee published events with the hardcoded prefix `camunda7` (
 
 The four tuning properties below were renamed in the same release, dropping their `business-event-` segment: `business-event-dispatch-interval-ms` → `dispatch-interval-ms`, `business-event-dispatcher-batch-size` → `dispatcher-batch-size`, `business-event-outbox-retention-ms` → `outbox-retention-ms` and `business-event-outbox-cleanup-interval-ms` → `outbox-cleanup-interval-ms`. The old names bind to nothing and are ignored without any startup warning, so an upgraded engine silently falls back to the defaults. Check your configuration if you tuned any of them.
 {{< /note >}}
+
+# Limiting Published Event Types
+
+`enabled` is a master switch: it turns the whole mechanism on or off. To publish only *some* of the
+[event types](#business-event-types), narrow the selection with `enabled-event-types` and
+`disabled-event-types`.
+
+Both take a list of tokens naming event types by their `<entity>:<event>` pair — the same pair that
+forms the fully-qualified `<prefix>:<entity>:<event>` type:
+
+<table class="table desc-table">
+  <tr><th>Token</th><th>Matches</th></tr>
+  <tr><td><code>*</code></td><td>every event type</td></tr>
+  <tr><td><code>&lt;entity&gt;:*</code>, or just <code>&lt;entity&gt;</code></td><td>every event on that entity, e.g. <code>variable-instance:*</code></td></tr>
+  <tr><td><code>&lt;entity&gt;:&lt;event&gt;</code></td><td>a single type, e.g. <code>task-instance:complete</code></td></tr>
+  <tr><td><code>&lt;prefix&gt;:&lt;entity&gt;:&lt;event&gt;</code></td><td>the same, written the way the tables above and <code>metadata.type</code> spell it; the prefix must be the <a href="#configuration">configured</a> one</td></tr>
+</table>
+
+An event is published when `enabled-event-types` matches it **and** `disabled-event-types` does not —
+the denylist always wins. Tokens are matched case-insensitively.
+
+Publish everything except the two highest-volume entities:
+
+```yaml
+eximeebpms:
+  bpm:
+    business-events:
+      enabled: true
+      disabled-event-types:
+        - variable-instance:*
+        - activity-instance:*
+```
+
+Publish only the task lifecycle, minus assignment/update changes:
+
+```yaml
+eximeebpms:
+  bpm:
+    business-events:
+      enabled: true
+      enabled-event-types:
+        - task-instance:*
+      disabled-event-types:
+        - task-instance:update
+```
+
+Outside Spring Boot, the same two properties are set on the engine plugin, comma-separated —
+in standalone `bpm-platform.xml` and, with the identical syntax, in the WildFly subsystem:
+
+```xml
+<process-engine name="default">
+  ...
+  <plugins>
+    <plugin>
+      <class>org.eximeebpms.bpm.engine.impl.businessevent.BusinessEventConfigurationPlugin</class>
+      <properties>
+        <property name="enabled">true</property>
+        <property name="publisher">kafka</property>
+        <property name="disabledEventTypes">variable-instance:*,activity-instance:*</property>
+      </properties>
+    </plugin>
+  </plugins>
+</process-engine>
+```
+
+{{< note title="A token that names nothing fails startup" class="warning" >}}
+A token naming an unknown entity, or an unknown event on a known entity, aborts engine bootstrap with
+`InvalidBusinessEventTypeException` rather than silently matching nothing. This is checked even while
+`enabled` is still `false`, so a typo cannot lie in wait until the feature is switched on. When a
+filter is in effect, the engine logs the resulting set of published types at startup.
+{{< /note >}}
+
+Two things worth knowing before narrowing the list:
+
+* **Consumers see gaps, not reordering.** Disabling `process-instance:start` while leaving
+  `process-instance:end` enabled means downstream systems receive an `end` event for an instance they
+  never saw start. Delivery order among the types that *are* published is unaffected.
+* **`process-instance:*` does not cover the update event.** Its entity is `process-instance-update`,
+  not `process-instance` (see the [type table](#process--task-lifecycle) above), so it needs its own
+  token: `process-instance-update:update`.
+
+The filter is resolved once, when the engine starts; changing it requires a restart. It has no effect
+on outbox rows already written — those are dispatched as normal.
 
 # Built-in Publishers
 
