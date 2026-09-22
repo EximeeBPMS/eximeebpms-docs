@@ -164,8 +164,8 @@ eximeebpms:
   <tr><td><code>enabled</code></td><td><code>false</code></td><td>Master switch for the whole feature. When disabled, no outbox rows are written and the dispatcher does not run.</td></tr>
   <tr><td><code>publisher</code></td><td><code>noop</code></td><td>Symbolic name of the <a href="#built-in-publishers">publisher</a> to dispatch events to.</td></tr>
   <tr><td><code>prefix</code></td><td><code>bpms</code></td><td>Prefix prepended to every business event's fully-qualified type, i.e. the <code>&lt;prefix&gt;</code> in <code>&lt;prefix&gt;:&lt;entity&gt;:&lt;event&gt;</code>. Added in <a href="{{< ref "/release-notes/release-notes-1.3-ee.md" >}}#131-ee">1.3.1-ee</a>. Does not affect the envelope's <code>metadata.origin</code> field, which is always <code>"bpms"</code> — see <a href="#event-envelope">Event Envelope</a>.</td></tr>
-  <tr><td><code>enabled-event-types</code></td><td><code>*</code></td><td>Allowlist of published event types — see <a href="#limiting-published-event-types">Limiting Published Event Types</a>. Added in 1.4.1-ee.</td></tr>
-  <tr><td><code>disabled-event-types</code></td><td>empty</td><td>Denylist of published event types, applied after <code>enabled-event-types</code> and taking precedence over it. Added in 1.4.1-ee.</td></tr>
+  <tr><td><code>enabled-event-types</code></td><td><code>*</code></td><td>Allowlist of published event types — see <a href="#limiting-published-event-types">Limiting Published Event Types</a>. Added in 1.4.1-ee, <strong>Enterprise Edition only</strong>.</td></tr>
+  <tr><td><code>disabled-event-types</code></td><td>empty</td><td>Denylist of published event types, applied after <code>enabled-event-types</code> and taking precedence over it. Added in 1.4.1-ee, <strong>Enterprise Edition only</strong>.</td></tr>
   <tr><td><code>dispatch-interval-ms</code></td><td><code>5000</code></td><td>How often the dispatcher polls the outbox for undelivered events.</td></tr>
   <tr><td><code>dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher per dispatch cycle.</td></tr>
   <tr><td><code>outbox-retention-ms</code></td><td><code>604800000</code> (7 days)</td><td>How long delivered outbox rows are kept before cleanup removes them.</td></tr>
@@ -180,6 +180,14 @@ The four tuning properties below were renamed in the same release, dropping thei
 {{< /note >}}
 
 # Limiting Published Event Types
+
+{{< note title="Enterprise Edition only" class="warning" >}}
+Unlike the rest of this page, the `enabled-event-types`/`disabled-event-types` filter described in
+this section is an **Enterprise Edition** feature, available from 1.4.1-ee onward. Community Edition
+1.4.0 has no event-type filter: with Business Events `enabled`, every event type listed above is
+published, and neither property exists — the engine plugin's `enabledEventTypes`, which never had
+any effect, was removed in 1.4.0.
+{{< /note >}}
 
 `enabled` is a master switch: it turns the whole mechanism on or off. To publish only *some* of the
 [event types](#business-event-types), narrow the selection with `enabled-event-types` and
