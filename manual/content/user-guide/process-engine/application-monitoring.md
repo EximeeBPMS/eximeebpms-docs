@@ -66,6 +66,10 @@ The extension's *counters* are driven by the process engine's history events, so
     <td><code>eximeebpms.script.violations</code>, <code>.total</code></td>
     <td>none — driven directly by the script-execution engine's own violation callback, not a history event or a runtime-table read</td>
   </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.outbox.pending.total</code>, <code>.pending.age.oldest.seconds</code></td>
+    <td>none — read the Business Events outbox table directly</td>
+  </tr>
 </table>
 
 {{< note title="" class="warning" >}}
@@ -237,6 +241,32 @@ The three counters above require <code>history-level: full</code> — see [Histo
     <td>Number of currently failing jobs (jobs with a recorded exception), per process definition. This is a live snapshot, not a lifetime counter.</td>
   </tr>
 </table>
+
+## Business Events Outbox
+
+{{< note title="Not yet in a released extension version" class="warning" >}}
+These two gauges are implemented on the `main` branch of `eximeebpms-enterprise-bpm-monitor`, but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventQuery.unprocessed()`.
+{{< /note >}}
+
+<table class="table desc-table">
+  <tr>
+    <th>Meter</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.outbox.pending.total</code></td>
+    <td>Gauge</td>
+    <td>Business events written to the outbox but not yet delivered to the configured publisher.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.outbox.pending.age.oldest.seconds</code></td>
+    <td>Gauge</td>
+    <td>How long the oldest undelivered business event has been waiting. It stays close to the dispatch interval while delivery works. It grows steadily when the dispatcher is held on an event, because the receiver is unreachable or keeps rejecting it — see <a href="{{< ref "/user-guide/process-engine/business-events.md#when-publishing-fails" >}}">When Publishing Fails</a>.</td>
+  </tr>
+</table>
+
+Both gauges are registered only while [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) are enabled, and carry no tags.
 
 ## Script Guard
 

@@ -28,6 +28,22 @@ Business Events use the **transactional outbox pattern**:
 
 Because the outbox write is part of the same transaction as the business change, an event is never recorded for a change that didn't commit, and a committed change never silently fails to produce its event — delivery to the publisher is a separate, retried concern. This gives **at-least-once delivery** to downstream systems: consumers should treat delivery as idempotent (the `metadata.uuid` field described below can be used for deduplication).
 
+## When Publishing Fails
+
+Rows are handed to the publisher in the order they were written. If publishing a row fails, the dispatcher stops the cycle there. The row stays undelivered and is retried first on the next cycle. The rows behind it wait, so they are never delivered out of order. A failure is either an exception thrown by the publisher or a failed `BusinessEventPublishResult` it returns. During an outage of the receiving system, the outbox therefore grows until the system is back, and then drains in order. Each cycle that stops on a row logs `ENGINE-00019`, with the row id and how long it has been waiting.
+
+A row the receiving system can never accept therefore holds back every business event behind it, across all processes, until it goes through. This is deliberate. Skipping it automatically would leave consumers with a gap they cannot see, such as a process-instance `end` for an instance whose `start` never arrived. Alert on `ENGINE-00019`, or on the `eximeebpms.business.events.outbox.pending.age.oldest.seconds` gauge of the monitoring extension. Fix the cause, and the outbox drains in order. Skipping a single row is an operator decision, taken knowing that its consumers will miss that event:
+
+```sql
+UPDATE ACT_RU_BUS_EVT_OBX SET PROCESSED_ = true, PROCESSED_DATE_ = CURRENT_TIMESTAMP WHERE ID_ = <row id from ENGINE-00019>;
+```
+
+`PROCESSED_` is a boolean on PostgreSQL and H2. On Oracle, SQL Server, MySQL/MariaDB and DB2 it is numeric, so use `1` instead of `true` there.
+
+{{< note title="Enterprise Edition only" class="warning" >}}
+Retrying a failed `BusinessEventPublishResult` is **Enterprise Edition** behavior. Community Edition 1.4.0 retries only a publisher that *throws*. A failure the publisher *returns* is marked delivered, and that event is not retried. This includes a Kafka broker outage, which the shipped `kafka` publisher reports this way.
+{{< /note >}}
+
 # Event Order
 
 The dispatcher reads the outbox in the order rows were written, so a publisher receives the business events of a change in the order the engine recorded them. From 1.4.1-ee onward, that order matches the order in which the engine records the same occurrences in [history]({{< ref "/user-guide/process-engine/history/_index.md" >}}). In particular:
@@ -350,4 +366,14 @@ processEngine.getBusinessEventService()
     .list();
 ```
 
-This is primarily useful for diagnostics and for verifying delivery independently of the configured publisher.
+This is primarily useful for diagnostics and for verifying delivery independently of the configured publisher. Results are ordered by id, which follows write order. `unprocessed()` restricts the query to events not yet delivered. So the delivery backlog and its oldest event are:
+
+```java
+BusinessEventQuery pending = processEngine.getBusinessEventService()
+    .createBusinessEventOutboxQuery()
+    .unprocessed();
+long backlog = pending.count();
+List<BusinessEventOutbox> oldest = pending.listPage(0, 1); // getCreatedDate() gives its age
+```
+
+`unprocessed()` and `BusinessEventOutbox.getCreatedDate()` are **Enterprise Edition** additions. Community Edition 1.4.0 has neither.
