@@ -28,6 +28,27 @@ Business Events use the **transactional outbox pattern**:
 
 Because the outbox write is part of the same transaction as the business change, an event is never recorded for a change that didn't commit, and a committed change never silently fails to produce its event — delivery to the publisher is a separate, retried concern. This gives **at-least-once delivery** to downstream systems: consumers should treat delivery as idempotent (the `metadata.uuid` field described below can be used for deduplication).
 
+# Event Order
+
+The dispatcher reads the outbox in the order rows were written, so a publisher receives the business events of a change in the order the engine recorded them. From 1.4.1-ee onward, that order matches the order in which the engine records the same occurrences in [history]({{< ref "/user-guide/process-engine/history/_index.md" >}}). In particular:
+
+* `process-instance:start` is always the first event of a process instance. It comes before the `variable-instance:create` events for the variables passed at start, the `form-property:form-property-update` events of a submitted start form, the `job:create` events of process-level timers, and anything a process-level `start` execution listener does. This also holds when the start event is `asyncBefore`: the start event is written in the transaction that starts the instance, not when the asynchronous continuation runs.
+* `task-instance:complete` and `task-instance:delete` come after anything the task's own `complete`/`delete` task listeners do (for example, setting variables). They also come after the `identity-link` and `variable-instance:delete` events for the task's own identity links and local variables.
+* Changing a task's assignee or owner publishes `identity-link-add:add-identity-link` / `identity-link-delete:delete-identity-link` with `type` `assignee`/`owner`, just as candidate users and groups do.
+* Standalone tasks (created with `TaskService#newTask`, not part of a process) publish the same `task-instance:*` lifecycle as user tasks, with `metadata.noProcessContext` set to `true`.
+
+{{< note title="Before 1.4.1-ee" class="warning" >}}
+Up to and including 1.4.0 and 1.3.3-ee, `process-instance:start` was written after the start variables, start-form properties and process-level timers. With an `asyncBefore` start event, it was only written once the asynchronous continuation ran. `task-instance:complete`/`task-instance:delete` were written before the task's `complete`/`delete` listeners ran. `process-instance-update:update` was listed below but never actually published. Assignee/owner changes published no identity-link events (only candidate links did), and standalone tasks published no `task-instance:*` events. A consumer that creates its own record on `process-instance:start` and discards events for instances it doesn't know yet lost the start variables on those releases.
+{{< /note >}}
+
+A few events deliberately differ from history:
+
+* `job:fail` is published **once**, when a job has exhausted its retries. History records every failed attempt.
+* `task-instance:update` is published for every task update as it happens. History records one combined update at the end of the command.
+* Ending a task publishes `identity-link-delete:delete-identity-link` for each of its identity links. History keeps them.
+
+This order holds within one engine transaction and between transactions that follow one another, such as a process start and a later task completion. Events of different transactions that run concurrently are not ordered relative to each other.
+
 # Event Envelope
 
 What a publisher (e.g. the `kafka` publisher, or a custom `BusinessEventPublisher`) actually receives is an `Event` envelope wrapping the business event, not the business event object directly:
