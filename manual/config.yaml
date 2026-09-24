@@ -40,4 +40,17 @@ outputs:
 
 disableKinds:
 - taxonomy
+
+# The 1.4.x EE release notes live only on the -ee docs line (adr/0020), so
+# this branch cannot hold the page itself. This entry puts it in the
+# Release Notes menu here too, above its 1.4.0 CE baseline, linking to
+# the published -ee line. The URL is absolute (host included): Hugo prefixes
+# the baseURL path to a host-less "/manual/..." menu URL.
+menus:
+  main:
+    - name: "1.4.x EE"
+      identifier: "release-notes-1.4-ee"
+      parent: "release-notes"
+      url: "https://docs.eximeebpms.org/manual/1.4-ee/release-notes/release-notes-1.4-ee/"
+      weight: 1
 ...
