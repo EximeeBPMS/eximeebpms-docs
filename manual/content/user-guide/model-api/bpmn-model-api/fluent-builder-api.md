@@ -297,8 +297,8 @@ System.out.println(Bpmn.convertToString(myProcess));
 
 This example creates a BPMN containing both semantic elements (e.g., service task etc.) and diagram elements:
 
-{{< note title="Namespace prefix changed in 1.4.1-ee" class="info" >}}
-The output below is what 1.4.1-ee onward produces. Up to and including 1.4.0,
+{{< note title="Namespace prefix changed in 1.4.2-ee" class="info" >}}
+The output below is what 1.4.2-ee onward produces. Up to and including 1.4.1-ee,
 the fluent builder declared the same extension namespace URI under the prefix
 `eximeebpms` (`xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn"`) and
 emitted `eximeebpms:`-prefixed extension attributes. Only the generated XML

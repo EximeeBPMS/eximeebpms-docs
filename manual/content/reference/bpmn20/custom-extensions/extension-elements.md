@@ -14,12 +14,12 @@ menu:
 
 The following attributes are extension attributes for the `camunda` namespace `http://camunda.org/schema/1.0/bpmn`.
 
-{{< note title="Two namespaces are accepted, from 1.4.1-ee" class="info" >}}
-From 1.4.1-ee onward (Enterprise Edition), extension attributes and elements may
+{{< note title="Two namespaces are accepted, from 1.4.2-ee" class="info" >}}
+From 1.4.2-ee onward (Enterprise Edition), extension attributes and elements may
 equally be declared in EximeeBPMS' own namespace,
 `http://eximeebpms.org/schema/1.0/bpmn`. Both are accepted, including mixed
 within a single document, and behave identically — only the namespace URI
-matters, never the prefix that labels it. Earlier versions, 1.4.0 included,
+matters, never the prefix that labels it. Earlier versions, 1.4.1-ee included,
 accept only `http://camunda.org/schema/1.0/bpmn`, and silently ignore extensions
 declared in any other namespace.
 
