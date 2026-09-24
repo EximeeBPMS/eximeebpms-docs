@@ -443,7 +443,7 @@ The EximeeBPMS engine allows you to configure this setting for the following spe
 As soon as the retry configuration is enabled, it can be applied to tasks, call activities, embedded subprocesses and transactions subprocesses. For instance, the job retry in a task can be configured in the EximeeBPMS engine in the BPMN 2.0 XML as follows:
 
 ```xml
-<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn">
   ...
   <serviceTask id="failingServiceTask" eximeebpms:asyncBefore="true" eximeebpms:class="org.mycompany.FailingDelegate">
     <extensionElements>
@@ -474,7 +474,7 @@ The job retries can also be configured for the following events:
 Similar to tasks, the retries can be configured as an extension element of the event. The following example defines three retries after 5 seconds each for a boundary timer event:
 
 ```xml
-<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn">
   ...
   <boundaryEvent id="BoundaryEvent" name="BoundaryName" attachedToRef="MyActivity">
     <extensionElements>
@@ -498,7 +498,7 @@ If the retry configuration is set for a multi-instance activity then the configu
 The following example defines the retries of a multi-instance service task with asynchronous continuation of the multi-instance body and the inner activity. If a failure occur during one of the five parallel instances then the job of the failed instance will be retried up to 3 times with a delay of 5 seconds. In case all instances ended successful and a failure occur during the transaction which follows the task, the job will be retried up to 5 times with a delay of 5 minutes.
 
 ```xml
-<definitions xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn">
+<definitions xmlns:eximeebpms="http://camunda.org/schema/1.0/bpmn">
   ...
   <serviceTask id="failingServiceTask" eximeebpms:asyncAfter="true" eximeebpms:class="org.mycompany.FailingDelegate">
     <extensionElements>
