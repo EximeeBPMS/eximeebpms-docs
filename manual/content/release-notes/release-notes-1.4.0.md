@@ -1,7 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.4.0 Release Notes"
-weight: 1
+weight: 2
 
 menu:
   main:
