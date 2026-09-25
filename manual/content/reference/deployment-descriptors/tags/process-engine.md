@@ -335,6 +335,15 @@ The following is a list with the most commonly used process engine configuration
   </tr>
 
   <tr>
+    <td><code>enableBeansInQueryExpressions</code></td>
+    <td>Boolean</td>
+    <td>
+      If set to <code>false</code>, expressions in queries — including those stored in a filter — resolve the built-in functions and variables but no beans. For details, see the section on <a href="{{< ref "/user-guide/process-engine/securing-custom-code.md">}}">security considerations for custom code</a> in the user guide.
+      Default value is <code>true</code>.
+    </td>
+  </tr>
+
+  <tr>
     <td><code>enableExpressionsInStoredQueries</code></td>
     <td>Boolean</td>
     <td>

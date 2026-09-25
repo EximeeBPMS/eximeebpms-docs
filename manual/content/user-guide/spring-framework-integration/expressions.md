@@ -16,6 +16,8 @@ menu:
 
 When using the `ProcessEngineFactoryBean`, by default, all expressions and scripts in the BPMN processes will also "see" all the Spring beans. It's possible to limit the beans you want to expose or even expose no beans at all using a map that you can configure. The example below exposes a single bean (printer), available to use under the key `printer`. To expose NO beans at all, pass an empty map as `beans` property on the `SpringProcessEngineConfiguration`. When no `beans` property is set, all Spring beans in the context will be available.
 
+This is a security control as much as a convenience one, and its reach is wider than the BPMN processes: **query expressions are governed by the same list**, including the ones stored in a saved task filter, which the engine evaluates server-side every time anyone runs that filter. Whoever may create or edit a filter can therefore reach whatever is exposed here. See [Security]({{< ref "/user-guide/security.md" >}}) for that side of it.
+
 ```xml
 <bean id="processEngineConfiguration"
       class="org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration">
