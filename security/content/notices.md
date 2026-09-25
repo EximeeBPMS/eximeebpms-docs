@@ -15,6 +15,30 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-15
+
+**Publication Date:** September 25, 2026
+
+**Product affected:** EximeeBPMS's Tomcat and WildFly distributions: the Apache FreeMarker library they ship for the FreeMarker template engine (`eximeebpms-template-engines-freemarker`, script format `freemarker`). Also affects `engine-rest-openapi-generator`, a build-time tool that generates the REST API's OpenAPI description and is not shipped in any distribution.
+
+**Impact:**
+
+The version of Apache FreeMarker bundled with EximeeBPMS had the following vulnerability:
+
+- [CVE-2026-84939](https://github.com/advisories/GHSA-27j2-h3m2-8237): a path traversal in FreeMarker's template loading. An attacker who can pass FreeMarker an arbitrary malformed locale identifier can trigger it while localized lookup is enabled, which it is by default. Files that can be loaded stay limited by the `TemplateLoader` FreeMarker is configured with.
+
+EximeeBPMS's FreeMarker template engine configures no `TemplateLoader`: each template is compiled directly from the script text in the process definition, so FreeMarker has no template source to load files from, even through `<#include>` or `<#import>`. As far as we know, the default setup is not exploitable. We still recommend upgrading, especially if you replaced or extended that FreeMarker configuration.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.1-ee, and all Community Edition releases up to and including 1.4.0. All of them bundle FreeMarker 2.3.31 (the vulnerable range is 2.2.0–2.3.34).
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, pending release): FreeMarker is upgraded to 2.3.35 in both the Tomcat and WildFly distributions. Pending in the next Community Edition release. On an affected version, disabling FreeMarker's localized lookup (`Configuration.setLocalizedLookup(false)`) also mitigates the vulnerability.
+
+---
+
 ## Notice EXBPMS-14
 
 **Publication Date:** September 24, 2026
