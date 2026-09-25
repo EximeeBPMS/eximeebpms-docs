@@ -99,8 +99,8 @@ says which of it the integration suites actually run against, and at which versi
 | MySQL | `mysql:8.4` | Weekly |
 | MariaDB | `mariadb:12.3` | Weekly |
 | Microsoft SQL Server | `mcr.microsoft.com/mssql/server:2025-latest` | Weekly |
-| Oracle | — | On request only (not part of the automated matrix) |
-| IBM DB2 | — | On request only (not part of the automated matrix) |
+| Oracle | `gvenzl/oracle-free:23-slim` | On request (joining the weekly run) |
+| IBM DB2 | `ibmcom/db2:11.5.8.0` | On request (joining the weekly run) |
 | Amazon Aurora PostgreSQL | — | Not exercised in CI |
 | Microsoft Azure SQL | — | Not exercised in CI |
 
@@ -108,12 +108,16 @@ The integration suites run every weekday night against **H2 and PostgreSQL**, we
 and SQL Server**, and weekly across the full set of test suites. Three points worth stating plainly:
 
 - Every image above now sits inside the supported range declared in this page. Earlier releases pinned CI to
-  `postgres:13`, below the declared minimum; that discrepancy is resolved.
-- Oracle and IBM DB2 are not part of the automated matrix, but a run against either takes one command rather
-  than a hand-provisioned server: every database in this page except Aurora and Azure SQL now has a Testcontainers
-  coordinate, so `mvn test -f engine/pom.xml -P<database>,testcontainers` starts the container itself. They are
-  otherwise supported on the strength of the engine's database abstraction and the vendor JDBC drivers shipped
-  with it.
+  `postgres:13`, below the declared minimum. That discrepancy is resolved, and so is what allowed it: the
+  engine suite no longer has a database provisioned for it by the CI workflow, but starts the container
+  itself from the coordinate in the Maven build profile. The image is therefore written down once, and the
+  version this table quotes is the version the suite actually runs against.
+- Oracle and IBM DB2 now pass the same engine suite as every other database, which they had never been run
+  against before; doing so is what surfaced an Oracle-only defect fixed in this release. They are being phased
+  into the weekly schedule rather than added to it outright, because their images are by far the largest in the
+  set. Until then they run on request. A run against any database in this page except Aurora and Azure SQL takes
+  one command rather than a hand-provisioned server, because each has a Testcontainers coordinate:
+  `mvn test -f engine/pom.xml -P<database>,testcontainers` starts the container itself.
 - Independently of the matrix, **every build** starts a real PostgreSQL container and connects the engine to it,
   which is what keeps the Testcontainers wiring from silently rotting. The equivalent check for the other six
   databases pulls roughly 6 GB of images, so it is opt-in rather than per-build.
