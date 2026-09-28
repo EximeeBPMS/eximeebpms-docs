@@ -244,6 +244,45 @@ If you don't want to display form previews and execute the embedded scripts in C
 Consider disabling execution of expressions in queries. See also: [Custom Code & Security
 ]({{< ref "/user-guide/process-engine/securing-custom-code.md" >}})
 
+#### Limit the beans an expression can reach
+
+A saved filter stores its query, expressions included, and the engine evaluates them
+**server-side every time anyone runs that filter** — not only when its author saves it. The
+same applies to any query expression. Expressions resolve beans, so whoever may create or
+edit a filter can reach whatever the expression language exposes.
+
+By default that is **every bean in the Spring application context, by name**. Restrict it
+with the `beans` property on `SpringProcessEngineConfiguration`, which replaces that access
+with an explicit list:
+
+```xml
+<property name="beans">
+  <map>
+    <entry key="printer" value-ref="printer" />
+  </map>
+</property>
+```
+
+An empty map exposes no beans at all. See [Spring Bean Resolving]({{< ref
+"/user-guide/spring-framework-integration/expressions.md" >}}) for the full configuration.
+
+Two things worth knowing before you set it:
+
+- It is **engine-wide**. The same list governs delegates, listeners, conditions and query
+  expressions alike, so a bean a service task legitimately needs must be listed — and is
+  then reachable from filter expressions too. To separate the two, set
+  `enableBeansInQueryExpressions` to `false`: query expressions then keep the built-in
+  functions and variables and resolve no beans at all, while process expressions are
+  unaffected. See [Custom Code & Security]({{< ref
+  "/user-guide/process-engine/securing-custom-code.md" >}}).
+- Setting it on an existing installation is a **breaking change**: any expression naming a
+  bean outside the list stops working, with `Unknown property used in expression`.
+
+This complements [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}})
+rather than duplicating it. Script Guard blocks dangerous *language constructs*; a
+legitimately registered application bean is not one, so only an explicit bean list keeps it
+out of reach.
+
 ### Native queries
 
 One of the options to query data from the engine is using native queries. Which means to provide own SQL queries to retrieve engine entities if the Query API lacks the possibilities you need.

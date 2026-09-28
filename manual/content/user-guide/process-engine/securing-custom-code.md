@@ -37,6 +37,23 @@ The following configuration combinations exist:
 * `enableExpressionsInAdhocQueries`=`false`, `enableExpressionsInStoredQueries`=`true`: **Default Setting**. Adhoc queries may not use expressions, however filters with expressions can be defined and executed. Access to filter creation can be restricted by the granting the authorization permission `Filter/Create`. Use this setting if all users authorized to create filters are trusted.
 * `enableExpressionsInAdhocQueries`=`false`, `enableExpressionsInStoredQueries`=`false`: Expressions are disabled for all queries. Use this setting if none of the above settings can be applied.
 
+Those two flags decide *whether* a query may carry an expression. A third,
+`enableBeansInQueryExpressions`, decides *what* such an expression may reach, and it exists because the
+middle setting above asks you to trust everyone who can create a filter. Set it to `false` and query
+expressions keep the built-in functions — `currentUser()`, `currentUserGroups()`, `dateTime()` — and the
+variables they need, but resolve no beans at all. Typical filters such as `${currentUser()}` are
+unaffected, because those functions do not come from the bean resolvers.
+
+This is narrower than the engine-wide [`beans`]({{< ref "/user-guide/spring-framework-integration/expressions.md" >}})
+property, which cannot distinguish one expression source from another: a bean a service task legitimately
+needs must be listed there, and is then reachable from a filter as well. `enableBeansInQueryExpressions`
+separates the two.
+
+Default value is `true`, which preserves the previous behaviour. Turning it off is a breaking change for
+anyone whose filters legitimately call a bean; such an expression then fails with
+`Unable to resolve expression`. Script Guard still applies either way — the restricted evaluation path
+keeps it.
+
 {{< note title="" class="info" >}}
 **Script Guard** complements the measures described on this page by inspecting script content at runtime and blocking or auditing dangerous patterns (e.g., file system access, network calls, OS command execution) regardless of who deployed the process. See the [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}) documentation.
 {{< /note >}}
