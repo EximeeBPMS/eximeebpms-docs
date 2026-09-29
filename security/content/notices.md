@@ -15,6 +15,36 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-16
+
+**Publication Date:** September 29, 2026
+
+**Product affected:** EximeeBPMS's Tomcat and WildFly distributions — the Jackson libraries they ship for the REST API (`engine-rest`), for Spin's JSON data format (`eximeebpms-spin-dataformat-json-jackson`, the engine's `json` script and variable handling) and for the web applications. Also affects the Java external task client (`eximeebpms-external-task-client`) and the Kafka business-events plugin, both of which bundle Jackson themselves.
+
+**Impact:**
+
+The version of `jackson-databind` bundled with EximeeBPMS had the following vulnerabilities:
+
+- [CVE-2026-68497](https://github.com/advisories/GHSA-q4xh-88c3-wmh7) (CVSS 7.5): an unbounded number parse when deserializing `javax.xml.datatype.Duration` or `XMLGregorianCalendar`. A crafted value makes the parser consume disproportionate CPU and memory, which is a denial of service.
+- [CVE-2026-19032](https://github.com/advisories/GHSA-wjgm-6hv5-3cvf) (CVSS 5.3): deserializing `java.nio.file.Path` applied no scheme allowlist, so a crafted document could have the resulting path resolved through a `FileSystemProvider` the application never intended to use.
+- [CVE-2026-83557](https://github.com/advisories/GHSA-gx83-3vf8-gh7j) (CVSS 5.6): `DefaultBaseTypeLimitingValidator`'s list of unsafe base types was missing `Comparable`, weakening it as a defence against polymorphic deserialization attacks.
+
+**The third does not apply to EximeeBPMS.** That validator only takes effect once polymorphic type handling is switched on, and no part of the product installs a `PolymorphicTypeValidator` or enables Jackson's default typing. We searched both editions' sources to confirm it.
+
+The first two need a request body, or a process variable, that the application deserializes into one of the named types. EximeeBPMS's own REST contracts use none of them. The route that is open by design is Spin: a process definition may map JSON to any Java class it names, and that is what `deserializationAllowedClasses` and `deserializationAllowedPackages` exist to restrict. An installation that has configured those, and does not list the affected types, was already out of reach of both. An installation that has not is limited only by what its own process definitions ask for.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.1-ee. Releases from 1.3.1-ee onwards bundle Jackson 2.22.1; the 1.2.x line bundles 2.21.3 or 2.21.4. Both fall inside the advisories' ranges (2.22.0 up to 2.22.2, and 2.19.0 up to 2.21.6).
+
+Community Edition 1.4.0 is **not** affected: it already bundles 2.22.2, which is the fixed version for the 2.22 line. Earlier Community releases bundle 2.15.2, which falls outside the ranges these three advisories state.
+
+**Solution:**
+
+Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, pending release): Jackson is upgraded to 2.22.3 across every distribution. On an affected version, setting `deserializationAllowedClasses` or `deserializationAllowedPackages` to the types your process definitions actually deserialize mitigates both applicable vulnerabilities, and is worth doing regardless of this notice.
+
+---
+
 ## Notice EXBPMS-15
 
 **Publication Date:** September 25, 2026
