@@ -149,6 +149,25 @@ Please consider the following configuration snippet:
 <!-- ... -->
 ```
 
+#### Diagnostic Logs
+The long-polling handler logs two events at `WARN` level to help find out why requests are rejected because the queue is full:
+
+* `ENGINE-REST-FAL001` — requests were rejected because the queue was full. The entry summarizes the requests waiting in the queue: the number of rejected requests, the number of queued and pending requests, the worker ids with the most queued requests, the distribution of `asyncResponseTimeout` values and the requested topics.
+* `ENGINE-REST-FAL002` — an acquisition cycle took longer than one second. In each cycle the handler fetches external tasks for every pending request, one after another, and accepts no new requests from the queue until the cycle finishes, so slow cycles are the usual reason the queue fills up. The entry reports the cycle duration, the number of pending requests, and the number and maximum duration of slow cycles since the previous entry.
+
+Each event is logged at most once per interval, and the entry reports how many occurrences it covers. The interval defaults to 60 seconds and can be changed by setting the `fetch-and-lock-diagnostic-log-interval` context parameter (in seconds, `0` logs every occurrence) in the `engine-rest/WEB-INF/web.xml` file of the *engine-rest* artifact. If this property is absent or its value invalid, the default value will be used. With the Spring Boot starter, use the `eximeebpms.bpm.rest-api.fetch-and-lock.diagnostic-log-interval` property instead. The events are logged by the `org.eximeebpms.bpm.engine.rest.fetchAndLock` logger.
+
+```xml
+<!-- ... -->
+
+<context-param>
+  <param-name>fetch-and-lock-diagnostic-log-interval</param-name>
+  <param-value>300</param-value>
+</context-param>
+
+<!-- ... -->
+```
+
 ## Java API
 
 The entry point to the Java API for external tasks is the `ExternalTaskService`. It can be accessed via `processEngine.getExternalTaskService()`.
