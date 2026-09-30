@@ -70,6 +70,10 @@ The extension's *counters* are driven by the process engine's history events, so
     <td><code>eximeebpms.business.events.outbox.pending.total</code>, <code>.pending.age.oldest.seconds</code></td>
     <td>none — read the Business Events outbox table directly</td>
   </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.publish</code>, <code>.dispatch.batch.database</code>, <code>.dispatched</code>, <code>.dispatch.last.activity.age.seconds</code></td>
+    <td>none — driven directly by the business-event dispatcher's own callback</td>
+  </tr>
 </table>
 
 {{< note title="" class="warning" >}}
@@ -245,7 +249,7 @@ The three counters above require <code>history-level: full</code> — see [Histo
 ## Business Events Outbox
 
 {{< note title="Not yet in a released extension version" class="warning" >}}
-These two gauges are implemented on the `main` branch of `eximeebpms-enterprise-bpm-monitor`, but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventQuery.unprocessed()`.
+These two gauges are implemented in `eximeebpms-enterprise-bpm-monitor`, but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventQuery.unprocessed()`.
 {{< /note >}}
 
 <table class="table desc-table">
@@ -267,6 +271,44 @@ These two gauges are implemented on the `main` branch of `eximeebpms-enterprise-
 </table>
 
 Both gauges are registered only while [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) are enabled, and carry no tags.
+
+## Business Events Dispatcher
+
+{{< note title="Not yet in a released extension version" class="warning" >}}
+These meters are implemented in `eximeebpms-enterprise-bpm-monitor` but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventDispatchListener`.
+{{< /note >}}
+
+The dispatcher reports every publish attempt and every batch, so these meters keep moving during a long drain rather than only when a cycle ends. Every pass of the dispatcher reads at least one batch, so each pass leaves a sample, even when there is nothing to publish.
+
+<table class="table desc-table">
+  <tr>
+    <th>Meter</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.publish</code></td>
+    <td>Timer</td>
+    <td>Time spent in the publisher per business event, tagged <code>result</code> (<code>success</code>, <code>failure</code>). A slow or unreachable receiver shows here: with the REST publisher, a timeout appears as a <code>failure</code> sample of about the request timeout.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.dispatch.batch.database</code></td>
+    <td>Timer</td>
+    <td>Time a batch spends outside the publisher — reading it, marking it delivered and committing — tagged <code>outcome</code>: <code>dispatched</code>, <code>empty</code>, <code>failed</code>, <code>lock-contended</code> (another node holds the rows), <code>error</code> (the batch was rolled back and will be published again), <code>interrupted</code>.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.dispatched</code></td>
+    <td>Counter</td>
+    <td>Business events published and marked delivered on this node.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.business.events.dispatch.last.activity.age.seconds</code></td>
+    <td>Gauge</td>
+    <td>Seconds since this node's dispatcher last completed a batch. A batch that was rolled back (<code>error</code>) does not count. It stays below the dispatch interval plus one batch while the dispatcher runs; alert when it grows.</td>
+  </tr>
+</table>
+
+These meters are registered only while Business Events are enabled. Percentile histograms are off by default; enable one per meter with Spring Boot's `management.metrics.distribution.percentiles-histogram.<meter-name>=true`.
 
 ## Script Guard
 
