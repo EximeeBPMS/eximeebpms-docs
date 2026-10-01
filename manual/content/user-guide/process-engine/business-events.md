@@ -377,3 +377,13 @@ List<BusinessEventOutbox> oldest = pending.listPage(0, 1); // getCreatedDate() g
 ```
 
 `unprocessed()` and `BusinessEventOutbox.getCreatedDate()` are **Enterprise Edition** additions. Community Edition 1.4.0 has neither.
+
+`count()` scans every undelivered event, so it slows down as the backlog grows, and with millions of events it is too slow to poll. To watch the backlog, use `getOutboxBacklog()` instead. It reads only the two ends of the outbox's id index, so its cost does not grow with the backlog. On PostgreSQL it also steps over the index entries of events delivered since the last vacuum:
+
+```java
+BusinessEventOutboxBacklog backlog = processEngine.getBusinessEventService().getOutboxBacklog();
+long upTo = backlog.estimatedPending();               // upper bound, not a count
+Instant oldest = backlog.oldestUnprocessedCreatedDate(); // null when nothing is waiting
+```
+
+`estimatedPending()` is the width of the id range from the oldest undelivered event to the newest event. Ids skipped by rolled-back transactions, or by identity caches the database discards on restart, make it larger than the true count. While business events are disabled, the method returns an empty backlog. `getOutboxBacklog()` is an **Enterprise Edition** addition, not yet in a released version.

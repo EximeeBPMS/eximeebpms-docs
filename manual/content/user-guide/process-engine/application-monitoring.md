@@ -16,6 +16,8 @@ The [`eximeebpms-bpm-monitor`](https://github.com/EximeeBPMS/eximeebpms-bpm-moni
 This page documents the `eximeebpms-bpm-monitor` extension, which is optional and requires an extra dependency. For the process engine's built-in, database-reported metrics that are always available, see [Metrics]({{< ref "/user-guide/process-engine/metrics.md" >}}).
 {{< /note >}}
 
+The extension needs Spring Boot: it is wired through Spring Boot's auto-configuration and scheduling and reports through Micrometer and Actuator. It runs in a Spring Boot application on the EximeeBPMS Spring Boot starter, and in the Run distribution, which is built on that starter. It is not available in the Tomcat or WildFly distributions, which provide neither a Spring application context nor a Micrometer registry. There, use the engine's own [Metrics]({{< ref "/user-guide/process-engine/metrics.md" >}}), or read the engine API that a gauge below is built on, where the gauge names one.
+
 # Setup
 
 Add the extension dependency to a Spring Boot application:
@@ -67,7 +69,7 @@ The extension's *counters* are driven by the process engine's history events, so
     <td>none — driven directly by the script-execution engine's own violation callback, not a history event or a runtime-table read</td>
   </tr>
   <tr>
-    <td><code>eximeebpms.business.events.outbox.pending.total</code>, <code>.pending.age.oldest.seconds</code></td>
+    <td><code>eximeebpms.business.events.outbox.pending.estimate</code>, <code>.pending.age.oldest.seconds</code></td>
     <td>none — read the Business Events outbox table directly</td>
   </tr>
   <tr>
@@ -249,7 +251,7 @@ The three counters above require <code>history-level: full</code> — see [Histo
 ## Business Events Outbox
 
 {{< note title="Not yet in a released extension version" class="warning" >}}
-These two gauges are implemented in `eximeebpms-enterprise-bpm-monitor`, but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventQuery.unprocessed()`.
+These two gauges are implemented in `eximeebpms-enterprise-bpm-monitor`, but are not yet part of any extension release pinned by an Enterprise engine release. They also need an engine version that provides `BusinessEventService#getOutboxBacklog()`.
 {{< /note >}}
 
 <table class="table desc-table">
@@ -259,9 +261,9 @@ These two gauges are implemented in `eximeebpms-enterprise-bpm-monitor`, but are
     <th>Description</th>
   </tr>
   <tr>
-    <td><code>eximeebpms.business.events.outbox.pending.total</code></td>
+    <td><code>eximeebpms.business.events.outbox.pending.estimate</code></td>
     <td>Gauge</td>
-    <td>Business events written to the outbox but not yet delivered to the configured publisher.</td>
+    <td>Upper bound on the business events written to the outbox but not yet delivered to the configured publisher: the width of the outbox id range from the oldest undelivered event to the newest event. Not a count — see below.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.business.events.outbox.pending.age.oldest.seconds</code></td>
@@ -271,6 +273,12 @@ These two gauges are implemented in `eximeebpms-enterprise-bpm-monitor`, but are
 </table>
 
 Both gauges are registered only while [Business Events]({{< ref "/user-guide/process-engine/business-events.md" >}}) are enabled, and carry no tags.
+
+Both gauges are read from the two ends of the outbox's id index — the oldest undelivered id, the newest id, and the creation date of the oldest — and never by counting rows. The cost of a snapshot therefore does not grow with the backlog, which is also why the extension reports no exact count: counting would scan every pending event on every snapshot, on every node, just when the database is already behind. Measured on PostgreSQL with 5 million pending events, the count took about 220 ms with its index fully in memory, and the backlog read about 0.1 ms. On PostgreSQL, finding the oldest undelivered id also steps over the index entries of events delivered since the table was last vacuumed. That part of the read follows the dispatcher's progress since the last vacuum, not the backlog: 3 ms with 250,000 such entries in the same measurement. Autovacuum keeps it small.
+
+`pending.estimate` is exact only while outbox ids have no gaps, and in practice they do. Every transaction that wrote business events and then rolled back, such as an optimistic-locking retry, consumes ids without leaving rows. Oracle and IBM DB2 identities discard up to 20 cached ids on restart, and SQL Server up to 1,000. On Oracle RAC, each instance hands out ids from its own cache, so ids are not in creation order across instances. Read the gauge as a trend: steady while delivery keeps up, growing when it falls behind. For an alert threshold, prefer `pending.age.oldest.seconds`, which has no such bias.
+
+Both values come from `BusinessEventService#getOutboxBacklog()`, which any deployment can call, including Tomcat and WildFly. An exact count is available on demand from `createBusinessEventOutboxQuery().unprocessed().count()`, at a cost that grows with the backlog.
 
 ## Business Events Dispatcher
 
