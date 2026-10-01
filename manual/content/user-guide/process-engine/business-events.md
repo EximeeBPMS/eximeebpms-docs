@@ -204,7 +204,7 @@ eximeebpms:
   <tr><td><code>enabled-event-types</code></td><td><code>*</code></td><td>Allowlist of published event types — see <a href="#limiting-published-event-types">Limiting Published Event Types</a>. Added in 1.4.1-ee, <strong>Enterprise Edition only</strong>.</td></tr>
   <tr><td><code>disabled-event-types</code></td><td>empty</td><td>Denylist of published event types, applied after <code>enabled-event-types</code> and taking precedence over it. Added in 1.4.1-ee, <strong>Enterprise Edition only</strong>.</td></tr>
   <tr><td><code>dispatch-interval-ms</code></td><td><code>5000</code></td><td>How often the dispatcher polls the outbox for undelivered events.</td></tr>
-  <tr><td><code>dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher per dispatch cycle.</td></tr>
+  <tr><td><code>dispatcher-batch-size</code></td><td><code>100</code></td><td>Maximum number of outbox rows read and handed to the publisher at a time. A dispatch cycle reads batch after batch until the outbox is empty, and each batch commits in its own transaction, so this is also the most an interrupted cycle delivers again.</td></tr>
   <tr><td><code>outbox-retention-ms</code></td><td><code>604800000</code> (7 days)</td><td>How long delivered outbox rows are kept before cleanup removes them.</td></tr>
   <tr><td><code>outbox-cleanup-interval-ms</code></td><td><code>3600000</code> (1 hour)</td><td>How often the cleanup job runs.</td></tr>
   <tr><td><code>publisher-properties</code></td><td>empty</td><td>Publisher-specific properties (see below), passed through to <code>BusinessEventPublisher.init(Map)</code>.</td></tr>
