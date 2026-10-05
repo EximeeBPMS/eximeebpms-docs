@@ -17,31 +17,39 @@ for our reporting process and disclosure timeline.
 
 ## Notice EXBPMS-16
 
-**Publication Date:** September 29, 2026
+**Publication Date:** September 29, 2026 &nbsp;|&nbsp; **Updated:** October 5, 2026: four further Jackson advisories, the Spring Boot starter and Run, and the Community Edition
 
-**Product affected:** EximeeBPMS's Tomcat and WildFly distributions — the Jackson libraries they ship for the REST API (`engine-rest`), for Spin's JSON data format (`eximeebpms-spin-dataformat-json-jackson`, the engine's `json` script and variable handling) and for the web applications. Also affects the Java external task client (`eximeebpms-external-task-client`) and the Kafka business-events plugin, both of which bundle Jackson themselves.
+**Product affected:** EximeeBPMS's Tomcat and WildFly distributions — the Jackson libraries they ship for the REST API (`engine-rest`), for Spin's JSON data format (`eximeebpms-spin-dataformat-json-jackson`, the engine's `json` script and variable handling) and for the web applications. Also affects the Java external task client (`eximeebpms-external-task-client`) and the Kafka business-events plugin, both of which bundle Jackson themselves, and the Spring Boot starter and EximeeBPMS Run, which take Jackson from Spring Boot's dependency management rather than from EximeeBPMS's own.
 
 **Impact:**
 
-The version of `jackson-databind` bundled with EximeeBPMS had the following vulnerabilities:
+The versions of `jackson-core` and `jackson-databind` bundled with EximeeBPMS had the following vulnerabilities:
 
 - [CVE-2026-68497](https://github.com/advisories/GHSA-q4xh-88c3-wmh7) (CVSS 7.5): an unbounded number parse when deserializing `javax.xml.datatype.Duration` or `XMLGregorianCalendar`. A crafted value makes the parser consume disproportionate CPU and memory, which is a denial of service.
 - [CVE-2026-19032](https://github.com/advisories/GHSA-wjgm-6hv5-3cvf) (CVSS 5.3): deserializing `java.nio.file.Path` applied no scheme allowlist, so a crafted document could have the resulting path resolved through a `FileSystemProvider` the application never intended to use.
 - [CVE-2026-83557](https://github.com/advisories/GHSA-gx83-3vf8-gh7j) (CVSS 5.6): `DefaultBaseTypeLimitingValidator`'s list of unsafe base types was missing `Comparable`, weakening it as a defence against polymorphic deserialization attacks.
+- [CVE-2026-89407](https://github.com/advisories/GHSA-p6pp-m3f8-5c89) (CVSS 7.5, `jackson-core`): quadratic backtracking in the regular expression that checks whether a string looks like a valid floating-point number. A crafted value consumes disproportionate CPU.
+- [CVE-2026-89425](https://github.com/advisories/GHSA-7hhh-6rmp-j9qf) (CVSS 7.5, `jackson-core`): the UTF-8 parser does not limit the length of the invalid token it reports in an error message, so a crafted malformed document grows that message without bound.
+- [CVE-2026-91776](https://github.com/advisories/GHSA-wv8q-qhhj-9h54) (CVSS 7.5): polymorphic deserialization retains every unknown type id it encounters, so a stream of documents with distinct unknown type ids grows memory without bound.
+- [CVE-2026-91777](https://github.com/advisories/GHSA-cxp5-3px4-pw24) (CVSS 7.5): completing forward object references takes quadratic time, so a crafted document using object identities consumes disproportionate CPU.
 
-**The third does not apply to EximeeBPMS.** That validator only takes effect once polymorphic type handling is switched on, and no part of the product installs a `PolymorphicTypeValidator` or enables Jackson's default typing. We searched both editions' sources to confirm it.
+**The third does not apply to EximeeBPMS.** That validator only takes effect once polymorphic type handling is switched on globally, and no part of the product installs a `PolymorphicTypeValidator` or enables Jackson's default typing. We searched both editions' sources to confirm it.
 
 The first two need a request body, or a process variable, that the application deserializes into one of the named types. EximeeBPMS's own REST contracts use none of them. The route that is open by design is Spin: a process definition may map JSON to any Java class it names, and that is what `deserializationAllowedClasses` and `deserializationAllowedPackages` exist to restrict. An installation that has configured those, and does not list the affected types, was already out of reach of both. An installation that has not is limited only by what its own process definitions ask for.
 
+The two `jackson-core` vulnerabilities apply to any JSON EximeeBPMS parses, so any client allowed to call the REST API can reach them. CVE-2026-91776 needs polymorphic deserialization, which several REST request bodies use through type annotations, for example process instance modification instructions and filters. CVE-2026-91777 needs classes that declare object identities; EximeeBPMS's own classes declare none, so only Spin mapping into application classes that do is exposed.
+
 **Affected versions:**
 
-All EximeeBPMS Enterprise Edition releases up to and including 1.4.1-ee. Releases from 1.3.1-ee onwards bundle Jackson 2.22.1; the 1.2.x line bundles 2.21.3 or 2.21.4. Both fall inside the advisories' ranges (2.22.0 up to 2.22.2, and 2.19.0 up to 2.21.6).
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.1-ee. Releases from 1.3.1-ee onwards bundle Jackson 2.22.1; the 1.2.x line bundles 2.21.3 or 2.21.4. In the Spring Boot starter and Run, 1.4.1-ee resolves Jackson 2.21.5 and Jackson 3 (`tools.jackson`) 3.1.5 through Spring Boot. Every one of these versions is inside the ranges of all seven advisories.
 
-Community Edition 1.4.0 is **not** affected: it already bundles 2.22.2, which is the fixed version for the 2.22 line. Earlier Community releases bundle 2.15.2, which falls outside the ranges these three advisories state.
+All Community Edition releases are affected. Community Edition 1.4.0 bundles 2.22.2, which is fixed for the first three advisories but not for the four added on October 5. Earlier Community releases bundle 2.15.2, which is inside the ranges of every advisory here except CVE-2026-89407.
+
+The fixed versions are 2.18.10, 2.21.6, 2.22.2 and 3.1.6 for the first three advisories, and 2.18.11, 2.21.7, 2.22.3 and 3.1.7 for the four added on October 5, each for its own line.
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, released October 5, 2026): Jackson is upgraded to 2.22.3 across every distribution. On an affected version, setting `deserializationAllowedClasses` or `deserializationAllowedPackages` to the types your process definitions actually deserialize mitigates both applicable vulnerabilities, and is worth doing regardless of this notice.
+Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, released October 5, 2026): Jackson is upgraded to 2.22.3 across every distribution, including the Spring Boot starter and Run, which now take EximeeBPMS's Jackson version instead of Spring Boot's, and Jackson 3 to 3.1.7 in those two. Pending in the next Community Edition release. On an affected version, setting `deserializationAllowedClasses` or `deserializationAllowedPackages` to the types your process definitions actually deserialize mitigates CVE-2026-68497, CVE-2026-19032 and the Spin route of CVE-2026-91777, and is worth doing regardless of this notice; the `jackson-core` vulnerabilities and CVE-2026-91776 have no configuration workaround.
 
 ---
 

@@ -139,9 +139,9 @@ Relative to 1.4.1-ee:
 | Notice | Component | CVE | Fixed version |
 | --- | --- | --- | --- |
 | [EXBPMS-15](/security/notices/#notice-exbpms-15) | Apache FreeMarker | [CVE-2026-84939](https://github.com/advisories/GHSA-27j2-h3m2-8237) | FreeMarker → 2.3.35 |
-| [EXBPMS-16](/security/notices/#notice-exbpms-16) | `jackson-databind` | [CVE-2026-68497](https://github.com/advisories/GHSA-q4xh-88c3-wmh7), [CVE-2026-19032](https://github.com/advisories/GHSA-wjgm-6hv5-3cvf), [CVE-2026-83557](https://github.com/advisories/GHSA-gx83-3vf8-gh7j) | Jackson → 2.22.3 |
+| [EXBPMS-16](/security/notices/#notice-exbpms-16) | `jackson-core`, `jackson-databind` | [CVE-2026-68497](https://github.com/advisories/GHSA-q4xh-88c3-wmh7), [CVE-2026-19032](https://github.com/advisories/GHSA-wjgm-6hv5-3cvf), [CVE-2026-83557](https://github.com/advisories/GHSA-gx83-3vf8-gh7j), [CVE-2026-89407](https://github.com/advisories/GHSA-p6pp-m3f8-5c89), [CVE-2026-89425](https://github.com/advisories/GHSA-7hhh-6rmp-j9qf), [CVE-2026-91776](https://github.com/advisories/GHSA-wv8q-qhhj-9h54), [CVE-2026-91777](https://github.com/advisories/GHSA-cxp5-3px4-pw24) | Jackson → 2.22.3, Jackson 3 → 3.1.7 |
 
-The Spring Boot starter and EximeeBPMS Run resolved Jackson through Spring Boot's own dependency management, so earlier fixes did not reach them. They now get Jackson 2.22.3 and Jackson 3 3.1.7, which also fixes CVE-2026-89407 and CVE-2026-89425 in `jackson-core`, and CVE-2026-91776 and CVE-2026-91777 in `jackson-databind`.
+The Spring Boot starter and EximeeBPMS Run resolved Jackson through Spring Boot's own dependency management, so earlier fixes did not reach them. They now get Jackson 2.22.3 and Jackson 3 3.1.7 like the rest of the product. EXBPMS-16 covers them too.
 
 Three libraries bundled into the web applications are upgraded:
 
