@@ -157,7 +157,7 @@ categories:
           v1.2.0: { value: "2.15.2" }
           v1.3.0: { value: "2.15.2" }
           v1.4.0: { value: "2.22.2", change: mj, note: "Fixes CVE-2023-35116" }
-          ent: { value: "2.22.1", change: up, badge: Upgrade }
+          ent: { value: "2.22.3", change: up, badge: Upgrade, note: "Fixes CVE-2026-68497" }
       - name: FEEL-Scala
         sub: "DMN Engine"
         values:
@@ -182,7 +182,7 @@ categories:
           v1.2.0: { value: "2.3.31" }
           v1.3.0: { value: "2.3.31" }
           v1.4.0: { value: "2.3.31" }
-          ent: { value: "2.3.31" }
+          ent: { value: "2.3.35", change: up, badge: Upgrade, note: "Fixes CVE-2026-84939" }
 
   - name: Monitoring
     components:
@@ -229,7 +229,7 @@ categories:
           v1.2.0: { value: "n/a" }
           v1.3.0: { value: "n/a" }
           v1.4.0: { value: "n/a" }
-          ent: { value: "3.5.7", change: up, badge: "New" }
+          ent: { value: "3.5.10", change: up, badge: "New" }
       - name: Oracle JDBC
         values:
           v1.0.0: { value: "23.5.0" }

@@ -41,7 +41,7 @@ Community Edition 1.4.0 is **not** affected: it already bundles 2.22.2, which is
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, pending release): Jackson is upgraded to 2.22.3 across every distribution. On an affected version, setting `deserializationAllowedClasses` or `deserializationAllowedPackages` to the types your process definitions actually deserialize mitigates both applicable vulnerabilities, and is worth doing regardless of this notice.
+Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, released October 5, 2026): Jackson is upgraded to 2.22.3 across every distribution. On an affected version, setting `deserializationAllowedClasses` or `deserializationAllowedPackages` to the types your process definitions actually deserialize mitigates both applicable vulnerabilities, and is worth doing regardless of this notice.
 
 ---
 
@@ -65,7 +65,7 @@ All EximeeBPMS Enterprise Edition releases up to and including 1.4.1-ee, and all
 
 **Solution:**
 
-Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, pending release): FreeMarker is upgraded to 2.3.35 in both the Tomcat and WildFly distributions. Pending in the next Community Edition release. On an affected version, disabling FreeMarker's localized lookup (`Configuration.setLocalizedLookup(false)`) also mitigates the vulnerability.
+Fixed in EximeeBPMS 1.4.2-ee (Enterprise Edition, released October 5, 2026): FreeMarker is upgraded to 2.3.35 in both the Tomcat and WildFly distributions. Pending in the next Community Edition release. On an affected version, disabling FreeMarker's localized lookup (`Configuration.setLocalizedLookup(false)`) also mitigates the vulnerability.
 
 ---
 
