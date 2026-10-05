@@ -25,7 +25,7 @@ The second Enterprise patch on the 1.4.0 baseline. Everything in [1.4.1-ee](#141
 
 - **[Business events on SQL Server no longer lock the outbox table](#business-events-sql-server-locking)**, which stalled every engine operation that writes a business event
 - **[Business events are published on Oracle](#business-events-oracle)**. Before this release the dispatcher published nothing there
-- **[The dispatcher commits each batch on its own](#dispatcher-per-batch)**, so a large backlog no longer risks the heap, and an `Error` no longer stops it until restart
+- **[The dispatcher no longer runs out of memory on a backlog](#dispatcher-per-batch)**: it commits each batch on its own instead of caching the whole outbox, and an `Error` no longer stops it until restart
 - **[Query expressions can be kept away from beans](#query-expressions-without-beans)** with the new `enableBeansInQueryExpressions` setting
 - **[Schema patch](#142-schema)**: two new indexes. Liquibase applies them; read this if you apply the scripts by hand
 - **[Security](#142-security)**: FreeMarker (EXBPMS-15) and Jackson (EXBPMS-16) are patched, and the Spring Boot starter and Run now get the patched Jackson too
@@ -99,9 +99,9 @@ On SQL Server, the business-event dispatcher and the outbox cleanup took a lock 
 
 On Oracle, the dispatcher's fetch failed on every cycle with `ORA-02014`, because Oracle rejects `FOR UPDATE` on the view its paging builds. Nothing was published. Oracle now has its own statement, which locks only the batch.
 
-#### The Dispatcher Held a Whole Drain in One Transaction {#dispatcher-per-batch}
+#### The Dispatcher Could Run Out of Memory on a Backlog {#dispatcher-per-batch}
 
-The dispatcher read and published the entire outbox in one transaction, so a large backlog could exhaust the heap. Each batch now commits on its own. An `Error` thrown while dispatching no longer stops the dispatcher until restart.
+The dispatcher drained the whole outbox in one transaction, and every row it read stayed in that transaction's entity cache, payload included, until the outbox was empty. A backlog, or events arriving as fast as they were published, grew the heap without bound and could end in `OutOfMemoryError: Java heap space` on the `BPM-BusinessEventDispatcher` thread. Each batch (`dispatcher-batch-size`) is now its own transaction, so the dispatcher holds at most one batch in memory. An `Error` thrown while dispatching no longer stops it until restart.
 
 #### Other Fixes
 
