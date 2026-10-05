@@ -185,7 +185,7 @@ A deployment that doesn't use the Spring Boot starter — the Tomcat distributio
 A Tomcat/plain-XML deployment persists violations to `ACT_RU_SCRIPT_VIOLATION`, forwards them to the business-event/SIEM outbox, and answers `PUT /script-security/config` exactly like a Spring Boot deployment — no custom `ProcessEnginePlugin` needed for any of it. `violation-store-size` remains a Spring Boot–only YAML property with no equivalent here.
 
 {{< note title="" class="info" >}}
-Violation retention/cleanup runs as a single engine-native background job (not a Spring `@Scheduled` task), so it behaves identically regardless of deployment model: it's created automatically on first engine start whenever `scriptViolationRetentionDays`/`retention-days` is greater than zero, deletes expired rows roughly once a day, and keeps rescheduling itself even while the value is `0` — so raising it later takes effect on the next run, without a restart.
+Violation retention/cleanup runs as a single engine-native background job (not a Spring `@Scheduled` task), so it behaves identically regardless of deployment model: it's created automatically on first engine start whenever `scriptViolationRetentionDays`/`retention-days` is greater than zero, deletes expired rows roughly once a day — at most 1,000 per run, running again at once after a full batch — and keeps rescheduling itself even while the value is `0` — so raising it later takes effect on the next run, without a restart.
 {{< /note >}}
 
 {{< note title="" class="info" >}}

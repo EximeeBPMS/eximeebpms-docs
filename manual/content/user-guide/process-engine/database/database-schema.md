@@ -111,6 +111,8 @@ The `ACT_RU_BUS_EVT_OBX` table backs [Business Events]({{< ref "/user-guide/proc
 
 There is no foreign key relationship from `ACT_RU_BUS_EVT_OBX` to the core runtime tables — by design, the outbox must survive the deletion of the process instance or task it describes. Delivered rows are removed automatically past their retention period; see [Business Events — Configuration]({{< ref "/user-guide/process-engine/business-events.md" >}}#configuration).
 
+The table is indexed on `PROC_INST_ID_` and `TASK_ID_`, so deleting a process instance's or a standalone task's events does not scan it, and on its undelivered rows (`ACT_IDX_BEO_UNPROCESSED`), which the dispatcher reads in `ID_` order. The `TASK_ID_` index was added in 1.4.2-ee; an existing schema gets it from the patch script `$DATABASENAME_engine_1.4_patch_1.4.1_to_1.4.2_1.sql`, which Liquibase skips when the table does not exist.
+
 ## Script Violation Log (ACT_RU_SCRIPT_VIOLATION)
 
 The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script Guard]({{< ref "/user-guide/process-engine/script-guard.md" >}}). A row is inserted each time a script triggers a security rule while Script Guard is in `ENFORCE` or `AUDIT` mode. This table is available from EximeeBPMS 1.3.0.
@@ -129,6 +131,14 @@ The `ACT_RU_SCRIPT_VIOLATION` table stores violation events recorded by [Script 
 </table>
 
 Older records can be purged automatically by setting `retention-days` in the [Script Guard configuration]({{< ref "/user-guide/process-engine/script-guard.md#configuration" >}}).
+
+The table is indexed on `TIMESTAMP_`, so that cleanup finds expired rows without scanning it. The index was added in 1.4.2-ee; an existing schema gets it from the patch script `$DATABASENAME_engine_1.4_patch_1.4.1_to_1.4.2_2.sql`, which Liquibase skips when the table does not exist.
+
+{{< note title="Schemas installed from the SQL distribution, 1.2.19-ee to 1.4.1-ee" class="warning" >}}
+The engine create script in `eximeebpms-sql-scripts` of these versions does not create `ACT_RU_SCRIPT_VIOLATION`. In Script Guard's `AUDIT` mode, an operation whose script triggers a rule then fails instead of recording the violation. Start the engine once with `databaseSchemaUpdate` set to `true` and Script Guard not `DISABLED`, which creates the missing table with its index, then skip the `_2` patch script.
+{{< /note >}}
+
+When you apply the patch scripts by hand, skip one whose table does not exist: the engine creates `ACT_RU_BUS_EVT_OBX` only with business events enabled and `ACT_RU_SCRIPT_VIOLATION` only when Script Guard is not `DISABLED`, each with its index. On MySQL and MariaDB, `_2` also changes `ACT_RU_SCRIPT_VIOLATION.TIMESTAMP_` from `timestamp(3)` to `datetime(3)`. This rewrites the table, blocking violation writes while it runs, and stores each value in the session time zone, so run it with the time zone the engine's connections use.
 
 # Entity Relationship Diagrams
 
