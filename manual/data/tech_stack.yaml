@@ -273,7 +273,7 @@ categories:
           v1.2.0: { value: "20.14.0 LTS" }
           v1.3.0: { value: "20.14.0 LTS" }
           v1.4.0: { value: "20.14.0 LTS" }
-          ent: { value: "20.14.0 LTS" }
+          ent: { value: "24.21.0 LTS", change: up }
       - name: npm
         values:
           v1.0.0: { value: "10.7.0" }
@@ -281,4 +281,4 @@ categories:
           v1.2.0: { value: "10.7.0" }
           v1.3.0: { value: "10.7.0" }
           v1.4.0: { value: "10.7.0" }
-          ent: { value: "10.7.0" }
+          ent: { value: "11.19.0", change: up }
