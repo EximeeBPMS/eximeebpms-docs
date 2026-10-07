@@ -15,6 +15,28 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-17
+
+**Publication Date:** October 6, 2026
+
+**Product affected:** EximeeBPMS's Spring Boot starter for the web applications (`eximeebpms-bpm-spring-boot-starter-webapp`) and EximeeBPMS Run, which is built on it. The Tomcat and WildFly distributions serve the web applications through a different filter and are not affected.
+
+**Impact:**
+
+The starter answers a request for an application's root without a trailing slash, such as `/eximeebpms/app/cockpit`, with a redirect to the same path plus `/`. It built that redirect from the request URI exactly as the client sent it, before the servlet container normalizes it. A link like `https://bpms.example.com//attacker.example/../eximeebpms/app/cockpit` still reaches the web application, but is answered with a redirect to `//attacker.example/../eximeebpms/app/cockpit/`, which the browser follows to `attacker.example`.
+
+This is an open redirect: an attacker can send a link that starts on your EximeeBPMS host and ends on a site of their choosing, for example a copy of the login page. It does not give access to EximeeBPMS itself.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all Community Edition releases up to and including 1.4.0, when the web applications are run through the Spring Boot starter or Run.
+
+**Solution:**
+
+Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the redirect is built from the normalized request path. Pending in the next Community Edition release. On an affected version, a reverse proxy in front of EximeeBPMS that rejects request paths containing `//` or `/../` mitigates the vulnerability.
+
+---
+
 ## Notice EXBPMS-16
 
 **Publication Date:** September 29, 2026 &nbsp;|&nbsp; **Updated:** October 5, 2026: four further Jackson advisories, the Spring Boot starter and Run, and the Community Edition
