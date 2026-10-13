@@ -62,20 +62,20 @@ An input parameter whose name contains dots sets a field of a nested input: `aut
 
 ## Authentication
 
-Set `authentication.type` and the fields of that type. Put credentials in `{{secrets.NAME}}` placeholders: the worker resolves them from `eximeebpms.connectors.secrets.NAME` (or the environment variable `EXIMEEBPMS_CONNECTORS_SECRETS_NAME`), and the values never reach a process variable or a log.
+Set `authentication.type` and the fields of that type. Put credentials in `{{secrets.NAME}}` placeholders: the worker resolves them from `eximeebpms.connectors.secrets.NAME` (or the environment variable `EXIMEEBPMS_CONNECTORS_SECRETS_NAME`), and the values never reach a process variable or a log. In a text that is a JSON object or array, such as `headers` or `body` given as JSON, a secret is inserted escaped, so quotes and backslashes in it keep the JSON intact.
 
 <table class="table table-striped">
   <tr><th><code>type</code></th><th>Fields</th></tr>
   <tr><td><code>none</code></td><td></td></tr>
-  <tr><td><code>basic</code></td><td><code>username</code>, <code>password</code></td></tr>
+  <tr><td><code>basic</code></td><td><code>username</code> (without <code>:</code>), <code>password</code> (may be empty, for APIs that take a key as the user name)</td></tr>
   <tr><td><code>bearer</code></td><td><code>token</code></td></tr>
   <tr><td><code>apiKey</code></td><td><code>name</code>, <code>value</code>, <code>apiKeyLocation</code>: <code>headers</code> (default) or <code>query</code></td></tr>
   <tr><td><code>oauth2ClientCredentials</code></td><td><code>oauthTokenEndpoint</code>, <code>clientId</code>, <code>clientSecret</code>, optional <code>scopes</code> (separated by spaces) and <code>audience</code>, <code>clientAuthentication</code>: <code>basicAuthHeader</code> (default) or <code>credentialsBody</code></td></tr>
 </table>
 
-With OAuth 2.0 the worker requests a token with the client credentials grant and keeps it until shortly before it expires. When the API rejects a kept token with `401`, the worker requests a new one and sends the request once more.
+With OAuth 2.0 the worker requests a token with the client credentials grant and keeps it until shortly before it expires, or for 60 seconds when the server does not say when it expires. When the API rejects a kept token with `401`, the worker requests a new one and sends the request once more.
 
-When a redirect leads to another host, scheme or port, the worker drops the authentication and the `Authorization`, `Proxy-Authorization` and `Cookie` headers. Other headers from `headers` go along, so never put credentials there: use `authentication`.
+When a redirect leads to another host, scheme or port, the worker drops the authentication and every header from `headers` except `Accept`, `Accept-Language`, `Content-Language`, `Content-Type` and `User-Agent`, so a key in a header such as `X-Api-Key` does not reach the other host.
 
 ## Result
 
@@ -114,7 +114,7 @@ Incident messages name the element, the host and the status, never the path, the
 The artifact `org.eximeebpms.connectors:eximeebpms-connectors-element-templates` contains templates for Camunda Modeler in Camunda 7 mode, in its `element-templates/` folder. Copy them into the Modeler's element templates directory.
 
 * **REST Connector** (`org.eximeebpms.connectors.HttpJson`) — a form for every input; the result goes to a process variable of your choice (default `response`).
-* **REST Connector as agent tool** (`org.eximeebpms.connectors.HttpJson.tool`) — for a tool inside an AI agent's ad-hoc sub-process. You fix the URL and the method; the parts the model chooses are written with `fromAi`, in the URL or as extra input parameters such as `queryParameters.q` or `body.orderId`:
+* **REST Connector as agent tool** (`org.eximeebpms.connectors.HttpJson.tool`) — for a tool inside an AI agent's ad-hoc sub-process. You fix the URL and the method; the parts the model chooses are written with `fromAi` as extra input parameters such as `queryParameters.q` or `body.orderId`, whose values are encoded. Do not put a `fromAi` value into the URL: it is not encoded there, and a value such as `../admin` reaches another endpoint of the same host with the element's credentials.
 
   ```
   queryParameters.q = ${fromAi(toolCall.query, "Text to search for", "string")}
@@ -131,7 +131,8 @@ By default the REST connector calls **public addresses only**. Process models �
 * loopback: `127.0.0.0/8`, `::1`;
 * private networks: `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`, and the shared address space `100.64.0.0/10`;
 * link-local, including cloud metadata services (`169.254.169.254`): `169.254.0.0/16`, `fe80::/10`;
-* the unspecified address, multicast and reserved ranges, and IPv6 translation ranges that can carry an internal IPv4 address.
+* the unspecified address, multicast and reserved ranges, and IPv6 translation ranges that can carry an internal IPv4 address;
+* special-purpose ranges: `192.0.0.0/24` (including Oracle Cloud's older metadata address `192.0.0.192`), the benchmarking range `198.18.0.0/15` (used by fake-IP DNS gateways), the documentation ranges `192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`, and `192.88.99.0/24`, `100::/64`.
 
 The worker checks the **address a host name resolves to**, at every request and every redirect, and connects only to the address it checked. A public name that resolves to an internal address is denied too, so DNS tricks do not get around the check. Requests through a proxy are the exception, see [Through a Proxy](#through-a-proxy).
 
