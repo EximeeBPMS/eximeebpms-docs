@@ -75,7 +75,7 @@ Set `authentication.type` and the fields of that type. Put credentials in `{{sec
 
 With OAuth 2.0 the worker requests a token with the client credentials grant and keeps it until shortly before it expires, or for 60 seconds when the server does not say when it expires. When the API rejects a kept token with `401`, the worker requests a new one and sends the request once more.
 
-When a redirect leads to another host, scheme or port, the worker drops the authentication and every header from `headers` except `Accept`, `Accept-Language`, `Content-Language`, `Content-Type` and `User-Agent`, so a key in a header such as `X-Api-Key` does not reach the other host.
+When a redirect leads to another host, scheme or port, the worker drops the authentication and every header from `headers` except `Accept`, `Accept-Language`, `Content-Language`, `Content-Type` and `User-Agent`, so a key in a header such as `X-Api-Key` does not reach the other host. A redirect with status 307 or 308 to another origin would send the request body there too, so it raises an incident instead; set `followRedirects` to `false` and handle the redirect in the process if you need it. A redirect of the same host from `http` to `https` is followed.
 
 ## Result
 
