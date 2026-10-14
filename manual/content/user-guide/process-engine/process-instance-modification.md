@@ -535,6 +535,56 @@ ProcessInstance
     Contact Customer
 ```
 
+## Ad-hoc Subprocess
+
+{{< note title="Enterprise Edition only" class="warning" >}}
+The [ad-hoc subprocess]({{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}) is executed by
+EximeeBPMS Enterprise Edition only.
+{{< /note >}}
+
+Each activation of an ad-hoc subprocess runs as an *inner flow*, an instance of `<adHocSubprocessId>#innerInstance`
+in the activity instance tree. Modification distinguishes between starting a new inner flow and repairing a
+running one. To activate elements, use the activation API, `RuntimeService.createAdHocSubProcessActivation(...)`;
+modification remains the tool to repair an instance.
+
+**Starting a new inner flow.** A start without ancestor, or with the ad-hoc subprocess instance as ancestor, is an
+activation: it creates a new inner flow, whatever runs in the subprocess. It is accepted only at an element the
+subprocess can activate, and the new inner flow behaves as one activated through the API — its output is collected,
+and its completion is checked. In the complaint example, with *Check warranty* running:
+
+```java
+runtimeService.createProcessInstanceModification(processInstanceId)
+  .startBeforeActivity("askCustomer")              // a new inner flow
+  .execute();
+
+runtimeService.createProcessInstanceModification(processInstanceId)
+  .startBeforeActivity("prepareRefund")            // rejected: not activatable
+  .execute();
+```
+
+The second call fails with `ENGINE-02055`; nothing is changed. A multi-instance element starts with all its
+instances, as an activation does.
+
+**Repairing a running inner flow.** To start an element within a running inner flow — any element of the
+subprocess — pass the activity instance of that inner flow, or of a scope running in it, as ancestor:
+
+```java
+ActivityInstance tree = runtimeService.getActivityInstance(processInstanceId);
+String warrantyFlow = tree.getActivityInstances("checkWarranty")[0].getParentActivityInstanceId();
+
+runtimeService.createProcessInstanceModification(processInstanceId)
+  .startBeforeActivity("prepareRefund", warrantyFlow)
+  .execute();
+```
+
+**Cancelling.** Cancelling the last element of an inner flow, or the inner flow itself, ends that inner flow only:
+the ad-hoc subprocess stays active and waits for further activations, also when no other inner flow runs. A
+cancelled inner flow adds nothing to the output collection and does not trigger the completion check — unless the
+completion condition had already been fulfilled and no other inner flow runs: then the subprocess completes. Cancelling the ad-hoc
+subprocess instance itself cancels it, as for any activity.
+
+While an interrupting event subprocess runs in the ad-hoc subprocess, no new inner flow is started.
+
 ## Asynchronous modification of a process instance
 
 It is possible to execute modification of single process instance asynchronous. The [modification]({{< ref "/user-guide/process-engine/process-instance-modification.md#modification-instruction-types" >}}) instructions are the same as the synchronous modification and the syntax of fluent builder is the following:
