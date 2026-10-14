@@ -11,4 +11,6 @@ menu:
 
 ---
 
-* [EximeeBPMS REST API Reference](/rest/{{< minor-version >}}/)
+* [EximeeBPMS Enterprise Edition REST API Reference](/rest/{{< minor-version >}}-ee/): the endpoints that only the
+  Enterprise Edition provides are marked *Enterprise Edition*.
+* [EximeeBPMS Community Edition REST API Reference](/rest/{{< minor-version >}}/)
