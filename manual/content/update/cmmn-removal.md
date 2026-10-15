@@ -150,11 +150,11 @@ Remodeling the case in BPMN is the only replacement path — there is no convert
 
 | CMMN pattern | BPMN equivalent |
 |---|---|
-| Human task in a case | User task, or an ad-hoc subprocess containing a single user task |
+| Human task in a case | User task |
 | Sentry / entry-exit criteria | Conditional events + event subprocess |
-| Discretionary items | Dynamically activated tasks inside an ad-hoc subprocess |
+| Discretionary items | A non-interrupting message event subprocess per item, started by correlating its message |
 | Milestones | Intermediate events, or explicit process state (status variable + gateway) |
-| Case plan model (top-level container) | Main process, or a top-level ad-hoc subprocess |
+| Case plan model (top-level container) | Main process, with non-interrupting event subprocesses for the items that can start at any time |
 
 ## 8. Feedback channel
 
