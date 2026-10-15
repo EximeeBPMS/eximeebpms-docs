@@ -148,15 +148,13 @@ If your client is generated from the published OpenAPI specification, you will n
 
 Remodeling the case in BPMN is the only replacement path — there is no converter. The table below is a starting point, not a mechanical recipe: CMMN patterns do not map 1:1 onto BPMN.
 
-The ad-hoc subprocess named in three rows is executed by EximeeBPMS Enterprise Edition only. The Community Edition skips it at deployment with the warning "Ignoring unsupported activity type", so a model built on it does not run there; those rows give a Community Edition alternative.
-
 | CMMN pattern | BPMN equivalent |
 |---|---|
-| Human task in a case | User task, or (Enterprise Edition) an ad-hoc subprocess containing a single user task |
+| Human task in a case | User task |
 | Sentry / entry-exit criteria | Conditional events + event subprocess |
-| Discretionary items | (Enterprise Edition) Dynamically activated tasks inside an ad-hoc subprocess. Community Edition: a non-interrupting message event subprocess per item, started by correlating its message |
+| Discretionary items | A non-interrupting message event subprocess per item, started by correlating its message |
 | Milestones | Intermediate events, or explicit process state (status variable + gateway) |
-| Case plan model (top-level container) | Main process, or (Enterprise Edition) a top-level ad-hoc subprocess. Community Edition: the main process with non-interrupting event subprocesses for the items that can start at any time |
+| Case plan model (top-level container) | Main process, with non-interrupting event subprocesses for the items that can start at any time |
 
 ## 8. Feedback channel
 
