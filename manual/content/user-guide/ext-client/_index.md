@@ -421,3 +421,8 @@ The Java client supports parallel task execution via a configurable thread pool 
 For long-running tasks (more than 30 seconds), consider fetching tasks one at a time (`maxTasks = 1`) and adjusting the Long Polling interval to your needs (e.g. `asyncResponseTimeout = 60000` ms).
 
 The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`.
+
+## AI Agent Conversation Storage
+
+For the Enterprise worker's JDBC storage, audit, erasure and cancellation behavior, see
+[AI Agent Memory and Audit]({{< ref "/user-guide/ext-client/ai-agent-memory-and-audit.md" >}}).
