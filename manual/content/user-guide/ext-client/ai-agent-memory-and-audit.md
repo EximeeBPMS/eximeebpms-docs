@@ -70,10 +70,29 @@ Each conversation stores links to every source process whose conversation state 
 copies retain those links after retention removes an original or intermediate conversation, so an
 erasure still finds them.
 
-`schema-update=true` creates missing tables and applies later schema upgrades automatically. Without
-it, the worker checks the schema and names the scripts to apply. The scripts are packaged under
-`org/eximeebpms/connectors/agenticai/jdbc/{create,upgrade,drop}/` in the JDBC module: run the
-dialect's `schema-log` create script first, then those of the enabled features.
+The schema is built by one chain of SQL migrations for each part (`schema-log`, `memory`, `audit`)
+and database: `migrations/<db>/<part>/001_<name>.sql`, `002_...`, and so on. A new database runs
+every migration; an existing one runs those after the version recorded in its `SCHEMA_LOG` table.
+Installation and upgrade follow the same path.
+
+With `eximeebpms.connectors.aiagent.jdbc.schema-update=true` (the default) the worker runs the
+pending migrations at startup. If a migration stops half-way, the next start continues after the
+last statement recorded. A table or index that already exists is skipped only when it has the
+columns the migration creates; otherwise the worker stops and names the object to fix or drop.
+
+### Applying the schema by hand
+
+When the database administrator applies schema changes, set `schema-update=false`. The worker then
+changes nothing and, at startup, names the migrations that are still missing. The JDBC module is
+released with an archive of the same scripts, `eximeebpms-ai-agent-jdbc-<version>-sql-scripts.zip`:
+
+- `default/` has the default table prefix `EXB_AGENT_` written in and runs as it is;
+- `template/` keeps `${prefix}`, to be replaced with the configured
+  `eximeebpms.connectors.aiagent.jdbc.table-prefix`;
+- `drop/` removes a part's tables and is never run by the worker.
+
+Run the `schema-log` migrations after its recorded version first, then those of each enabled
+feature, in order. Each migration records its own version as its last statement.
 
 Schema leases and the cleanup claim use the database clock in UTC, whatever the session's time zone. For transactional DDL, the statement and progress record commit
 together. For databases that auto-commit DDL, progress is recorded before checking the lease again;
