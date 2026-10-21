@@ -60,8 +60,9 @@ unknown version is abandoned. Definitive failed completions can remove their una
 retention removes conversations only after engine history confirms that their process has ended.
 
 The worker account needs access to the relevant process instances, variables and history. An instance
-that the worker cannot see is not treated as ended. An unreadable active `toolCall` is an engine-read
-failure, not evidence that its tool was cancelled.
+that the worker cannot see is not treated as ended. An active `toolCall` without a readable call id is
+an engine-read failure, not evidence that its tool was cancelled, when the worker activated its flow;
+a flow started on entry, through the API or by process instance modification is not a model's call.
 
 ## Schema updates
 
@@ -86,7 +87,33 @@ prevent a turn already waiting on a model from later recreating erased conversat
 Tombstones retain engine process ids, not conversation content. To erase called process instances,
 include their process ids as well. Engine history must be deleted separately through engine APIs.
 
-The HTTP endpoint is **disabled by default**. To enable it, set both:
+### Erasure tombstones
+
+A process instance can keep running after its agent data is erased, and a turn may be calling the
+model at that moment. Without a tombstone, that turn (or its retry) would write the conversation and
+audit records back. Every write checks the tombstone first and stores nothing for an erased process
+instance.
+
+The cleanup removes a tombstone once engine history shows that the process instance ended longer
+than `memory.jdbc.retention` ago. Without that proof (history level `none`, history already removed,
+an instance hidden from the worker's account, or audit enabled without JDBC memory) tombstones are
+kept indefinitely. To limit how long they are kept, set:
+
+```yaml
+eximeebpms:
+  connectors:
+    aiagent:
+      jdbc:
+        erased-mark-retention: 365d
+```
+
+The retention counts from the latest erasure of the process instance (erasing it again restarts it)
+and is unset by default. Set it longer than any process instance with an agent runs: once the
+tombstone is gone, a process instance that is still running may store new agent data again. Erased
+data is never restored.
+
+The HTTP endpoint is **disabled by default**, and a global
+`management.endpoints.access.default` does not enable it. To enable it, set both:
 
 ```properties
 management.endpoint.aiagentdata.access=unrestricted
