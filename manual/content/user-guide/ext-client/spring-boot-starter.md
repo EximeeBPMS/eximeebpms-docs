@@ -275,6 +275,16 @@ Available properties:
       <td><code>false</code></td>
     </tr>
     <tr>
+      <td><code>max-connections-per-route</code></td>
+      <td>
+        Maximum number of connections the client keeps open to the engine. Unless set,
+        the client sizes its pool itself: one connection per fetch-and-lock loop plus one
+        per core thread of the loop's thread pool, never fewer than 5. See
+        <a href="{{< ref "/user-guide/ext-client/_index.md#connections-to-the-engine" >}}">Connections to the engine</a>.
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td><code>lock-duration</code></td>
       <td>
         Specifies for how many milliseconds an External Task is locked. Must be
