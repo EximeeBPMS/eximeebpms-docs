@@ -87,10 +87,20 @@ worker if its compatibility record permits that worker. Failed newer migrations
 also stop older workers. Expand/contract changes require two releases; migration
 validation cannot protect workers already running against a destructive change.
 
-Flyway manages database-specific locks. No custom lease or takeover is used.
-There is no uniform lock-wait deadline: MySQL/MariaDB named-lock acquisition may
-wait indefinitely. An operator may stop the command and investigate the holder.
-The unreleased `schema-lock-timeout` property has been removed.
+Flyway manages database-specific locks; no custom lease or takeover is used, and
+the unreleased `schema-lock-timeout` property has been removed. A worker or the
+tool waits for another instance's migration without a time limit, so a long
+migration never stops healthy instances: PostgreSQL (advisory lock, retried every
+second), MySQL/MariaDB (named lock), Oracle and DB2 (`LOCK TABLE` on the history)
+wait until the holder finishes; SQL Server's application lock gives up after one
+hour, a limit Flyway sets. Startup logs `migrating JDBC schema <prefix>FLYWAY`
+before it waits; an operator may stop the process and investigate the holder.
+The history always starts with a version-0 baseline row (`<< Flyway Baseline >>`),
+recorded before the first migration; `info` lists it. Instances starting together
+on a new prefix record it first and then migrate one at a time; on H2, which runs in
+one process, the instances of that process take turns. Several processes sharing
+one H2 database in server mode are not supported for a concurrent first start. A migrating start holds two connections at once on
+PostgreSQL, Oracle, DB2 and H2 (lock and migration): give its pool at least two.
 
 ### Administrator tool
 
@@ -121,7 +131,8 @@ without DDL or history-write permissions when automatic migration is disabled.
 Validation requires SELECT on every agent table, including disabled features,
 plus the Flyway history and coordination tables. Grant data-write permissions
 for the enabled features and their process guards/cleanup coordination. Exit codes are 0 for success, 2 for invalid command/configuration, and 1
-for a database or schema validation failure.
+for a database or schema validation failure. The result goes to stdout; the bundle's `schema` mode logs
+to stderr at INFO.
 
 The JAR and image include PostgreSQL, MariaDB (also used for MySQL), SQL Server,
 Oracle and H2 drivers. They do not include IBM's DB2 driver or MySQL Connector/J.
@@ -163,6 +174,8 @@ for MySQL with the shipped MariaDB driver.
 
 ### Failure recovery
 
+A failed migration is named by version, script and the line of its failing statement,
+never by its SQL, for example `migration 1 (V1__agent_schema.sql), line 42`.
 Migration failure stops startup; no automatic `repair`, table-existence skipping
 or per-statement resume occurs. Databases which auto-commit DDL can retain a
 partial migration. Transactional behavior must be checked for the actual dialect.
@@ -174,9 +187,10 @@ repairs Flyway history (including removing failed records and potentially aligni
 checksums); it does not undo SQL or prove that the database is correct. Do not
 silence an unexplained checksum mismatch with repair. After recovery, migrate or
 register the completed SQL as appropriate, then validate before starting workers.
-The tool exposes no `clean` command. The ZIP's `drop/` scripts are destructive
-teardown scripts, never an upgrade/recovery shortcut; run `<db>.audit.sql`,
-`<db>.memory.sql`, then `<db>.coordination.sql`, which removes Flyway history last.
+The tool exposes no `clean` command. The ZIP's `drop/<db>.sql` script is a
+destructive teardown, never an upgrade/recovery shortcut: it removes the complete
+agent schema, memory and audit data included, and the Flyway history last. There is
+no partial teardown, as the history records one schema.
 
 ### Connection failures
 
@@ -184,7 +198,8 @@ The agent and the administrator tool never repeat a JDBC driver's message, which
 can contain the JDBC URL or credentials. A failure names the SQL state, the vendor
 error code and the exception class instead, for example
 `The AI agent cannot reach its JDBC data source (SQL state 28P01, error code 0, org.postgresql.util.PSQLException)`.
-Common cases, as reported by the drivers the bundle ships (DB2: IBM JCC):
+Common cases, as reported by the drivers the bundle ships (MySQL through the MariaDB
+driver) and, for DB2, by the IBM JCC driver the operator supplies:
 
 | Database | Wrong user or password | Unknown database or service | Port closed | Unknown host |
 | --- | --- | --- | --- | --- |
