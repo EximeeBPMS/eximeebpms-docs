@@ -15,3 +15,11 @@ Dependency versions across all EximeeBPMS releases. Highlighted cells indicate a
 By default the table shows the two most recent OSS releases plus the current Enterprise release. Use the **Show older versions** selector above the table to bring earlier releases back into view.
 
 {{< tech-stack-table >}}
+
+## Agent JDBC schema migration
+
+The separately delivered enterprise connectors use Flyway (Apache-2.0),
+privately relocated with its database modules and the Jackson libraries it uses.
+Embedded applications keep their own Flyway/Liquibase and Jackson versions,
+configuration and histories. The standalone
+administrator tool and bundle command mode use the same migration runtime.
