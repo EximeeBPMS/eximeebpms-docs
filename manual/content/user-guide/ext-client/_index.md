@@ -156,7 +156,7 @@ For the Java client, `isActive()` returns `true` when the client is started and 
 
 An unhandled `Error` in fetching or backoff, such as `AssertionError` or `LinkageError`, stops the affected loop and logs `TASK/CLIENT-03016`. There is no automatic retry of that error. After addressing the cause, call `start()` explicitly to clean up and restart failed loops. Healthy loops and the existing statistics scheduler continue unchanged. Normal exception handling and retry behavior remain unchanged.
 
-`VirtualMachineError` and `ThreadDeath` are rethrown to the thread's uncaught exception handler after the loop becomes inactive. The client does not attempt network cleanup on that error path. Restarting that failed loop with `start()` throws `IllegalStateException`, including after `stop()`; the client still starts its other loops before throwing. Recovery requires a new client/process.
+A `VirtualMachineError` is rethrown to the thread's uncaught exception handler after the loop becomes inactive. The client does not attempt network cleanup on that error path. Restarting that failed loop with `start()` throws `IllegalStateException`, including after `stop()`; the client still starts its other loops before throwing. Recovery requires a new client/process.
 
 Call `stop()` during application shutdown even if `isActive()` is already `false`: failed loops can still own pending or in-flight work. Cleanup unlocks queued tasks, and their old queued invocations cannot execute them after a restart. Tasks already admitted to their handlers can finish normally.
 
@@ -183,6 +183,8 @@ client.stop();
 2. Tasks already executing in the thread pool are **not interrupted** — they are allowed to finish.
 3. Tasks that were fetched and placed in the queue but not yet started are sent an **unlock** request to the engine, making them immediately available to other clients.
 4. The client waits up to 10 seconds per loop for dispatched task executions to finish. `stop()` can return with handlers still in flight after that limit. It does not shut down caller-supplied executors.
+
+`stop()` can also be called from code running on the acquisition thread, such as a custom `BackoffStrategy`. It then does not wait; each loop unlocks its queued tasks and waits for its running handlers itself when it exits. Opening or closing a subscription while `stop()` is in progress does not block.
 
 If the thread calling `stop()` is interrupted while joining the acquisition thread, cleanup remains outstanding. A later `stop()` can finish it; `start()` cannot launch another acquisition thread before the previous one has stopped.
 
