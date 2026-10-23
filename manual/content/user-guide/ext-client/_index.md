@@ -120,6 +120,22 @@ client.subscribe("heavyTopic")
 
 Each distinct `ThreadPoolExecutor` instance gets its own independent fetch-and-lock loop. Two handlers that return the **same** executor instance share one loop and one thread pool. This lets you isolate slow or resource-intensive topics without starving fast ones.
 
+#### Connections to the engine
+
+With long polling (`asyncResponseTimeout`), every fetch-and-lock loop holds one connection to the engine for the whole poll, and the worker threads need connections of their own to complete tasks, report failures and extend locks. The client therefore sizes its connection pool itself: one connection per fetch-and-lock loop plus one per core thread of the loop's thread pool, and never fewer than 5. A client with the default single-threaded pool keeps 5 connections; the two pools above, 10 and 2 core threads, get (1 + 10) + (1 + 2) = 14.
+
+A larger pool also lets more requests reach the engine at once: a client with `threadPoolSize(50)` opens up to 51 connections, and the engine's server threads and database connection pool have to carry that load. To set a fixed size instead, for example `5` to keep the limit of earlier versions, use `maxConnectionsPerRoute`:
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .threadPoolSize(10)
+  .maxConnectionsPerRoute(30)
+  .build();
+```
+
+Neither applies when [`customizeHttpClient`](#accessing-the-internal-apache-httpclientbuilder) sets a connection manager of its own; size that one yourself.
+
 ### Completing Tasks
 Once the custom methods specified in the handler are completed, the External Task can be completed. This means for the Workflow Engine that the execution will
 move on. For this purpose, all supported implementations have a `complete` method which can be called within the handler function. However, the
@@ -153,7 +169,7 @@ client.stop();
 
 #### What happens during stop()
 
-1. The fetch-and-lock acquisition loop stops — no new tasks are fetched.
+1. The fetch-and-lock acquisition loop stops — no new tasks are fetched. A long-polling fetch-and-lock request still waiting for the engine's response is cancelled, so `stop()` does not wait up to the `asyncResponseTimeout`. Tasks the engine still locks for the cancelled request become available again when their lock expires.
 2. Tasks already executing in the thread pool are **not interrupted** — they are allowed to finish.
 3. Tasks that were fetched and placed in the queue but not yet started are sent an **unlock** request to the engine, making them immediately available to other clients.
 
