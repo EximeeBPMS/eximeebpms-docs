@@ -70,33 +70,108 @@ Each conversation stores links to every source process whose conversation state 
 copies retain those links after retention removes an original or intermediate conversation, so an
 erasure still finds them.
 
-The schema is built by one chain of SQL migrations for each part (`schema-log`, `memory`, `audit`)
-and database: `migrations/<db>/<part>/001_<name>.sql`, `002_...`, and so on. A new database runs
-every migration; an existing one runs those after the version recorded in its `SCHEMA_LOG` table.
-Installation and upgrade follow the same path.
+The agent uses a private Flyway runtime, isolated from an embedded application's
+own Flyway or Liquibase. One ordered SQL chain creates the complete memory and
+audit schema when either JDBC feature is enabled. Disabled features leave their
+tables unused. Migration history is `<prefix>FLYWAY`; the default prefix is
+`EXB_AGENT_`. Configured prefixes are normalized to uppercase. For custom-prefix
+manual SQL and teardown scripts, replace `${prefix}` with that uppercase form
+(for example, configuration `customer_` means SQL prefix `CUSTOMER_`), including
+quoted history-table names. There is no separate manual history or custom SQL migration engine.
 
-With `eximeebpms.connectors.aiagent.jdbc.schema-update=true` (the default) the worker runs the
-pending migrations at startup. If a migration stops half-way, the next start continues after the
-last statement recorded. A table or index that already exists is skipped only when it has the
-columns the migration creates; otherwise the worker stops and names the object to fix or drop.
+With `eximeebpms.connectors.aiagent.jdbc.schema-update=true` (default), pending
+migrations run before workers start. With `false`, startup validates without
+creating or changing the schema or history. Missing, pending, failed or changed
+migrations stop startup. A successful newer schema remains usable by an older
+worker if its compatibility record permits that worker. Failed newer migrations
+also stop older workers. Expand/contract changes require two releases; migration
+validation cannot protect workers already running against a destructive change.
 
-### Applying the schema by hand
+Flyway manages database-specific locks. No custom lease or takeover is used.
+There is no uniform lock-wait deadline: MySQL/MariaDB named-lock acquisition may
+wait indefinitely. An operator may stop the command and investigate the holder.
+The unreleased `schema-lock-timeout` property has been removed.
 
-When the database administrator applies schema changes, set `schema-update=false`. The worker then
-changes nothing and, at startup, names the migrations that are still missing. The JDBC module is
-released with an archive of the same scripts, `eximeebpms-ai-agent-jdbc-<version>-sql-scripts.zip`:
+### Administrator tool
 
-- `default/` has the default table prefix `EXB_AGENT_` written in and runs as it is;
-- `template/` keeps `${prefix}`, to be replaced with the configured
-  `eximeebpms.connectors.aiagent.jdbc.table-prefix`;
-- `drop/` removes a part's tables and is never run by the worker.
+Use `eximeebpms-agent-schema-tool-<version>.jar`, or run the bundle image with
+`schema` followed by the same arguments. Command mode starts no Spring context,
+workers, engine clients or model connections, and exits after the operation.
 
-Run the `schema-log` migrations after its recorded version first, then those of each enabled
-feature, in order. Each migration records its own version as its last statement.
+```sh
+java -jar eximeebpms-agent-schema-tool-<version>.jar --help
+java -jar eximeebpms-agent-schema-tool-<version>.jar info --config /secure/agent-db.properties
+java -jar eximeebpms-agent-schema-tool-<version>.jar migrate --config /secure/agent-db.properties
+java -jar eximeebpms-agent-schema-tool-<version>.jar validate --config /secure/agent-db.properties
 
-Schema leases and the cleanup claim use the database clock in UTC, whatever the session's time zone. For transactional DDL, the statement and progress record commit
-together. For databases that auto-commit DDL, progress is recorded before checking the lease again;
-recovery messages identify the progress record if a process stops between DDL and recording it.
+docker run --rm -v /secure/agent-db.properties:/run/agent-db.properties:ro <bundle-image> schema info --config /run/agent-db.properties
+```
+
+The Java properties file contains `url`, `user`, `password`, and optionally
+`table-prefix`. Protect it as a credential file. Environment variables
+`EXIMEEBPMS_SCHEMA_URL`, `EXIMEEBPMS_SCHEMA_USER`, `EXIMEEBPMS_SCHEMA_PASSWORD`,
+and `EXIMEEBPMS_SCHEMA_PREFIX` override corresponding file values. These are
+command settings; worker deployment continues to use `spring.datasource.*` and
+`eximeebpms.connectors.aiagent.jdbc.*`. Do not put credentials in command-line
+arguments. Use a migration account for DDL; the normal worker can use an account
+without DDL or history-write permissions when automatic migration is disabled.
+Validation requires SELECT on every agent table, including disabled features,
+plus the Flyway history and coordination tables. Grant data-write permissions
+for the enabled features and their process guards/cleanup coordination. Exit codes are 0 for success, 2 for invalid command/configuration, and 1
+for a database or schema validation failure.
+
+The JAR and image include PostgreSQL, MariaDB (also used for MySQL), SQL Server,
+Oracle and H2 drivers. They do not include IBM's DB2 driver or MySQL Connector/J.
+For DB2, supply a licensed JDBC driver to the standalone tool, for example
+`java -Dloader.path=/drivers/jcc.jar -jar eximeebpms-agent-schema-tool-<version>.jar info --config /secure/agent-db.properties`.
+An embedded application supplies its own DataSource and driver. Use `jdbc:mariadb:`
+for MySQL with the shipped MariaDB driver.
+
+### Applying SQL manually
+
+1. Set worker `schema-update=false` and stop every worker using this agent schema.
+   Keep workers and other administrators stopped through registration/validation.
+2. Use the tool from the target release to inspect `info` and the current version
+   (zero for a new installation). Obtain the matching
+   `eximeebpms-ai-agent-jdbc-<version>-sql-scripts.zip`.
+3. Apply every pending SQL migration up to the chosen target, in order. The ZIP
+   contains `default/migrations/<db>/V<N>__<name>.sql` with `EXB_AGENT_` substituted,
+   and `template/` with `${prefix}` for a custom prefix. Databases are `h2`,
+   `postgres`, `mysql` (including MariaDB), `mssql`, `oracle`, `db2`. Stop on any
+   error and inspect the result. Scripts do not write Flyway history themselves.
+4. Only after all SQL succeeded, register that exact range, for example:
+
+   ```sh
+   java -jar eximeebpms-agent-schema-tool-<version>.jar register-applied --from 0 --to 1 --confirm --config /secure/agent-db.properties
+   ```
+
+   `--from` must match the current successful version; `--to` must be known to
+   this tool. The command records the range through Flyway without running its
+   SQL. For a first manual installation it initializes history at version zero
+   before registration. Confirmation is the administrator's assertion of SQL
+   success, not a check of arbitrary SQL/data effects. Unexpected versions, gaps,
+   failed history and checksum mismatches are rejected. Never insert history rows
+   manually or use baseline to hide real migrations.
+5. Run `validate` with the target release's tool; start workers only after it
+   succeeds. A later deployment may switch back to automatic migration using the
+   same Flyway history. Repeating registration with the old `--from` is rejected.
+
+### Failure recovery
+
+Migration failure stops startup; no automatic `repair`, table-existence skipping
+or per-statement resume occurs. Databases which auto-commit DDL can retain a
+partial migration. Transactional behavior must be checked for the actual dialect.
+Stop workers, inspect `info`, and restore or complete the affected SQL under the
+normal backup/change procedure. Use the matching release's migration tool.
+
+`repair --confirm` is an explicit administrator operation after inspection. It
+repairs Flyway history (including removing failed records and potentially aligning
+checksums); it does not undo SQL or prove that the database is correct. Do not
+silence an unexplained checksum mismatch with repair. After recovery, migrate or
+register the completed SQL as appropriate, then validate before starting workers.
+The tool exposes no `clean` command. The ZIP's `drop/` scripts are destructive
+teardown scripts, never an upgrade/recovery shortcut; run audit, memory, then
+schema-log teardown, which removes Flyway history last.
 
 ## Erase worker data
 
