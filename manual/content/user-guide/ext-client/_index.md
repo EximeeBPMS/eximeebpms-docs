@@ -150,6 +150,16 @@ The lock duration can only be extended, if the External Task is currently locked
 If an External Task is supposed to be unlocked so that other clients are allowed to fetch and lock this task again,
 an `unlock` method can be called. The External Task can only be unlocked, if the task is currently locked by the client.
 
+### Acquisition Health and Recovery
+
+For the Java client, `isActive()` returns `true` when the client is started and every registered fetch-and-lock loop is running. If one loop fails, it returns `false`, even when other thread pools continue to fetch and handle tasks. Waiting for backoff or executor capacity is normal activity. A started client without subscriptions is also active. This method does not check engine connectivity or the health of task handlers.
+
+An unhandled `Error` in fetching or backoff, such as `AssertionError` or `LinkageError`, stops the affected loop and logs `TASK/CLIENT-03016`. There is no automatic retry of that error. After addressing the cause, call `start()` explicitly to clean up and restart failed loops. Healthy loops and the existing statistics scheduler continue unchanged. Normal exception handling and retry behavior remain unchanged.
+
+`VirtualMachineError` and `ThreadDeath` are rethrown to the thread's uncaught exception handler after the loop becomes inactive. The client does not attempt network cleanup on that error path. Restarting that failed loop with `start()` throws `IllegalStateException`, including after `stop()`; the client still starts its other loops before throwing. Recovery requires a new client/process.
+
+Call `stop()` during application shutdown even if `isActive()` is already `false`: failed loops can still own pending or in-flight work. Cleanup unlocks queued tasks, and their old queued invocations cannot execute them after a restart. Tasks already admitted to their handlers can finish normally.
+
 ### Graceful Shutdown
 
 When the client is stopped by calling `stop()`, tasks that have already been fetched from the engine but have not yet started executing (i.e. they are waiting in the thread pool queue) are automatically **unlocked** in the engine. This prevents tasks from remaining locked until the lock expiry time after an application restart, which would otherwise delay processing by other clients.
@@ -172,6 +182,9 @@ client.stop();
 1. The fetch-and-lock acquisition loop stops — no new tasks are fetched. A long-polling fetch-and-lock request still waiting for the engine's response is cancelled, so `stop()` does not wait up to the `asyncResponseTimeout`. Tasks the engine still locks for the cancelled request become available again when their lock expires.
 2. Tasks already executing in the thread pool are **not interrupted** — they are allowed to finish.
 3. Tasks that were fetched and placed in the queue but not yet started are sent an **unlock** request to the engine, making them immediately available to other clients.
+4. The client waits up to 10 seconds per loop for dispatched task executions to finish. `stop()` can return with handlers still in flight after that limit. It does not shut down caller-supplied executors.
+
+If the thread calling `stop()` is interrupted while joining the acquisition thread, cleanup remains outstanding. A later `stop()` can finish it; `start()` cannot launch another acquisition thread before the previous one has stopped.
 
 **Note:** If the client terminates unexpectedly (process crash, kill signal) without calling `stop()`, queued tasks remain locked until the lock duration expires. A shorter `lockDuration` reduces this window.
 
