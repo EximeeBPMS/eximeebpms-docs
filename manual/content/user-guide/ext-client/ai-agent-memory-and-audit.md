@@ -107,6 +107,9 @@ java -jar eximeebpms-agent-schema-tool-<version>.jar validate --config /secure/a
 docker run --rm -v /secure/agent-db.properties:/run/agent-db.properties:ro <bundle-image> schema info --config /run/agent-db.properties
 ```
 
+The bundle image runs as user `eximeebpms`: make the mounted file readable by that
+user, or pass the `EXIMEEBPMS_SCHEMA_*` variables from a secret or an env file.
+
 The Java properties file contains `url`, `user`, `password`, and optionally
 `table-prefix`. Protect it as a credential file. Environment variables
 `EXIMEEBPMS_SCHEMA_URL`, `EXIMEEBPMS_SCHEMA_USER`, `EXIMEEBPMS_SCHEMA_PASSWORD`,
@@ -134,7 +137,9 @@ for MySQL with the shipped MariaDB driver.
 2. Use the tool from the target release to inspect `info` and the current version
    (zero for a new installation). Obtain the matching
    `eximeebpms-ai-agent-jdbc-<version>-sql-scripts.zip`.
-3. Apply every pending SQL migration up to the chosen target, in order. The ZIP
+3. Apply every pending SQL migration up to the latest migration of the release
+   whose tool you use, in order; `validate` with that tool fails while any of its
+   migrations is pending. The ZIP
    contains `default/migrations/<db>/V<N>__<name>.sql` with `EXB_AGENT_` substituted,
    and `template/` with `${prefix}` for a custom prefix. Databases are `h2`,
    `postgres`, `mysql` (including MariaDB), `mssql`, `oracle`, `db2`. Stop on any
@@ -170,8 +175,32 @@ checksums); it does not undo SQL or prove that the database is correct. Do not
 silence an unexplained checksum mismatch with repair. After recovery, migrate or
 register the completed SQL as appropriate, then validate before starting workers.
 The tool exposes no `clean` command. The ZIP's `drop/` scripts are destructive
-teardown scripts, never an upgrade/recovery shortcut; run audit, memory, then
-schema-log teardown, which removes Flyway history last.
+teardown scripts, never an upgrade/recovery shortcut; run `<db>.audit.sql`,
+`<db>.memory.sql`, then `<db>.coordination.sql`, which removes Flyway history last.
+
+### Connection failures
+
+The agent and the administrator tool never repeat a JDBC driver's message, which
+can contain the JDBC URL or credentials. A failure names the SQL state, the vendor
+error code and the exception class instead, for example
+`The AI agent cannot reach its JDBC data source (SQL state 28P01, error code 0, org.postgresql.util.PSQLException)`.
+Common cases, as reported by the drivers the bundle ships (DB2: IBM JCC):
+
+| Database | Wrong user or password | Unknown database or service | Port closed | Unknown host |
+| --- | --- | --- | --- | --- |
+| PostgreSQL | `28P01`, 0 | `3D000`, 0 | `08001`, 0 | `08001`, 0 |
+| MySQL, MariaDB | `28000`, 1045 | `42000`, 1049 | `08000`, 0 | `08000`, 0 |
+| SQL Server | `S0001`, 18456 | `S0001`, 4060 | `08S01`, 0 | `08S01`, 0 |
+| Oracle | `72000`, 1017 (ORA-01017) | `08006`, 12514 (ORA-12514) | `66000`, 12541 (ORA-12541) | `22000`, 17868 |
+| DB2 | `28000`, -4214 | `08004`, -4499 | `08001`, -4499 | `08001`, -4222 |
+| H2 | `28000`, 28000 | — | — | — |
+
+Where a closed port and an unknown host report the same values, check name
+resolution and reachability from the worker's host. A TLS failure reports a
+connection state as well (PostgreSQL `08004` when the server does not offer TLS,
+SQL Server `08S01` for an untrusted certificate). The full driver message remains
+available where the driver or the application's connection pool logs it; for
+example the MariaDB driver logs access-denied and unknown-database errors at WARN.
 
 ## Erase worker data
 
