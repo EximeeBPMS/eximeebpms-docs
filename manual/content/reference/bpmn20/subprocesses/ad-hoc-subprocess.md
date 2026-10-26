@@ -236,3 +236,14 @@ or evaluate. A Camunda 8 diagram with a service task fails to deploy, and its ad
     migration plan does not map them.</li>
 </ul>
 {{< /note >}}
+
+## Cancellation in Worker-Driven Mode
+
+When process instance modification cancels an inner flow in a worker-driven ad-hoc subprocess,
+the engine schedules a decision job on the ad-hoc scope. It creates the next turn or replaces an
+outdated turn, even when the cancelled flow was the only waiting tool. A worker can then report
+that call as cancelled without waiting for another tool to complete.
+
+Cancellation still appends no `outputElement` and does not evaluate the modelled `completionCondition`.
+Cancellation by the worker's own decision or interruption of the whole ad-hoc subprocess creates no
+additional turn. A pending cancellation job is removed with the subprocess if it ends first.
