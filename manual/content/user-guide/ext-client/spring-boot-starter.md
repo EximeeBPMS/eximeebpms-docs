@@ -285,6 +285,17 @@ Available properties:
       <td></td>
     </tr>
     <tr>
+      <td><code>response-timeout</code></td>
+      <td>
+        How many milliseconds every request waits for the engine's response; <code>0</code> sets no
+        limit. Unless set, requests from handlers wait 3 minutes and the client's own requests 60
+        seconds; a long-polling fetch and lock waits its <code>async-response-timeout</code>
+        longer. See
+        <a href="{{< ref "/user-guide/ext-client/_index.md#request-timeouts" >}}">Request timeouts</a>.
+      </td>
+      <td></td>
+    </tr>
+    <tr>
       <td><code>lock-duration</code></td>
       <td>
         Specifies for how many milliseconds an External Task is locked. Must be
