@@ -279,7 +279,7 @@ for an erased or removed turn do not recreate audit items. Metadata names are bo
 so they fit database limits, including DB2.
 
 Metrics `eximeebpms.connectors.aiagent.model.calls` and `.tokens` include failed model attempts.
-The first 100 distinct model names per worker get individual `model` tag values; subsequent names
+The first 100 distinct model names per connector (the AI agent, the AI task) get individual `model` tag values; subsequent names
 use `other` to limit metric cardinality. The audit retains the actual model name. Configure a fixed
 model or a named provider when possible. Prometheus values count usage; they do not calculate billing.
 
