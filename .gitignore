@@ -19,3 +19,4 @@ public-local/
 worktree-*/
 
 .gitmessage
+__pycache__/

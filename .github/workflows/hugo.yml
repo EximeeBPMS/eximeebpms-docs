@@ -34,6 +34,10 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  # Set to 'false' and rebuild to remove the documentation pixel from published HTML.
+  SCARF_DOCS_ENABLED: 'true'
+
 jobs:
   deploy:
     runs-on: github-actions-runner-new
@@ -70,6 +74,11 @@ jobs:
 
       - name: Install Pagefind
         run: npm install -g pagefind@1.5.2
+
+      - name: Check documentation analytics
+        run: |
+          python3 -m unittest discover -s .github/scripts -p 'test_*.py'
+          node --test tests/scarf.test.cjs
 
       - name: Build Hugo sites
         run: |
@@ -245,6 +254,9 @@ jobs:
           fi
 
           cp CNAME gh-pages/docs/
+
+      - name: Add public documentation analytics
+        run: python3 .github/scripts/instrument_scarf.py gh-pages/docs --enabled "$SCARF_DOCS_ENABLED"
 
       - name: Commit and push changes
         run: |
