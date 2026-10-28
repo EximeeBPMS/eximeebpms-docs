@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Documentation analytics — EximeeBPMS</title>
+</head>
+<body>
+  <main>
+    <h1>Documentation analytics</h1>
+    <p>Scarf page-view measurement is <strong>enabled</strong> for this publication.</p>
+    <p>On the public HTTPS documentation site, a small image request to Scarf helps us understand
+      interest in documentation pages and versions. It sends a public pixel identifier and the
+      page origin and path. This integration omits query strings and fragments, suppresses the
+      HTTP referrer and does not set cookies or add application runtime telemetry.</p>
+    <p>The image request also exposes normal network metadata to Scarf. Scarf may infer country
+      and company information; this is not a verified identity or a count of installations.
+      Caching, proxies and content blockers limit the accuracy of the results.</p>
+    <p>This integration does not send a request when your browser exposes Global Privacy Control
+      or Do Not Track enabled. It also does not run on localhost, file URLs, HTTP or other hosts.
+      You can block <code>static.scarf.sh</code> in your browser without losing access to the documentation.</p>
+    <p>For further information, see the
+      <a href="https://eximeebpms.org/document/eximee-bpms-privacy-policy/">EximeeBPMS Privacy Statement</a>,
+      <a href="https://about.scarf.sh/privacy-policy">Scarf Privacy Policy</a> and
+      <a href="https://docs.scarf.sh/web-traffic/">Scarf pixel documentation</a>.</p>
+    <p><a href="/">Back to the documentation</a></p>
+  </main>
+<!-- eximeebpms-scarf:start -->
+<p data-eximeebpms-analytics-notice="true"><a href="/_analytics/">Documentation analytics</a></p>
+<script id="eximeebpms-scarf-analytics" defer src="/_analytics/scarf.js" data-scarf-pixel="6183e056-d18a-4ab2-80b0-19248968141e"></script>
+<!-- eximeebpms-scarf:end --></body>
+</html>
