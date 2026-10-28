@@ -100,8 +100,8 @@ ExternalTaskClient client = ExternalTaskClient.create()
 
 The engine locks a task when it is fetched, also when the task then waits in the queue for a thread. So that the waiting does not use up the lock, a handler starts with at least 90 % of its lock duration:
 
-* While a task waits, the client renews its lock each time half of it has elapsed (with a `maxFetchedTasksMultiplier` above 1).
-* When a task that waited starts with less than 90 % of its lock left, the client renews the lock before calling the handler. If that renewal fails for another reason than a lost lock (the engine cannot be reached, or an error from a proxy or rate limiter), the handler runs with the lock that is left.
+* While a task waits, the client renews its lock each time half of it has elapsed (with a `maxFetchedTasksMultiplier` above 1), on up to 4 threads per thread pool, each renewal waiting for the engine at most half of the lock that is left.
+* When a task that waited starts with less than 90 % of its lock left, the client renews the lock before calling the handler, which costs one more request per such task. If that renewal fails for another reason than a lost lock (the engine cannot be reached, or an error from a proxy or rate limiter), the handler runs with the lock that is left.
 * If the thread pool finishes no task within a waiting task's lock duration, its threads are stuck or all busy longer than the lock. The client then stops renewing and unlocks the waiting task, so that other workers can take it.
 * If the engine refuses a renewal because the lock has expired or another worker has taken the task meanwhile, or because the task no longer exists, the task is not executed. Other errors, for example from a proxy or a rate limiter in between, are retried.
 
@@ -133,7 +133,7 @@ Each distinct `ThreadPoolExecutor` instance gets its own independent fetch-and-l
 
 #### Connections to the engine
 
-With long polling (`asyncResponseTimeout`), every fetch-and-lock loop holds one connection to the engine for the whole poll, and the worker threads need connections of their own to complete tasks, report failures and extend locks. The client therefore sizes its connection pool itself: one connection per fetch-and-lock loop plus one per core thread of the loop's thread pool, one more per loop for renewing the locks of queued tasks when `maxFetchedTasksMultiplier` is above 1, and never fewer than 5. A client with the default single-threaded pool keeps 5 connections; the two pools above, 10 and 2 core threads with a multiplier of 1.5, get (1 + 10 + 1) + (1 + 2 + 1) = 16.
+With long polling (`asyncResponseTimeout`), every fetch-and-lock loop holds one connection to the engine for the whole poll, and the worker threads need connections of their own to complete tasks, report failures and extend locks. The client therefore sizes its connection pool itself: one connection per fetch-and-lock loop plus one per core thread of the loop's thread pool, one per thread renewing the locks of queued tasks when `maxFetchedTasksMultiplier` is above 1 (one per core thread of the loop's thread pool, at most 4), and never fewer than 5. A client with the default single-threaded pool keeps 5 connections; the two pools above, 10 and 2 core threads with a multiplier of 1.5, get (1 + 10 + 4) + (1 + 2 + 2) = 20.
 
 A larger pool also lets more requests reach the engine at once: a client with `threadPoolSize(50)` opens up to 51 connections, and the engine's server threads and database connection pool have to carry that load. To set a fixed size instead, for example `5` to keep the limit of earlier versions, use `maxConnectionsPerRoute`:
 
@@ -162,7 +162,7 @@ ExternalTaskClient client = ExternalTaskClient.create()
   .build();
 ```
 
-A request whose response does not arrive in time fails in the handler, even though the engine may still perform it. `complete`, `handleFailure` and `handleBpmnError` run the process up to its next wait state within the request, so if that takes longer than the limit, the handler gets an exception while the task is completed. Give such an external task an asynchronous continuation after it (`asyncAfter`), so that `complete` returns as soon as the task is done, or raise `responseTimeout`. These limits replace timeouts set through [`customizeHttpClient`](#accessing-the-internal-apache-httpclientbuilder); its other request settings stay.
+A request whose response does not arrive in time fails in the handler, even though the engine may still perform it. `complete`, `handleFailure` and `handleBpmnError` run the process up to its next wait state within the request, so if that takes longer than the limit, the handler gets an exception while the task is completed. Give such an external task an asynchronous continuation after it (`asyncAfter`), so that `complete` returns as soon as the task is done, or raise `responseTimeout`. A connect or response timeout you set in the default request configuration through [`customizeHttpClient`](#accessing-the-internal-apache-httpclientbuilder) is kept and replaces these defaults; `responseTimeout` replaces it in turn. A timeout set on a connection manager you supply there is replaced.
 
 ### Completing Tasks
 Once the custom methods specified in the handler are completed, the External Task can be completed. This means for the Workflow Engine that the execution will
