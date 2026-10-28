@@ -265,6 +265,20 @@ Hence situations like the following can be reported:
 
 For more details, please check the documentation related to the client of interest.
 
+#### Failed fetch and lock
+
+When the Java client cannot fetch and lock tasks, it logs the series of failures once rather than every attempt:
+
+* An unreachable engine, for example while it restarts (connection refused, timeout, or HTTP 502, 503 or 504, which a proxy or gateway in front of the engine answers then), is one `WARN` without a stack trace (`TASK/CLIENT-03018`). An error page that is not JSON, such as a proxy's HTML page, counts as an unreachable engine whatever its status, also a proxy's 400 or 404; the log line then names a JSON parse error, such as `Unexpected character ('<'`, and not the HTTP status. Only a 401 or 403 keeps its status without the engine's JSON error, so that wrong credentials, which the engine answers with an empty 401, are an `ERROR`. A 504 at the end of a long poll usually means that the proxy's read timeout (nginx `proxy_read_timeout`, 60 s by default) is not longer than `asyncResponseTimeout`; raise it above `asyncResponseTimeout`. Any other failure is one `ERROR` with its stack trace (`TASK/CLIENT-03022`): any other HTTP error status, such as 401 for wrong credentials or a 404 the engine's REST API answers for an unknown resource (a wrong context path, which the servlet container answers with an HTML page, counts as unreachable, see above), an unknown host, or a failed TLS handshake. These usually point at the configuration; an unknown host can also appear briefly while a restarting engine's container DNS name does not resolve, for example a Docker Compose service or a headless Kubernetes service. Any other exception in the fetch loop, such as a shut-down connection pool or a task its thread pool rejects, is one `ERROR` with its stack trace (`TASK/CLIENT-03006`) and is followed by the same pause as a failed fetch.
+* While fetching keeps failing, a reminder with the number of failures and their duration follows every 5 minutes (`TASK/CLIENT-03020` at `WARN`, `TASK/CLIENT-03023` at `ERROR`). The attempts in between are logged at `DEBUG` with their stack trace (`TASK/CLIENT-03019`).
+* Once a fetch succeeds again, one `INFO` says so (`TASK/CLIENT-03021`).
+
+When the kind of failure changes, for example from a refused connection to a 404 while a restarting engine deploys its REST API, the new kind is logged as a first failure, so an engine restart can still log an `ERROR`. A fetch cancelled by `stop()` is logged as neither a failure nor a success.
+
+Each fetch loop logs on its own, so a client with several thread pools (see [Per-handler dedicated thread pool](#per-handler-dedicated-thread-pool)) writes one line per loop. Earlier versions logged `TASK/CLIENT-03001` at `ERROR` with a stack trace for every failed attempt.
+
+The exception of a failed fetch, which a custom `ErrorAwareBackoffStrategy` receives, carries the codes `TASK/CLIENT-01007` to `01011` and `01031`, as the same failures of `ExternalTaskService` calls do; earlier versions used `03007` to `03011` and `03031`. A 401 or 403 without the engine's JSON error throws `UnknownHttpErrorException` with that status, also from `ExternalTaskService` calls, where earlier versions threw `ConnectionLostException`.
+
 ### Task Execution Statistics
 
 The Java External Task Client collects in-memory execution statistics for each combination of **process definition key** and **topic name**. The following metrics are tracked within each 5-minute reporting window:
@@ -451,7 +465,9 @@ The Java client supports parallel task execution via a configurable thread pool 
 
 For long-running tasks (more than 30 seconds), consider fetching tasks one at a time (`maxTasks = 1`) and adjusting the Long Polling interval to your needs (e.g. `asyncResponseTimeout = 60000` ms).
 
-The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`.
+The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`, except for the wait after a failed fetch (below).
+
+After a failed fetch and lock, or any other exception in the fetch loop, the client always waits at least 500 ms, doubling up to 60 000 ms while fetching keeps failing; the next successful fetch ends this pause. It also applies with the backoff strategy disabled or with a strategy that waits less, so an unreachable engine is not asked again thousands of times a second. This floor cannot be lowered: a strategy tuned to wait less after errors, for example `new ExponentialBackoffStrategy(100, 2, 5000)`, waits up to 60 000 ms after a failure, so a worker can take up to a minute to resume after an engine restart. `ExponentialErrorBackoffStrategy` waits only after a failed fetch and suits Long Polling, where an empty answer has already waited at the engine.
 
 ## AI Agent Conversation Storage
 

@@ -267,7 +267,9 @@ Available properties:
       <td><code>disable-backoff-strategy</code></td>
       <td>
         Disables the client-side backoff strategy. When set to
-        <code>true</code>, a <code>BackoffStrategy</code> bean is ignored.<br /><br />
+        <code>true</code>, a <code>BackoffStrategy</code> bean is ignored.
+        After a failed fetch and lock the client still waits, 500 ms doubling
+        up to 60 s, so only the wait after a successful fetch goes away.<br /><br />
         <strong>Heads-up:</strong> Please bear in mind that disabling the
         client-side backoff can lead to heavy load situations on the engine side. To
         avoid this, please specify an appropriate <code>async-response-timeout</code>.
