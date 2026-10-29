@@ -51,7 +51,7 @@ An input parameter whose name contains dots sets a field of a nested input: `res
   <tr><td><code>response.format</code></td><td><code>text</code> or <code>json</code>.</td><td><code>text</code></td></tr>
   <tr><td><code>response.schema</code></td><td>For <code>json</code>: the JSON Schema the answer must match, as a JSON object.</td><td>none</td></tr>
   <tr><td><code>response.includeAssistantMessage</code></td><td>Adds the model's message to the result as <code>responseMessage</code>.</td><td><code>false</code></td></tr>
-  <tr><td><code>limits.maxModelCalls</code></td><td>Model calls one execution may make: the first, and one per correction of an answer that is not the JSON asked for.</td><td><code>3</code></td></tr>
+  <tr><td><code>limits.maxModelCalls</code></td><td>Model calls one execution may make: the first, and one per correction of an empty answer or one that is not the JSON asked for.</td><td>The worker's <code>default-task-max-model-calls</code>, <code>3</code></td></tr>
   <tr><td><code>audit.contentLevel</code></td><td><code>metadata</code> keeps the prompts and the answer out of this task's audit even when the worker records content; it cannot raise the worker's level.</td><td>as configured</td></tr>
   <tr><td><code>retries</code></td><td>Executions before an incident.</td><td><code>3</code></td></tr>
   <tr><td><code>retryBackoff</code></td><td>ISO-8601 duration between attempts.</td><td><code>PT30S</code></td></tr>
@@ -80,14 +80,14 @@ To map a single field, check first that the task has set `agent`:
 This gives `null` when there is no answer, and also when the answer has no such field, e.g. with `response.format = text`.
 
 {{< note title="Output parameters also run when the task is cancelled" class="warning" >}}
-Unless the engine sets `skipOutputMappingOnCanceledActivities`, it evaluates the output parameters of a task it cancels — an interrupting boundary event or event sub-process, a terminate end event, process instance modification or deletion — even before the worker has answered. The task has no `agent` then, so a plain `${agent.responseJson.category}` fails with "Cannot resolve identifier 'agent'" and so does the cancellation: deleting the process instance, for example, succeeds only with "skip IO mappings". If the process holds a variable `agent` of its own, the expression silently copies that one. `${execution.getVariableLocalTyped('agent')}` and the variant above give `null`.
+Unless the engine sets `skipOutputMappingOnCanceledActivities`, it evaluates the output parameters of a task it cancels — an interrupting boundary event or event sub-process, a terminate end event, process instance modification or deletion — even before the worker has answered. The task has no `agent` then, so a plain `${agent.responseJson.category}` fails with "Cannot resolve identifier 'agent'" and so does the cancellation: deleting the process instance, for example, succeeds only with "skip IO mappings". If the process holds a variable `agent` of its own, the expression silently copies that one. `${execution.getVariableLocalTyped('agent')}` and the variant above give `null`, written over the variable's earlier value — in a loop, the previous round's result.
 {{< /note >}}
 
 ## JSON Answers
 
-With `response.format = json` the answer must be JSON only; a JSON object inside a Markdown code block is accepted too, but nothing may follow the JSON — an explanation after it, or a second JSON value, counts as an answer that is not JSON. With `response.schema` it must also match the schema. The schema is passed to the OpenAI Responses API natively; for the other providers it is added to the system prompt.
+With `response.format = json` the answer must be JSON; a JSON value inside a Markdown code block is accepted too, and text after the block is ignored. Text after JSON outside a code block, or a second JSON value, makes the answer not JSON. Without `response.schema` the answer must not be `null`, as the process could not tell it from no answer; with `response.schema` it must match the schema. The schema is passed to the OpenAI Responses API natively; for the other providers it is added to the system prompt.
 
-An answer that is not JSON, or does not match the schema, is sent back to the model with the problem, and the model answers again within the same execution. When `limits.maxModelCalls` is reached without a usable answer, the task raises an incident. Raise the limit and retry the incident to continue.
+An answer that is not JSON, or does not match the schema, is sent back to the model with the problem, and the model answers again within the same execution. With `response.format = text` the same happens to an empty answer. When `limits.maxModelCalls` is reached without a usable answer, the task raises an incident. Raise the limit and retry the incident to continue.
 
 ## Errors and Retries
 
@@ -122,4 +122,4 @@ eximeebpms:
       default-task-max-model-calls: 3
 ```
 
-`default-task-max-model-calls` is the limit for tasks that set no `limits.maxModelCalls`. The element template fills in 3; clear the field to use the worker's default. Provider endpoints are reached as the REST connector's destinations are: through its network policy, proxy and trust settings (see [REST Connector]({{< ref "/user-guide/ext-client/rest-connector.md" >}})), so a model server on an internal address needs an allow entry.
+`default-task-max-model-calls` is the limit for tasks that set no `limits.maxModelCalls`; it must be at least 1, or the worker does not start. The element template leaves the field empty, so this default applies. Provider endpoints are reached as the REST connector's destinations are: through its network policy, proxy and trust settings (see [REST Connector]({{< ref "/user-guide/ext-client/rest-connector.md" >}})), so a model server on an internal address needs an allow entry.
