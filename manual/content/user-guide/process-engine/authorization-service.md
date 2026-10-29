@@ -261,6 +261,17 @@ When embedding the process engine into a custom application, the application nee
 Authentication and Authorization are two distinct concepts as explained [here](https://en.wikipedia.org/wiki/Authentication#Authorization).
 {{< /note >}}
 
+## Which operations may the current user perform?
+
+A user interface that disables the operations a user is not allowed to run can ask the engine instead of evaluating authorizations itself. Two [REST API]({{< ref "/reference/rest/_index.md" >}}) operations answer for the currently authenticated user and need no permission beyond being authenticated:
+
+* `GET /authentication/me` returns the user's id and profile (first name, last name, email), the groups and tenants the engine applies to the request, and the web applications the user may open. The user always sees their own profile, even without a `READ` permission on their `User` resource; the profile fields are empty when the identity provider holds no record of the user.
+* `GET /authentication/me/operations` returns, per process definition key, whether the user may set job, external task and job definition retries, suspend or activate a process instance, process definition or job definition, delete a process instance and set an incident annotation, and whether they may create a batch that deletes process instances or sets job retries.
+
+Each value is the result of the authorization check the operation itself performs, including permissions that cover others (for example `UPDATE_INSTANCE` covers `SUSPEND_INSTANCE`), revokes and the [precedence](#authorization-precedence) of user, group and global authorizations. The entry `*` answers every process definition key without an entry of its own; a key gets its own entry only when an authorization of the user, one of the user's groups or all users names it. Such a key can belong to a process definition the user cannot read or that is not deployed. With authorization checks disabled, every operation is allowed.
+
+The answer applies to all process instances of a process definition: authorizations on a single process instance are not taken into account. An operation can therefore still be rejected for one process instance whose permissions were revoked, and a permission granted only on one process instance is not reflected. Tenant membership is not part of the answer either, so a client must still handle a rejected operation.
+
 # Permissions by Resource
 
 This section explains which permissions are available on which resources.
