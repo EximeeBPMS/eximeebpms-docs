@@ -15,7 +15,9 @@ The **EximeeBPMS External Task Client** allows you to set up remote service task
 as well as [JavaScript](https://github.com/camunda/camunda-external-task-client-js) implementation.
 
 {{< note title="" class="info" >}}
-For metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
+For metrics measured inside the worker (execution, renewals, queues and resource pools), see [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}}).
+
+For engine-side metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
 {{< /note >}}
 
 ## Features

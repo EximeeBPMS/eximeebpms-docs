@@ -37,6 +37,20 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 * JBoss EAP 7.4 / 8.0
 * WildFly Application Server 41.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
 
+## Upcoming Enterprise monitoring (BPMS-813)
+
+The co-released monitoring adapters target Run and the bundled Tomcat 11.0 and
+WildFly 41.0 distributions on the supported Java runtimes. Engine measurement
+is independent of Spring; container HTTP exposure is opt-in. WildFly uses its
+managed scheduler. Worker measurement can be embedded without an engine.
+
+The release must validate the container integration matrix, including exact
+`/metrics` routing, existing realm/SSO role mapping and managed scheduler lookup.
+This addition does not broaden the server-version boundaries above or claim
+that an archive build alone verifies another application server. See
+[Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+for setup and lifecycle requirements.
+
 # Databases
 
 ## Supported Database Products

@@ -185,6 +185,20 @@ EximeeBPMS Run is based on the [EximeeBPMS Spring Boot Starter](https://github.c
 All [configuration properties]({{< ref "/user-guide/spring-boot-integration/configuration.md#camunda-engine-properties" >}}) from the eximeebpms-spring-boot-starter are available to customize EximeeBPMS Run.
 {{< /note >}}
 
+## Configuration file validation
+
+Before the server starts, the start scripts check that the selected configuration file (`default.yml`, or `production.yml` with `--production`) is valid YAML without duplicate keys. A key may appear only once within the same section, so add new settings to an existing top-level section (for example under the existing `eximeebpms.bpm:`) rather than repeating it further down. An invalid file stops the start with a message such as:
+
+```
+Invalid Run YAML: /opt/eximeebpms-run/configuration/default.yml (line 56, column 1). Check syntax and duplicate keys.
+```
+
+The script then exits with code 1 without starting the server or opening a browser. The message names only the location, never configuration values. This check covers the selected file only; files added with `spring.config.import` and profile-specific files are still checked when the server starts.
+
+## Monitoring
+
+Run can expose engine metrics for Prometheus at `/actuator/prometheus`. Measurement is disabled in `default.yml` and enabled in `production.yml`; HTTP exposure is configured separately. Both files expose only the Actuator endpoints `health` and `prometheus`. Run requires a login only for `prometheus`: any other Actuator endpoint you add to `management.endpoints.web.exposure.include` is open to everyone who can reach Run, so do not add `*`. See [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#http-export-and-authentication" >}}) for configuration and for who may read the metrics.
+
 ## Database
 
 The distro comes with a file-based h2 database for testing. It is recommended to connect to a standalone database system for use in production.
