@@ -15,6 +15,36 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-18
+
+**Publication Date:** October 28, 2026
+
+**Product affected:** EximeeBPMS's web applications (Cockpit, Tasklist, Admin and Welcome) in every distribution, and therefore the Tomcat and WildFly distributions, the Spring Boot starter for the web applications and EximeeBPMS Run. The engine, the REST API and the external task client do not use DOMPurify.
+
+**Impact:**
+
+The version of `DOMPurify` shipped with the web applications (3.4.16 in 1.4.2-ee, 3.4.13 in Community Edition 1.4.0) had the following vulnerabilities. Earlier releases bundle DOMPurify 3.2.4, which is affected by the second and third but not the first:
+
+- [GHSA-cg2g-xh64-v4q7](https://github.com/advisories/GHSA-cg2g-xh64-v4q7) (critical): with `SAFE_FOR_TEMPLATES` and a DOM-returning mode (`RETURN_DOM`, `RETURN_DOM_FRAGMENT` or `IN_PLACE`), template expressions survive sanitization inside an attached shadow root.
+- [GHSA-mrv2-3pqr-j5jr](https://github.com/advisories/GHSA-mrv2-3pqr-j5jr) (high): in `IN_PLACE` mode, a hook that removes the current node's parent or an unvisited sibling leaves that subtree's event handlers in place.
+- [GHSA-c6gr-qvv4-5v3f](https://github.com/advisories/GHSA-c6gr-qvv4-5v3f) (low): with `PARSER_MEDIA_TYPE` set to `application/xhtml+xml`, the guard against SMIL `attributeName="href"` is skipped.
+
+**None of them applies to EximeeBPMS's own code.** Each needs sanitizer options the web applications never set. Their only caller, the form viewer (`@bpmn-io/form-js`) that renders forms in Tasklist and Cockpit, passes `FORCE_BODY` and `FORBID_TAGS` and takes a string back; it registers no hooks and uses the HTML parser.
+
+The web applications also expose the library as the global `window.DOMPurify`, so embedded forms and plugins can call it. A custom form or plugin that calls it with the options above was exposed.
+
+The same releases also bundle `qs` (6.16.0 in 1.4.2-ee, 6.15.3 in Community Edition 1.4.0), affected by [CVE-2026-110816](https://github.com/advisories/GHSA-6pq8-jhm2-2vcw): `qs.stringify` with `arrayFormat: 'comma'` throws on an array element with a non-callable `toString`. The web applications call `qs` only through their HTTP client, which does not use that format, so they are not affected.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all Community Edition releases up to and including 1.4.0.
+
+**Solution:**
+
+Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the web applications ship DOMPurify 3.4.17 and `qs` 6.16.2. Pending in the next Community Edition release. On an affected version, custom forms and plugins that call `window.DOMPurify` should not combine `SAFE_FOR_TEMPLATES` with a DOM-returning mode, should not remove other nodes from `IN_PLACE` hooks, and should not set `PARSER_MEDIA_TYPE` to `application/xhtml+xml`.
+
+---
+
 ## Notice EXBPMS-17
 
 **Publication Date:** October 6, 2026
