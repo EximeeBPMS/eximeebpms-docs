@@ -15,6 +15,32 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-19
+
+**Publication Date:** pending release
+
+**Product affected:** EximeeBPMS Run, in both its default (`default.yml`) and production (`production.yml`) configuration, including the Docker images built from it. The Tomcat and WildFly distributions and the Spring Boot starter do not ship this setting.
+
+**Impact:**
+
+The configuration files shipped with Run set `management.endpoints.web.exposure.include: prometheus,*`, which exposes every Spring Boot Actuator endpoint over HTTP. Run requires no authentication for any of them. Anyone who can reach Run's HTTP port can therefore:
+
+- read the application's configuration and environment (`/actuator/env`, `/actuator/configprops`); Spring Boot masks the values, but property names, configuration file locations and the structure of the configuration are visible,
+- read internal details: `beans`, `conditions`, `mappings`, `scheduledtasks`, `sbom`, `threaddump`, and the meter values through `/actuator/metrics` and, where Prometheus export is enabled as in `production.yml`, `/actuator/prometheus`,
+- change log levels at runtime through `POST /actuator/loggers/{name}`, for example to `TRACE`, which can write additional data into the logs and fill the disk.
+
+`/actuator/heapdump` is not available in the affected releases. Enabling REST API authentication (`eximeebpms.bpm.run.auth.enabled`) does not protect these endpoints.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and Community Edition releases 1.1.0 up to and including 1.4.0.
+
+**Solution:**
+
+Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the shipped configuration exposes only `health` and `prometheus`, and `prometheus` requires authentication. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
+
+---
+
 ## Notice EXBPMS-18
 
 **Publication Date:** October 28, 2026
