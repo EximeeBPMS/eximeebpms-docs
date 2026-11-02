@@ -1,0 +1,10 @@
+# Keep the rendering that published pages had before the Hugo upgrade.
+markup:
+  goldmark:
+    parser:
+      # Preserve published heading fragments across the Blackfriday to Goldmark upgrade.
+      autoIDType: blackfriday
+  highlight:
+    # Plain <pre><code class="language-x"> for the themes' own Prism styling; Chroma would
+    # emit inline style attributes and a different palette.
+    codeFences: false

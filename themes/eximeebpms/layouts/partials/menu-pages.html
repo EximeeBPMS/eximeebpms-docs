@@ -1,0 +1,95 @@
+
+
+{{ define "find-current-menu-node" }}
+
+  {{ $ctx := . }}
+  {{ $thisPage := $ctx.Get "thisPage" }}
+  {{ $currentNode := $ctx.Get "currentNode" }}
+
+
+
+    {{ if $currentNode.HasChildren }}
+      {{ range $currentNode.Children }}
+
+        {{ if $thisPage.IsMenuCurrent "main" . }}
+          {{ $ctx.Set "menuItem" . }}
+        {{ else }}
+
+        {{ if $thisPage.HasMenuCurrent "main" . }}
+          {{ $ctx.Set "currentNode" . }}
+          {{ template "find-current-menu-node" $ctx }}
+        {{ end}}
+      {{ end }}
+    {{ end }}
+
+  {{ end }}
+
+{{ end }}
+
+
+{{ $ctx := .Scratch }}
+{{ $thisPage := .}}
+{{ $ctx.Set "thisPage" $thisPage }}
+
+{{ range .Site.Menus.main }}
+
+  {{ if $thisPage.IsMenuCurrent "main" . }}
+    {{ $ctx.Set "menuItem" . }}
+  {{ end }}
+
+  {{ if $thisPage.HasMenuCurrent "main" . }}
+    {{ $ctx.Set "currentNode" . }}
+    {{ template "find-current-menu-node" $ctx }}
+  {{ end}}
+
+{{ end}}
+
+
+{{ $menuItem := .Scratch.Get "menuItem"}}
+
+{{ if $menuItem.HasChildren }}
+
+  <ul class="section-cards">
+
+  {{ range $menuItem.Children }}
+    {{/* Description: the menu "pre" text, else the page's description, else its first body paragraph. */}}
+    {{ $desc := "" }}
+    {{ if .Pre }}{{ $desc = trim .Pre "" | markdownify | plainify }}{{ end }}
+    {{ with .Page }}
+      {{ if not $desc }}{{ with .Description }}{{ $desc = . }}{{ end }}{{ end }}
+      {{ if not $desc }}
+        {{ $html := .Content | string }}
+        {{ $html = replaceRE `(?s)<(aside|pre|table|figure|ul|ol|dl|blockquote)\b.*?</(aside|pre|table|figure|ul|ol|dl|blockquote)>` "" $html }}
+        {{ range findRE `(?s)<p>.*?</p>` $html }}
+          {{ if not $desc }}
+            {{ $text := . | plainify | htmlUnescape | replaceRE `[\x{200B}\x{FEFF}]` "" | replaceRE `\s+` " " | strings.TrimSpace }}
+            {{ if ge (strings.RuneCount $text) 40 }}
+              {{ $desc = $text }}
+              {{ if gt (strings.RuneCount $text) 190 }}
+                {{/* Prefer ending on the last full sentence that fits; otherwise cut at a word boundary. */}}
+                {{ $head := substr $text 0 191 }}
+                {{ $sentence := "" }}
+                {{ with findRE `^.{59,189}[.!?]\s` $head }}{{ $sentence = index . 0 | strings.TrimSpace }}{{ end }}
+                {{ if and $sentence (not (findRE `(?i)\b(e\.g|i\.e|etc|vs|approx)\.$` $sentence)) (eq (strings.Count "(" $sentence) (strings.Count ")" $sentence)) }}
+                  {{ $desc = $sentence }}
+                {{ else }}
+                  {{ $desc = $text | truncate 190 "…" }}
+                {{ end }}
+              {{ end }}
+              {{/* A paragraph that introduces a stripped list or code block would read as cut off: mark it. */}}
+              {{ if not (findRE `[.!?…)"”]$` $desc) }}{{ $desc = printf "%s…" (strings.TrimSuffix ":" $desc) }}{{ end }}
+            {{ end }}
+          {{ end }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    <li class="section-card">
+      <a href="{{ .URL }}"><span class="section-card-title">{{ .Name }}</span>{{ if and .HasChildren .Page .Page.IsSection }}<span class="section-card-count">{{ len .Children }} {{ if eq (len .Children) 1 }}page{{ else }}pages{{ end }}</span>{{ end }}</a>
+      {{ if $desc }}<p>{{ $desc }}</p>{{ end }}
+    </li>
+
+  {{ end }}
+
+  </ul>
+
+{{ end }}

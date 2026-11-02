@@ -1,0 +1,16 @@
+{{ partial "header.html" . }}
+<main id="main-content" class="docs-article page-content" data-pagefind-body>
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="{{ .Site.BaseURL }}">{{ .Site.Params.section.id | title }}</a>{{ range .Ancestors.Reverse }}{{ if not .IsHome }}<span>/</span><a href="{{ .RelPermalink }}">{{ .Title }}</a>{{ end }}{{ end }}</nav>
+  <h1>{{ .Title }}</h1>
+  <div class="content-text">{{ .Content }}</div>
+  {{ if .IsSection }}<div class="menu-pages" data-pagefind-ignore>{{ partial "menu-pages.html" . }}</div>{{ end }}
+  <footer class="docs-footer">
+    {{ if .File }}{{ partial "edit-on-github.html" . }}{{ end }}
+    <a href="#main-content">Back to top ↑</a>
+    <p>EximeeBPMS documentation, based on <a href="https://docs.camunda.org/">Camunda 7 Docs</a>.
+    Content licensed under <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a>.
+    <a href="https://eximeebpms.org/document/eximee-bpms-privacy-policy/">Privacy Statement</a> · <a href="https://consdata.com/en/about-us/contact">Consdata S.A.</a></p>
+  </footer>
+</main>
+{{ if strings.Contains .TableOfContents "<li>" }}<aside class="docs-toc" aria-label="On this page"><p class="sidebar-label">On this page</p>{{ .TableOfContents }}</aside>{{ end }}
+{{ partial "footer.html" . }}

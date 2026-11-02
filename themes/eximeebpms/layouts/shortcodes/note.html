@@ -1,0 +1,5 @@
+{{ $title := .Get "title" | default "Important" }}
+<aside class="note {{ with .Get "class" }}docs-{{ . }}{{ end }} {{ if eq $title "Enterprise Edition only" }}note-enterprise{{ end }}">
+  <p class="note-title">{{ $title }}</p>
+  <div>{{ .Inner | markdownify }}</div>
+</aside>

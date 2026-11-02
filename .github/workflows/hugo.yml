@@ -61,10 +61,14 @@ jobs:
           echo "versions=${VERSIONS}" >> "$GITHUB_OUTPUT"
           echo "Latest: ${LATEST}, Versions: ${VERSIONS}"
 
+      - name: Read shared Hugo version
+        id: hugo
+        run: echo "version=$(./hugo-version.sh)" >> "$GITHUB_OUTPUT"
+
       - name: Install Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.54.0'
+          hugo-version: ${{ steps.hugo.outputs.version }}
           extended: true
 
       - name: Set up Node.js (for Pagefind)
@@ -90,6 +94,7 @@ jobs:
             echo "=== Building docs/${version} ==="
             git worktree add "worktree-${version}" "docs/${version}"
             cp -r themes "worktree-${version}/"
+            python3 .github/scripts/prepare_content.py "worktree-${version}"
 
             # Version-select dropdown content, derived from versions.yaml
             # (adr/0022) - overwrites this worktree's own copy, never committed.
@@ -131,7 +136,7 @@ jobs:
             } >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
 
             # Build versioned manual
-            hugo --minify \
+            hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml \
               -s "worktree-${version}/manual" \
               --baseURL "/manual/${version}/" \
               -d "$(pwd)/public-manual-${version}"
@@ -150,7 +155,7 @@ jobs:
 
             if [ "${version}" = "${LATEST}" ]; then
               # Build manual/latest
-              hugo --minify \
+              hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml \
                 -s "worktree-${version}/manual" \
                 --baseURL "/manual/latest/" \
                 -d "$(pwd)/public-manual-latest"
@@ -171,7 +176,7 @@ jobs:
 
               # Build get-started
               if [ -d "worktree-${version}/get-started" ]; then
-                hugo --minify \
+                hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml \
                   -s "worktree-${version}/get-started" \
                   --baseURL "/get-started/" \
                   -d "$(pwd)/public-get-started"
@@ -180,7 +185,7 @@ jobs:
 
               # Build security
               if [ -d "worktree-${version}/security" ]; then
-                hugo --minify \
+                hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml \
                   -s "worktree-${version}/security" \
                   --baseURL "/security/" \
                   -d "$(pwd)/public-security"

@@ -177,20 +177,9 @@ fi
 # Theme symbols are shared across every branch on master, so a symbol this
 # branch does not use may well be used by another - never orphan-check them.
 # A missing one, though, is a broken image on this branch.
-symroot="$root/themes/eximee/static/img/short-codes"
-if [[ -d "$symroot" ]]; then
-  : > "$tmp/dangling-sym"
-  while IFS= read -r s; do
-    [[ -f "$symroot/$s" ]] || printf '%s\n' "$s" >> "$tmp/dangling-sym"
-  done < "$tmp/symbols"
-  if [[ -s "$tmp/dangling-sym" ]]; then
-    report "$(wc -l < "$tmp/dangling-sym") bpmn/cmmn-symbol reference(s) have no theme asset"
-    sed 's#^#  img/short-codes/#' "$tmp/dangling-sym"
-  fi
-elif [[ -s "$tmp/symbols" ]]; then
-  printf 'NOTE: %d bpmn/cmmn-symbol reference(s) not verified - no theme in this tree\n' \
-    "$(wc -l < "$tmp/symbols")"
-  printf '  (hugo.yml copies themes/ into each version worktree before building)\n'
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if ! python3 "$script_dir/.github/scripts/check_theme_symbols.py" "$root"; then
+  report 'bpmn/cmmn-symbol references have missing selected-theme assets'
 fi
 
 # ----------------------------------------------------------------- orphans

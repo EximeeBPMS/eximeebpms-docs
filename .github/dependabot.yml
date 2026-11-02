@@ -6,7 +6,7 @@
 version: 2
 updates:
   - package-ecosystem: "docker"
-    directory: "/" # Dockerfile: hugo builder image (ARG HUGO_VERSION) + nginx runtime image
+    directory: "/" # Dockerfile: Docker images; Hugo ARG freshness is verified explicitly at upgrade time
     schedule:
       interval: "daily"
     open-pull-requests-limit: 5
