@@ -17,7 +17,7 @@ for our reporting process and disclosure timeline.
 
 ## Notice EXBPMS-19
 
-**Publication Date:** pending release
+**Publication Date:** November 2, 2026
 
 **Product affected:** EximeeBPMS Run, in both its default (`default.yml`) and production (`production.yml`) configuration, including the Docker images built from it. The Tomcat and WildFly distributions and the Spring Boot starter do not ship this setting.
 

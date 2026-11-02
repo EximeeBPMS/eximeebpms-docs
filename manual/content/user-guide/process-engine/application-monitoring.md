@@ -131,7 +131,7 @@ These stock examples use the distribution's existing BASIC mechanism. An install
 |---|---|
 | 401 | No login or wrong credentials. A browser login counts only on Run's main server, not on a separate management port. After repeated wrong passwords the engine temporarily [throttles login attempts]({{< ref "/user-guide/process-engine/identity-service.md#throttle-login-attempts" >}}) for that account, so correct credentials also fail for a short time. |
 | 403 | The user is authenticated but lacks the role. In Run: neither an engine administrator nor in group `metricsreader` (with `--oauth2`: neither group is in the token). In Tomcat/WildFly: the realm user lacks role `metricsreader`; engine administration does not count. In Spring Boot: the authority is not `ROLE_metricsreader`. |
-| 404 | Run or Spring Boot: the endpoint is not exposed or not enabled (`management.endpoints.web.exposure.include`, `management.endpoint.prometheus.access`, and `management.prometheus.metrics.export.enabled`); Run answers 401 instead until the caller logs in. Tomcat/WildFly: no engine has `httpEnabled=true`; only a user with role `metricsreader` sees the 404, others get 401 or 403. |
+| 404 | Run or Spring Boot: the endpoint is not exposed or not enabled (`management.endpoints.web.exposure.include`, `management.endpoint.prometheus.access`, or the deprecated `.enabled` in an application's own configuration, and `management.prometheus.metrics.export.enabled`); Run answers 401 instead until the caller logs in. Tomcat/WildFly: no engine has `httpEnabled=true`; only a user with role `metricsreader` sees the 404, others get 401 or 403. |
 
 # Container configuration and lifecycle
 
