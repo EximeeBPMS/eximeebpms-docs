@@ -37,7 +37,7 @@ All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and Com
 
 **Solution:**
 
-Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the shipped configuration exposes only `health` and `prometheus`, and `prometheus` requires authentication. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
+Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the shipped configuration exposes only `health` and `prometheus`, `prometheus` requires authentication, and any other endpoint an installation exposes requires an engine administrator. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
 
 ---
 

@@ -29,16 +29,17 @@ or an administrator group grant access. Outside Run, engine administrators need
 the role too; in Spring Security it is the authority `ROLE_metricsreader`.
 
 Run's shipped configuration no longer exposes every Actuator endpoint, only
-`health` and `prometheus` (Security Notice EXBPMS-19).
+`health` and `prometheus` (Security Notice EXBPMS-19). Any other endpoint an
+installation exposes requires an engine administrator.
 
 Run also validates the selected YAML before
 server startup and reports syntax/duplicate-key locations without printing
 configuration values or opening a browser on validation failure.
 
-Spring applications now use `eximeebpms.monitoring.enabled` for all automatic
-engine and worker measurements and `eximeebpms.monitoring.updateRate` for periodic
-state refreshes. Replace the old `snapshot.*` keys during migration; disabling
-the new switch also disables local event counters. Run defaults to disabled in
+Spring applications can switch off all automatic engine and worker
+measurements with the new `eximeebpms.monitoring.enabled`, which also disables
+local event counters. The monitor's `eximeebpms.monitoring.snapshot.enabled` and
+`.snapshot.updateRate` keep controlling only the periodic state refreshes. Run defaults to disabled in
 `default.yml` and enabled in `production.yml`. Prometheus registry/HTTP settings
 remain separate. Run launchers recover stale PID files, verify process identity
 before signalling it, and defer opening a browser until startup is accepted.

@@ -54,9 +54,9 @@ Worker applications use [Worker Monitoring]({{< ref "/user-guide/ext-client/moni
 
 Measurement and HTTP exposure are separate. Run keeps `/actuator/prometheus`; enable its exposure through the existing `management.endpoints.web.exposure.include` configuration. The endpoint requires an authenticated principal with role `metricsreader`, even when other Actuator endpoints are public. Exposing an endpoint does not grant that role.
 
-Run's shipped configuration exposes only the Actuator endpoints `health` and `prometheus`. Run protects only the Prometheus path; do not add other endpoints, or `*`, to the exposure list unless your deployment protects them.
+Run's shipped configuration exposes only the Actuator endpoints `health` and `prometheus`. If you expose more, Run lets only engine administrators read them, `metricsreader` alone is not enough; `health` stays open.
 
-Run always authenticates the Prometheus path against the engine's identity service, whether or not `eximeebpms.bpm.run.auth.enabled` protects the REST API, and with any combination of the `--webapps` and `--rest` components. It accepts HTTP Basic credentials and, on the main server, an existing login to Cockpit, Admin or Tasklist in the same browser session; a separate management server keeps its own sessions and accepts HTTP Basic only. Engine administrators (the engine's `adminUsers` and `adminGroups`, by default group `eximeebpms-admin`) may read metrics; any other user must belong to group `metricsreader`. The stock `demo` account is an administrator, so after logging in to Cockpit you can open `/actuator/prometheus` in the same browser. No additional credential store is created. Run registers this check on both the main and a separate management server. Endpoint path overrides (`management.endpoints.web.base-path`, `management.endpoints.web.path-mapping.prometheus`) are respected.
+Run always authenticates the Prometheus path, and every other Actuator endpoint except `health`, against the engine's identity service, whether or not `eximeebpms.bpm.run.auth.enabled` protects the REST API, and with any combination of the `--webapps` and `--rest` components. It accepts HTTP Basic credentials and, on the main server, an existing login to Cockpit, Admin or Tasklist in the same browser session; a separate management server keeps its own sessions and accepts HTTP Basic only. Engine administrators (the engine's `adminUsers` and `adminGroups`, by default group `eximeebpms-admin`) may read metrics; any other user must belong to group `metricsreader`. The stock `demo` account is an administrator, so after logging in to Cockpit you can open `/actuator/prometheus` in the same browser. No additional credential store is created. Run registers this check on both the main and a separate management server. Endpoint path overrides (`management.endpoints.web.base-path`, `management.endpoints.web.path-mapping.prometheus`, `management.endpoints.web.path-mapping.health`) are respected.
 
 With the `--oauth2` component, a user who logged in through the OAuth2 provider is checked the same way. The [OAuth2 identity provider]({{< ref "/user-guide/spring-boot-integration/spring-security.md#oauth2-identity-provider" >}}) takes that user's groups from the token, so map the provider's groups into it with `eximeebpms.bpm.oauth2.identity-provider.group-name-attribute`: a token group `metricsreader`, or an administrator group such as `eximeebpms-admin`, grants access. A scraper keeps using HTTP Basic with an account of the engine's database identity provider.
 
@@ -76,7 +76,8 @@ For stock Run, enable monitoring (`eximeebpms.monitoring.enabled=true`) and expo
 eximeebpms:
   monitoring:
     enabled: true
-    updateRate: 10000
+    snapshot:
+      updateRate: 10000
 management:
   endpoints:
     web:
@@ -278,17 +279,17 @@ At <code>history-level: activity</code> or <code>audit</code>, incident and exte
   <tr>
     <td><code>eximeebpms.incidents.open.total</code></td>
     <td>Gauge</td>
-    <td>Number of currently open incidents, per process definition.</td>
+    <td>Number of currently open incidents, per process definition, activity and incident type.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.incidents.open.age.newest.seconds</code></td>
     <td>Gauge</td>
-    <td>Age, in seconds, of the newest currently open incident, per process definition.</td>
+    <td>Age, in seconds, of the newest currently open incident, per process definition, activity and incident type.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.incidents.open.age.oldest.seconds</code></td>
     <td>Gauge</td>
-    <td>Age, in seconds, of the oldest currently open incident, per process definition.</td>
+    <td>Age, in seconds, of the oldest currently open incident, per process definition, activity and incident type.</td>
   </tr>
 </table>
 
@@ -357,12 +358,12 @@ The three counters above require <code>history-level: full</code> — see [Histo
   <tr>
     <td><code>eximeebpms.external.tasks.open.total</code></td>
     <td>Gauge</td>
-    <td>Number of currently open external tasks.</td>
+    <td>Number of currently open external tasks, per process definition, activity and topic.</td>
   </tr>
   <tr>
     <td><code>eximeebpms.external.tasks.open.error.total</code></td>
     <td>Gauge</td>
-    <td>Number of currently open external tasks that have a recorded error from a failed execution attempt.</td>
+    <td>Number of currently open external tasks that have a recorded error from a failed execution attempt, per process definition, activity and topic.</td>
   </tr>
 </table>
 
@@ -609,7 +610,7 @@ Meters are tagged as follows:
 
 The extension provides the following Spring Boot properties. `enabled` controls all automatically configured engine listeners, periodic state measurements and worker monitoring, including the explicit `@EnableMonitoring` path. It leaves the engine, the host Micrometer registry and the separately secured Prometheus endpoint intact. Restart the application after changing these startup settings.
 
-When migrating from the separate monitor, replace `eximeebpms.monitoring.snapshot.enabled` with `eximeebpms.monitoring.enabled` and move `snapshot.updateRate` to `eximeebpms.monitoring.updateRate`. The old keys are no longer consumed. The new switch has broader scope: `false` disables event-driven and worker meters as well as polling. Explicitly supplied application observers/meters remain application-owned.
+When migrating from the separate monitor, `eximeebpms.monitoring.snapshot.enabled` and `eximeebpms.monitoring.snapshot.updateRate` keep their meaning. The new `eximeebpms.monitoring.enabled` has broader scope: `false` disables event-driven and worker meters as well as polling. Explicitly supplied application observers/meters remain application-owned.
 
 <table class="table desc-table">
   <tr>
@@ -623,7 +624,12 @@ When migrating from the separate monitor, replace `eximeebpms.monitoring.snapsho
     <td>Enable all automatic EximeeBPMS engine and worker measurements. Run explicitly sets this to false in default.yml and true in production.yml.</td>
   </tr>
   <tr>
-    <td><code>eximeebpms.monitoring.updateRate</code></td>
+    <td><code>eximeebpms.monitoring.snapshot.enabled</code></td>
+    <td><code>true</code></td>
+    <td>Enable the periodic state refreshes (gauges) only; event counters and worker meters are unaffected. See <a href="#cluster-considerations">Cluster Considerations</a>.</td>
+  </tr>
+  <tr>
+    <td><code>eximeebpms.monitoring.snapshot.updateRate</code></td>
     <td><code>10000</code></td>
     <td>Delay, in milliseconds, between completed periodic state refreshes; event counters update when their events occur.</td>
   </tr>
@@ -631,7 +637,7 @@ When migrating from the separate monitor, replace `eximeebpms.monitoring.snapsho
 
 # Cluster Considerations
 
-Enable monitoring on every instance whose local event counters are required. Each enabled engine instance also refreshes the database-state gauges. These gauges describe the same shared database, so select one instance's series or aggregate equivalent series without summing them (for example, use `max` while preserving the process-definition labels). Counter rates from different instances can be summed because they count local events. Do not disable the global switch on other nodes merely to reduce polling: this would also remove their event counters.
+Enable monitoring on every instance whose local event counters are required. Each enabled engine instance also refreshes the database-state gauges. These gauges describe the same shared database, so select one instance's series or aggregate equivalent series without summing them (for example, use `max` while preserving the process-definition labels). Counter rates from different instances can be summed because they count local events. To reduce polling, set `eximeebpms.monitoring.snapshot.enabled=false` on all but one node (in containers, the plugin's `snapshotEnabled=false`); their event counters keep running. Do not disable the global switch for this: it would also remove their event counters.
 
 # Reporting Limitations
 
