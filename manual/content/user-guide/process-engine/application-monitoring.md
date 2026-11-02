@@ -10,8 +10,8 @@ menu:
 
 ---
 
-{{< note title="Enterprise Edition — upcoming change (BPMS-813)" class="warning" >}}
-The co-released modules and container support below are part of the upcoming Enterprise release. Earlier releases use the separate monitor extension and support Spring Boot / Run only. Use matching engine, client and monitoring versions containing BPMS-813; the new coordinates are not a drop-in dependency for older clients.
+{{< note title="Enterprise Edition — upcoming change" class="warning" >}}
+The co-released modules and container support below are part of the upcoming Enterprise release. Earlier releases use the separate monitor extension and support Spring Boot / Run only. Use the same Enterprise release for the engine, the External Task Client and the monitoring modules; the new coordinates are not a drop-in dependency for older clients.
 {{< /note >}}
 
 Application monitoring exposes Micrometer meters for the engine and external-task workers. Its source now lives under `monitoring/` in the engine repository and is released in the same reactor. There is no monitor-to-released-engine-to-monitor release cycle. The existing database-reported engine [Metrics]({{< ref "/user-guide/process-engine/metrics.md" >}}) remain a separate mechanism.
@@ -29,7 +29,7 @@ All six production artifacts use group `org.eximeebpms.bpm.monitor` and the engi
 | `eximeebpms-monitor-prometheus` | Prometheus registry factory and text exposition for containers / plain Java |
 | `eximeebpms-monitor-webapp` | Servlet WAR served at `/metrics` by Tomcat and WildFly |
 
-Remove the old `org.eximeebpms.bpm.extension.monitor:eximeebpms-enterprise-bpm-spring-boot-monitor` dependency (or its Community predecessor `eximeebpms-bpm-spring-boot-monitor`). Do not keep old and new implementations on the same classpath: their Java packages intentionally remain compatible and would overlap. The migration includes the changes from monitor PR #15, including ad-hoc turn/model usage meters and explicit `@EnableMonitoring` registration fixes.
+Remove the old `org.eximeebpms.bpm.extension.monitor:eximeebpms-enterprise-bpm-spring-boot-monitor` dependency (or its Community predecessor `eximeebpms-bpm-spring-boot-monitor`). Do not keep old and new implementations on the same classpath: their Java packages intentionally remain compatible and would overlap. The migration also brings ad-hoc subprocess turn and model usage meters (see [Ad-hoc subprocesses](#ad-hoc-subprocesses)) and fixes explicit `@EnableMonitoring` registration.
 
 For applications using the engine REST starter, the new engine and Boot monitoring modules are included by the starter. Other embedded-engine Boot applications add both modules explicitly:
 
@@ -85,14 +85,14 @@ management:
         include: health,prometheus
   endpoint:
     prometheus:
-      enabled: true
+      access: read-only
   prometheus:
     metrics:
       export:
         enabled: true
 ```
 
-Enable both the endpoint and the Prometheus registry when overriding a Run configuration that disables them; HTTP exposure alone does not enable a disabled endpoint. The group id `metricsreader` matches the database identity provider's default group id pattern, so it can be created in Admin without changing `group-resource-whitelist-pattern`.
+Enable both the endpoint and the Prometheus registry when overriding a Run configuration that disables them; HTTP exposure alone does not enable a disabled endpoint. Set the endpoint with `management.endpoint.prometheus.access`, as the shipped files do. Do not also set the deprecated `management.endpoint.prometheus.enabled` anywhere in the configuration, including in a configuration carried over from an earlier release: Spring Boot refuses to start when both keys are set for the same endpoint. The group id `metricsreader` matches the database identity provider's default group id pattern, so it can be created in Admin without changing `group-resource-whitelist-pattern`.
 
 For a scraper, use a dedicated account that is not an engine administrator, with HTTP Basic rather than a copied session cookie, which would keep that web application session alive. Through that identity provider's existing administration, assign the existing scraper account to group `metricsreader`. With the engine's database identity provider this is the existing Admin application's group/membership management; with LDAP/another provider, assign the corresponding group there. The monitor does not create the account or group automatically.
 
@@ -131,7 +131,7 @@ These stock examples use the distribution's existing BASIC mechanism. An install
 |---|---|
 | 401 | No login or wrong credentials. A browser login counts only on Run's main server, not on a separate management port. After repeated wrong passwords the engine temporarily [throttles login attempts]({{< ref "/user-guide/process-engine/identity-service.md#throttle-login-attempts" >}}) for that account, so correct credentials also fail for a short time. |
 | 403 | The user is authenticated but lacks the role. In Run: neither an engine administrator nor in group `metricsreader` (with `--oauth2`: neither group is in the token). In Tomcat/WildFly: the realm user lacks role `metricsreader`; engine administration does not count. In Spring Boot: the authority is not `ROLE_metricsreader`. |
-| 404 | Run or Spring Boot: the endpoint is not exposed or not enabled (`management.endpoints.web.exposure.include`, `management.endpoint.prometheus.enabled` or, in newer Spring Boot configuration, `management.endpoint.prometheus.access`, and `management.prometheus.metrics.export.enabled`); Run answers 401 instead until the caller logs in. Tomcat/WildFly: no engine has `httpEnabled=true`; only a user with role `metricsreader` sees the 404, others get 401 or 403. |
+| 404 | Run or Spring Boot: the endpoint is not exposed or not enabled (`management.endpoints.web.exposure.include`, `management.endpoint.prometheus.access`, and `management.prometheus.metrics.export.enabled`); Run answers 401 instead until the caller logs in. Tomcat/WildFly: no engine has `httpEnabled=true`; only a user with role `metricsreader` sees the 404, others get 401 or 403. |
 
 # Container configuration and lifecycle
 

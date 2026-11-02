@@ -17,7 +17,7 @@ menu:
 
 ## Unreleased Enterprise changes
 
-### Co-released engine and worker monitoring (BPMS-813)
+### Co-released engine and worker monitoring
 
 Prometheus export requires role `metricsreader` (no hyphen, so the default
 group id pattern accepts it). In Run, engine administrators may read metrics
@@ -30,7 +30,12 @@ the role too; in Spring Security it is the authority `ROLE_metricsreader`.
 
 Run's shipped configuration no longer exposes every Actuator endpoint, only
 `health` and `prometheus` (Security Notice EXBPMS-19). Any other endpoint an
-installation exposes requires an engine administrator.
+installation exposes requires an engine administrator. The shipped files now
+switch the Prometheus endpoint with `management.endpoint.prometheus.access` (`none` in
+`default.yml`, `read-only` in `production.yml`) instead of the deprecated
+`management.endpoint.prometheus.enabled`. Spring Boot refuses to start when both
+keys are set for the endpoint, so remove `enabled` from any configuration you
+carry over.
 
 Run also validates the selected YAML before
 server startup and reports syntax/duplicate-key locations without printing
@@ -48,8 +53,10 @@ Monitoring moves into the engine reactor, with separate common, engine, worker,
 Spring Boot, Prometheus and servlet artifacts beneath one `monitoring/` module.
 Replace the old standalone monitor dependency; do not put both implementations
 on the classpath. Use the matching engine/client release containing this change.
-The migration includes monitor PR #15 and reusable execution, lock-renewal,
-queue, executor, HTTP-pool and manual-extension measurements for workers.
+The migration also brings ad-hoc subprocess turn and model usage meters, fixes
+explicit `@EnableMonitoring` registration, and adds reusable execution,
+lock-renewal, queue, executor, HTTP-pool and manual-extension measurements for
+workers.
 
 Tomcat and WildFly include opt-in `/metrics` export. Run keeps its Actuator path,
 but scraping now requires an existing authenticated principal mapped to

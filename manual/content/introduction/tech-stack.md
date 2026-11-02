@@ -24,7 +24,7 @@ Embedded applications keep their own Flyway/Liquibase and Jackson versions,
 configuration and histories. The standalone
 administrator tool and bundle command mode use the same migration runtime.
 
-## Upcoming Enterprise monitoring (BPMS-813)
+## Upcoming Enterprise monitoring
 
 The released-version table above retains the standalone monitor versions shipped
 with those releases. The upcoming Enterprise change replaces that separate pin
@@ -32,8 +32,8 @@ with the engine's co-released `org.eximeebpms.bpm.monitor` modules. Its monitori
 baseline uses Micrometer **1.17.2** and Spring Boot **4.1.2** for the Boot adapter.
 The common, engine, client and Prometheus components do not require Spring.
 
-Use one matching published engine/client/monitoring version containing BPMS-813;
-this does not add a new released version to the table in advance. See
+Use the same Enterprise release for the engine, the External Task Client and
+the monitoring modules; the table above lists it once that release is published. See
 [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
 and [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}})
 for artifact replacement and configuration.

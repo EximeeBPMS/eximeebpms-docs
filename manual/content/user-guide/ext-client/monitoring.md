@@ -7,8 +7,8 @@ menu:
     parent: 'external-task-client'
 ---
 
-{{< note title="Enterprise Edition — upcoming change (BPMS-813)" class="warning" >}}
-These monitoring modules require a Java client release containing BPMS-813. Set `eximeebpms.version` below to that published release, consistently for the client, starter and monitoring artifacts. Older releases do not implement the observation SPI.
+{{< note title="Enterprise Edition — upcoming change" class="warning" >}}
+These monitoring modules require the upcoming Enterprise release of the Java client. Set `eximeebpms.version` below to that published release, consistently for the client, starter and monitoring artifacts. Older releases do not implement the observation SPI.
 {{< /note >}}
 
 Workers can publish the same metrics in every customer application. The implementation lives in `eximeebpms-monitor-client`; it does not depend on the process engine. It observes local client activity and reads local executor/pool statistics. It does not call the engine to collect metrics and does not change client settings automatically.
