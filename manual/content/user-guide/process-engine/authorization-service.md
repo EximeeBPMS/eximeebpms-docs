@@ -261,18 +261,40 @@ When embedding the process engine into a custom application, the application nee
 Authentication and Authorization are two distinct concepts as explained [here](https://en.wikipedia.org/wiki/Authentication#Authorization).
 {{< /note >}}
 
-## Which operations may the current user perform?
+## Which permissions does the current user have?
 
-A user interface that disables the operations a user is not allowed to run can ask the engine instead of evaluating authorizations itself. Two [REST API]({{< ref "/reference/rest/_index.md" >}}) operations answer for the currently authenticated user and need no permission beyond being authenticated:
+A user interface that disables the operations a user is not allowed to run can ask the engine for the user's permissions instead of reading and evaluating authorizations itself. Two [REST API]({{< ref "/reference/rest/_index.md" >}}) operations answer for the currently authenticated user and need no permission beyond being authenticated:
 
 * `GET /authentication/me` returns the user's id and profile (first name, last name, email), the groups and tenants the engine applies to the request, and the web applications the user may open. The user always sees their own profile, even without a `READ` permission on their `User` resource; the profile fields are empty when the identity provider holds no record of the user.
-* `GET /authentication/me/operations` returns, per process definition key, whether the user may set job, external task and job definition retries, suspend or activate a process instance, process definition or job definition, delete a process instance and set an incident annotation, and whether they may create a batch that deletes process instances or sets job retries. With the query parameter `processDefinitionKey`, the answer holds only that process definition's entry; the entry `*`, the other entries and the batch operations are left out.
+* `GET /authentication/me/permissions` returns the user's effective permissions per resource type and resource id. The query parameter `resourceType` (for example `PROCESS_DEFINITION,BATCH`) limits the answer to some resource types.
 
-An application embedding the engine gets the same answers from the Java API for the user set with `IdentityService#setAuthentication`: `IdentityService#getCurrentUser()` returns the user's own record (`null` without one) and `AuthorizationService#getCurrentUserOperations()` the operations, `getCurrentUserOperations(processDefinitionKey)` those of one process definition. All three throw a `ProcessEngineException` when no user is authenticated; `getCurrentUserOperations(processDefinitionKey)` also throws one for a `null` or empty key.
+```json
+{
+  "authorizationEnabled": true,
+  "admin": false,
+  "disabledPermissions": [],
+  "resources": {
+    "BATCH": { "*": ["CREATE_BATCH_DELETE_RUNNING_PROCESS_INSTANCES"] },
+    "PROCESS_DEFINITION": {
+      "*": ["READ", "READ_INSTANCE"],
+      "invoice": ["READ", "READ_INSTANCE", "UPDATE_INSTANCE", "DELETE_INSTANCE"],
+      "loan": []
+    }
+  }
+}
+```
 
-Each value is the result of the authorization check the operation itself performs, including permissions that cover others (for example `UPDATE_INSTANCE` covers `SUSPEND_INSTANCE`), revokes and the [precedence](#authorization-precedence) of user, group and global authorizations. The entry `*` answers every process definition key without an entry of its own; a key gets its own entry only when an authorization on the `Process Definition` resource of the user, one of the user's groups or all users names it. Such a key can belong to a process definition the user cannot read or that is not deployed. With authorization checks disabled, every operation is allowed.
+The permissions are evaluated from the user's own authorizations, those of the user's groups and the global authorizations, with the [precedence](#authorization-precedence) and the [revoke check mode](#check-revoke-authorizations) the engine applies to its own permission checks. A resource type is listed when such an authorization exists for it. Its rows are `*` and every other resource id named by such an authorization, also when the row is empty because a revoke takes the permissions away, as for `loan` above. A permission passes the engine's check when
 
-The answer applies to all process instances of a process definition: authorizations on a single process instance are not taken into account. An operation can therefore still be rejected for one process instance whose permissions were revoked, and a permission granted only on one process instance is not reflected. Tenant membership is not part of the answer either, so a client must still handle a rejected operation.
+* `authorizationEnabled` is `false`, or
+* `disabledPermissions` (configuration option `disabledPermissions`) contains it, or
+* the row of the resource id contains it; a resource id without a row of its own uses the row `*`.
+
+A resource type that is not listed has no permission. Resource ids are returned as stored: on a database that compares them case-insensitively (the default on SQL Server), the engine applies an authorization on `Invoice` also to `invoice`, while the answer has a row `Invoice` only. `admin` tells whether the user is an administrator (`adminUsers` or `adminGroups`): the engine allows some operations, such as history cleanup, to administrators without a permission, but grants them no permission on resources.
+
+An application embedding the engine gets the same answers from the Java API for the user set with `IdentityService#setAuthentication`: `IdentityService#getCurrentUser()` returns the user's own record (`null` without one) and `AuthorizationService#getCurrentUserPermissions(Resource...)` the permissions, of the given resource types or, without arguments, of all. Both throw a `ProcessEngineException` when no user is authenticated.
+
+The answer tells which permissions pass; which permissions an operation needs is described in the following sections. The engine still checks every operation, so a client must handle a rejected one.
 
 # Permissions by Resource
 
