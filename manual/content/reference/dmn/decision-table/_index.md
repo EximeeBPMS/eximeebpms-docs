@@ -11,7 +11,7 @@ menu:
     parent: "dmn-ref"
     pre: "Specify Decision Logic as a Table"
 
-aliases: [reference/dmn11/decision-table/]
+aliases: [/reference/dmn11/decision-table/]
 ---
 
 {{< img src="img/dish-table.png" class="no-lightbox" >}}

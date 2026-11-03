@@ -1,0 +1,13 @@
+name: Verify staging documentation
+on:
+  pull_request:
+    branches: [docs/1.4-ee-next]
+  push:
+    branches: [docs/1.4-ee-next]
+permissions:
+  contents: read
+jobs:
+  build:
+    uses: EximeeBPMS/eximeebpms-docs/.github/workflows/build.yml@master
+    with:
+      content-ref: ${{ github.sha }}

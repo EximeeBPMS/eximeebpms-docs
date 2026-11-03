@@ -1,13 +1,14 @@
 ---
 
 title: 'REST Connector'
-weight: 300
+aliases: ["/user-guide/ai-agent/rest-connector/"]
+weight: 10
 
 menu:
   main:
     name: "REST Connector"
     identifier: "external-task-client-rest-connector"
-    parent: "external-task-client"
+    parent: "ai-agent-connectors"
 
 ---
 

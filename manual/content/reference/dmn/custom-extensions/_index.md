@@ -9,7 +9,7 @@ menu:
     parent: "dmn-ref"
     pre: "Custom Extensions supported by Camunda"
 
-aliases: [reference/dmn11/custom-extensions/]
+aliases: [/reference/dmn11/custom-extensions/]
 ---
 
 EximeeBPMS extends DMN with custom Extension Elements and Attributes defined in the `http://camunda.org/schema/1.0/dmn` namespace.

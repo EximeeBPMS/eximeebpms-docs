@@ -9,7 +9,7 @@ menu:
     parent: "dmn-ref-extensions"
     pre: "Reference of Camunda Extension Attributes for DMN."
 
-aliases: [reference/dmn11/custom-extensions/camunda-attributes/]
+aliases: [/reference/dmn11/custom-extensions/camunda-attributes/]
 ---
 
 The following attributes are extension attributes for the `camunda` namespace `http://camunda.org/schema/1.0/dmn`.

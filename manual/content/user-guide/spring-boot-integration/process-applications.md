@@ -14,7 +14,7 @@ menu:
 By default, the eximeebpms-spring-boot-starter is configured to use the `SpringProcessEngineConfiguration` auto deployment feature.
 Since 1.2.0 you also have the possibility to do so via `SpringBootProcessApplication`. This disables the `SpringProcessEngineConfiguration`
 auto-deploy feature and instead uses the required `META-INF/processes.xml` as an indicator for resource scanning.
-This also allows all `processes.xml` configuration features described [here] ({{<ref "/user-guide/process-applications/the-processes-xml-deployment-descriptor.md">}}).
+This also allows all `processes.xml` configuration features described [here]({{<ref "/user-guide/process-applications/the-processes-xml-deployment-descriptor.md">}}).
 
 To use it, just add the `@EnableProcessApplication` annotation to your Spring Boot application class:
 

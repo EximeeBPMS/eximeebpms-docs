@@ -103,7 +103,7 @@ categories:
           v1.2.0: { value: "7.0.5", change: mj, note: "jakarta-only; Spring 5 removed" }
           v1.3.0: { value: "7.0.5" }
           v1.4.0: { value: "7.0.9", change: up }
-          ent: { value: "7.0.9", change: up }
+          ent: { value: "7.0.10", change: up }
       - name: Spring Boot
         values:
           v1.0.0: { value: "3.4.4" }
@@ -111,7 +111,7 @@ categories:
           v1.2.0: { value: "4.0.3", change: mj }
           v1.3.0: { value: "4.0.3" }
           v1.4.0: { value: "4.1.1", change: up }
-          ent: { value: "4.1.1", change: up }
+          ent: { value: "4.1.2", change: up }
       - name: Quarkus
         values:
           v1.0.0: { value: "3.20.0" }
@@ -186,15 +186,15 @@ categories:
 
   - name: Monitoring
     components:
-      - name: eximeebpms-bpm-monitor
-        sub: "Micrometer/Actuator extension"
+      - name: Monitoring integration
+        sub: "Standalone extension (OSS) / engine modules (Enterprise)"
         values:
           v1.0.0: { value: "n/a" }
           v1.1.0: { value: "1.2.0" }
           v1.2.0: { value: "1.2.0" }
           v1.3.0: { value: "1.2.0" }
           v1.4.0: { value: "1.7.0", change: mj }
-          ent: { value: "1.12.0-ee", change: mj, note: "eximeebpms-enterprise-bpm-spring-boot-monitor — a separately versioned fork, not the same artifact as the OSS column" }
+          ent: { value: "1.4.3-SNAPSHOT", change: bk, note: "org.eximeebpms.bpm.monitor modules — co-released with the engine; replace the former standalone monitor dependency" }
 
   - name: "Supported Databases — JDBC Drivers"
     components:

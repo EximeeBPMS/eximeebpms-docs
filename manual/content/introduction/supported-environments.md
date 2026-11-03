@@ -188,3 +188,13 @@ Whenever a new version of one of the following environments is supported, we usu
 * Wildfly Application Server
 
 Note that we may decide to deviate from this policy on a case-by-case basis.
+
+# Enterprise Agent and Connector Worker
+
+The [Enterprise Connectors worker]({{< ref "/user-guide/ai-agent/running-the-connectors.md" >}})
+runs separately from the engine. Its Java baseline is 21; the stock bundle uses
+Alpine 3.24 and OpenJDK 25, runs as UID/GID 1000, and contains no Node.js/Python
+runtime for stdio MCP. Embedded deployments use the matching Spring Boot 4.1
+line. Use remote MCP with the stock image, or supply a custom Alpine-compatible
+image for a stdio server and its runtime. Worker JDBC memory/audit has its own
+schema and driver requirements, separate from the engine database lifecycle.

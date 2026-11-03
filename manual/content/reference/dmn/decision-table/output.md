@@ -10,7 +10,7 @@ menu:
     parent: "dmn-ref-decision-table"
     pre: "Specify the Output of Decision Tables"
 
-aliases: [reference/dmn11/decision-table/output/]
+aliases: [/reference/dmn11/decision-table/output/]
 ---
 
 {{< img src="../img/output.png" title="Output" class="no-lightbox" >}}

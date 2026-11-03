@@ -505,4 +505,7 @@ After a failed fetch and lock, or any other exception in the fetch loop, the cli
 ## AI Agent Conversation Storage
 
 For the Enterprise worker's JDBC storage, audit, erasure and cancellation behavior, see
-[AI Agent Memory and Audit]({{< ref "/user-guide/ext-client/ai-agent-memory-and-audit.md" >}}).
+[Conversation Memory]({{< ref "/user-guide/ai-agent/memory-and-audit.md" >}}),
+[JDBC Storage and Administration]({{< ref "/user-guide/ai-agent/jdbc-storage.md" >}}) and
+[Observability and Model Usage]({{< ref "/user-guide/ai-agent/observability.md" >}}), and
+[Events and Cancellation]({{< ref "/user-guide/ai-agent/events-and-cancellation.md" >}}).

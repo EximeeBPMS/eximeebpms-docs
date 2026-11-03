@@ -11,7 +11,7 @@ menu:
     parent: "dmn-ref"
     pre: "Models Dependencies between Decisions"
 
-aliases: [reference/dmn11/drg/]
+aliases: [/reference/dmn11/drg/]
 ---
 
 {{< img src="img/drd.png" title="Decision Requirements Graph" class="no-lightbox" >}}

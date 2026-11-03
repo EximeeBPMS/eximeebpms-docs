@@ -1,13 +1,14 @@
 ---
 
 title: 'AI Task'
-weight: 305
+aliases: ["/user-guide/ai-agent/ai-task/"]
+weight: 30
 
 menu:
   main:
     name: "AI Task"
     identifier: "external-task-client-ai-task"
-    parent: "external-task-client"
+    parent: "ai-agent-connectors"
 
 ---
 
@@ -98,7 +99,7 @@ Incident messages never contain the prompts or the answer.
 
 ## Audit and Metrics
 
-The task uses the AI agent's audit and model metrics: with the audit enabled, every execution is recorded like a turn of an agent, with its model calls and token counts; an answered task ends with the status `COMPLETED`. See [AI Agent Memory and Audit]({{< ref "/user-guide/ext-client/ai-agent-memory-and-audit.md" >}}). The task's token usage is not reported to the engine's history, which records it only for the turns of an AI agent.
+The task uses the AI agent's audit and model metrics: with the audit enabled, every execution is recorded like a turn of an agent, with its model calls and token counts; an answered task ends with the status `COMPLETED`. See [Observability and Model Usage]({{< ref "/user-guide/ai-agent/observability.md" >}}). The task's token usage is not reported to the engine's history, which records it only for the turns of an AI agent.
 
 # Element Template
 
@@ -122,4 +123,4 @@ eximeebpms:
       default-task-max-model-calls: 3
 ```
 
-`default-task-max-model-calls` is the limit for tasks that set no `limits.maxModelCalls`; it must be at least 1, or the worker does not start. The element template leaves the field empty, so this default applies. Provider endpoints are reached as the REST connector's destinations are: through its network policy, proxy and trust settings (see [REST Connector]({{< ref "/user-guide/ext-client/rest-connector.md" >}})), so a model server on an internal address needs an allow entry.
+`default-task-max-model-calls` is the limit for tasks that set no `limits.maxModelCalls`; it must be at least 1, or the worker does not start. The element template leaves the field empty, so this default applies. Provider endpoints are reached as the REST connector's destinations are: through its network policy, proxy and trust settings (see [REST Connector]({{< ref "/user-guide/ai-agent/connectors/rest-connector.md" >}})), so a model server on an internal address needs an allow entry.

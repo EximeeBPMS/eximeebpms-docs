@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+    xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+    xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+    xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+    xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+    id="supportDefinitions" targetNamespace="https://eximeebpms.org/examples">
+  <bpmn:process id="supportAgentExample" name="Support agent" isExecutable="true" camunda:historyTimeToLive="P1D">
+    <bpmn:startEvent id="start" />
+    <bpmn:sequenceFlow id="toAgent" sourceRef="start" targetRef="agent" />
+    <bpmn:adHocSubProcess id="agent" name="Resolve support request"
+        camunda:topic="org.eximeebpms.agenticai:aiagent-job-worker:1">
+      <bpmn:extensionElements>
+        <camunda:inputOutput>
+          <camunda:inputParameter name="provider.ref">default</camunda:inputParameter>
+          <camunda:inputParameter name="systemPrompt">You help customers. First get the order, then consult the returns knowledge tool. Ask a human reviewer for refund approval and summarize their actual answer. Do not approve refunds yourself.</camunda:inputParameter>
+          <camunda:inputParameter name="userPrompt">${customerMessage}</camunda:inputParameter>
+          <camunda:inputParameter name="limits.maxModelCalls">10</camunda:inputParameter>
+          <camunda:outputParameter name="answer">${execution.getVariableLocalTyped('agent')}</camunda:outputParameter>
+        </camunda:inputOutput>
+        <camunda:adHoc outputCollection="toolCallResults">
+          <camunda:outputElement>
+            <camunda:map>
+              <camunda:entry key="id">${toolCall._meta.id}</camunda:entry>
+              <camunda:entry key="name">${toolCall._meta.name}</camunda:entry>
+              <camunda:entry key="content">${toolCallResult}</camunda:entry>
+              <camunda:entry key="source">${execution.getVariableLocal('adHocActivationSource')}</camunda:entry>
+            </camunda:map>
+          </camunda:outputElement>
+        </camunda:adHoc>
+      </bpmn:extensionElements>
+      <bpmn:serviceTask id="getOrder" name="Get order" camunda:type="external" camunda:topic="org.eximeebpms:http-json:1">
+        <bpmn:documentation>Read an order by its order number. This tool makes no changes.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="method">GET</camunda:inputParameter>
+            <camunda:inputParameter name="url">${fixtureUrl}/orders</camunda:inputParameter>
+            <camunda:inputParameter name="queryParameters.orderId">${fromAi(toolCall.orderId, "Order number")}</camunda:inputParameter>
+            <camunda:outputParameter name="toolCallResult">${response.body}</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+      </bpmn:serviceTask>
+      <bpmn:serviceTask id="knowledge" name="Returns knowledge" camunda:type="external" camunda:topic="org.eximeebpms.agenticai:mcpclient:1">
+        <bpmn:extensionElements>
+          <camunda:properties>
+            <camunda:property name="org.eximeebpms.agenticai.gateway.type" value="mcpClient" />
+          </camunda:properties>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="clientId">knowledge</camunda:inputParameter>
+            <camunda:inputParameter name="operation">${toolCall}</camunda:inputParameter>
+            <camunda:inputParameter name="tools.included">lookup</camunda:inputParameter>
+            <camunda:outputParameter name="toolCallResult">${toolCallResult}</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+      </bpmn:serviceTask>
+      <bpmn:userTask id="askHuman" name="Approve refund" camunda:candidateGroups="support">
+        <bpmn:documentation>Ask a human support reviewer for refund approval. The human must supply the answer.</bpmn:documentation>
+        <bpmn:extensionElements>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="question">${fromAi(toolCall.question, "Question for the reviewer")}</camunda:inputParameter>
+            <camunda:outputParameter name="toolCallResult">${humanAnswer}</camunda:outputParameter>
+          </camunda:inputOutput>
+        </bpmn:extensionElements>
+      </bpmn:userTask>
+    </bpmn:adHocSubProcess>
+    <bpmn:sequenceFlow id="toEnd" sourceRef="agent" targetRef="end" />
+    <bpmn:endEvent id="end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="supportDiagram">
+    <bpmndi:BPMNPlane id="supportPlane" bpmnElement="supportAgentExample">
+      <bpmndi:BPMNShape id="startShape" bpmnElement="start"><dc:Bounds x="40" y="227" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="agentShape" bpmnElement="agent" isExpanded="true"><dc:Bounds x="130" y="100" width="820" height="290" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="orderShape" bpmnElement="getOrder"><dc:Bounds x="210" y="205" width="140" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="knowledgeShape" bpmnElement="knowledge"><dc:Bounds x="470" y="205" width="140" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="humanShape" bpmnElement="askHuman"><dc:Bounds x="730" y="205" width="140" height="80" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="endShape" bpmnElement="end"><dc:Bounds x="1010" y="227" width="36" height="36" /></bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="toAgentEdge" bpmnElement="toAgent"><di:waypoint x="76" y="245" /><di:waypoint x="130" y="245" /></bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="toEndEdge" bpmnElement="toEnd"><di:waypoint x="950" y="245" /><di:waypoint x="1010" y="245" /></bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
