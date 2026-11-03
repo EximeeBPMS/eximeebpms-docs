@@ -1,5 +1,6 @@
 ---
 title: 'AI Agent'
+description: "How the agent runs in an ad-hoc subprocess: inputs and local state, tool selection and completion, events and cancellation, limits and errors."
 weight: 20
 menu:
   main:

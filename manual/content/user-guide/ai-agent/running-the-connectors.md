@@ -1,5 +1,6 @@
 ---
 title: 'Deployment and Operations'
+description: "Run the connectors as a container image, an executable JAR or an embedded Spring Boot worker, with engine permissions, concurrency, health, metrics and shutdown."
 weight: 50
 menu:
   main:

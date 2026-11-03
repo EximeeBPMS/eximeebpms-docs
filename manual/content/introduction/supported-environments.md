@@ -1,6 +1,7 @@
 ---
 
 title: 'Supported Environments'
+description: "The application servers, databases, web browsers and Java versions EximeeBPMS is tested and supported in, plus the Enterprise agent worker. They depend on the documentation version you select."
 weight: 40
 
 menu:

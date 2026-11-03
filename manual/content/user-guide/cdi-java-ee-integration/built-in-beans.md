@@ -1,6 +1,7 @@
 ---
 
 title: 'Built-In Beans'
+description: "Beans you can inject without any setup: the process engine and its services, the current process instance, task and business key, and process variables."
 weight: 50
 
 menu:

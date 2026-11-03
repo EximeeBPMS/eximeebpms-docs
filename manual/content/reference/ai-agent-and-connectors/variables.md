@@ -1,5 +1,6 @@
 ---
 title: 'Agent and Tool Variables'
+description: "The variables in the agent scope and the tool flow scope, the result collection contract, and how the final answer and handoff are returned."
 weight: 20
 menu:
   main:

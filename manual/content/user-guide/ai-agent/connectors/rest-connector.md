@@ -1,6 +1,7 @@
 ---
 
 title: 'REST Connector'
+description: "Call an HTTP API from a service task or an agent tool: inputs, authentication, result mapping, errors and retries, and which internal addresses are allowed."
 aliases: ["/user-guide/ai-agent/rest-connector/"]
 weight: 10
 

@@ -1,6 +1,7 @@
 ---
 
 title: 'External Tasks'
+description: "Run service tasks outside the engine: external workers fetch and lock work items, complete them and report failures."
 weight: 98
 
 menu:

@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.0.0 Release Notes"
+description: "The first EximeeBPMS release, forked from Camunda Platform 7.23.0 with full API and database schema compatibility. Adds filtering process instances by root process instance ID."
 weight: 50
 
 menu:

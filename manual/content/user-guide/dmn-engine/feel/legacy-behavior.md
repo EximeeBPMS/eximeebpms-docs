@@ -1,6 +1,7 @@
 ---
 
 title: 'FEEL Engine Legacy Behavior'
+description: "Only relevant if you come from Camunda 7 version 7.12.0 or earlier."
 weight: 50
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Legacy Behavior"
     identifier: "user-guide-dmn-engine-feel-legacy-behavior"
     parent: "user-guide-dmn-engine-feel"
-    pre: "Only relevant for users coming from Camunda 7 version <= 7.12.0"
 
 ---
 

@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.2.x Enterprise Edition Release Notes"
+description: "Enterprise patch releases up to 1.2.19-ee. Covers Script Guard audit mode and SIEM integration, UUID v7 as the default ID generator, signed SBOMs, and the removal of CMMN and javax support."
 weight: 20
 
 menu:

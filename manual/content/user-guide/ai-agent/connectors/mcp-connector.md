@@ -1,5 +1,6 @@
 ---
 title: 'MCP Connectors'
+description: "Call tools on MCP servers from a process, or expose a server's tools to an AI agent. Covers HTTP and stdio connections, timeouts and failure handling."
 aliases: ["/user-guide/ai-agent/mcp-connector/"]
 weight: 20
 menu:

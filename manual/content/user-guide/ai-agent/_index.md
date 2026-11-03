@@ -1,5 +1,6 @@
 ---
 title: 'AI Agent and Connectors'
+description: "Let an AI agent choose which BPMN activities to run for a request, while the engine keeps the process, human tasks and transactions under control. Start here to pick an execution model."
 weight: 58
 menu:
   main:

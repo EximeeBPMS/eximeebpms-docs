@@ -1,6 +1,7 @@
 ---
 
 title: 'Process Instance Modification'
+description: "Start an activity again or cancel a running one, regardless of the order defined by the process model."
 weight: 50
 
 menu:

@@ -1,5 +1,6 @@
 ---
 title: 'Getting Started with an AI Agent'
+description: "Run your first AI agent: prepare the engine and the worker, model an ad-hoc subprocess with tools, then deploy it and inspect the result."
 weight: 10
 menu:
   main:

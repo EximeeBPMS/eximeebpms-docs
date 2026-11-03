@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.4.x Enterprise Edition Release Notes"
+description: "Enterprise patch releases 1.4.1-ee and 1.4.2-ee on the 1.4.0 baseline, with business-event fixes, MariaDB support and security patches, plus a staging section for upcoming changes."
 weight: 1
 
 menu:

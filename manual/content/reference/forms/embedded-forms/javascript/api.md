@@ -1,6 +1,7 @@
 ---
 
 title: 'Available API'
+description: "The objects available inside a form script, such as camForm and its variable manager, $scope and inject()."
 weight: 20
 
 menu:

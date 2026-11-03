@@ -1,13 +1,13 @@
 ---
 
 title: 'Authentication'
+description: "The authentication cache and its time to live in the web applications, and container-based authentication."
 weight: 10
 
 menu:
   main:
     identifier: "webapps-authentication"
     parent: "webapps-shared-options"
-    pre: "Get more insights on authentication"
 ---
 
 Authentication means verifying a user's identity against the EximeeBPMS web apps. 

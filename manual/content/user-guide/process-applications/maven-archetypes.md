@@ -1,6 +1,7 @@
 ---
 
 title: 'Maven Project Templates (Archetypes)'
+description: "Start a new process application with the Maven archetypes and template repositories, including setup in Eclipse and IntelliJ IDEA."
 weight: 40
 
 menu:

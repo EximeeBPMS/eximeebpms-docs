@@ -1,6 +1,7 @@
 ---
 
 title: 'Security Instructions'
+description: "An overview of securing an installation: deployment options, authentication for the REST API, the web applications and LDAP, and authorization."
 weight: 210
 
 menu:

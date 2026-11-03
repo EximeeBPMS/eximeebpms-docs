@@ -1,6 +1,7 @@
 ---
 
 title: 'Authorization Service'
+description: "Control which users and groups may access process instances, tasks, deployments and other engine data, and how permissions are checked."
 weight: 240
 
 menu:

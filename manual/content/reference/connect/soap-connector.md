@@ -1,6 +1,7 @@
 ---
 
 title: 'SOAP Connector'
+description: "Use the SOAP HTTP connector: create a request, add HTTP headers, use the generic API and read the response."
 weight: 20
 
 menu:

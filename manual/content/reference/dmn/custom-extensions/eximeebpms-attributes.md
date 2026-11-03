@@ -1,13 +1,13 @@
 ---
 
 title: 'Extension Attributes'
+description: "The DMN extension attributes historyTimeToLive, inputVariable and versionTag, in the camunda namespace and, from 1.4.2-ee, in EximeeBPMS' own namespace."
 weight: 20
 
 menu:
   main:
     identifier: "dmn-ref-extensions-attributes"
     parent: "dmn-ref-extensions"
-    pre: "Reference of Camunda Extension Attributes for DMN."
 
 aliases: [/reference/dmn11/custom-extensions/camunda-attributes/]
 ---

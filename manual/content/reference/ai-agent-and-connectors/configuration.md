@@ -1,5 +1,6 @@
 ---
 title: 'Connector Worker Configuration'
+description: "All worker properties and environment variables: runtime, HTTP, agent defaults, named providers, memory and audit, JDBC, MCP, and the bundle and engine client."
 weight: 10
 menu:
   main:

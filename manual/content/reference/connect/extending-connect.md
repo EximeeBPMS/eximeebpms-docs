@@ -1,6 +1,7 @@
 ---
 
 title: 'Extending Connect'
+description: "Configure connectors and implement a custom connector."
 weight: 30
 
 menu:

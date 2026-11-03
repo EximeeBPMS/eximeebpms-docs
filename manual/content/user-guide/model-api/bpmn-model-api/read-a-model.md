@@ -1,6 +1,7 @@
 ---
 
 title: 'Read a Model'
+description: "Import an existing BPMN model from a file or stream and process it with the BPMN model API."
 weight: 10
 
 menu:

@@ -1,5 +1,6 @@
 ---
 title: 'Connector Dependencies and Compatibility'
+description: "Version lines, the runtime, the SDKs and pinned libraries, and how to check the artifacts of an embedded application."
 weight: 30
 menu:
   main:

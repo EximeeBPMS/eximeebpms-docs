@@ -1,6 +1,7 @@
 ---
 
 title: 'Logging'
+description: "How logging works in EximeeBPMS: SLF4J, adding a logging backend for embedded use, the process data context and the logging categories."
 weight: 200
 
 menu:

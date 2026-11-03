@@ -1,5 +1,6 @@
 ---
 title: 'Example: Support Agent'
+description: "A complete example: a support agent that looks up an order over REST and a returns policy on an MCP server, with a human task. You can run it locally."
 weight: 60
 menu:
   main:

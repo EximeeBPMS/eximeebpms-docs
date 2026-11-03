@@ -1,6 +1,7 @@
 ---
 
 title: "Working with Json Data"
+description: "Work with JSON process variables in an embedded form. They cannot be bound with cam-variable-name, so the variable is fetched in a form script."
 weight: 40
 
 menu:

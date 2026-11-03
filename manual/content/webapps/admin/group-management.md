@@ -1,6 +1,7 @@
 ---
 
 title: 'Group Management'
+description: "Add, edit and delete user groups in Admin, and view the members of each group."
 weight: 20
 
 menu:

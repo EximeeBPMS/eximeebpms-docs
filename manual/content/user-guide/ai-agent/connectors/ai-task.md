@@ -1,6 +1,7 @@
 ---
 
 title: 'AI Task'
+description: "Send a single prompt to a language model from a service task, without tools. Covers inputs, JSON answers, errors and retries, and audit and metrics."
 aliases: ["/user-guide/ai-agent/ai-task/"]
 weight: 30
 

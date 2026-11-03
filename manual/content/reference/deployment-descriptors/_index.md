@@ -1,6 +1,7 @@
 ---
 
 title: 'Deployment Descriptor Reference'
+description: "Syntax reference for the XML deployment descriptors that configure EximeeBPMS and declare the BPMN 2.0 deployments of a process application."
 weight: 80
 
 menu:

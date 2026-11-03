@@ -1,5 +1,6 @@
 ---
 title: 'Connectors'
+description: "Ready-made external task workers: the AI task, the REST connector and MCP connectors. Use them in a fixed process flow or as tools of an AI agent."
 weight: 30
 menu:
   main:

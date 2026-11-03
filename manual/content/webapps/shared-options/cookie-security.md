@@ -1,6 +1,7 @@
 ---
 
 title: 'Cookie Security'
+description: "The Secure, HttpOnly and SameSite cookie properties, their limitations and defaults, and how to configure them."
 weight: 20
 layout: "single"
 
@@ -8,7 +9,6 @@ menu:
   main:
     identifier: "cookie-security"
     parent: "webapps-shared-options"
-    pre: "Get more insights about cookie security settings"
 ---
 
 EximeeBPMS's Web applications use cookies to preserve user sessions and to prevent CSRF attacks. This page explains how these cookies should be configured to increase the security.

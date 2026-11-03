@@ -1,5 +1,6 @@
 ---
 title: 'Modeling and Element Templates'
+description: "Model the agent and its tools with element templates, or edit the BPMN XML by hand. Both produce the same contract between the engine and the worker."
 weight: 40
 menu:
   main:

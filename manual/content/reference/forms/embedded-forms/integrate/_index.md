@@ -1,6 +1,7 @@
 ---
 
 title: 'Integrating the Forms SDK'
+description: "Integrate the Forms SDK into a custom HTML 5 application. Tasklist already includes it, so this section is not needed there."
 weight: 60
 
 menu:

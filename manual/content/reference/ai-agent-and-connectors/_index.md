@@ -1,5 +1,6 @@
 ---
 title: 'AI Agent and Connectors Reference'
+description: "Reference for the connector worker: configuration properties, the variables the agent and its tools read and write, and dependencies and compatibility."
 weight: 65
 menu:
   main:

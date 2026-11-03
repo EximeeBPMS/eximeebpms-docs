@@ -1,6 +1,7 @@
 ---
 
 title: 'Camunda BPMN Extension Attributes'
+description: "Reference for the BPMN extension attributes EximeeBPMS supports, such as assignee, asyncBefore, asyncAfter and calledElementBinding."
 weight: 20
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Extension Attributes"
     identifier: "bpmn-extensions-attributes"
     parent: "bpmn-extensions"
-    pre: "Reference of Extension Attributes for BPMN."
 
 ---
 

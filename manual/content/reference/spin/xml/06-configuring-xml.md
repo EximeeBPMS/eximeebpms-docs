@@ -1,6 +1,7 @@
 ---
 
 title: 'Configuring XML Handling'
+description: "Change how Spin parses, writes and maps XML, and process untrusted XML safely."
 weight: 60
 
 menu:

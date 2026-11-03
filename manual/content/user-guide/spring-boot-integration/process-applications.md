@@ -1,6 +1,7 @@
 ---
 
 title: "Process applications"
+description: "Deploy processes automatically on startup and use deployment callbacks in a Spring Boot application."
 weight: 50
 
 menu:

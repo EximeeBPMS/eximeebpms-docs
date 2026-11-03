@@ -1,13 +1,13 @@
 ---
 
 title: 'Extension Reference'
+description: "Custom extension elements and attributes that EximeeBPMS adds to DMN, defined in the camunda.org DMN namespace, with EximeeBPMS' own namespace accepted from 1.4.2-ee."
 weight: 100
 
 menu:
   main:
     identifier: "dmn-ref-extensions"
     parent: "dmn-ref"
-    pre: "Custom Extensions supported by Camunda"
 
 aliases: [/reference/dmn11/custom-extensions/]
 ---

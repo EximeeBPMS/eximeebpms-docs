@@ -1,6 +1,7 @@
 ---
 
 title: 'EximeeBPMS Spin Dataformat Reference'
+description: "Reference for Spin, a library for simple XML and JSON processing on the JVM, usable from Java and from scripting languages such as Groovy."
 weight: 60
 
 menu:
