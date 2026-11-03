@@ -29,6 +29,8 @@ When the execution waits in an External Task, the Client executes your custom bu
 For instance, the customer's credit score is checked, and if successful, the External Task 
 can be marked as completed and the execution proceeds.
 
+For reusable execution, lock-renewal, queue, executor and HTTP-pool metrics, see [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}}).
+
 # Requirements
 
 External Task Client Spring Boot Starter requires Java 21.

@@ -15,6 +15,62 @@ menu:
 
 ---
 
+## Unreleased Enterprise changes
+
+### Co-released engine and worker monitoring
+
+Prometheus export requires role `metricsreader` (no hyphen, so the default
+group id pattern accepts it). In Run, engine administrators may read metrics
+without it, and the metrics path accepts HTTP Basic and, on the main server
+(a separate management server accepts HTTP Basic only), an existing
+Cockpit/Admin/Tasklist login, also when REST API authentication is disabled or
+Run starts with only `--webapps`. With `--oauth2`, token groups `metricsreader`
+or an administrator group grant access. Outside Run, engine administrators need
+the role too; in Spring Security it is the authority `ROLE_metricsreader`.
+
+Run's shipped configuration no longer exposes every Actuator endpoint, only
+`health` and `prometheus` (Security Notice EXBPMS-19). Any other endpoint an
+installation exposes requires an engine administrator. The shipped files now
+switch the Prometheus endpoint with `management.endpoint.prometheus.access` (`none` in
+`default.yml`, `read-only` in `production.yml`) instead of the deprecated
+`management.endpoint.prometheus.enabled`. Spring Boot refuses to start when both
+keys are set for the endpoint, so remove `enabled` from any configuration you
+carry over.
+
+Run also validates the selected YAML before
+server startup and reports syntax/duplicate-key locations without printing
+configuration values or opening a browser on validation failure.
+
+Spring applications can switch off all automatic engine and worker
+measurements with the new `eximeebpms.monitoring.enabled`, which also disables
+local event counters. The monitor's `eximeebpms.monitoring.snapshot.enabled` and
+`.snapshot.updateRate` keep controlling only the periodic state refreshes. Run defaults to disabled in
+`default.yml` and enabled in `production.yml`. Prometheus registry/HTTP settings
+remain separate. Run launchers recover stale PID files, verify process identity
+before signalling it, and defer opening a browser until startup is accepted.
+
+Monitoring moves into the engine reactor, with separate common, engine, worker,
+Spring Boot, Prometheus and servlet artifacts beneath one `monitoring/` module.
+Replace the old standalone monitor dependency; do not put both implementations
+on the classpath. Use the matching engine/client release containing this change.
+The migration also brings ad-hoc subprocess turn and model usage meters, fixes
+explicit `@EnableMonitoring` registration, and adds reusable execution,
+lock-renewal, queue, executor, HTTP-pool and manual-extension measurements for
+workers.
+
+Tomcat and WildFly include opt-in `/metrics` export. Run keeps its Actuator path,
+but scraping now requires an existing authenticated principal mapped to
+`metricsreader`. Configure the scraper's role through the installation's existing
+identity provider. Measurement and HTTP exposure remain separate controls.
+
+The Script Guard gauge retains Micrometer ID `eximeebpms.script.violations.total`
+and exports as `eximeebpms_script_violations_current` to prevent a name-family
+collision with the event counter. Update Prometheus queries for the gauge and
+include the co-released Prometheus adapter.
+
+→ [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+→ [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}})
+
 ## 1.4.2-ee {#142-ee}
 
 **Release date:** 05.10.2026
