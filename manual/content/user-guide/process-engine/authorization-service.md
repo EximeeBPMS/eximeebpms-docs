@@ -290,6 +290,8 @@ The permissions are evaluated from the user's own authorizations, those of the u
 * `disabledPermissions` (configuration option `disabledPermissions`) contains it, or
 * the row of the resource id contains it; a resource id without a row of its own uses the row `*`.
 
+A check without a resource id, such as creating a user, group, tenant, authorization, filter, deployment, task, process instance or batch, uses the row `*`; the engine checks it only against authorizations on `*`, so the row of another resource id says nothing about it. For example, a revoke of `CREATE` on the user id `x` appears in the row `x`, but does not stop the user from creating the user `x`. Starting a process instance also needs `CREATE_INSTANCE` on the process definition, checked on the row of its key. Creating a group or tenant membership is checked on the row of the group or tenant id.
+
 On the `BATCH` resource type, a row contains a "Create Batch …" permission such as `CREATE_BATCH_MIGRATE_PROCESS_INSTANCES` when the user can create a batch of that type. The engine checks that permission and then `CREATE`, and the first of them that a grant or a revoke decides wins (see [Additional Batch Permissions](#additional-batch-permissions)). So `CREATE` lets the user create every type of batch except the types whose permission a revoke takes away; with revoke checks, a global authorization on `*` without the type's permission takes it away too. A disabled one of the two permissions is not checked. For the "Create Batch …" permissions the row is the answer also when `disabledPermissions` contains them. A new batch has no id, so every row of `BATCH` gives the answer of the row `*` for them. Some batches need further permissions on other resources, for example a migration batch on the process definitions.
 
 A resource type that is not listed has no permission. Resource ids are returned as stored: on a database that compares them case-insensitively (the default on SQL Server), the engine applies an authorization on `Invoice` also to `invoice`, while the answer has a row `Invoice` only. `admin` tells whether the user is an administrator (`adminUsers` or `adminGroups`): the engine allows some operations, such as history cleanup, to administrators without a permission, but grants them no permission on resources.
@@ -669,6 +671,7 @@ In addition to **Create**, **Update**, **Read**, and **Delete**, the following p
 * Create Batch Correlate Messages
 
 GRANT and REVOKE authorizations with "Create Batch …" permissions precede over Create.
+The engine checks both only on the resource id `*`, since a new batch has no id: an authorization with a "Create Batch …" permission or Create on the id of an existing batch has no effect on creating batches. For example, a REVOKE of "Create Batch Migrate Process Instances" on the batch id `x` does not stop a user with a GRANT of Create on `*` from creating a migration batch.
 
 ## Default Read Variable Permissions
 When the `enforceSpecificVariablePermission` process engine configuration is enabled, in order to read variables, the user needs to be granted the following permissions:
