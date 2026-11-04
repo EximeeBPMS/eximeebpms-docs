@@ -299,3 +299,44 @@ The agent's optional `engine-rest.base-url` override inherits client credentials
 for the same origin. For a different scheme, host or port, configure credentials explicitly. A password
 without a username fails configuration. This prevents a URL override from forwarding engine credentials
 to a different service.
+
+## Turn replacement and cost accounting
+
+Before interpreting a missing flow as a cancelled tool call, the worker reads the
+activity tree and then checks its external task. It requires its own worker id
+as the current lock owner. Lock expiry uses the engine’s clock and is not compared
+with the worker’s clock. It checks again before every model request, including JSON
+corrections. A replaced task or lost lock ends that attempt without another
+model request or completion. The bundle configures engine REST automatically;
+manual construction without `engineRest` cannot perform these checks.
+
+A request already sent to the model can finish after replacement. The worker
+reports that attempt's model calls and known tokens to engine history using
+`POST /history/ad-hoc-turn/external-task/{externalTaskId}/model-usage`.
+Grant its engine account READ_HISTORY and UPDATE_HISTORY on the process
+definition, as well as access to the process tenant. History must be enabled at
+`audit` or `full` and still retained. Reports use an attempt id for deduplication;
+an uncertain HTTP result or 5xx is retried once after 200 ms without repeating
+the model request. Interruption stops that retry and preserves the interrupt flag.
+Missing or invisible history (404), including a history level below audit or
+already cleaned-up history, is logged at DEBUG. Other failed reports log a WARN
+with task, attempt and HTTP status; reconcile missing reports with worker audit. It does not change the REPLACED state or emit a second turn-end event.
+
+Engine history totals now include successfully reported replaced attempts.
+Worker audit and model-call metrics also include failed attempts on current
+tasks and calls whose history report failed. Provider billing remains the source
+for the full monetary cost; neither worker nor engine can reconstruct usage the
+provider did not return or a call lost when the worker dies.
+
+The connector task timer's `outcome=rejected` is replaced by `not_found`,
+`lock_lost` and `unknown`. Update Prometheus queries and alerts: `not_found` means
+confirmed task absence, `lock_lost` means the task exists without this worker's
+lock, and `unknown` means a report has no definitive transport result.
+The model metrics continue to count all attempts independently of task outcome.
+
+The end-of-attempt audit counts every attempted model call, including failed
+calls. Its token total is unknown if any call did not return that token count.
+Known counts remain in the individual model-call audit records. An accepted turn
+result counts returned model responses; its totals need not match a failed
+attempt's audit totals. Engine history likewise keeps a replaced turn's token
+total null if any of its attempt reports has an unknown value.

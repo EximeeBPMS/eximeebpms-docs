@@ -178,3 +178,18 @@ To allow different configurations and to keep the tables more flexible, the hist
 ## Identity
 
 {{< img src="../../img/erd_identity.svg" title="Identity Tables" >}}
+
+## Replaced ad-hoc turn usage reports
+
+`ACT_HI_ADHOC_USAGE` stores one immutable model-usage report per worker attempt of
+a REPLACED turn. `ID_` is its idempotency key and `TURN_ID_` references
+`ACT_HI_ADHOC_TURN` by convention; there are no foreign keys in history. Reports
+also carry `PROC_INST_ID_`, `ROOT_PROC_INST_ID_` and `REMOVAL_TIME_` with indexes
+for history deletion and retention updates. The engine deletes reports explicitly
+after their parent turns; bounded retention cleanup only removes eligible reports
+whose turn is gone. Reporting locks the parent and copies its current retention
+metadata. When a turn has more reports than one cleanup batch can remove,
+subsequent batches drain the remainder. A late report cannot recreate usage
+after its parent turn has been removed. Model calls and nullable input/output token counts are summed into the
+parent turn. The table is included in fresh history schemas and the unreleased
+1.4.2-to-1.4.3 upgrade for every supported database.

@@ -150,3 +150,33 @@ runtimeService.createAdHocSubProcessActivation(complaint.getId(), handleComplain
 * To repair a running inner flow, e.g. to repeat *Prepare refund* inside the warranty's inner flow, use
   [process instance modification]({{< ref "/user-guide/process-engine/process-instance-modification.md#ad-hoc-subprocess" >}})
   with that inner flow as ancestor.
+
+# Late Model Usage of Replaced Turns
+
+A worker may finish a model call after the engine replaces its turn. Report that
+attempt through `historyService.reportHistoricAdHocTurnModelUsage(taskId,
+attemptId, modelCalls, inputTokens, outputTokens)` or:
+
+```http
+POST /history/ad-hoc-turn/external-task/{externalTaskId}/model-usage
+Content-Type: application/json
+
+{"attemptId":"unique-worker-attempt-id","modelCalls":1,"inputTokens":123,"outputTokens":45}
+```
+
+The turn must exist in history and have state REPLACED. READ_HISTORY and
+UPDATE_HISTORY on its process definition and tenant access are required.
+Repeating the same report is safe after a lost response. A different report with
+the same attempt id, invalid counters, or a different turn state returns 400;
+missing or invisible history returns 404 (including history below audit, cleaned-up
+history and missing READ_HISTORY or tenant access). Missing UPDATE_HISTORY returns 403. Token counters may be null when unknown;
+modelCalls is required. All counters are nonnegative 64-bit integers.
+
+Distinct attempt reports sum into the existing turn and its model-usage totals.
+A token total of the turn remains null if any attempt has an unknown value for it;
+known values are not presented as a complete total. The existing aggregate across
+turns sums non-null counters and omits unknown turn values; use per-call audit
+and provider billing to reconcile incomplete totals.
+The turn keeps its state, timestamp and decisions. History deletion and retention
+cleanup remove the reports. Turn-end business events and their model counters
+remain unchanged; use history queries or worker audit for late reported usage.
