@@ -66,7 +66,7 @@ A state-changing Actuator request in Run (any method other than `GET`, `HEAD` an
 2. Read `X-XSRF-TOKEN` from the response headers. Do not write the token to logs or shared caches.
 3. Keep the same login session and send that token in the `X-XSRF-TOKEN` request header on the modifying request.
 
-Run's token is separate from the web applications' token and does not change their cookies; obtain a new one after the session expires. `health` issues no token. HTTP Basic requests without a login identity are not affected; a request that carries a login identity is checked as a session request even if it also sends Basic credentials.
+Run's token is separate from the web applications' token and does not change their cookies; obtain a new one after the session expires. `health` issues no token. A browser resends HTTP Basic credentials by itself once they are entered, so a state-changing HTTP Basic request that carries an `Origin` or `Sec-Fetch-Site` header, as browsers send, must also send a non-empty `X-XSRF-TOKEN` header; any value is accepted, because a page on another site cannot add that header to a request to Actuator unless `management.endpoints.web.cors` allows that site. Such requests get no token and create no session. Scripts and scrapers that send neither header are not affected. A request that carries a login identity is checked as a session request even if it also sends Basic credentials.
 
 The administrator exception exists only in Run, which checks identities itself. Tomcat, WildFly and your own Spring Boot application authorize the metrics endpoint by role `metricsreader` alone: an engine administrator without that role is denied.
 
