@@ -273,6 +273,7 @@ A user interface that disables the operations a user is not allowed to run can a
   "authorizationEnabled": true,
   "admin": false,
   "disabledPermissions": [],
+  "omittedResourceTypes": ["HISTORIC_PROCESS_INSTANCE", "HISTORIC_TASK", "PROCESS_INSTANCE", "TASK"],
   "resources": {
     "BATCH": { "*": ["CREATE_BATCH_DELETE_RUNNING_PROCESS_INSTANCES"] },
     "PROCESS_DEFINITION": {
@@ -284,7 +285,7 @@ A user interface that disables the operations a user is not allowed to run can a
 }
 ```
 
-The permissions are evaluated from the user's own authorizations, those of the user's groups and the global authorizations, with the [precedence](#authorization-precedence) and the [revoke check mode](#check-revoke-authorizations) the engine applies to its own permission checks. A resource type is listed when such an authorization exists for it. Its rows are `*` and every other resource id named by such an authorization, also when the row is empty because a revoke takes the permissions away, as for `loan` above. A permission passes the engine's check when
+The permissions are evaluated from the user's own authorizations, those of the user's groups and the global authorizations, with the [precedence](#authorization-precedence) and the [revoke check mode](#check-revoke-authorizations) the engine applies to its own permission checks. A resource type is listed when such an authorization exists for it. Its rows are `*` and every other resource id named by such an authorization whose permissions differ from the row `*`, also when the row is empty because a revoke takes the permissions away, as for `loan` above. A permission passes the engine's check when
 
 * `authorizationEnabled` is `false`, or
 * `disabledPermissions` (configuration option `disabledPermissions`) contains it, or
@@ -294,9 +295,17 @@ A check without a resource id, such as creating a user, group, tenant, authoriza
 
 On the `BATCH` resource type, a row contains a "Create Batch …" permission such as `CREATE_BATCH_MIGRATE_PROCESS_INSTANCES` when the user can create a batch of that type. The engine checks that permission and then `CREATE`, and the first of them that a grant or a revoke decides wins (see [Additional Batch Permissions](#additional-batch-permissions)). So `CREATE` lets the user create every type of batch except the types whose permission a revoke takes away; with revoke checks, a global authorization on `*` without the type's permission takes it away too. A disabled one of the two permissions is not checked. For the "Create Batch …" permissions the row is the answer also when `disabledPermissions` contains them. A new batch has no id, so every row of `BATCH` gives the answer of the row `*` for them. Some batches need further permissions on other resources, for example a migration batch on the process definitions.
 
-A resource type that is not listed has no permission. Resource ids are returned as stored: on a database that compares them case-insensitively (the default on SQL Server), the engine applies an authorization on `Invoice` also to `invoice`, while the answer has a row `Invoice` only. `admin` tells whether the user is an administrator (`adminUsers` or `adminGroups`): the engine allows some operations, such as history cleanup, to administrators without a permission, but grants them no permission on resources.
+A resource type that is not listed has no permission, unless `omittedResourceTypes` names it: those resource types were not evaluated, and the answer says nothing about them. Without `resourceType`, the answer leaves out `TASK`, `PROCESS_INSTANCE`, `HISTORIC_TASK` and `HISTORIC_PROCESS_INSTANCE`, whose authorizations can name every single task or process instance (the engine creates one for each candidate group of a task, for example); a client that needs them requests them with `resourceType`. `HISTORIC_TASK` and `HISTORIC_PROCESS_INSTANCE` are left out also when requested unless [historic instance permissions](#historic-instance-permissions) are enabled, since the engine does not check them otherwise.
 
-An application embedding the engine gets the same answers from the Java API for the user set with `IdentityService#setAuthentication`: `IdentityService#getCurrentUser()` returns the user's own record (`null` without one) and `AuthorizationService#getCurrentUserPermissions(Resource...)` the permissions, of the given resource types or, without arguments, of all. Both throw a `ProcessEngineException` when no user is authenticated.
+The answer covers authorizations only. An operation on data of a tenant the user is not a member of is refused by the engine's [tenant check]({{< ref "/user-guide/process-engine/multi-tenancy.md" >}}) whatever the permissions.
+
+Resource ids are returned as stored, while the engine compares them with the database's collation. On a database that compares them case-insensitively (SQL Server with its default collation), ids that differ only in case get rows of their own, and such a row can differ from the engine's decision. There the engine treats such ids as one id in its other queries too, for example when it looks up the latest version of a process definition by key, so give authorizations only to ids as they are used.
+
+The rows name the resource ids of the authorizations of the user, the user's groups and the global authorizations whose permissions differ from the row `*`, also ids of resources the user may not read, such as the key of a process definition or the id of another user.
+
+`admin` tells whether the user is an administrator (`adminUsers` or `adminGroups`): the engine allows some operations, such as history cleanup, to administrators without a permission, but grants them no permission on resources.
+
+An application embedding the engine gets the same answers from the Java API for the user set with `IdentityService#setAuthentication`: `IdentityService#getCurrentUser()` returns the user's own record (`null` without one) and `AuthorizationService#getCurrentUserPermissions(Resource...)` the permissions, of the given resource types or, without arguments, of all except those listed in `omittedResourceTypes`. Both throw a `ProcessEngineException` when no user is authenticated.
 
 The answer tells which permissions pass; which permissions an operation needs is described in the following sections. The engine still checks every operation, so a client must handle a rejected one.
 
