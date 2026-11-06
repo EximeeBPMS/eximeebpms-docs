@@ -35,12 +35,12 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 * Apache Tomcat 11.0 (Tomcat 9.0 support removed in Community Edition as of 1.4.0, having been deprecated since 1.3.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
   * The `eximeebpms-bpm-tomcat` **distribution** ships and is supported on Tomcat 11.0. The **web application archives** (`eximeebpms-webapp-tomcat-jakarta`, `eximeebpms-engine-rest-jakarta`) also deploy and run on a Tomcat **10.1** container you manage yourself — verified against Tomcat 10.1.50 on 2026-09-15; both declare a Servlet 3.0 descriptor and use no Servlet 6.1 feature.
 * JBoss EAP 7.4 / 8.0
-* WildFly Application Server 41.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
+* WildFly Application Server 42.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
 
 ## Upcoming Enterprise monitoring
 
 The co-released monitoring adapters target Run and the bundled Tomcat 11.0 and
-WildFly 41.0 distributions on the supported Java runtimes. Engine measurement
+WildFly 42.0 distributions on the supported Java runtimes. Engine measurement
 is independent of Spring; container HTTP exposure is opt-in. WildFly uses its
 managed scheduler. Worker measurement can be embedded without an engine.
 

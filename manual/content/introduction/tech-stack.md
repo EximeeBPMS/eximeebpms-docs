@@ -16,6 +16,15 @@ By default the table shows the two most recent OSS releases plus the current Ent
 
 {{< tech-stack-table >}}
 
+## Building the Enterprise web applications
+
+The source build installs the Node.js and npm versions pinned in `parent/pom.xml`.
+The official Node.js 26 Linux binary requires `libatomic.so.1`; ensure the build
+host or CI runner image provides it (the `libatomic1` package on Debian/Ubuntu).
+npm remains on 11 because the frontend still uses Git dependencies that npm 12
+blocks by default. This toolchain is needed to build the web applications and
+REST API reference, not to run the packaged application.
+
 ## Agent JDBC schema migration
 
 The separately delivered enterprise connectors use Flyway (Apache-2.0),

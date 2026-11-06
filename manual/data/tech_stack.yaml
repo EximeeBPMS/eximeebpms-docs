@@ -66,7 +66,7 @@ categories:
           v1.2.0: { value: "10.1.50", change: up }
           v1.3.0: { value: "10.1.50" }
           v1.4.0: { value: "11.0.25", change: mj }
-          ent: { value: "11.0.26", change: mj }
+          ent: { value: "11.0.27", change: mj }
       - name: Apache Tomcat
         sub: "javax legacy · 9.x"
         values:
@@ -83,7 +83,7 @@ categories:
           v1.2.0: { value: "37.0.0.Final" }
           v1.3.0: { value: "37.0.0.Final" }
           v1.4.0: { value: "41.0.1.Final", change: mj }
-          ent: { value: "41.0.1.Final", change: mj }
+          ent: { value: "42.0.0.Final", change: mj }
       - name: WildFly legacy
         sub: "26.x"
         values:
@@ -103,7 +103,7 @@ categories:
           v1.2.0: { value: "7.0.5", change: mj, note: "jakarta-only; Spring 5 removed" }
           v1.3.0: { value: "7.0.5" }
           v1.4.0: { value: "7.0.9", change: up }
-          ent: { value: "7.0.9", change: up }
+          ent: { value: "7.0.10", change: up }
       - name: Spring Boot
         values:
           v1.0.0: { value: "3.4.4" }
@@ -111,7 +111,7 @@ categories:
           v1.2.0: { value: "4.0.3", change: mj }
           v1.3.0: { value: "4.0.3" }
           v1.4.0: { value: "4.1.1", change: up }
-          ent: { value: "4.1.1", change: up }
+          ent: { value: "4.1.2", change: up }
       - name: Quarkus
         values:
           v1.0.0: { value: "3.20.0" }
@@ -273,7 +273,7 @@ categories:
           v1.2.0: { value: "20.14.0 LTS" }
           v1.3.0: { value: "20.14.0 LTS" }
           v1.4.0: { value: "20.14.0 LTS" }
-          ent: { value: "24.21.0 LTS", change: up }
+          ent: { value: "26.13.0 LTS", change: up }
       - name: npm
         values:
           v1.0.0: { value: "10.7.0" }
@@ -281,4 +281,4 @@ categories:
           v1.2.0: { value: "10.7.0" }
           v1.3.0: { value: "10.7.0" }
           v1.4.0: { value: "10.7.0" }
-          ent: { value: "11.19.0", change: up }
+          ent: { value: "11.21.2", change: up }
