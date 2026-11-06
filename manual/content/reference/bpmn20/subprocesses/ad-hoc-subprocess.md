@@ -62,7 +62,9 @@ prepared, the subprocess completes. The case is walked through step by step in
 Write the `adHoc` extension element, its `outputElement` and the values inside it in the EximeeBPMS namespace,
 declared as `xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"`. All other extensions, such as
 `camunda:inputOutput`, stay in the `camunda:` namespace. The engine also reads `camunda:adHoc`, but Camunda Modeler
-drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)).
+drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)). The
+[BPMN Model API]({{< ref "/user-guide/model-api/bpmn-model-api/_index.md" >}}) writes a new `adHoc` element as
+`eximeebpms:adHoc`, and edits a `camunda:adHoc` read from a file in place, without converting it.
 
 # Activatable elements
 
@@ -80,6 +82,7 @@ The following models are rejected at deployment, with an error naming the elemen
 * an element that can be reached by sequence flows from two activatable elements,
 * a parallel gateway without incoming sequence flows,
 * `outputElement` without `outputCollection`,
+* both `camunda:adHoc` and `eximeebpms:adHoc` on one ad-hoc subprocess — keep one, preferably `eximeebpms:adHoc`,
 * `asyncBefore` on a non-interrupting event subprocess of the ad-hoc subprocess (use `asyncAfter` on its start event,
   or `asyncBefore` on its first element, instead).
 
