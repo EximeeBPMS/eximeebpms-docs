@@ -29,6 +29,11 @@ so that files stay readable by tooling that only knows that namespace, such as
 Camunda Modeler. An attribute that arrived in the EximeeBPMS namespace is updated
 in place, in that namespace, so a round-tripped document can come back declaring
 both.
+
+The [`adHoc`](#adhoc) element of the ad-hoc subprocess is the exception: write it
+as `eximeebpms:adHoc`, which Camunda Modeler keeps; it drops `camunda:adHoc`
+when it saves the diagram. The BPMN Model API of this version still writes it as
+`camunda:adHoc`.
 {{< /note >}}
 
 
@@ -44,6 +49,8 @@ The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
     <td colspan="2">
       Configures the activation and the output of an
       <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">ad-hoc subprocess</a>.
+      Write it, with its child elements, in the EximeeBPMS namespace as <code>eximeebpms:adHoc</code>: the engine
+      reads both forms, but Camunda Modeler drops <code>camunda:adHoc</code> when it saves the diagram.
     </td>
   </tr>
   <tr>
@@ -71,7 +78,7 @@ The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">camunda:outputElement</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">eximeebpms:outputElement</a>
     </td>
   </tr>
 </table>
@@ -1122,6 +1129,8 @@ The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
     <td colspan="2">
       The entry an inner flow of an ad-hoc subprocess adds to its output collection when it completes, evaluated in
       the inner flow. The value is specified as for an input parameter: as text, or as a child element.
+      Write it, and the value elements inside it, in the EximeeBPMS namespace, like its parent
+      <code>eximeebpms:adHoc</code>.
     </td>
   </tr>
   <tr>
@@ -1139,15 +1148,15 @@ The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
   <tr>
     <th>Parent elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#adhoc" >}}">camunda:adHoc</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#adhoc" >}}">eximeebpms:adHoc</a>
     </td>
   </tr>
   <tr>
     <th>Child elements</th>
     <td colspan="2">
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">camunda:list</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#map" >}}">camunda:map</a>,
-      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#script" >}}">camunda:script</a>
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">eximeebpms:list</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#map" >}}">eximeebpms:map</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#script" >}}">eximeebpms:script</a>
     </td>
   </tr>
 </table>

@@ -33,9 +33,9 @@ prepared, the subprocess completes. The case is walked through step by step in
 ```xml
 <adHocSubProcess id="handleComplaint" name="Handle complaint">
   <extensionElements>
-    <camunda:adHoc outputCollection="results">
-      <camunda:outputElement>${toolCallResult}</camunda:outputElement>
-    </camunda:adHoc>
+    <eximeebpms:adHoc outputCollection="results">
+      <eximeebpms:outputElement>${toolCallResult}</eximeebpms:outputElement>
+    </eximeebpms:adHoc>
   </extensionElements>
 
   <userTask id="lookupOrder" name="Look up order" />
@@ -55,12 +55,14 @@ prepared, the subprocess completes. The case is walked through step by step in
 | `completionCondition` (BPMN) | Expression evaluated each time an inner flow completes. `true` completes the subprocess. Optional. |
 | `cancelRemainingInstances` (BPMN attribute) | Whether the inner flows still running are cancelled when the completion condition is fulfilled. Default `true`; with `false` the subprocess completes when the last of them has ended. |
 | `ordering` (BPMN attribute) | Only `Parallel`, the default. `Sequential` is rejected at deployment. |
-| `camunda:adHoc` › `activeElementsCollection` | Expression that returns the ids of the elements to activate on entry, e.g. `${initialSteps}`. Optional. |
-| `camunda:adHoc` › `outputCollection` | Name of a list variable, local to the subprocess, that collects one entry per completed inner flow. Optional. |
-| `camunda:adHoc` › `outputElement` | The entry an inner flow adds to the output collection: an expression, or a `camunda:map`, `camunda:list` or `camunda:script`, as in an [input parameter]({{< ref "/user-guide/process-engine/variables.md#input-output-variable-mapping" >}}). Requires `outputCollection`. |
+| `eximeebpms:adHoc` › `activeElementsCollection` | Expression that returns the ids of the elements to activate on entry, e.g. `${initialSteps}`. Optional. |
+| `eximeebpms:adHoc` › `outputCollection` | Name of a list variable, local to the subprocess, that collects one entry per completed inner flow. Optional. |
+| `eximeebpms:adHoc` › `outputElement` | The entry an inner flow adds to the output collection: an expression, or a `map`, `list` or `script`, as in an [input parameter]({{< ref "/user-guide/process-engine/variables.md#input-output-variable-mapping" >}}). Requires `outputCollection`. |
 
-The `adHoc` extension element is read in the `camunda:` namespace, in which Camunda Modeler writes it, and in the
-`eximeebpms:` namespace (`http://eximeebpms.org/schema/1.0/bpmn`).
+Write the `adHoc` extension element, its `outputElement` and the values inside it in the EximeeBPMS namespace,
+declared as `xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"`. All other extensions, such as
+`camunda:inputOutput`, stay in the `camunda:` namespace. The engine also reads `camunda:adHoc`, but Camunda Modeler
+drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)).
 
 # Activatable elements
 
@@ -221,9 +223,39 @@ element of an inner flow ends that inner flow only.
 
 Model ad-hoc subprocesses in Camunda Modeler in **Camunda 7** mode, which writes the `camunda:` extensions the engine
 reads. Draw an expanded subprocess and change its type to *Ad-hoc sub-process*; configure its activities in the
-properties panel as usual. `camunda:adHoc` — `activeElementsCollection`, `outputCollection`, `outputElement` — is
-not in the properties panel: write it in the XML tab, as well as the `completionCondition` if your Modeler version
-does not offer it.
+properties panel as usual. The `adHoc` extension element — `activeElementsCollection`, `outputCollection`,
+`outputElement` — is not in the properties panel: write it in the XML tab, as well as the `completionCondition` if
+your Modeler version does not offer it.
+
+Write it as `eximeebpms:adHoc`, with `outputElement` and the values inside it in the same namespace, and declare the
+namespace on the `definitions` element:
+
+```xml
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn" ...>
+  ...
+  <bpmn:adHocSubProcess id="handleComplaint" name="Handle complaint">
+    <bpmn:extensionElements>
+      <eximeebpms:adHoc outputCollection="results">
+        <eximeebpms:outputElement>
+          <eximeebpms:map>
+            <eximeebpms:entry key="step">${toolCall._meta.name}</eximeebpms:entry>
+            <eximeebpms:entry key="result">${toolCallResult}</eximeebpms:entry>
+          </eximeebpms:map>
+        </eximeebpms:outputElement>
+      </eximeebpms:adHoc>
+    </bpmn:extensionElements>
+    ...
+  </bpmn:adHocSubProcess>
+</bpmn:definitions>
+```
+
+Camunda Modeler keeps this element as it is. Do not write `camunda:adHoc`: Camunda Modeler does not know it,
+reports it as unparsable content when it opens the diagram and leaves it out when it saves — also after an edit in
+the XML tab, as soon as you switch back to the diagram and save. A diagram that already contains `camunda:adHoc`
+loses it on its next save in the Modeler; rename the element and its children to the `eximeebpms:` prefix in the XML
+tab first.
 
 Camunda 8 mode cannot be used: it writes `zeebe:` extensions and FEEL expressions, which the engine does not read
 or evaluate. A Camunda 8 diagram with a service task fails to deploy, and its ad-hoc settings would be ignored.
