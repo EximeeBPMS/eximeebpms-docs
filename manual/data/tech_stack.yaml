@@ -229,7 +229,7 @@ categories:
           v1.2.0: { value: "n/a" }
           v1.3.0: { value: "n/a" }
           v1.4.0: { value: "n/a" }
-          ent: { value: "3.5.10", change: up, badge: "New" }
+          ent: { value: "4.0.0", change: mj, badge: "New" }
       - name: Oracle JDBC
         values:
           v1.0.0: { value: "23.5.0" }

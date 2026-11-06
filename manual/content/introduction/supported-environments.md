@@ -66,6 +66,10 @@ for setup and lifecycle requirements.
   * Azure SQL Database
 * H2 2.4 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
 
+### MariaDB JDBC driver (Enterprise Edition)
+
+The next Enterprise Edition release (BPMS-955) uses MariaDB Connector/J 4.0.0 in its MariaDB test and QA profiles. The supported server versions remain 11.4 and 12.3. The driver requires Java 17 or later and enables TLS with `sslMode=verify-full` by default; external test databases need compatible TLS configuration. See [Security Notice EXBPMS-20](/security/notices/#notice-exbpms-20) for the security fixes and migration details. An installation that supplies its own JDBC driver must update that dependency separately.
+
 ### Vendor support timeline
 
 Every version listed above, with the date its own vendor stops supporting it. These are the

@@ -15,6 +15,37 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-20
+
+**Publication Date:** November 5, 2026
+
+**Product affected:** EximeeBPMS's MariaDB test and QA connections: the `mariadb` Maven profile, the Testcontainers test utilities and the Tomcat QA runtime.
+
+**Impact:**
+
+MariaDB Connector/J 3.5.10 is affected by four vulnerabilities requiring a malicious or compromised database server, or an attacker controlling the server side of the connection:
+
+- [CVE-2026-119210](https://github.com/advisories/GHSA-fhx5-2xqw-2cgm): a forged LOCAL INFILE request can read files accessible to the client JVM when `allowLocalInfile` is enabled.
+- [CVE-2026-119276](https://github.com/advisories/GHSA-h599-m3w5-9m7x): server-declared lengths in OK packets can cause excessive heap allocations.
+- [CVE-2026-119280](https://github.com/advisories/GHSA-4jq2-8v3c-97w8): invalid lengths in XA recovery results can cause excessive allocations or unchecked exceptions in applications using XA recovery.
+- [CVE-2026-119281](https://github.com/advisories/GHSA-grfq-r75j-rw9x): unguarded changes to the result character set can cause strings to be decoded incorrectly.
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition 1.4.2-ee declares Connector/J 3.5.10 in the paths above. Community Edition 1.4.0 does not declare this driver in those paths. An installation that supplies its own MariaDB driver must check that driver's version separately.
+
+**Solution:**
+
+The next Enterprise Edition release (pending release, BPMS-955) updates the shared driver version to 4.0.0, fixing all four vulnerabilities. The WildFly engine integration suite also gains a native MariaDB datasource and driver module; previously it tried the MySQL driver for a `jdbc:mariadb:` URL and could not start. Supported MariaDB server versions remain 11.4 and 12.3. Community Edition's development branch still declares 3.5.10; porting this update is pending the next Community Edition curation. For a separately supplied driver, update it to a patched release independently of EximeeBPMS. Disabling `allowLocalInfile` mitigates CVE-2026-119210 only.
+
+**Upgrading the driver:**
+
+Connector/J 4.0 requires Java 17 or later; EximeeBPMS's Java 21 baseline already satisfies this. TLS now defaults to `sslMode=verify-full`, so an external test or QA database must provide compatible TLS and server identity validation. MariaDB 11.4 and later support zero-configuration TLS with compatible authentication; other configurations may need `serverSslCert` or `trustStore`. For a deliberately unencrypted local test database, `sslMode=disable` must be explicit; do not use that workaround for production. This update does not disable TLS in the build profiles.
+
+`PreparedStatement.executeQuery()` now rejects statements that return no result set; use `execute()` or `executeUpdate()` for those statements. `Connection.setSavepoint()` now rejects auto-commit mode; start a transaction before creating a savepoint. AWS IAM authentication moves to the separate `mariadb-java-client-aws` artifact. See the [Connector/J 4.0.0 release notes](https://mariadb.com/docs/release-notes/connectors/java/4.0/4.0.0) before replacing an installation's own driver.
+
+---
+
 ## Notice EXBPMS-19
 
 **Publication Date:** November 2, 2026
