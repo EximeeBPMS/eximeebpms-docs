@@ -261,6 +261,54 @@ When embedding the process engine into a custom application, the application nee
 Authentication and Authorization are two distinct concepts as explained [here](https://en.wikipedia.org/wiki/Authentication#Authorization).
 {{< /note >}}
 
+## Which permissions does the current user have?
+
+A user interface that disables the operations a user is not allowed to run can ask the engine for the user's permissions instead of reading and evaluating authorizations itself. Two [REST API]({{< ref "/reference/rest/_index.md" >}}) operations answer for the currently authenticated user and need no permission beyond being authenticated:
+
+* `GET /authentication/me` returns the user's id and profile (first name, last name, email), the groups and tenants the engine applies to the request, and the web applications the user may open. The user always sees their own profile, even without a `READ` permission on their `User` resource; the profile fields are empty when the identity provider holds no record of the user.
+* `GET /authentication/me/permissions` returns the user's effective permissions per resource type and resource id. The query parameter `resourceType` (for example `PROCESS_DEFINITION,BATCH`) limits the answer to some resource types.
+
+```json
+{
+  "authorizationEnabled": true,
+  "admin": false,
+  "disabledPermissions": [],
+  "omittedResourceTypes": ["HISTORIC_PROCESS_INSTANCE", "HISTORIC_TASK", "PROCESS_INSTANCE", "TASK"],
+  "resources": {
+    "BATCH": { "*": ["CREATE_BATCH_DELETE_RUNNING_PROCESS_INSTANCES"] },
+    "PROCESS_DEFINITION": {
+      "*": ["READ", "READ_INSTANCE"],
+      "invoice": ["READ", "READ_INSTANCE", "UPDATE_INSTANCE", "DELETE_INSTANCE"],
+      "loan": []
+    }
+  }
+}
+```
+
+The permissions are evaluated from the user's own authorizations, those of the user's groups and the global authorizations, with the [precedence](#authorization-precedence) and the [revoke check mode](#check-revoke-authorizations) the engine applies to its own permission checks. A resource type is listed when such an authorization exists for it. Its rows are `*` and every other resource id named by such an authorization whose permissions differ from the row `*`, also when the row is empty because a revoke takes the permissions away, as for `loan` above. A permission passes the engine's check when
+
+* `authorizationEnabled` is `false`, or
+* `disabledPermissions` (configuration option `disabledPermissions`) contains it, or
+* the row of the resource id contains it; a resource id without a row of its own uses the row `*`.
+
+A check without a resource id, such as creating a user, group, tenant, authorization, filter, deployment, task, process instance or batch, uses the row `*`; the engine checks it only against authorizations on `*`, so the row of another resource id says nothing about it. For example, a revoke of `CREATE` on the user id `x` appears in the row `x`, but does not stop the user from creating the user `x`. Starting a process instance also needs `CREATE_INSTANCE` on the process definition, checked on the row of its key. Creating a group or tenant membership is checked on the row of the group or tenant id.
+
+On the `BATCH` resource type, a row contains a "Create Batch …" permission such as `CREATE_BATCH_MIGRATE_PROCESS_INSTANCES` when the user can create a batch of that type. The engine checks that permission and then `CREATE`, and the first of them that a grant or a revoke decides wins (see [Additional Batch Permissions](#additional-batch-permissions)). So `CREATE` lets the user create every type of batch except the types whose permission a revoke takes away; with revoke checks, a global authorization on `*` without the type's permission takes it away too. A disabled one of the two permissions is not checked. For the "Create Batch …" permissions the row is the answer also when `disabledPermissions` contains them. A new batch has no id, so every row of `BATCH` gives the answer of the row `*` for them. Some batches need further permissions on other resources, for example a migration batch on the process definitions.
+
+A resource type that is not listed has no permission, unless `omittedResourceTypes` names it: those resource types were not evaluated, and the answer says nothing about them. Without `resourceType`, the answer leaves out `TASK`, `PROCESS_INSTANCE`, `HISTORIC_TASK` and `HISTORIC_PROCESS_INSTANCE`, whose authorizations can name every single task or process instance (the engine creates one for each candidate group of a task, for example); a client that needs them requests them with `resourceType`. `HISTORIC_TASK` and `HISTORIC_PROCESS_INSTANCE` are left out also when requested unless [historic instance permissions](#historic-instance-permissions) are enabled, since the engine does not check them otherwise.
+
+The answer covers authorizations only. An operation on data of a tenant the user is not a member of is refused by the engine's [tenant check]({{< ref "/user-guide/process-engine/multi-tenancy.md" >}}) whatever the permissions.
+
+Resource ids are returned as stored, while the engine compares them with the database's collation. On a database that compares them case-insensitively (SQL Server with its default collation), ids that differ only in case get rows of their own, and such a row can differ from the engine's decision. There the engine treats such ids as one id in its other queries too, for example when it looks up the latest version of a process definition by key, so give authorizations only to ids as they are used.
+
+The rows name the resource ids of the authorizations of the user, the user's groups and the global authorizations whose permissions differ from the row `*`, also ids of resources the user may not read, such as the key of a process definition or the id of another user.
+
+`admin` tells whether the user is an administrator (`adminUsers` or `adminGroups`): the engine allows some operations, such as history cleanup, to administrators without a permission, but grants them no permission on resources.
+
+An application embedding the engine gets the same answers from the Java API for the user set with `IdentityService#setAuthentication`: `IdentityService#getCurrentUser()` returns the user's own record (`null` without one) and `AuthorizationService#getCurrentUserPermissions(Resource...)` the permissions, of the given resource types or, without arguments, of all except those listed in `omittedResourceTypes`. Both throw a `ProcessEngineException` when no user is authenticated.
+
+The answer tells which permissions pass; which permissions an operation needs is described in the following sections. The engine still checks every operation, so a client must handle a rejected one.
+
 # Permissions by Resource
 
 This section explains which permissions are available on which resources.
@@ -632,6 +680,7 @@ In addition to **Create**, **Update**, **Read**, and **Delete**, the following p
 * Create Batch Correlate Messages
 
 GRANT and REVOKE authorizations with "Create Batch …" permissions precede over Create.
+The engine checks both only on the resource id `*`, since a new batch has no id: an authorization with a "Create Batch …" permission or Create on the id of an existing batch has no effect on creating batches. For example, a REVOKE of "Create Batch Migrate Process Instances" on the batch id `x` does not stop a user with a GRANT of Create on `*` from creating a migration batch.
 
 ## Default Read Variable Permissions
 When the `enforceSpecificVariablePermission` process engine configuration is enabled, in order to read variables, the user needs to be granted the following permissions:
