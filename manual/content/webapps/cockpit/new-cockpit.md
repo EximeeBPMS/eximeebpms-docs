@@ -65,6 +65,8 @@ An `sso` method only links to a login the server already provides. In Tomcat and
 
 The new Cockpit sends its own security headers: a Content Security Policy that allows only resources from the same server, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY` and `Referrer-Policy: strict-origin-when-cross-origin`. They replace the Content Security Policy and frame options configured for the other web applications. In Spring Boot applications, including Run, none of the `eximeebpms.bpm.webapp.header-security` settings apply to the new Cockpit, HSTS included; in Tomcat and WildFly the other configured headers, such as HSTS, still apply.
 
+I/O failures while serving the new Cockpit are logged on the server. If the response has not started, the server returns an empty, non-cacheable HTTP 500 response. It does not append diagnostic details to a response that has already started.
+
 # Spring Boot Embedding
 
 The new Cockpit is enabled by default. Set `eximeebpms.bpm.webapp.cockpit.enabled=false`
