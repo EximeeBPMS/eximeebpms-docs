@@ -1,6 +1,7 @@
 ---
 
 title: 'Supported Environments'
+description: "The application servers, databases, web browsers and Java versions EximeeBPMS is tested and supported in, plus the Enterprise agent worker. They depend on the documentation version you select."
 weight: 40
 
 menu:
@@ -35,7 +36,18 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
 * Apache Tomcat 11.0 (Tomcat 9.0 support removed in Community Edition as of 1.4.0, having been deprecated since 1.3.0; already removed in Enterprise Edition as of 1.2.18-ee — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}))
   * The `eximeebpms-bpm-tomcat` **distribution** ships and is supported on Tomcat 11.0. The **web application archives** (`eximeebpms-webapp-tomcat-jakarta`, `eximeebpms-engine-rest-jakarta`) also deploy and run on a Tomcat **10.1** container you manage yourself — verified against Tomcat 10.1.50 on 2026-09-15; both declare a Servlet 3.0 descriptor and use no Servlet 6.1 feature.
 * JBoss EAP 7.4 / 8.0
-* WildFly Application Server 41.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
+* WildFly Application Server 42.0 (see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}}) for the exact patch release)
+
+## Enterprise monitoring since 1.4.3-ee
+
+The co-released monitoring adapters target Run and the bundled Tomcat 11.0 and
+WildFly 42.0 distributions on the supported Java runtimes. Engine measurement
+is independent of Spring; container HTTP exposure is opt-in. WildFly uses its
+managed scheduler. Worker measurement can be embedded without an engine.
+
+Monitoring does not extend the application server versions listed above. See
+[Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+for setup and lifecycle requirements.
 
 # Databases
 
@@ -54,6 +66,10 @@ Run EximeeBPMS in every Java-runnable environment. EximeeBPMS is supported with 
   * Azure SQL Managed Instance
   * Azure SQL Database
 * H2 2.4 (Community and Enterprise Edition — see the [Tech Stack matrix]({{< ref "/introduction/tech-stack.md" >}})) (not recommended for [Cluster Mode]({{< ref "/introduction/architecture.md#clustering-model" >}}) - see [Deployment Note]({{< ref "/user-guide/process-engine/deployments.md" >}}))
+
+### MariaDB JDBC driver (Enterprise Edition)
+
+Enterprise Edition 1.4.3-ee uses MariaDB Connector/J 4.0.0 in its MariaDB test and QA profiles. The supported server versions remain 11.4 and 12.3. The driver requires Java 17 or later and enables TLS with `sslMode=verify-full` by default; external test databases need compatible TLS configuration. See [Security Notice EXBPMS-20](/security/notices/#notice-exbpms-20) for the security fixes and migration details. An installation that supplies its own JDBC driver must update that dependency separately.
 
 ### Vendor support timeline
 
@@ -177,3 +193,13 @@ Whenever a new version of one of the following environments is supported, we usu
 * Wildfly Application Server
 
 Note that we may decide to deviate from this policy on a case-by-case basis.
+
+# Enterprise Agent and Connector Worker
+
+The [Enterprise Connectors worker]({{< ref "/user-guide/ai-agent/running-the-connectors.md" >}})
+runs separately from the engine. Its Java baseline is 21; the stock bundle uses
+Alpine 3.24 and OpenJDK 25, runs as UID/GID 1000, and contains no Node.js/Python
+runtime for stdio MCP. Embedded deployments use the matching Spring Boot 4.1
+line. Use remote MCP with the stock image, or supply a custom Alpine-compatible
+image for a stdio server and its runtime. Worker JDBC memory/audit has its own
+schema and driver requirements, separate from the engine database lifecycle.

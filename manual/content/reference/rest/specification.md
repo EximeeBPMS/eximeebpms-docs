@@ -1,6 +1,7 @@
 ---
 
 title: 'REST API specification'
+description: "Links to the REST API references for the Enterprise Edition, which marks its Enterprise-only endpoints, and for the Community Edition."
 weight: 20
 
 menu:
@@ -11,4 +12,6 @@ menu:
 
 ---
 
-* [EximeeBPMS REST API Reference](/rest/{{< minor-version >}}/)
+* [EximeeBPMS Enterprise Edition REST API Reference](/rest/{{< minor-version >}}-ee/): the endpoints that only the
+  Enterprise Edition provides are marked *Enterprise Edition*.
+* [EximeeBPMS Community Edition REST API Reference](/rest/{{< minor-version >}}/)

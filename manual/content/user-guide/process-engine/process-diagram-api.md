@@ -1,6 +1,7 @@
 ---
 
 title: 'Process Diagram Visualization'
+description: "Render BPMN process diagrams in the browser with bpmn.io, using the diagram XML retrieved through the Java or REST API."
 weight: 250
 
 menu:

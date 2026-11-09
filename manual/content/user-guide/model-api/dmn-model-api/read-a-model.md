@@ -1,6 +1,7 @@
 ---
 
 title: 'Read a Model'
+description: "Parse an existing DMN model from a file or stream and process it with the DMN model API."
 weight: 10
 
 menu:

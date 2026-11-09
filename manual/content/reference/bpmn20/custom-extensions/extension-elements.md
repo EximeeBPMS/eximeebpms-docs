@@ -1,6 +1,7 @@
 ---
 
 title: 'Camunda BPMN Extension Elements'
+description: "Reference for the BPMN extension elements EximeeBPMS supports, such as adHoc, connector, constraint, executionListener and failedJobRetryTimeCycle."
 weight: 10
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Extension Elements"
     identifier: "bpmn-extensions-elements"
     parent: "bpmn-extensions"
-    pre: "Reference of Camunda Extension Attributes for BPMN."
 
 ---
 
@@ -29,7 +29,59 @@ so that files stay readable by tooling that only knows that namespace, such as
 Camunda Modeler. An attribute that arrived in the EximeeBPMS namespace is updated
 in place, in that namespace, so a round-tripped document can come back declaring
 both.
+
+The [`adHoc`](#adhoc) element of the ad-hoc subprocess is the exception: write it
+as `eximeebpms:adHoc`, which Camunda Modeler keeps; it drops `camunda:adHoc`
+when it saves the diagram. The BPMN Model API of this version still writes it as
+`camunda:adHoc`.
 {{< /note >}}
+
+
+# adHoc
+
+{{< note title="Enterprise Edition only" class="warning" >}}
+The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
+{{< /note >}}
+
+<table class="table table-striped">
+  <tr>
+    <th>Description</th>
+    <td colspan="2">
+      Configures the activation and the output of an
+      <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">ad-hoc subprocess</a>.
+      Write it, with its child elements, in the EximeeBPMS namespace as <code>eximeebpms:adHoc</code>: the engine
+      reads both forms, but Camunda Modeler drops <code>camunda:adHoc</code> when it saves the diagram.
+    </td>
+  </tr>
+  <tr>
+    <th rowspan="2">Attributes</th>
+    <td><code>activeElementsCollection</code></td>
+    <td>An expression that returns the ids of the elements to activate when the ad-hoc subprocess is entered</td>
+  </tr>
+  <tr>
+    <td><code>outputCollection</code></td>
+    <td>The name of a list variable, local to the ad-hoc subprocess, that collects one entry per completed inner
+      flow; set on the enclosing scope when the ad-hoc subprocess completes</td>
+  </tr>
+  <tr>
+    <th>Constraints</th>
+    <td colspan="2">
+      The <code>outputElement</code> child element requires the <code>outputCollection</code> attribute
+    </td>
+  </tr>
+  <tr>
+    <th>Parent elements</th>
+    <td colspan="2">
+      <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">Ad-hoc Subprocess</a>
+    </td>
+  </tr>
+  <tr>
+    <th>Child elements</th>
+    <td colspan="2">
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">eximeebpms:outputElement</a>
+    </td>
+  </tr>
+</table>
 
 
 # connector
@@ -876,6 +928,7 @@ both.
       <a href="{{< ref "/reference/bpmn20/events/_index.md" >}}">All Events</a> (except Start and Boundary Events),
       <a href="{{< ref "/reference/bpmn20/subprocesses/call-activity.md" >}}">Call Activity</a>,
       <a href="{{< ref "/reference/bpmn20/subprocesses/embedded-subprocess.md" >}}">Embedded Subprocess</a>,
+      <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">Ad-hoc Subprocess</a>,
       <a href="{{< ref "/reference/bpmn20/subprocesses/transaction-subprocess.md" >}}">Transaction Subprocess</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#connector" >}}">
         camunda:connector</a>
@@ -932,6 +985,7 @@ both.
         camunda:inputParameter</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputparameter" >}}">
         camunda:outputParameter</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">camunda:outputElement</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">camunda:list</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#entry" >}}">camunda:entry</a>
     </td>
@@ -977,6 +1031,7 @@ both.
         camunda:inputParameter</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputparameter" >}}">
         camunda:outputParameter</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">camunda:outputElement</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">camunda:list</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#entry" >}}">camunda:entry</a>
     </td>
@@ -1057,6 +1112,51 @@ both.
     <th>Child elements</th>
     <td colspan="2">
       &ndash;
+    </td>
+  </tr>
+</table>
+
+
+# outputElement
+
+{{< note title="Enterprise Edition only" class="warning" >}}
+The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
+{{< /note >}}
+
+<table class="table table-striped">
+  <tr>
+    <th>Description</th>
+    <td colspan="2">
+      The entry an inner flow of an ad-hoc subprocess adds to its output collection when it completes, evaluated in
+      the inner flow. The value is specified as for an input parameter: as text, or as a child element.
+      Write it, and the value elements inside it, in the EximeeBPMS namespace, like its parent
+      <code>eximeebpms:adHoc</code>.
+    </td>
+  </tr>
+  <tr>
+    <th>Attributes</th>
+    <td colspan="2">
+      &ndash;
+    </td>
+  </tr>
+  <tr>
+    <th>Constraints</th>
+    <td colspan="2">
+      At most one child element
+    </td>
+  </tr>
+  <tr>
+    <th>Parent elements</th>
+    <td colspan="2">
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#adhoc" >}}">eximeebpms:adHoc</a>
+    </td>
+  </tr>
+  <tr>
+    <th>Child elements</th>
+    <td colspan="2">
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">eximeebpms:list</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#map" >}}">eximeebpms:map</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#script" >}}">eximeebpms:script</a>
     </td>
   </tr>
 </table>
@@ -1288,6 +1388,7 @@ both.
         camunda:inputParameter</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputparameter" >}}">
         camunda:outputParameter</a>,
+      <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#outputelement" >}}">camunda:outputElement</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#entry" >}}">camunda:entry</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#list" >}}">camunda:list</a>,
       <a href="{{< ref "/reference/bpmn20/custom-extensions/extension-elements.md#executionlistener" >}}">

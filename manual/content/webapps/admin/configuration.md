@@ -1,6 +1,7 @@
 ---
 
 title: 'Configuration'
+description: "Override the Admin configuration in app/admin/scripts/config.js, and restyle the application, for example its logo and header color, with a user stylesheet."
 weight: 50
 
 menu:

@@ -15,7 +15,9 @@ The **EximeeBPMS External Task Client** allows you to set up remote service task
 as well as [JavaScript](https://github.com/camunda/camunda-external-task-client-js) implementation.
 
 {{< note title="" class="info" >}}
-For metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
+For metrics measured inside the worker (execution, renewals, queues and resource pools), see [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}}).
+
+For engine-side metrics on external tasks served to this client (created, ended, currently open, currently failing), see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#external-tasks" >}}).
 {{< /note >}}
 
 ## Features
@@ -96,6 +98,17 @@ ExternalTaskClient client = ExternalTaskClient.create()
   .build();
 ```
 
+#### Locks of queued tasks
+
+The engine locks a task when it is fetched, also when the task then waits in the queue for a thread. So that the waiting does not use up the lock, a handler starts with at least 90 % of its lock duration:
+
+* While a task waits, the client renews its lock each time half of it has elapsed (with a `maxFetchedTasksMultiplier` above 1), on up to 4 threads per thread pool, each renewal waiting for the engine at most half of the lock that is left.
+* When a task that waited starts with less than 90 % of its lock left, the client renews the lock before calling the handler, which costs one more request per such task. If that renewal fails for another reason than a lost lock (the engine cannot be reached, or an error from a proxy or rate limiter), the handler runs with the lock that is left.
+* If the thread pool finishes no task within a waiting task's lock duration, its threads are stuck or all busy longer than the lock. The client then stops renewing and unlocks the waiting task, so that other workers can take it.
+* If the engine refuses a renewal because the lock has expired or another worker has taken the task meanwhile, or because the task no longer exists, the task is not executed. Other errors, for example from a proxy or a rate limiter in between, are retried.
+
+The client measures lock deadlines on its own monotonic clock, from the moment the tasks were fetched, so neither a clock difference between client and engine nor a change of the system time matters. A renewal or unlock that fails, and a task given up because of it, is logged as a warning (a failed unlock as an error); a task whose lock had already expired when a thread became free is skipped and logged at info level.
+
 #### Per-handler dedicated thread pool
 
 Different topic subscriptions can run on separate, independently-sized thread pools. Implement `ExternalTaskHandlerWithSpecificExecutor` and return a dedicated `ThreadPoolExecutor` from `getThreadPoolExecutor()`:
@@ -120,6 +133,39 @@ client.subscribe("heavyTopic")
 
 Each distinct `ThreadPoolExecutor` instance gets its own independent fetch-and-lock loop. Two handlers that return the **same** executor instance share one loop and one thread pool. This lets you isolate slow or resource-intensive topics without starving fast ones.
 
+#### Connections to the engine
+
+With long polling (`asyncResponseTimeout`), every fetch-and-lock loop holds one connection to the engine for the whole poll, and the worker threads need connections of their own to complete tasks, report failures and extend locks. The client therefore sizes its connection pool itself: one connection per fetch-and-lock loop plus one per core thread of the loop's thread pool, one per thread renewing the locks of queued tasks when `maxFetchedTasksMultiplier` is above 1 (one per core thread of the loop's thread pool, at most 4), and never fewer than 5. A client with the default single-threaded pool keeps 5 connections; the two pools above, 10 and 2 core threads with a multiplier of 1.5, get (1 + 10 + 4) + (1 + 2 + 2) = 20.
+
+A larger pool also lets more requests reach the engine at once: a client with `threadPoolSize(50)` opens up to 51 connections, and the engine's server threads and database connection pool have to carry that load. To set a fixed size instead, for example `5` to keep the limit of earlier versions, use `maxConnectionsPerRoute`:
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .threadPoolSize(10)
+  .maxConnectionsPerRoute(30)
+  .build();
+```
+
+Neither applies when [`customizeHttpClient`](#accessing-the-internal-apache-httpclientbuilder) sets a connection manager of its own; size that one yourself.
+
+#### Request timeouts
+
+Every request to the engine has a time limit:
+
+* **Response:** 3 minutes for requests from your handlers (`complete`, `handleFailure`, `handleBpmnError`, `extendLock`, `setVariables`, ...), as HttpClient's default always was, and 60 seconds for the requests the client makes on its own (lock renewals, unlocks of queued tasks, fetch and lock; a long-polling fetch and lock waits its `asyncResponseTimeout` longer). `responseTimeout` (milliseconds) sets one limit for all requests, `0` none.
+* **Connecting** to the engine: 10 seconds.
+* **Waiting for a free connection** of the pool: 10 seconds for the lock renewals and unlocks the client makes on its own, which it retries. Requests from your handlers wait as long as the HTTP client does by default (3 minutes), because a `complete` that gave up waiting would never reach the engine and its task would run again.
+
+```java
+ExternalTaskClient client = ExternalTaskClient.create()
+  .baseUrl("http://localhost:8080/engine-rest")
+  .responseTimeout(120_000)
+  .build();
+```
+
+A request whose response does not arrive in time fails in the handler, even though the engine may still perform it. `complete`, `handleFailure` and `handleBpmnError` run the process up to its next wait state within the request, so if that takes longer than the limit, the handler gets an exception while the task is completed. Give such an external task an asynchronous continuation after it (`asyncAfter`), so that `complete` returns as soon as the task is done, or raise `responseTimeout`. A connect or response timeout you set in the default request configuration through [`customizeHttpClient`](#accessing-the-internal-apache-httpclientbuilder) is kept and replaces these defaults; `responseTimeout` replaces it in turn. A timeout set on a connection manager you supply there is replaced.
+
 ### Completing Tasks
 Once the custom methods specified in the handler are completed, the External Task can be completed. This means for the Workflow Engine that the execution will
 move on. For this purpose, all supported implementations have a `complete` method which can be called within the handler function. However, the
@@ -132,7 +178,20 @@ The lock duration can only be extended, if the External Task is currently locked
 
 ### Unlocking Tasks
 If an External Task is supposed to be unlocked so that other clients are allowed to fetch and lock this task again,
-an `unlock` method can be called. The External Task can only be unlocked, if the task is currently locked by the client.
+an `unlock` method can be called. The External Task can only be unlocked, if the task is currently locked by the client:
+the client sends its worker id, and the engine refuses to unlock a task another worker has locked in the meantime, for example
+after this client's lock expired. The `unlock` method then throws a `BadRequestException`, and the other worker keeps its lock.
+It also throws when the task is no longer locked at all, for example when it was unlocked before.
+
+### Acquisition Health and Recovery
+
+For the Java client, `isActive()` returns `true` when the client is started and every registered fetch-and-lock loop is running. If one loop fails, it returns `false`, even when other thread pools continue to fetch and handle tasks. Waiting for backoff or executor capacity is normal activity. A started client without subscriptions is also active. This method does not check engine connectivity or the health of task handlers.
+
+An unhandled `Error` in fetching or backoff, such as `AssertionError` or `LinkageError`, stops the affected loop and logs `TASK/CLIENT-03016`. There is no automatic retry of that error. After addressing the cause, call `start()` explicitly to clean up and restart failed loops. Healthy loops and the existing statistics scheduler continue unchanged. Normal exception handling and retry behavior remain unchanged.
+
+A `VirtualMachineError` other than `StackOverflowError` is logged as `TASK/CLIENT-03017` and rethrown to the thread's uncaught exception handler after the loop becomes inactive. The client does not attempt network cleanup on that error path. A `StackOverflowError` is handled like any other `Error` and can be recovered with `start()`. Restarting that failed loop with `start()` throws `IllegalStateException`, including after `stop()`; the client still starts its other loops before throwing. Recovery requires a new client/process.
+
+Call `stop()` during application shutdown even if `isActive()` is already `false`: failed loops can still own pending or in-flight work. Cleanup unlocks queued tasks, and their old queued invocations cannot execute them after a restart. Tasks already admitted to their handlers can finish normally.
 
 ### Graceful Shutdown
 
@@ -153,9 +212,14 @@ client.stop();
 
 #### What happens during stop()
 
-1. The fetch-and-lock acquisition loop stops — no new tasks are fetched.
+1. The fetch-and-lock acquisition loop stops — no new tasks are fetched. A long-polling fetch-and-lock request still waiting for the engine's response is cancelled, so `stop()` does not wait up to the `asyncResponseTimeout`. Tasks the engine still locks for the cancelled request become available again when their lock expires.
 2. Tasks already executing in the thread pool are **not interrupted** — they are allowed to finish.
 3. Tasks that were fetched and placed in the queue but not yet started are sent an **unlock** request to the engine, making them immediately available to other clients.
+4. The client waits up to 10 seconds per loop for dispatched task executions to finish. `stop()` can return with handlers still in flight after that limit. It does not shut down caller-supplied executors.
+
+`stop()` can also be called from code running on the acquisition thread, such as a custom `BackoffStrategy`. It then does not wait; each loop unlocks its queued tasks and waits for its running handlers itself when it exits. Opening or closing a subscription while `stop()` is in progress does not block. `start()` cannot be called from the acquisition thread: it throws `IllegalStateException` and the client stays stopped; start it again from another thread.
+
+If the thread calling `stop()` is interrupted while joining the acquisition thread, the loop still unlocks its queued tasks when it exits. `start()` cannot launch another acquisition thread before the previous one has stopped.
 
 **Note:** If the client terminates unexpectedly (process crash, kill signal) without calling `stop()`, queued tasks remain locked until the lock duration expires. A shorter `lockDuration` reduces this window.
 
@@ -233,6 +297,20 @@ Hence situations like the following can be reported:
    * ...
 
 For more details, please check the documentation related to the client of interest.
+
+#### Failed fetch and lock
+
+When the Java client cannot fetch and lock tasks, it logs the series of failures once rather than every attempt:
+
+* An unreachable engine, for example while it restarts (connection refused, timeout, or HTTP 502, 503 or 504, which a proxy or gateway in front of the engine answers then), is one `WARN` without a stack trace (`TASK/CLIENT-03018`). An error page that is not JSON, such as a proxy's HTML page, counts as an unreachable engine whatever its status, also a proxy's 400 or 404; the log line then names a JSON parse error, such as `Unexpected character ('<'`, and not the HTTP status. Only a 401 or 403 keeps its status without the engine's JSON error, so that wrong credentials, which the engine answers with an empty 401, are an `ERROR`. A 504 at the end of a long poll usually means that the proxy's read timeout (nginx `proxy_read_timeout`, 60 s by default) is not longer than `asyncResponseTimeout`; raise it above `asyncResponseTimeout`. Any other failure is one `ERROR` with its stack trace (`TASK/CLIENT-03022`): any other HTTP error status, such as 401 for wrong credentials or a 404 the engine's REST API answers for an unknown resource (a wrong context path, which the servlet container answers with an HTML page, counts as unreachable, see above), an unknown host, or a failed TLS handshake. These usually point at the configuration; an unknown host can also appear briefly while a restarting engine's container DNS name does not resolve, for example a Docker Compose service or a headless Kubernetes service. Any other exception in the fetch loop, such as a shut-down connection pool or a task its thread pool rejects, is one `ERROR` with its stack trace (`TASK/CLIENT-03006`) and is followed by the same pause as a failed fetch.
+* While fetching keeps failing, a reminder with the number of failures and their duration follows every 5 minutes (`TASK/CLIENT-03020` at `WARN`, `TASK/CLIENT-03023` at `ERROR`). The attempts in between are logged at `DEBUG` with their stack trace (`TASK/CLIENT-03019`).
+* Once a fetch succeeds again, one `INFO` says so (`TASK/CLIENT-03021`).
+
+When the kind of failure changes, for example from a refused connection to a 404 while a restarting engine deploys its REST API, the new kind is logged as a first failure, so an engine restart can still log an `ERROR`. A fetch cancelled by `stop()` is logged as neither a failure nor a success.
+
+Each fetch loop logs on its own, so a client with several thread pools (see [Per-handler dedicated thread pool](#per-handler-dedicated-thread-pool)) writes one line per loop. Earlier versions logged `TASK/CLIENT-03001` at `ERROR` with a stack trace for every failed attempt.
+
+The exception of a failed fetch, which a custom `ErrorAwareBackoffStrategy` receives, carries the codes `TASK/CLIENT-01007` to `01011` and `01031`, as the same failures of `ExternalTaskService` calls do; earlier versions used `03007` to `03011` and `03031`. A 401 or 403 without the engine's JSON error throws `UnknownHttpErrorException` with that status, also from `ExternalTaskService` calls, where earlier versions threw `ConnectionLostException`.
 
 ### Task Execution Statistics
 
@@ -420,4 +498,14 @@ The Java client supports parallel task execution via a configurable thread pool 
 
 For long-running tasks (more than 30 seconds), consider fetching tasks one at a time (`maxTasks = 1`) and adjusting the Long Polling interval to your needs (e.g. `asyncResponseTimeout = 60000` ms).
 
-The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`.
+The Java client supports exponential backoff with a default initial delay of 500 ms, factor 2, and a maximum of 60 000 ms. These values can be tuned via `ExponentialBackoffStrategy`, except for the wait after a failed fetch (below).
+
+After a failed fetch and lock, or any other exception in the fetch loop, the client always waits at least 500 ms, doubling up to 60 000 ms while fetching keeps failing; the next successful fetch ends this pause. It also applies with the backoff strategy disabled or with a strategy that waits less, so an unreachable engine is not asked again thousands of times a second. This floor cannot be lowered: a strategy tuned to wait less after errors, for example `new ExponentialBackoffStrategy(100, 2, 5000)`, waits up to 60 000 ms after a failure, so a worker can take up to a minute to resume after an engine restart. `ExponentialErrorBackoffStrategy` waits only after a failed fetch and suits Long Polling, where an empty answer has already waited at the engine.
+
+## AI Agent Conversation Storage
+
+For the Enterprise worker's JDBC storage, audit, erasure and cancellation behavior, see
+[Conversation Memory]({{< ref "/user-guide/ai-agent/memory-and-audit.md" >}}),
+[JDBC Storage and Administration]({{< ref "/user-guide/ai-agent/jdbc-storage.md" >}}) and
+[Observability and Model Usage]({{< ref "/user-guide/ai-agent/observability.md" >}}), and
+[Events and Cancellation]({{< ref "/user-guide/ai-agent/events-and-cancellation.md" >}}).

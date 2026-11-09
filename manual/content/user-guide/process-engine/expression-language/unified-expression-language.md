@@ -1,5 +1,6 @@
 ---
 title: 'Unified Expression Language'
+description: "Use Jakarta Expression Language (EL) in processes: variables, beans and functions, and the customized JUEL implementation behind it."
 weight: 70
 
 menu:

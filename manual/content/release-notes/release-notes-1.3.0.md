@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.3.0 Release Notes"
+description: "Introduces Script Guard, configurable OAuth2 endpoints, a multi-threaded External Task Client and UUID v7 IDs. Deprecates CMMN, Tomcat 9 and WildFly 26."
 weight: 10
 
 menu:
@@ -108,7 +109,7 @@ Starting with 1.3.0, support for the CMMN notation is **deprecated** and will be
 3. If you use CMMN, finish or close active instances on 1.3.0 and plan a migration of your patterns to BPMN.
 4. If you don't use CMMN, no action is required.
 
-Case management remains fully supported through BPMN patterns: ad-hoc subprocesses, event subprocesses, and dynamic tasks. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for a pattern mapping table.
+Case management remains supported through BPMN patterns: event subprocesses and dynamic tasks. See [CMMN Deprecation & Removal]({{< ref "/update/cmmn-removal.md" >}}) for a pattern mapping table.
 
 ### Legacy Application Server Support (Tomcat 9, WildFly 26)
 

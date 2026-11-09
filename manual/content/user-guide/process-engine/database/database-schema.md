@@ -153,7 +153,9 @@ When you apply the patch scripts by hand, skip one whose table does not exist: t
 The following Entity Relationship Diagrams visualize the database tables and their explicit foreign key constraints, grouped by Engine with focus on BPMN, Engine with focus on DMN, the Engine History and the Identity. Please note that the diagrams do not visualize implicit connections between the tables.
 
 {{< note title="" class="info" >}}
-The Community and Enterprise editions declare the same schema, so one set of diagrams covers both. Separate Enterprise Edition diagrams were published until 1.4.0, when business events moved into the Community Edition and the last difference between the two disappeared.
+These diagrams describe **Enterprise engine 1.4.3-ee**. Its ad-hoc turn-history
+and model-usage tables are Enterprise-only additions to the shared baseline.
+For Community Edition 1.4.0, use that version’s schema reference and diagrams.
 {{< /note >}}
 
 These diagrams are generated from the engine's own schema definition rather than drawn by hand, so they describe the tables and foreign keys a release actually creates.
@@ -178,3 +180,18 @@ To allow different configurations and to keep the tables more flexible, the hist
 ## Identity
 
 {{< img src="../../img/erd_identity.svg" title="Identity Tables" >}}
+
+## Replaced ad-hoc turn usage reports
+
+`ACT_HI_ADHOC_USAGE` stores one immutable model-usage report per worker attempt of
+a REPLACED turn. `ID_` is its idempotency key and `TURN_ID_` references
+`ACT_HI_ADHOC_TURN` by convention; there are no foreign keys in history. Reports
+also carry `PROC_INST_ID_`, `ROOT_PROC_INST_ID_` and `REMOVAL_TIME_` with indexes
+for history deletion and retention updates. The engine deletes reports explicitly
+after their parent turns; bounded retention cleanup only removes eligible reports
+whose turn is gone. Reporting locks the parent and copies its current retention
+metadata. When a turn has more reports than one cleanup batch can remove,
+subsequent batches drain the remainder. A late report cannot recreate usage
+after its parent turn has been removed. Model calls and nullable input/output token counts are summed into the
+parent turn. The table is included in fresh history schemas and the released
+1.4.2-to-1.4.3 upgrade for every supported database.

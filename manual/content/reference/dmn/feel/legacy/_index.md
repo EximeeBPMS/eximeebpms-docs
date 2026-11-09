@@ -1,6 +1,7 @@
 ---
 
 title: 'Legacy FEEL Reference'
+description: "Reference for the legacy FEEL engine used before the Scala-based one. It is only relevant if you still depend on its behavior."
 weight: 20
 
 menu:
@@ -10,7 +11,7 @@ menu:
     parent: "dmn-ref-feel"
     pre: ""
 
-aliases: [reference/dmn11/feel/legacy/]
+aliases: [/reference/dmn11/feel/legacy/]
 ---
 
 {{< note title="Heads Up!" class="info" >}}

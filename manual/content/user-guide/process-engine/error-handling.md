@@ -1,6 +1,7 @@
 ---
 
 title: 'Error Handling'
+description: "Strategies for business and technical errors: transaction rollbacks, retries, incidents and modeled error events."
 weight: 280
 
 menu:

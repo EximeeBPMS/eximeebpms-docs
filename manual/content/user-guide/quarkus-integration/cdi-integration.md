@@ -1,6 +1,7 @@
 ---
 
 title: "Engine CDI Integration"
+description: "Use CDI in a Quarkus application with the engine: the Quarkus ArC subset and the Jakarta CDI 4 module integrated in the extension."
 weight: 20
 
 menu:

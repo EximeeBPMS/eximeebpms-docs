@@ -1,6 +1,7 @@
 ---
 
 title: 'External Task Client Spring Boot Starter'
+description: "Use the External Task Client in a Spring Boot application: topic subscriptions, configuration, request interceptors and the backoff strategy."
 weight: 200
 
 menu:
@@ -28,6 +29,8 @@ The Client can subscribe to one or more topic names that are defined in your BPM
 When the execution waits in an External Task, the Client executes your custom business logic. 
 For instance, the customer's credit score is checked, and if successful, the External Task 
 can be marked as completed and the execution proceeds.
+
+For reusable execution, lock-renewal, queue, executor and HTTP-pool metrics, see [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}}).
 
 # Requirements
 
@@ -267,12 +270,35 @@ Available properties:
       <td><code>disable-backoff-strategy</code></td>
       <td>
         Disables the client-side backoff strategy. When set to
-        <code>true</code>, a <code>BackoffStrategy</code> bean is ignored.<br /><br />
+        <code>true</code>, a <code>BackoffStrategy</code> bean is ignored.
+        After a failed fetch and lock the client still waits, 500 ms doubling
+        up to 60 s, so only the wait after a successful fetch goes away.<br /><br />
         <strong>Heads-up:</strong> Please bear in mind that disabling the
         client-side backoff can lead to heavy load situations on the engine side. To
         avoid this, please specify an appropriate <code>async-response-timeout</code>.
       </td>
       <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td><code>max-connections-per-route</code></td>
+      <td>
+        Maximum number of connections the client keeps open to the engine. Unless set,
+        the client sizes its pool itself: one connection per fetch-and-lock loop plus one
+        per core thread of the loop's thread pool, never fewer than 5. See
+        <a href="{{< ref "/user-guide/ext-client/_index.md#connections-to-the-engine" >}}">Connections to the engine</a>.
+      </td>
+      <td></td>
+    </tr>
+    <tr>
+      <td><code>response-timeout</code></td>
+      <td>
+        How many milliseconds every request waits for the engine's response; <code>0</code> sets no
+        limit. Unless set, requests from handlers wait 3 minutes and the client's own requests 60
+        seconds; a long-polling fetch and lock waits its <code>async-response-timeout</code>
+        longer. See
+        <a href="{{< ref "/user-guide/ext-client/_index.md#request-timeouts" >}}">Request timeouts</a>.
+      </td>
+      <td></td>
     </tr>
     <tr>
       <td><code>lock-duration</code></td>

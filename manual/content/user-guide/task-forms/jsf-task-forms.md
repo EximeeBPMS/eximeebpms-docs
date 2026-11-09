@@ -1,6 +1,7 @@
 ---
 
 title: 'JSF Task Forms'
+description: "Add JSF forms to a process application, access process variables and style the forms. They can also serve as external task forms."
 weight: 110
 
 menu:

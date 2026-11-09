@@ -1,6 +1,7 @@
 ---
 
 title: 'MySQL Database Configuration'
+description: "The supported MySQL configuration: the database schema and the JDBC driver, including how to disable milliseconds in date and time values."
 weight: 50
 menu:
   main:

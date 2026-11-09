@@ -107,6 +107,19 @@ The elements marked in <span class="label label-warning label-implemented">orang
           <span class="glyphicon glyphicon-eye-open"></span>
         </a>
       </div>
+      <div class="bpmn-symbol-container implemented">
+        <svg height="90" version="1.1" width="110" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="100" height="80" r="5" rx="5" ry="5" fill="#ffffff" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="1" style="stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 1;"></rect>
+          <path fill="none" stroke="#333333" d="M47,79C49,75 52,75 55,79C58,83 61,83 63,79" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="1" style="stroke-linecap: round; stroke-linejoin: round; stroke-opacity: 1;"></path>
+          <text x="55" y="45" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#333333" style="text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: Arial, Helvetica, sans-serif;" font-size="12px" font-family="Arial, Helvetica, sans-serif">
+            <tspan dy="-3.1953125">Ad-hoc</tspan>
+            <tspan dy="14.399999999999999" x="55">Subprocess</tspan>
+          </text>
+        </svg>
+        <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">
+          <span class="glyphicon glyphicon-eye-open"></span>
+        </a>
+      </div>
     </div>
   </div>
   <div class="row">

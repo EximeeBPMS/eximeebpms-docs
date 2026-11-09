@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.4.x Enterprise Edition Release Notes"
+description: "Enterprise engine 1.4.3-ee and companion Connectors 1.0.0-ee: ad-hoc execution, AI agents, REST/MCP tools, monitoring, migration and security updates."
 weight: 1
 
 menu:
@@ -14,6 +15,290 @@ menu:
 **Edition:** Enterprise &nbsp;|&nbsp; **Baseline:** [EximeeBPMS 1.4.0 CE]({{< ref "/release-notes/release-notes-1.4.0.md" >}})
 
 ---
+
+<span id="unreleased"></span>
+
+## 1.4.3-ee {#143-ee}
+
+**Release date:** 06.11.2026
+
+Engine changes since **1.4.2-ee**. The companion **Enterprise Connectors 1.0.0-ee**
+release supplies the worker bundle described below; it has an independent version
+line and is deployed separately from the engine.
+
+<span id="unreleased-highlights"></span>
+
+### Highlights {#143-highlights}
+
+- Ad-hoc subprocess execution, manual activation and worker-driven decisions,
+  with turn history, model usage and native BPMN tools.
+- A separately released connectors bundle: AI agent, single-shot AI Task,
+  REST and MCP workers, with optional JDBC memory/audit.
+- External task client recovery, queued-lock renewal, bounded requests,
+  worker-aware unlock and connection-pool sizing.
+- Co-released engine and worker monitoring, including business-event and ad-hoc meters.
+- Task-query correctness, Spring Boot startup fixes and security updates.
+
+### Ad-hoc subprocesses and AI tools
+
+The engine executes parallel ad-hoc subprocesses, activates their configured
+starting elements and collects each completed inner flow's output. A case worker
+can activate elements through `RuntimeService#createAdHocSubProcessActivation`
+or the REST activation endpoint. Event subprocesses, compensation and cancellation
+follow the ad-hoc lifecycle; unsupported combinations fail deployment instead of
+being silently ignored.
+
+With a topic on the ad-hoc subprocess, an external worker decides each turn.
+`AdHocSubProcessResult` can activate tools, cancel running flows or complete the
+subprocess. Tool metadata comes from the BPMN model and `fromAi` annotations.
+The engine stores the output collection and ordinary map/collection outputs as
+JSON, including without Spin. Client immutable collections are serialized with
+concrete collection types the engine can deserialize.
+
+At history levels `audit` and `full`, ended turns record activations, cancellations
+and reported model usage. Content recording is separately configurable and defaults
+to metadata. The engine also provides turn-history queries, aggregated model usage
+and ad-hoc business events. The ad-hoc metrics `ad-hoc-turn-decisions`,
+`ad-hoc-turn-tasks-replaced` and `ad-hoc-activations` are recorded in the database only.
+
+Cancelling an inner flow through process instance modification schedules another
+worker turn, without inventing a tool result or evaluating a modelled completion
+condition. Cancelled activities skip their output mappings, so a missing variable
+from an unfinished tool no longer fails cancellation.
+
+→ [Ad-hoc subprocess reference]({{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}})
+→ [Manual activation walkthrough]({{< ref "/user-guide/process-engine/ad-hoc-subprocess.md" >}})
+→ [AI Agent and Connectors]({{< ref "/user-guide/ai-agent/_index.md" >}})
+
+### Enterprise Connectors 1.0.0-ee — separate release {#connectors-100-ee}
+
+Enterprise Connectors **1.0.0-ee**, consuming engine **1.4.3-ee**, supplies:
+
+- AI orchestration with OpenAI and Anthropic providers, conversation memory,
+  per-turn model usage, events and cancellation handling.
+- REST calls with authentication, request/response mapping, retries and destination controls.
+- MCP Client and MCP Remote Client, with configured stdio, streamable HTTP or legacy
+  SSE transports as supported by each connector, and gateway tool discovery for agents.
+- A single-shot AI Task, without tools or persistent conversation.
+- Optional JDBC memory/audit, retention and erasure, plus isolated Flyway migration
+  tooling, SQL archives and explicit manual schema registration.
+- Element templates, a Spring Boot starter and an executable bundle. The bundle
+  image uses Alpine/OpenJDK 25, `tini` and numeric UID/GID 1000; custom STDIO server
+  runtimes must be installed explicitly.
+
+The worker checks turn ownership before each model request. A replaced or
+unlocked attempt stops without publishing conversation changes, and usage returned
+after replacement can be reported idempotently to engine history. Task outcomes
+now distinguish `not_found`, `lock_lost` and `unknown`; model metrics and worker
+audit remain the broader record of attempted calls. Unknown token counts remain
+unknown. See [Observability and Model Usage]({{< ref "/user-guide/ai-agent/observability.md" >}}).
+
+Provider SDKs are OpenAI **4.100.0** and Anthropic **3.5.0**. Anthropic uses Messages
+API `2026-10-21`, which rejects `temperature` and `topP`. The JDBC migration
+runtime uses privately relocated Flyway **13.12.0**; it does not replace the
+embedding application's migration runtime.
+
+The [Connectors catalog]({{< ref "/user-guide/ai-agent/connectors/_index.md" >}})
+groups task configuration. The [support-agent example]({{< ref "/user-guide/ai-agent/example-support-agent.md" >}})
+combines REST, remote MCP and an actual human approval task.
+
+### External task client
+
+#### Queued tasks retain their locks
+
+With `maxFetchedTasksMultiplier` above 1, fetched tasks can wait in a thread pool
+longer than their original lock. The client now renews queued locks and checks them
+again before execution. If no handler finishes within the lock duration, it unlocks
+queued tasks for other workers instead of renewing them indefinitely.
+
+Unlocking can now identify the worker: `ExternalTaskService.unlock(id, workerId)`
+and the optional `workerId` in `POST /external-task/{id}/unlock` reject another
+worker's lock with HTTP 400. The Java client sends its worker id, so its `unlock`
+also fails for an unlocked task or one another worker holds.
+
+#### Connection limits and request timeouts
+
+The default connection pool accounts for fetch-and-lock loops, handler threads and
+queued-lock renewal threads, with a minimum of five connections. This prevents
+long polls from consuming connections needed to finish tasks or extend locks.
+**A larger pool also increases concurrent requests to the engine.** For example,
+50 handler threads with the default multiplier use up to 51 connections. Set
+`maxConnectionsPerRoute(5)` or `eximeebpms.bpm.client.max-connections-per-route=5`
+to retain the earlier fixed limit. A custom connection manager keeps its own sizing.
+
+Handler requests retain their three-minute response timeout; internal fetches,
+renewals and unlocks use 60 seconds, with a long poll's `asyncResponseTimeout`
+added for fetch-and-lock. Connections time out after 10 seconds. The builder's
+`responseTimeout` and `eximeebpms.bpm.client.response-timeout` set a common limit
+(`0` disables it); explicitly customized request timeouts still apply.
+
+#### Acquisition recovery, shutdown and diagnostics
+
+A failed acquisition loop now makes `isActive()` false. `stop()` cleans up failed
+loops and `start()` can restart them; a critical JVM error other than
+`StackOverflowError` requires a new client. Calling `start()` from an acquisition
+thread is rejected. Stopping cancels a long poll immediately. Tasks the engine
+locks for that cancelled request become available when their locks expire.
+
+Every failed fetch pauses for 500 ms, doubling up to 60 seconds, including when
+ordinary backoff is disabled. An outage is logged once and recovery is reported,
+instead of an error stack trace on every attempt. Non-JSON HTTP 401/403 responses
+retain their status as `UnknownHttpErrorException`.
+
+Update log-based alerts: `TASK/CLIENT-03001` is replaced by `03018`/`03020` for
+unreachable-engine episodes and `03022`/`03023` for other errors. Duplicate codes
+are separated: already subscribed topic → `01006`, failing stats listener →
+`03037`, discovered data format → `01036`.
+
+→ [External Task Client]({{< ref "/user-guide/ext-client/_index.md" >}})
+→ [Client Spring Boot configuration]({{< ref "/user-guide/ext-client/spring-boot-starter.md" >}})
+
+### Other engine changes and fixes
+
+- New REST operations for the signed-in user: `GET /authentication/me` returns
+  the profile, groups, tenants and authorized web applications, and
+  `GET /authentication/me/permissions` the effective permissions per resource
+  type and resource id. In Java they are `IdentityService#getCurrentUser()` and
+  `AuthorizationService#getCurrentUserPermissions(Resource...)`.
+- REST task queries and filter queries apply each `orQueries` element as its own
+  bracket, joining brackets with AND. Since 1.2.x all elements were merged into
+  one OR. Clients splitting alternatives across several elements must put those
+  alternatives in one element. Candidate/involved-user criteria in separate
+  brackets also match separate identity links correctly.
+- The job executor becomes active before acquiring jobs. Jobs acquired during
+  startup are no longer unlocked for the next cycle; exclusive jobs stay in their
+  process hierarchy's batch.
+- Applications disabling the engine or excluding its auto-configuration no longer
+  fail because script security requires a `ProcessEngine` bean.
+- `eximeebpms.bpm.id-generator=simple` again uses the engine's database ID generator
+  without requiring an `IdGenerator` bean.
+- The starter brings JDBC auto-configuration support for applications with their
+  own JDBC driver/pool that do not depend on `spring-boot-starter-jdbc`.
+- Cockpit, Tasklist, Admin and Welcome show the actual release version in their
+  footer. Webapp asset cache-busting also changes with the release.
+
+### Co-released engine and worker monitoring
+
+Prometheus export requires role `metricsreader` (no hyphen, so the default
+group id pattern accepts it). In Run, engine administrators may read metrics
+without it, and the metrics path accepts HTTP Basic and, on the main server
+(a separate management server accepts HTTP Basic only), an existing
+Cockpit/Admin/Tasklist login, also when REST API authentication is disabled or
+Run starts with only `--webapps`. With `--oauth2`, token groups `metricsreader`
+or an administrator group grant access. Outside Run, engine administrators need
+the role too; in Spring Security it is the authority `ROLE_metricsreader`.
+
+Run's shipped configuration no longer exposes every Actuator endpoint, only
+`health` and `prometheus` (Security Notice EXBPMS-19). If you copied the former
+`management.endpoints.web.exposure.include: prometheus,*` into your own
+configuration, change it. Any other endpoint an
+installation exposes requires an engine administrator. The shipped files now
+switch the Prometheus endpoint with `management.endpoint.prometheus.access` (`none` in
+`default.yml`, `read-only` in `production.yml`) instead of the deprecated
+`management.endpoint.prometheus.enabled`. Spring Boot refuses to start when both
+keys are set for the endpoint, so remove `enabled` from any configuration you
+carry over.
+
+Run started with only `--rest` can now expose Actuator metrics as well. Run also
+validates the selected YAML before
+server startup and reports syntax/duplicate-key locations without printing
+configuration values or opening a browser on validation failure.
+
+Spring applications can switch off all automatic engine and worker
+measurements with the new `eximeebpms.monitoring.enabled`, which also disables
+local event counters. The monitor's `eximeebpms.monitoring.snapshot.enabled` and
+`.snapshot.updateRate` keep controlling only the periodic state refreshes. Run defaults to disabled in
+`default.yml` and enabled in `production.yml`. Prometheus registry/HTTP settings
+remain separate. Run launchers recover stale PID files, verify process identity
+before signalling it, and defer opening a browser until startup is accepted.
+
+Monitoring moves into the engine reactor, with separate common, engine, worker,
+Spring Boot, Prometheus and servlet artifacts beneath one `monitoring/` module.
+Replace the old `org.eximeebpms.bpm.extension.monitor:eximeebpms-enterprise-bpm-spring-boot-monitor`
+dependency with the `org.eximeebpms.bpm.monitor` artifacts at version `1.4.3-ee`;
+do not put both implementations on the classpath. Use matching 1.4.3-ee engine,
+client and monitoring artifacts.
+The migration also brings ad-hoc subprocess turn and model usage meters, fixes
+explicit `@EnableMonitoring` registration, and adds reusable execution,
+lock-renewal, queue, executor, HTTP-pool and manual-extension measurements for
+workers. The external task and incident gauges now report each activity, topic
+and incident type, including `tenant.id`, as its own series instead of merging
+them; review dashboards and alerts built on those gauges.
+
+Tomcat and WildFly include opt-in `/metrics` export. Run keeps its Actuator path,
+but scraping now requires an existing authenticated principal mapped to
+`metricsreader`. Configure the scraper's role through the installation's existing
+identity provider. Measurement and HTTP exposure remain separate controls.
+
+The Script Guard gauge retains Micrometer ID `eximeebpms.script.violations.total`
+and exports as `eximeebpms_script_violations_current` to prevent a name-family
+collision with the event counter. Update Prometheus queries for the gauge and
+include the co-released Prometheus adapter.
+
+→ [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md" >}})
+→ [Worker Monitoring]({{< ref "/user-guide/ext-client/monitoring.md" >}})
+
+### Security and dependency updates
+
+- Actuator writes authenticated by a webapp/OAuth2 session require its CSRF token
+  in `X-XSRF-TOKEN`; authorized Actuator GETs return it (except `health`). Browser
+  HTTP Basic writes require a non-empty `X-XSRF-TOKEN`. Scripted HTTP Basic is
+  unaffected. A Prometheus scrape concurrent with gauge refresh no longer fails
+  with duplicate-label registration.
+- MariaDB Connector/J moves to **4.0.0**, including test/QA connections. TLS now
+  defaults to `verify-full`, so externally supplied MariaDB test databases need
+  compatible TLS configuration. See [EXBPMS-20](/security/notices/#notice-exbpms-20).
+- Managed Jackson 2 moves to **2.22.4**; Boot-based distributions use Boot-managed Jackson 3.
+- The trailing-slash redirect in Spring Boot/Run webapps uses the normalized
+  request path, preventing redirects to an attacker-controlled host through a
+  crafted path. See [EXBPMS-17](/security/notices/#notice-exbpms-17).
+- Webapps ship DOMPurify **3.4.17** and qs **6.16.2**. The DOMPurify exposure
+  concerned custom code using sanitizer options the product does not set.
+  See [EXBPMS-18](/security/notices/#notice-exbpms-18).
+- Kafka compression dependencies move to **lz4-java 1.11.4** and **snappy-java
+  1.1.10.12**. WildFly loads these versions as well and removes its older bundled
+  compression jars. Lz4 remains the plugin's default unless compression is
+  explicitly configured as snappy.
+- Tomcat **11.0.27** replaces 11.0.26, and WildFly **42.0.0.Final** (WildFly Core
+  34.0.0.Final) replaces 41.0.1.Final.
+- Spring Boot **4.1.2** and Spring Framework **7.0.10** replace 4.1.1/7.0.9.
+  Starter and Run retain Boot's Jackson 3.1.7 and HttpCore 5.4.4 management.
+- Apache HttpClient 5 **5.6.5** replaces 5.6.4 in the external task client,
+  HTTP/SOAP connectors and WildFly modules. Starter/Run use Boot's managed version.
+- Source frontend builds use Node.js **26.13.0 LTS**, npm **11.21.2**,
+  webpack **5.112.2** and ESLint 9. The generated REST reference uses Redoc **3.0.1**
+  with telemetry disabled. Test dependencies include Guava **33.7.2-jre**,
+  OpenTelemetry **1.67.0** and ChromeDriver **156.0.8078.80**.
+
+→ [Tech Stack]({{< ref "/introduction/tech-stack.md" >}})
+→ [Third-party dependency inventory and license notices]({{< ref "/introduction/third-party-libraries/camunda-bpm-platform-license-book.md" >}})
+
+### Database and upgrade considerations
+
+The ad-hoc turn-history tables `ACT_HI_ADHOC_TURN`, `ACT_HI_ADHOC_TURN_EL` and
+`ACT_HI_ADHOC_USAGE` require the matching **1.4.2 → 1.4.3** engine patch script
+(`<db>_engine_1.4_patch_1.4.2_to_1.4.3.sql`) or Liquibase changeSet
+`1.4.2-to-1.4.3`. Take a database backup immediately before migration.
+Connector JDBC migrations are separate and do not migrate the engine database.
+When implementing engine/client interfaces yourself, account for the added
+worker-aware `unlock` and client-builder timeout methods, the changed REST
+unlock resource signature, and `IdentityService#getCurrentUser()` and
+`AuthorizationService#getCurrentUserPermissions(Resource...)`. Review the
+task-query and connection-pool behavior changes above before upgrading.
+
+Ad-hoc subprocesses also change existing behavior:
+
+- Ad-hoc subprocesses deployed with an earlier version run only once their definition
+  is parsed again, and their inner flows need a running job executor.
+- Code iterating sub-processes or flow elements through the BPMN model API now also
+  sees `AdHocSubProcess` elements.
+- In worker-driven mode, deployment fails for an output collection or input parameter
+  named after an engine variable (`adHocCompletionConditionFulfilled`,
+  `adHocActivationSource`, `adHocSubProcessElements`, `adHocTurnCount`).
+- A plugin that sets a fallback serializer factory only when none is set must now do
+  so in `preInit`.
+- The extension properties of external tasks keep their document order.
+
 
 ## 1.4.2-ee {#142-ee}
 

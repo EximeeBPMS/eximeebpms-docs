@@ -1,6 +1,7 @@
 ---
 
 title: 'JNDI Bindings for EximeeBPMS Services'
+description: "The JNDI names under which the Process Engine Service and Process Application Service are published."
 weight: 20
 
 menu:

@@ -15,6 +15,115 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-20
+
+**Publication Date:** November 5, 2026
+
+**Product affected:** EximeeBPMS's MariaDB test and QA connections: the `mariadb` Maven profile, the Testcontainers test utilities and the Tomcat QA runtime.
+
+**Impact:**
+
+MariaDB Connector/J versions before 3.3.7, 3.4.5 and 3.5.11 in their respective lines are affected by four vulnerabilities requiring a malicious or compromised database server, or an attacker controlling the server side of the connection:
+
+- [CVE-2026-119210](https://github.com/advisories/GHSA-fhx5-2xqw-2cgm): a forged LOCAL INFILE request can read files accessible to the client JVM when `allowLocalInfile` is enabled.
+- [CVE-2026-119276](https://github.com/advisories/GHSA-h599-m3w5-9m7x): server-declared lengths in OK packets can cause excessive heap allocations.
+- [CVE-2026-119280](https://github.com/advisories/GHSA-4jq2-8v3c-97w8): invalid lengths in XA recovery results can cause excessive allocations or unchecked exceptions in applications using XA recovery.
+- [CVE-2026-119281](https://github.com/advisories/GHSA-grfq-r75j-rw9x): unguarded changes to the result character set can cause strings to be decoded incorrectly.
+
+**Affected versions:**
+
+EximeeBPMS Enterprise Edition 1.4.1-ee declares Connector/J 3.5.7 in its `mariadb` Maven profile, and 1.4.2-ee declares Connector/J 3.5.10 in the paths above. Community Edition 1.4.0 does not declare this driver in those paths. An installation that supplies its own MariaDB driver must check that driver's version separately.
+
+**Solution:**
+
+Enterprise Edition **1.4.3-ee** updates the shared driver version to 4.0.0, fixing all four vulnerabilities. The WildFly engine integration suite also gains a native MariaDB datasource and driver module; previously it tried the MySQL driver for a `jdbc:mariadb:` URL and could not start. Supported MariaDB server versions remain 11.4 and 12.3. Community Edition's development branch still declares 3.5.10; porting this update is pending the next Community Edition curation. For a separately supplied driver, update it to a patched release independently of EximeeBPMS. Disabling `allowLocalInfile` mitigates CVE-2026-119210 only.
+
+**Upgrading the driver:**
+
+Connector/J 4.0 requires Java 17 or later; EximeeBPMS's Java 21 baseline already satisfies this. TLS now defaults to `sslMode=verify-full`, so an external test or QA database must provide compatible TLS and server identity validation. MariaDB 11.4 and later support zero-configuration TLS with compatible authentication; other configurations may need `serverSslCert` or `trustStore`. For a deliberately unencrypted local test database, `sslMode=disable` must be explicit; do not use that workaround for production. This update does not disable TLS in the build profiles.
+
+`PreparedStatement.executeQuery()` now rejects statements that return no result set; use `execute()` or `executeUpdate()` for those statements. `Connection.setSavepoint()` now rejects auto-commit mode; start a transaction before creating a savepoint. AWS IAM authentication moves to the separate `mariadb-java-client-aws` artifact. See the [Connector/J 4.0.0 release notes](https://mariadb.com/docs/release-notes/connectors/java/4.0/4.0.0) before replacing an installation's own driver.
+
+---
+
+## Notice EXBPMS-19
+
+**Publication Date:** November 2, 2026
+
+**Product affected:** EximeeBPMS Run, in both its default (`default.yml`) and production (`production.yml`) configuration, including the Docker images built from it. The Tomcat and WildFly distributions and the Spring Boot starter do not ship this setting.
+
+**Impact:**
+
+The configuration files shipped with Run set `management.endpoints.web.exposure.include: prometheus,*`, which exposes every Spring Boot Actuator endpoint over HTTP. Run requires no authentication for any of them. Anyone who can reach Run's HTTP port can therefore:
+
+- read the application's configuration and environment (`/actuator/env`, `/actuator/configprops`); Spring Boot masks the values, but property names, configuration file locations and the structure of the configuration are visible,
+- read internal details: `beans`, `conditions`, `mappings`, `scheduledtasks`, `sbom`, `threaddump`, and the meter values through `/actuator/metrics` and, where Prometheus export is enabled as in `production.yml`, `/actuator/prometheus`,
+- change log levels at runtime through `POST /actuator/loggers/{name}`, for example to `TRACE`, which can write additional data into the logs and fill the disk.
+
+`/actuator/heapdump` is not available in the affected releases. Enabling REST API authentication (`eximeebpms.bpm.run.auth.enabled`) does not protect these endpoints.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and Community Edition releases 1.1.0 up to and including 1.4.0.
+
+**Solution:**
+
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the shipped configuration exposes only `health` and `prometheus`, `prometheus` requires authentication, and any other endpoint an installation exposes requires an engine administrator. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
+
+---
+
+## Notice EXBPMS-18
+
+**Publication Date:** October 28, 2026
+
+**Product affected:** EximeeBPMS's web applications (Cockpit, Tasklist, Admin and Welcome) in every distribution, and therefore the Tomcat and WildFly distributions, the Spring Boot starter for the web applications and EximeeBPMS Run. The engine, the REST API and the external task client do not use DOMPurify.
+
+**Impact:**
+
+The version of `DOMPurify` shipped with the web applications (3.4.16 in 1.4.2-ee, 3.4.13 in Community Edition 1.4.0) had the following vulnerabilities. Earlier releases bundle DOMPurify 3.2.4, which is affected by the second and third but not the first:
+
+- [GHSA-cg2g-xh64-v4q7](https://github.com/advisories/GHSA-cg2g-xh64-v4q7) (critical): with `SAFE_FOR_TEMPLATES` and a DOM-returning mode (`RETURN_DOM`, `RETURN_DOM_FRAGMENT` or `IN_PLACE`), template expressions survive sanitization inside an attached shadow root.
+- [GHSA-mrv2-3pqr-j5jr](https://github.com/advisories/GHSA-mrv2-3pqr-j5jr) (high): in `IN_PLACE` mode, a hook that removes the current node's parent or an unvisited sibling leaves that subtree's event handlers in place.
+- [GHSA-c6gr-qvv4-5v3f](https://github.com/advisories/GHSA-c6gr-qvv4-5v3f) (low): with `PARSER_MEDIA_TYPE` set to `application/xhtml+xml`, the guard against SMIL `attributeName="href"` is skipped.
+
+**None of them applies to EximeeBPMS's own code.** Each needs sanitizer options the web applications never set. Their only caller, the form viewer (`@bpmn-io/form-js`) that renders forms in Tasklist and Cockpit, passes `FORCE_BODY` and `FORBID_TAGS` and takes a string back; it registers no hooks and uses the HTML parser.
+
+The web applications also expose the library as the global `window.DOMPurify`, so embedded forms and plugins can call it. A custom form or plugin that calls it with the options above was exposed.
+
+The same releases also bundle `qs` (6.16.0 in 1.4.2-ee, 6.15.3 in Community Edition 1.4.0), affected by [CVE-2026-110816](https://github.com/advisories/GHSA-6pq8-jhm2-2vcw): `qs.stringify` with `arrayFormat: 'comma'` throws on an array element with a non-callable `toString`. The web applications call `qs` only through their HTTP client, which does not use that format, so they are not affected.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all Community Edition releases up to and including 1.4.0.
+
+**Solution:**
+
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the web applications ship DOMPurify 3.4.17 and `qs` 6.16.2. Pending in the next Community Edition release. On an affected version, custom forms and plugins that call `window.DOMPurify` should not combine `SAFE_FOR_TEMPLATES` with a DOM-returning mode, should not remove other nodes from `IN_PLACE` hooks, and should not set `PARSER_MEDIA_TYPE` to `application/xhtml+xml`.
+
+---
+
+## Notice EXBPMS-17
+
+**Publication Date:** October 6, 2026
+
+**Product affected:** EximeeBPMS's Spring Boot starter for the web applications (`eximeebpms-bpm-spring-boot-starter-webapp`) and EximeeBPMS Run, which is built on it. The Tomcat and WildFly distributions serve the web applications through a different filter and are not affected.
+
+**Impact:**
+
+The starter answers a request for an application's root without a trailing slash, such as `/eximeebpms/app/cockpit`, with a redirect to the same path plus `/`. It built that redirect from the request URI exactly as the client sent it, before the servlet container normalizes it. A link like `https://bpms.example.com//attacker.example/../eximeebpms/app/cockpit` still reaches the web application, but is answered with a redirect to `//attacker.example/../eximeebpms/app/cockpit/`, which the browser follows to `attacker.example`.
+
+This is an open redirect: an attacker can send a link that starts on your EximeeBPMS host and ends on a site of their choosing, for example a copy of the login page. It does not give access to EximeeBPMS itself.
+
+**Affected versions:**
+
+All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all Community Edition releases up to and including 1.4.0, when the web applications are run through the Spring Boot starter or Run.
+
+**Solution:**
+
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the redirect is built from the normalized request path. Pending in the next Community Edition release. On an affected version, a reverse proxy in front of EximeeBPMS that rejects request paths containing `//` or `/../` mitigates the vulnerability.
+
+---
+
 ## Notice EXBPMS-16
 
 **Publication Date:** September 29, 2026 &nbsp;|&nbsp; **Updated:** October 5, 2026: four further Jackson advisories, the Spring Boot starter and Run, and the Community Edition

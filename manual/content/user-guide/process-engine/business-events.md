@@ -1,6 +1,7 @@
 ---
 
 title: 'Business Events'
+description: "Publish domain-level events, such as a completed task, a changed variable or an ended process instance, to external systems through a transactional outbox."
 weight: 207
 
 menu:
