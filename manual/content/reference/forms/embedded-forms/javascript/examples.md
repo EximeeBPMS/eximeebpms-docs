@@ -1,6 +1,7 @@
 ---
 
 title: 'Examples'
+description: "Examples of custom JavaScript in embedded forms: show the user name, load additional resources, exclude a variable from submit and upload large files."
 weight: 60
 
 menu:

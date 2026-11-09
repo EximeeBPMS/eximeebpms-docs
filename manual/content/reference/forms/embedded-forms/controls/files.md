@@ -1,6 +1,7 @@
 ---
 
 title: 'File Upload and Download'
+description: "Upload files in an embedded form, with a maximum file size, and download them again. Uploaded files are stored as a process variable."
 weight: 70
 
 menu:

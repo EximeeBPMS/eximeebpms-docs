@@ -3,7 +3,7 @@ baseURL: "/get-started/"
 locale: "en-us"
 title: "Getting started with EximeeBPMS"
 themesDir: "../themes"
-theme: "eximee"
+theme: "eximeebpms"
 
 relativeURLs: false
 
@@ -28,7 +28,7 @@ params:
     id: "get-started"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "docs/1.4.0/get-started"
+    branch: "docs/1.4-ee-next/get-started"
 
 outputs:
   home:

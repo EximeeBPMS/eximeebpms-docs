@@ -1,6 +1,7 @@
 ---
 
 title: 'AngularJS Integration'
+description: "Include the AngularJS build of the Forms SDK in your bundle and load the Forms module."
 weight: 30
 
 menu:

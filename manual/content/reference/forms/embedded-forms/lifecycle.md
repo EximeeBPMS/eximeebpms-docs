@@ -1,6 +1,7 @@
 ---
 
 title: "Lifecycle and Events"
+description: "The events an embedded form fires from loading to submitting, such as form-loaded, variables-fetched and variables-stored, and where to hook into them."
 weight: 30
 
 menu:

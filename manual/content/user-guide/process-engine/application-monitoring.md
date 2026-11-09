@@ -10,8 +10,8 @@ menu:
 
 ---
 
-{{< note title="Enterprise Edition — upcoming change" class="warning" >}}
-The co-released modules and container support below are part of the upcoming Enterprise release. Earlier releases use the separate monitor extension and support Spring Boot / Run only. Use the same Enterprise release for the engine, the External Task Client and the monitoring modules; the new coordinates are not a drop-in dependency for older clients.
+{{< note title="Enterprise Edition 1.4.3-ee and later" class="info" >}}
+The co-released modules and container support below are part of Enterprise **1.4.3-ee** and later. Earlier releases use the separate monitor extension and support Spring Boot / Run only. Use the same Enterprise release for the engine, the External Task Client and the monitoring modules; the new coordinates are not a drop-in dependency for older clients.
 {{< /note >}}
 
 Application monitoring exposes Micrometer meters for the engine and external-task workers. Its source now lives under `monitoring/` in the engine repository and is released in the same reactor. There is no monitor-to-released-engine-to-monitor release cycle. The existing database-reported engine [Metrics]({{< ref "/user-guide/process-engine/metrics.md" >}}) remain a separate mechanism.
@@ -392,8 +392,8 @@ The three counters above require <code>history-level: full</code> — see [Histo
 
 ## Business Events Outbox
 
-{{< note title="Not yet in a released extension version" class="warning" >}}
-These gauges are included in the upcoming co-released Enterprise monitoring modules. Earlier engines require a compatible standalone monitor release and the `BusinessEventService#getOutboxBacklog()` API; do not assume an older pinned extension contains them.
+{{< note title="Enterprise Edition 1.4.3-ee and later" class="info" >}}
+These gauges are included in the co-released Enterprise monitoring modules since 1.4.3-ee. Earlier engines require a compatible standalone monitor release and the `BusinessEventService#getOutboxBacklog()` API; do not assume an older pinned extension contains them.
 {{< /note >}}
 
 <table class="table desc-table">
@@ -424,8 +424,8 @@ Both values come from `BusinessEventService#getOutboxBacklog()`, which any deplo
 
 ## Business Events Dispatcher
 
-{{< note title="Not yet in a released extension version" class="warning" >}}
-These meters are included in the upcoming co-released Enterprise monitoring modules. Earlier engines require a compatible standalone monitor release and the `BusinessEventDispatchListener` API; do not assume an older pinned extension contains them.
+{{< note title="Enterprise Edition 1.4.3-ee and later" class="info" >}}
+These meters are included in the co-released Enterprise monitoring modules since 1.4.3-ee. Earlier engines require a compatible standalone monitor release and the `BusinessEventDispatchListener` API; do not assume an older pinned extension contains them.
 {{< /note >}}
 
 The dispatcher reports every publish attempt and every batch, so these meters keep moving during a long drain rather than only when a cycle ends. Every pass of the dispatcher reads at least one batch, so each pass leaves a sample, even when there is nothing to publish.

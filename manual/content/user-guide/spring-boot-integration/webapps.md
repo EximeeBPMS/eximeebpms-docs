@@ -1,6 +1,7 @@
 ---
 
 title: "Web applications"
+description: "Serve Cockpit, Tasklist, Admin and the Welcome app from a Spring Boot application by adding the web application starter."
 weight: 40
 
 menu:

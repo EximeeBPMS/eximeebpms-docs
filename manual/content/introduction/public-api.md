@@ -1,6 +1,7 @@
 ---
 
 title: 'Public API'
+description: "Which parts of the engine are public API, and the backwards-compatibility rules that apply when you update."
 weight: 80
 
 menu:

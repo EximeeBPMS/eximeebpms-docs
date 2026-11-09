@@ -170,7 +170,7 @@ var collection = S('{ "collection" : ["System 1", "System 3"] }');
 execution.setVariable("collection", collection);
 ```
 
-This script can be injected in the model in several ways, e.g. using [Script task] ({{< ref "/reference/bpmn20/tasks/script-task.md">}}). 
+This script can be injected in the model in several ways, e.g. using [Script task]({{< ref "/reference/bpmn20/tasks/script-task.md">}}).
 
 We can now use `collection` variable in multi-instance activity's `camunda:collection` extension element.
 

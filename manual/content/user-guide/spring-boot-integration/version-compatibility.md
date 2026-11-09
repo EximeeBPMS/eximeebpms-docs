@@ -1,6 +1,7 @@
 ---
 
 title: "Spring Boot Version Compatibility"
+description: "The EximeeBPMS and Spring Boot version combinations that are recommended and supported for the Spring Boot starter."
 weight: 10
 
 menu:

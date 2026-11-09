@@ -1,6 +1,7 @@
 ---
 
 title: "REST API"
+description: "Expose the engine's REST API from a Spring Boot application by adding the REST starter."
 weight: 30
 
 menu:

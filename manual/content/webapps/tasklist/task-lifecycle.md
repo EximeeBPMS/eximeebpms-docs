@@ -1,6 +1,7 @@
 ---
 
 title: 'Task Lifecycle'
+description: "The task lifecycle and the transitions the engine supports, as a diagram."
 weight: 50
 
 menu:

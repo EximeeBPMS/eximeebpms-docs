@@ -10,7 +10,7 @@ menu:
     parent: "dmn-ref-feel-legacy"
     pre: "Supported Data Types in FEEL"
 
-aliases: [reference/dmn11/feel/legacy/data-types/]
+aliases: [/reference/dmn11/feel/legacy/data-types/]
 ---
 
 {{< note title="Heads Up!" class="info" >}}

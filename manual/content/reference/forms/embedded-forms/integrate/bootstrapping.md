@@ -1,6 +1,7 @@
 ---
 
 title: 'Bootstrapping'
+description: "Load an embedded form with the Forms SDK by task ID, process definition ID, a URL or an element already in the DOM."
 weight: 20
 
 menu:

@@ -9,7 +9,7 @@ menu:
     identifier: "dmn-ref"
     parent: "references"
 
-aliases: [reference/dmn11/]
+aliases: [/reference/dmn11/]
 ---
 
 Decision Model and Notation (DMN) is a standard for Business Decision Management.

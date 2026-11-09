@@ -1,6 +1,7 @@
 ---
 
 title: 'Architecture Overview'
+description: "The three ways to run the engine, embedded, as a shared container-managed service or as a standalone server, plus the clustering model and required libraries."
 weight: 30
 
 menu:

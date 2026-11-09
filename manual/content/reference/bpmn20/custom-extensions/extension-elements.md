@@ -1,6 +1,7 @@
 ---
 
 title: 'Camunda BPMN Extension Elements'
+description: "Reference for the BPMN extension elements EximeeBPMS supports, such as adHoc, connector, constraint, executionListener and failedJobRetryTimeCycle."
 weight: 10
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Extension Elements"
     identifier: "bpmn-extensions-elements"
     parent: "bpmn-extensions"
-    pre: "Reference of Camunda Extension Attributes for BPMN."
 
 ---
 

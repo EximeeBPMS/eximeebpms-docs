@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.2.0 Release Notes"
+description: "Moves to Spring Boot 4 and Spring Framework 7 with a full switch to the Jakarta EE namespace. Includes Tomcat 10.1, Hibernate 7 and Jetty 11, and lists the breaking changes."
 weight: 30
 
 menu:

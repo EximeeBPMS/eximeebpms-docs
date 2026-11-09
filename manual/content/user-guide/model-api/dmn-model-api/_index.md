@@ -1,6 +1,7 @@
 ---
 
 title: 'DMN Model API'
+description: "Read, edit and create DMN decision definitions in Java, without handling the XML yourself."
 weight: 50
 
 menu:

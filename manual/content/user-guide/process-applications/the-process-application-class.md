@@ -1,6 +1,7 @@
 ---
 
 title: 'The Process Application class'
+description: "The ProcessApplication base classes for servlet, EJB, embedded and Spring environments, and how a process application class bootstraps deployment."
 weight: 10
 
 menu:

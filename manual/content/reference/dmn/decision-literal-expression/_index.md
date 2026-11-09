@@ -11,7 +11,7 @@ menu:
     parent: "dmn-ref"
     pre: "Specify Decision Logic as an Expression"
 
-aliases: [reference/dmn11/decision-literal-expression/]
+aliases: [/reference/dmn11/decision-literal-expression/]
 ---
 
 {{< img src="img/decision-literal-expression.png" title="Decision Literal Expression" class="no-lightbox" >}}

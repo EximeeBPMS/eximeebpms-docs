@@ -1,6 +1,7 @@
 ---
 
 title: 'Configure the Full Distribution for Tomcat'
+description: "Configure the Full Distribution on Tomcat: LDAP, HAL resource caching, session cookie and security-related HTTP headers."
 weight: 30
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Configuration"
     identifier: "installation-guide-full-tomcat-configuration"
     parent: "installation-guide-full-tomcat"
-    pre: "Configure the installation."
 
 ---
 

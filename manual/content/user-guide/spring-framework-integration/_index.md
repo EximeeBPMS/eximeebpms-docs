@@ -1,6 +1,7 @@
 ---
 
 title: "Spring Framework Integration"
+description: "Embed the engine in a Spring application: the Maven dependency, engine bootstrapping, deployment, Spring bean resolving, transactions and testing."
 weight: 50
 
 menu:

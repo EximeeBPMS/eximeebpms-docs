@@ -1,6 +1,7 @@
 ---
 
 title: 'Implemented Standards'
+description: "The BPM standards the engine implements, BPMN 2.0 and DMN 1.3, with links to tutorials, modelers and implementation references."
 weight: 20
 
 menu:
@@ -30,7 +31,8 @@ EximeeBPMS supports the 2.0 version of BPMN.
 # DMN
 
 Decision Model and Notation (DMN) is a standard for Business Decision Management.
-EximeeBPMS supports the 1.1 version of DMN.
+EximeeBPMS partially supports DMN 1.3, as described in the [DMN Implementation Reference].
+It also reads decision models that use the DMN 1.1, 1.2, 1.4 or 1.5 namespace and interprets them as DMN 1.3.
 
 * Getting started implementing DMN decision tables: [DMN Getting Started]
 * Getting to Know DMN: [DMN Modeling Tutorial]

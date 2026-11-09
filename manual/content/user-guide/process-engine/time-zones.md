@@ -1,6 +1,7 @@
 ---
 
 title: 'Time zones'
+description: "The engine uses the default time zone of the JVM for dates in BPMN XML, REST responses and database values."
 weight: 255
 
 menu:

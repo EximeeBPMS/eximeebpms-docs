@@ -1,6 +1,7 @@
 ---
 
 title: 'Create a Model'
+description: "Build a DMN model from scratch in Java, starting from an empty model instance."
 weight: 20
 
 menu:

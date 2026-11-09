@@ -1,6 +1,7 @@
 ---
 
 title: 'Cockpit Plugins'
+description: "Add your own functionality to Cockpit with plugins that attach to its plugin points, without modifying the web application."
 weight: 20
 
 menu:

@@ -1,6 +1,7 @@
 ---
 
 title: 'Javadoc'
+description: "The generated Javadoc of the EximeeBPMS Java API."
 weight: 15
 
 menu:

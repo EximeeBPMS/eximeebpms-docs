@@ -1,6 +1,7 @@
 ---
 
 title: 'Script Guard'
+description: "Script Guard inspects scripts before they run and blocks or audits patterns that could lead to remote code execution or data exfiltration."
 weight: 82
 
 menu:

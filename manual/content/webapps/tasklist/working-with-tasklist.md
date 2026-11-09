@@ -1,6 +1,7 @@
 ---
 
 title: 'Working with Tasklist'
+description: "A walkthrough of a typical human workflow in Tasklist: start a process, create a filter, claim and work on tasks, set a follow-up date and comment."
 weight: 10
 
 menu:

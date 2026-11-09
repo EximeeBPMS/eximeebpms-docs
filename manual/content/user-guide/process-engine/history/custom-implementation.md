@@ -1,6 +1,7 @@
 ---
 
 title: 'Custom implementation'
+description: "Provide a custom history backend by implementing the history event handler and wiring it into the engine configuration."
 weight: 40
 
 menu:
