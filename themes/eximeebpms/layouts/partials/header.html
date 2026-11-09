@@ -38,7 +38,7 @@
   <label class="version-picker"><span class="visually-hidden">Community documentation version</span>
     <select id="version-select" data-section="{{ $.Site.Params.section.id }}" data-base="{{ $.Site.BaseURL }}">
       {{ $current := $currentVersion }}
-      {{ if not (in . $current) }}<option value="" selected disabled hidden>Community version</option>{{ end }}
+      {{ if not (in . $current) }}<option value="" selected disabled hidden>Version…</option>{{ end }}
       {{ range . }}<option value="{{ . }}" {{ if eq $current . }}selected{{ end }}>{{ . }}</option>{{ end }}
     </select>
   </label>
