@@ -79,14 +79,6 @@
   });
   matchMedia("(min-width: 801px)").addEventListener("change", closeMenu);
 
-  const version = document.querySelector("#version-select");
-  version?.addEventListener("change", () => {
-    if (!version.value) return;
-    const base = new URL(version.dataset.base, location.origin);
-    const relative = location.pathname.startsWith(base.pathname) ? location.pathname.slice(base.pathname.length) : "";
-    location.assign(`/${version.dataset.section}/${encodeURIComponent(version.value)}/${relative}${location.hash}`);
-  });
-
   document.querySelectorAll(".content-text pre").forEach(block => {
     const wrapper = document.createElement("div");
     wrapper.className = "copy-wrapper";

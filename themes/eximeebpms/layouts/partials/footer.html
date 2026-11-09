@@ -1,6 +1,8 @@
 </div>
 {{ $vendor := resources.Get "js/vendor.js" | fingerprint }}
 <script src="{{ $vendor.RelPermalink }}" integrity="{{ $vendor.Data.Integrity }}" defer></script>
+{{ $versionPicker := resources.Get "js/version-picker.js" | fingerprint }}
+<script src="{{ $versionPicker.RelPermalink }}" integrity="{{ $versionPicker.Data.Integrity }}" defer></script>
 {{ $script := resources.Get "js/theme.js" | fingerprint }}
 <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer data-pagefind-base="{{ "pagefind/" | relURL }}"></script>
 </body></html>
