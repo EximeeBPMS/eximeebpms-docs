@@ -1,6 +1,7 @@
 ---
 
 title: 'Getting a Distribution'
+description: "Get the Forms SDK by manual download or dependency management, and include the library in your application."
 weight: 10
 
 menu:

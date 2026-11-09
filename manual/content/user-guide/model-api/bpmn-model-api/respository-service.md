@@ -1,6 +1,7 @@
 ---
 
 title: 'Repository Service'
+description: "Get the BPMN model instance of a deployed process definition from the Repository Service."
 weight: 50
 
 menu:

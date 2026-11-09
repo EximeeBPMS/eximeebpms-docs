@@ -1,5 +1,6 @@
 ---
 title: "Extending Spin"
+description: "Extend Spin with a DataFormatConfigurator to configure a detected data format, or add a custom data format."
 weight: 30
 
 menu:

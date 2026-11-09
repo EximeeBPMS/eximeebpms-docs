@@ -1,6 +1,7 @@
 ---
 
 title: 'Configuration'
+description: "Override the Cockpit configuration in app/cockpit/scripts/config.js, and restyle the application, for example its logo and header color, with a user stylesheet."
 weight: 10
 
 menu:

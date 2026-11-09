@@ -1,6 +1,7 @@
 ---
 
 title: 'History configuration'
+description: "Choose a history level (NONE, ACTIVITY, AUDIT or FULL) and decide how much history the engine records."
 weight: 10
 
 menu:

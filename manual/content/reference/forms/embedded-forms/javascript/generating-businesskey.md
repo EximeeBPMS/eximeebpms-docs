@@ -1,6 +1,7 @@
 ---
 
 title: 'Generating a Business Key'
+description: "Example of generating a business key with JavaScript when a process instance is started from a form."
 weight: 50
 
 menu:

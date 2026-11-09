@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.1.0 Release Notes"
+description: "Adds WildFly 27 support, EximeeBPMS Monitor metrics in eximeebpms-run, JaCoCo and Sonar integration, and a broad dependency refresh with several security fixes."
 weight: 40
 
 menu:

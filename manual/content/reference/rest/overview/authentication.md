@@ -1,6 +1,7 @@
 ---
 
 title: "Configure Authentication"
+description: "Switch on HTTP Basic Authentication for the REST API by adding the authentication servlet filter."
 weight: 10
 
 menu:

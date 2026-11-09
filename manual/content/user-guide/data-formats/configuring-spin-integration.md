@@ -1,6 +1,7 @@
 ---
 
 title: 'Configuring Spin Integration'
+description: "Add Spin to the engine's classpath and register the Spin process engine plugin. Pre-built distributions already include it."
 weight: 10
 
 menu:

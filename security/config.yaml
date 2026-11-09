@@ -3,7 +3,7 @@ baseURL: "/security/"
 locale: "en-us"
 title: "Product Security Guide"
 themesDir: "../themes"
-theme: "eximee"
+theme: "eximeebpms"
 
 relativeURLs: false
 
@@ -28,7 +28,7 @@ params:
     id: "security"
   github:
     repositoryName: "EximeeBPMS/eximeebpms-docs"
-    branch: "docs/1.4.0/security"
+    branch: "docs/1.4-ee-next/security"
 
 outputs:
   home:

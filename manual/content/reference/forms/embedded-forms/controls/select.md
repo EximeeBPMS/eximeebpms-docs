@@ -1,6 +1,7 @@
 ---
 
 title: 'Selects'
+description: "Bind a select box in an embedded form to a process variable and see which variable types it supports."
 weight: 50
 
 menu:

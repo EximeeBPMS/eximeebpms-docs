@@ -1,0 +1,22 @@
+# Local host-run worker example. Never point a real provider at the fixture key.
+eximeebpms:
+  bpm:
+    client:
+      base-url: ${ENGINE_REST_URL:http://localhost:8080/engine-rest}
+  connectors:
+    http:
+      network-policy:
+        allow:
+          - host: localhost
+    aiagent:
+      providers:
+        default:
+          type: openai
+          model: example-fixture
+          endpoint: http://localhost:8095/v1
+          api-key: fixture-not-a-secret
+    mcp:
+      clients:
+        knowledge:
+          type: http
+          url: http://localhost:8095/mcp

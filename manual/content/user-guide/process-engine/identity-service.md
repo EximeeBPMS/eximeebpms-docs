@@ -1,6 +1,7 @@
 ---
 
 title: 'Identity Service'
+description: "The API for users, groups, tenants and their memberships, which abstracts over different user and group repositories."
 weight: 230
 
 menu:

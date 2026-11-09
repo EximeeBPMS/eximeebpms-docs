@@ -1,6 +1,7 @@
 ---
 
 title: 'EximeeBPMS Services'
+description: "Inspect configured process engines and deployed process applications through the BpmPlatform class and its services."
 weight: 10
 
 menu:

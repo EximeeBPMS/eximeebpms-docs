@@ -1,6 +1,7 @@
 ---
 
 title: 'The cam-script Directive'
+description: "Add custom JavaScript to an embedded form with a script tag and the cam-script directive."
 weight: 10
 
 menu:

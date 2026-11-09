@@ -1,6 +1,7 @@
 ---
 
 title: 'HTTP Connector'
+description: "Configure and use the HTTP connector: the Apache HTTP client, requests with headers, error handling and the response."
 weight: 10
 
 menu:

@@ -1,6 +1,7 @@
 ---
 
 title: 'Performance'
+description: "Performance topics for database queries, such as disabling standalone tasks to speed up task queries."
 weight: 60
 menu:
   main:

@@ -1,6 +1,7 @@
 ---
 
 title: 'The processes.xml Deployment Descriptor'
+description: "The processes.xml file holds the deployment metadata for a process application. Includes a simple example."
 weight: 20
 
 menu:

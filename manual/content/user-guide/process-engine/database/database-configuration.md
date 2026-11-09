@@ -1,6 +1,7 @@
 ---
 
 title: 'Database Configuration'
+description: "Configure the engine database with JDBC properties, such as URL, driver, credentials and connection pool, or with a data source."
 weight: 20
 menu:
   main:

@@ -17,7 +17,7 @@ versions:
   - id: ent
     label: Enterprise
     type: enterprise
-    badge: current
+    badge: 1.4.3-ee
 
 categories:
   - name: Platform Requirements
@@ -157,7 +157,7 @@ categories:
           v1.2.0: { value: "2.15.2" }
           v1.3.0: { value: "2.15.2" }
           v1.4.0: { value: "2.22.2", change: mj, note: "Fixes CVE-2023-35116" }
-          ent: { value: "2.22.3", change: up, badge: Upgrade, note: "Fixes CVE-2026-68497, CVE-2026-91776 and CVE-2026-91777; also in the Spring Boot starter and Run, which previously resolved Spring Boot's 2.21.5" }
+          ent: { value: "2.22.4", change: up, badge: Upgrade, note: "Fixes CVE-2026-68497, CVE-2026-91776 and CVE-2026-91777; the Spring Boot starter and Run use Boot-managed Jackson 3.1.7" }
       - name: FEEL-Scala
         sub: "DMN Engine"
         values:
@@ -186,15 +186,15 @@ categories:
 
   - name: Monitoring
     components:
-      - name: eximeebpms-bpm-monitor
-        sub: "Micrometer/Actuator extension"
+      - name: Monitoring integration
+        sub: "Standalone extension (OSS) / engine modules (Enterprise)"
         values:
           v1.0.0: { value: "n/a" }
           v1.1.0: { value: "1.2.0" }
           v1.2.0: { value: "1.2.0" }
           v1.3.0: { value: "1.2.0" }
           v1.4.0: { value: "1.7.0", change: mj }
-          ent: { value: "1.12.0-ee", change: mj, note: "eximeebpms-enterprise-bpm-spring-boot-monitor — a separately versioned fork, not the same artifact as the OSS column" }
+          ent: { value: "1.4.3-ee", change: bk, note: "org.eximeebpms.bpm.monitor modules — co-released with the engine; replace the former standalone monitor dependency" }
 
   - name: "Supported Databases — JDBC Drivers"
     components:

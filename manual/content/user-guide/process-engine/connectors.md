@@ -1,6 +1,7 @@
 ---
 
 title: 'Connectors'
+description: "The simple connectors of EximeeBPMS Connect, REST HTTP and SOAP HTTP, and how to configure and call them from a service task."
 weight: 100
 
 menu:

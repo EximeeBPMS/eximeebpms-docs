@@ -1,13 +1,15 @@
 ---
 
 title: 'REST Connector'
-weight: 300
+description: "Call an HTTP API from a service task or an agent tool: inputs, authentication, result mapping, errors and retries, and which internal addresses are allowed."
+aliases: ["/user-guide/ai-agent/rest-connector/"]
+weight: 10
 
 menu:
   main:
     name: "REST Connector"
     identifier: "external-task-client-rest-connector"
-    parent: "external-task-client"
+    parent: "ai-agent-connectors"
 
 ---
 

@@ -1,6 +1,7 @@
 ---
 
 title: 'BPMN Model API'
+description: "Read, edit and create BPMN process definitions in Java, without handling the XML yourself."
 weight: 20
 
 menu:

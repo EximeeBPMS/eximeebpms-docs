@@ -1,6 +1,7 @@
 ---
 
 title: 'External Task Client Spring Boot Starter'
+description: "Use the External Task Client in a Spring Boot application: topic subscriptions, configuration, request interceptors and the backoff strategy."
 weight: 200
 
 menu:

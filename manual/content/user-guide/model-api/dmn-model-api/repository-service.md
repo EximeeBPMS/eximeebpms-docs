@@ -1,6 +1,7 @@
 ---
 
 title: 'Repository Service'
+description: "Get the DMN model instance of a deployed decision definition from the Repository Service."
 weight: 50
 
 menu:

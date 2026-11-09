@@ -1,6 +1,7 @@
 ---
 
 title: 'JTA Transaction Integration'
+description: "Let the process engine join JTA or Jakarta Transactions managed by the container or an embedded transaction manager."
 weight: 20
 
 menu:

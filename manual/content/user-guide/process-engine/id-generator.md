@@ -1,6 +1,7 @@
 ---
 
 title: 'Id Generators'
+description: "The ID generators for process instances, tasks and other entities: UUID v7 as the default, the database generator, security considerations and migration notes."
 weight: 190
 
 menu:

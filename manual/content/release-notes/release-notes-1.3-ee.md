@@ -1,6 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.3.x Enterprise Edition Release Notes"
+description: "Enterprise patch releases 1.3.1-ee to 1.3.3-ee. Covers Script Guard outside Spring Boot, history exclusion by process definition key, the admin-user bootstrap guard and closed dependency alerts."
 weight: 5
 
 menu:
