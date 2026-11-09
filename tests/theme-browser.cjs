@@ -242,13 +242,13 @@ listeners.set('Runtime.exceptionThrown', event => errors.push(event.exceptionDet
   for (const theme of ['light','dark']) {
     const point=await evaluate(`(() => {
       document.documentElement.dataset.theme=${JSON.stringify(theme)};
-      const link=[...document.querySelectorAll('.content-text p a')].find(a=>a.textContent.includes('AI Agent'));
+      const link=document.querySelector('.content-text p a[href]');
       link.scrollIntoView({block:'center'});const rect=link.getClientRects()[0];
       return {x:rect.left+Math.min(rect.width/2,10),y:rect.top+rect.height/2};
     })()`);
     await send('Input.dispatchMouseEvent',{type:'mouseMoved',...point},sessionId);
     const hovered=await evaluate(`(() => {
-      const link=[...document.querySelectorAll('.content-text p a')].find(a=>a.textContent.includes('AI Agent'));
+      const link=document.querySelector('.content-text p a[href]');
       const style=getComputedStyle(link);return {hover:link.matches(':hover'),shadow:style.textShadow,box:style.boxShadow,
         decoration:style.textDecorationLine,color:style.color};
     })()`);
@@ -257,7 +257,7 @@ listeners.set('Runtime.exceptionThrown', event => errors.push(event.exceptionDet
     assert.ok(hovered.decoration.includes('underline'));
     assert.equal(hovered.color,theme==='dark'?'rgb(185, 187, 255)':'rgb(59, 63, 196)');
     const focused=await evaluate(`(() => {
-      const link=[...document.querySelectorAll('.content-text p a')].find(a=>a.textContent.includes('AI Agent'));
+      const link=document.querySelector('.content-text p a[href]');
       link.focus();const style=getComputedStyle(link);return {shadow:style.textShadow,box:style.boxShadow};
     })()`);
     assert.equal(focused.shadow,'none'); assert.equal(focused.box,'none');

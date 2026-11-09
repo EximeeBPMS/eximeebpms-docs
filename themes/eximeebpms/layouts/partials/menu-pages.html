@@ -52,7 +52,7 @@
   <ul class="section-cards">
 
   {{ range $menuItem.Children }}
-    {{/* Description: the menu "pre" text, else the page's description, else its first body paragraph. */}}
+    {{/* Description: the menu "pre" text, else the page's description, else its first body paragraph, else its first pages. */}}
     {{ $desc := "" }}
     {{ if .Pre }}{{ $desc = trim .Pre "" | markdownify | plainify }}{{ end }}
     {{ with .Page }}
@@ -81,6 +81,17 @@
             {{ end }}
           {{ end }}
         {{ end }}
+      {{ end }}
+    {{ end }}
+    {{/* A section with neither description nor body text: name its first pages instead. */}}
+    {{ if and (not $desc) .HasChildren }}
+      {{ $names := slice }}
+      {{ range first 3 .Children }}{{ $names = $names | append .Name }}{{ end }}
+      {{ $rest := sub (len .Children) (len $names) }}
+      {{ if gt $rest 0 }}
+        {{ $desc = printf "Covers %s and more." (delimit $names ", ") }}
+      {{ else }}
+        {{ $desc = printf "Covers %s." (delimit $names ", " " and ") }}
       {{ end }}
     {{ end }}
     <li class="section-card">

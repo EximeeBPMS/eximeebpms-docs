@@ -8,19 +8,25 @@ import pathlib
 import re
 import sys
 
-HTML_TABLE_PAGES = {
-    "reference/deployment-descriptors/tags/process-archive.md",
-    "reference/deployment-descriptors/tags/process-engine.md",
-    "reference/bpmn20/custom-extensions/extension-attributes.md",
-}
+# A Markdown link whose label ends one line and whose target starts the next one:
+# Blackfriday joined them, Goldmark renders both halves as text.
+SPLIT_LINK_LABEL = re.compile(r"\[[^\]\n]+\][ \t]*\r?\n$")
+SPLIT_LINK_TARGET = re.compile(r"^[ \t]*\((?:https?://|{{<)")
 
 
-def normalize(source, html_tables=False):
+def normalize(source, html_tables=None):
+    """Normalize one page; HTML table indentation is handled on any page with an HTML table."""
+    if html_tables is None:
+        html_tables = "<table" in source
     result = []
     fence = None
     table = False
     pre = False
-    for line in source.splitlines(keepends=True):
+    lines = source.splitlines(keepends=True)
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        index += 1
         original = line
         marker = re.match(r"^\s*(`{3,}|~{3,})", line)
         if marker:
@@ -39,21 +45,25 @@ def normalize(source, html_tables=False):
             continue
         if "</pre>" in line:
             pre = False
-        if html_tables and "<table" in line:
+        # A table tag quoted in inline code is prose, not the start of an HTML table.
+        if html_tables and "<table" in re.sub(r"`+[^`]*`+", "", line):
             table = True
         if table:
             line = line.lstrip(" \t")
         # Preserve inline code and indented code examples.
         if table or not line.startswith(("    ", "\t")):
+            while index < len(lines) and SPLIT_LINK_LABEL.search(line) and SPLIT_LINK_TARGET.match(lines[index]):
+                line = line.rstrip(" \t\r\n") + lines[index].lstrip(" \t")
+                index += 1
             pieces = re.split(r"(`+[^`]*`+)", line)
-            for index in range(0, len(pieces), 2):
-                pieces[index] = re.sub(r"(\[[^\]\n]+\]) +(?=\((?:https?://|{{<))", r"\1", pieces[index])
+            for piece in range(0, len(pieces), 2):
+                pieces[piece] = re.sub(r"(\[[^\]\n]+\]) +(?=\((?:https?://|{{<))", r"\1", pieces[piece])
                 # Goldmark's linkifier requires a public suffix; explicit autolinks
                 # preserve the former clickable localhost examples in prose.
-                pieces[index] = re.sub(
+                pieces[piece] = re.sub(
                     r'(^|[ \t])(https?://localhost(?::[0-9]+)?(?:/[^\s<>"\']*)?)',
                     lambda match: match[1] + "<" + match[2].rstrip(".,;)") + ">"
-                    + match[2][len(match[2].rstrip(".,;)")):], pieces[index])
+                    + match[2][len(match[2].rstrip(".,;)")):], pieces[piece])
             line = "".join(pieces)
         # Pre-0.169 aliases were site-relative even without the initial slash.
         if re.match(r"^aliases:\s*\[", line):
@@ -77,7 +87,7 @@ def prepare(root):
             continue
         for page in content.rglob("*.md"):
             source = page.read_text()
-            updated = normalize(source, page.relative_to(content).as_posix() in HTML_TABLE_PAGES)
+            updated = normalize(source)
             if source != updated:
                 page.write_text(updated)
                 changed += 1

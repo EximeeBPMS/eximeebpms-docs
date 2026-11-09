@@ -4,6 +4,11 @@ markup:
     parser:
       # Preserve published heading fragments across the Blackfriday to Goldmark upgrade.
       autoIDType: blackfriday
+  tableOfContents:
+    # Blackfriday listed every heading level; Goldmark defaults to h2-h3, which drops the
+    # top-level "# Section" headings the manual pages are written with.
+    startLevel: 1
+    endLevel: 6
   highlight:
     # Plain <pre><code class="language-x"> for the themes' own Prism styling; Chroma would
     # emit inline style attributes and a different palette.
