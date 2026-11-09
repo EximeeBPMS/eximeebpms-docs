@@ -12,7 +12,7 @@ menu:
 ---
 
 {{< note title="Enterprise Edition only" class="warning" >}}
-The new Cockpit is bundled with the Enterprise Edition distributions of EximeeBPMS Run, Tomcat and WildFly.
+The new Cockpit is included in EximeeBPMS Enterprise Edition for Run, Tomcat, WildFly and the Spring Boot webapp starter.
 {{< /note >}}
 
 The Enterprise Edition ships a new Cockpit alongside the existing Cockpit, Tasklist, Admin and Welcome applications. It starts with the web applications; it needs no separate web server, Node.js runtime or extra deployment.
@@ -28,6 +28,8 @@ The existing applications, their addresses and the redirect from `/eximeebpms/` 
 # Login, Session and Permissions
 
 Both Cockpits use the same web application API, login session and CSRF protection. A user who may open the existing Cockpit may open the new one; there is no separate permission. Logging in or out in one of them does the same in the other. Every operation is still authorized by the engine.
+
+In Spring Boot applications using OAuth2, signing in from the new Cockpit returns to its root, `/eximeebpms/cockpit/` by default. The return address follows the configured context and application path.
 
 # Configuration
 
@@ -49,7 +51,7 @@ To change this, point the property `eximeebpms.bpm.webapp.cockpit.config-file` a
 
 | Field | Meaning |
 | --- | --- |
-| `engineName` | Process engine the Cockpit works with. Default: `default`, or the configured engine in Spring Boot. |
+| `engineName` | Process engine the Cockpit works with. If omitted from the file: the configured engine in Spring Boot, or `default` in Tomcat and WildFly. An explicit value overrides that default. |
 | `bpmsApiUrl` | Web application API root, a path on the same server starting with `/`. Default: the API of the same web application. |
 | `auth.methods` | Login methods offered, in order: `local`, or `sso` with `label`, `loginUrl` and `logoutUrl`. |
 
@@ -57,7 +59,7 @@ The browser receives only these fields; do not put passwords or client secrets i
 
 The file is read when the web application starts. An invalid file stops Run and other Spring Boot applications from starting. In Tomcat and WildFly the server log reports it and the other applications keep running. While the file stays invalid, each request to the new Cockpit fails and is logged again; once you fix the file, the next request succeeds without a restart. The message names the file and the failing rule, never the file's contents.
 
-For local authentication, use `"methods": [{ "type": "local" }]`. The methods offered by the UI must match the authentication mode configured on the server. In Spring Boot, the generated SSO links use `/cockpit/sso/{registrationId}` below the context and application path. This protected handoff selects the provider and returns to the new Cockpit after login; explicit configuration files can use the same link, as in the example for registration `company`. A custom registration repository that cannot enumerate providers needs explicit method configuration; automatic discovery emits a warning.
+For local authentication, use `"methods": [{ "type": "local" }]`. The methods offered by the UI must match the authentication mode configured on the server. In Spring Boot, the generated SSO links use `/cockpit/sso/{registrationId}` below the context and application path. This protected handoff selects the provider and preserves the return address; explicit configuration files can use the same link, as in the example for registration `company`. A custom registration repository that cannot enumerate providers needs explicit method configuration; automatic discovery emits a warning.
 
 An `sso` method only links to a login the server already provides. In Tomcat and WildFly it does not add single sign-on; configure that in the container.
 
