@@ -3,7 +3,7 @@ baseURL: "/security/"
 locale: "en-us"
 title: "Product Security Guide"
 themesDir: "../themes"
-theme: "eximee"
+theme: "eximeebpms"
 
 relativeURLs: false
 

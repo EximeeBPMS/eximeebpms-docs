@@ -3,7 +3,7 @@ baseURL: "/manual/1.4.0/"
 locale: "en-us"
 title: "EximeeBPMS documentation "
 themesDir: "../themes"
-theme: "eximee"
+theme: "eximeebpms"
 
 relativeURLs: false
 

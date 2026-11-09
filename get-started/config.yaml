@@ -3,7 +3,7 @@ baseURL: "/get-started/"
 locale: "en-us"
 title: "Getting started with EximeeBPMS"
 themesDir: "../themes"
-theme: "eximee"
+theme: "eximeebpms"
 
 relativeURLs: false
 
