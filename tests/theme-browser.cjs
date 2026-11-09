@@ -7,33 +7,77 @@ const assert = require('node:assert/strict');
 const os = require('node:os');
 
 const build = path.resolve(process.argv[2]);
-const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'eximeebpms-theme-'));
-const chrome = spawn(process.env.CHROME || 'google-chrome', [
-  '--headless', '--no-sandbox', '--disable-gpu', '--no-first-run',
-  '--remote-debugging-pipe', `--user-data-dir=${profile}`,
-], { stdio: ['ignore', 'ignore', 'ignore', 'pipe', 'pipe'] });
-let sequence = 0, buffer = '';
+let chrome, profile, stderr = '', sequence = 0, buffer = '', closed = false;
 const pending = new Map();
 const listeners = new Map();
 const errors = [];
-chrome.stdio[4].on('data', chunk => {
-  buffer += chunk;
-  let index;
-  while ((index = buffer.indexOf('\0')) >= 0) {
-    const message = JSON.parse(buffer.slice(0, index)); buffer = buffer.slice(index + 1);
-    if (pending.has(message.id)) {
-      const entry = pending.get(message.id); pending.delete(message.id); clearTimeout(entry.timer);
-      message.error ? entry.reject(new Error(JSON.stringify(message.error))) : entry.resolve(message.result);
-    } else listeners.get(message.method)?.(message.params, message.sessionId);
-  }
-});
-function send(method, params = {}, sessionId) {
+function rejectAll(error) {
+  for (const [id, entry] of pending) { pending.delete(id); clearTimeout(entry.timer); entry.reject(error); }
+}
+// One Chrome process at a time: its stderr is kept for diagnostics and its end fails every pending command.
+function launch() {
+  profile = fs.mkdtempSync(path.join(os.tmpdir(), 'eximeebpms-theme-'));
+  stderr = ''; buffer = '';
+  chrome = spawn(process.env.CHROME || 'google-chrome', [
+    '--headless', '--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage', '--no-first-run',
+    '--remote-debugging-pipe', `--user-data-dir=${profile}`,
+  ], { stdio: ['ignore', 'ignore', 'pipe', 'pipe', 'pipe'] });
+  const own = chrome;
+  own.stderr.on('data', chunk => { if (chrome === own) stderr = (stderr + chunk).slice(-4000); });
+  // Writing to a pipe Chrome has already closed is reported by its end, not by this stream.
+  own.stdio[3].on('error', () => {});
+  own.on('error', error => { if (chrome === own) rejectAll(error); });
+  // 'close' follows the last read from Chrome's pipes, so a final answer is never lost to the exit.
+  own.on('close', (code, signal) => {
+    if (chrome === own) rejectAll(new Error(`Chrome exited (${signal || code}): ${stderr.trim() || 'no stderr'}`));
+  });
+  own.stdio[4].on('data', chunk => {
+    if (chrome !== own) return;
+    buffer += chunk;
+    let index;
+    while ((index = buffer.indexOf('\0')) >= 0) {
+      const message = JSON.parse(buffer.slice(0, index)); buffer = buffer.slice(index + 1);
+      if (pending.has(message.id)) {
+        const entry = pending.get(message.id); pending.delete(message.id); clearTimeout(entry.timer);
+        message.error ? entry.reject(new Error(JSON.stringify(message.error))) : entry.resolve(message.result);
+      } else listeners.get(message.method)?.(message.params, message.sessionId);
+    }
+  });
+}
+const running = process => process.exitCode === null && process.signalCode === null;
+// After Browser.close Chrome shuts down by itself; interrupting that leaves helper processes writing to the
+// profile. Terminate only otherwise, and force it if Chrome ignores the request.
+function stop(closing = false) {
+  const own = chrome, dir = profile;
+  const remove = () => fs.rmSync(dir, { recursive: true, force: true });
+  if (!running(own)) { remove(); return; }
+  own.once('close', () => { clearTimeout(force); remove(); });
+  const force = setTimeout(() => own.kill('SIGKILL'), closing ? 15000 : 5000);
+  force.unref();
+  if (!closing) own.kill();
+}
+function send(method, params = {}, sessionId, timeout = 20000) {
+  if (!running(chrome)) return Promise.reject(new Error(`Chrome is not running: ${method}`));
   return new Promise((resolve, reject) => {
     const id = ++sequence;
-    const timer = setTimeout(() => { pending.delete(id); reject(new Error(`Timed out: ${method}`)); }, 20000);
+    const timer = setTimeout(() => {
+      pending.delete(id);
+      reject(new Error(`Timed out: ${method}${stderr.trim() ? `; Chrome stderr: ${stderr.trim()}` : ''}`));
+    }, timeout);
     pending.set(id, { resolve, reject, timer });
     chrome.stdio[3].write(JSON.stringify({ id, method, params, sessionId }) + '\0');
   });
+}
+// A cold Chrome on a shared CI runner can be slow to answer, or hang, before its first command: wait longer, and relaunch once.
+async function start() {
+  for (let attempt = 1; ; attempt++) {
+    launch();
+    try { await send('Browser.getVersion', {}, undefined, 60000); return; } catch (error) {
+      if (attempt >= 2) throw error;
+      console.log(`Chrome did not start (${error.message}); relaunching`);
+      stop();
+    }
+  }
 }
 const types = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.wasm': 'application/wasm', '.json': 'application/json', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff': 'font/woff' };
 listeners.set('Fetch.requestPaused', async (event, sessionId) => {
@@ -54,6 +98,7 @@ listeners.set('Fetch.requestPaused', async (event, sessionId) => {
 listeners.set('Runtime.exceptionThrown', event => errors.push(event.exceptionDetails.exception?.description || event.exceptionDetails.text));
 
 (async () => {
+  await start();
   const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
   const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
   await send('Fetch.enable', { patterns: [{ urlPattern: '*' }] }, sessionId);
@@ -299,7 +344,8 @@ listeners.set('Runtime.exceptionThrown', event => errors.push(event.exceptionDet
   assert.deepEqual(errors, [], 'uncaught browser errors');
   console.log('PASS persisted theme, search focus, actual Pagefind results and browser exceptions');
   await send('Browser.close');
-})().catch(error => { console.error(error); chrome.kill(); process.exitCode = 1; }).finally(() => {
+  closed = true;
+})().catch(error => { console.error(error); process.exitCode = 1; }).finally(() => {
   for (const entry of pending.values()) clearTimeout(entry.timer);
-  chrome.once('exit', () => fs.rmSync(profile, { recursive: true, force: true }));
+  if (chrome) stop(closed);
 });
