@@ -3,4 +3,4 @@ public
 worktree-*
 .idea
 .claude
-.github
+.github/workflows

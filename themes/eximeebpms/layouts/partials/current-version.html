@@ -1,0 +1,8 @@
+{{- $version := .Site.Params.section.version | default "" -}}
+{{- if eq .Site.Params.section.id "manual" -}}
+  {{- $path := (urls.Parse .Site.BaseURL).Path -}}
+  {{- with findRE `/manual/[^/]+/` $path 1 -}}
+    {{- $version = index . 0 | strings.TrimPrefix "/manual/" | strings.TrimSuffix "/" -}}
+  {{- end -}}
+{{- end -}}
+{{- return $version -}}

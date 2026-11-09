@@ -19,12 +19,15 @@ for version in ${VERSIONS}; do
   echo "=== Building ${version} ==="
   git worktree add "worktree-${version}" "docs/${version}"
   cp -r themes "worktree-${version}/"
+  python3 .github/scripts/prepare_content.py "worktree-${version}"
 
   # Version-select dropdown content, derived from versions.yaml (adr/0022)
   # - overwrites this worktree's own copy, never committed.
   ./render-version-data.sh "${version}" "worktree-${version}/manual/data/versions.yaml"
 
-  hugo --minify -s "worktree-${version}/manual" --destination "${OUT_DIR}/manual/${version}" --baseURL "/manual/${version}/"
+  ./check-images.sh "worktree-${version}"
+
+  hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml -s "worktree-${version}/manual" --destination "${OUT_DIR}/manual/${version}" --baseURL "/manual/${version}/"
 
   if [ -d "worktree-${version}/manual/javadoc" ]; then
     mkdir -p "${OUT_DIR}/manual/${version}/reference/javadoc"
@@ -32,13 +35,13 @@ for version in ${VERSIONS}; do
   fi
 
   if [ "${version}" = "${LATEST}" ]; then
-    hugo --minify -s "worktree-${version}/manual" --destination "${OUT_DIR}/manual/latest" --baseURL "/manual/latest/"
+    hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml -s "worktree-${version}/manual" --destination "${OUT_DIR}/manual/latest" --baseURL "/manual/latest/"
 
     [ -d "worktree-${version}/get-started" ] && \
-      hugo --minify -s "worktree-${version}/get-started" --destination "${OUT_DIR}/get-started" --baseURL "/get-started/"
+      hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml -s "worktree-${version}/get-started" --destination "${OUT_DIR}/get-started" --baseURL "/get-started/"
 
     [ -d "worktree-${version}/security" ] && \
-      hugo --minify -s "worktree-${version}/security" --destination "${OUT_DIR}/security" --baseURL "/security/"
+      hugo --minify --config config.yaml,../themes/hugo-compatibility.yaml -s "worktree-${version}/security" --destination "${OUT_DIR}/security" --baseURL "/security/"
 
     cp -r "${OUT_DIR}/manual/latest/." "${OUT_DIR}/"
   fi

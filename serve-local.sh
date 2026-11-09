@@ -3,7 +3,13 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-bash "${SCRIPT_DIR}/build-local.sh"
+for arg in "$@"; do
+  if [[ "$arg" == "--help" || "$arg" == "-h" ]]; then
+    exec bash "${SCRIPT_DIR}/build-local.sh" --help
+  fi
+done
+
+bash "${SCRIPT_DIR}/build-local.sh" "$@"
 
 PORT="${PORT:-8080}"
 echo ""

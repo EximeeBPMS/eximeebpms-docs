@@ -1,0 +1,8 @@
+name = "EximeeBPMS"
+license = "Apache-2.0"
+description = "Responsive EximeeBPMS documentation with light and dark modes"
+homepage = "https://docs.eximeebpms.org/"
+min_version = "0.169.0"
+
+[author]
+name = "EximeeBPMS"

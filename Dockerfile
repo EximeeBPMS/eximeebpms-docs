@@ -1,8 +1,8 @@
-ARG HUGO_VERSION=0.162.0
+ARG HUGO_VERSION=0.169.0
 FROM ghcr.io/gohugoio/hugo:v${HUGO_VERSION} AS builder
 
 USER root
-RUN apk add --no-cache git bash
+RUN apk add --no-cache git bash python3 grep findutils coreutils
 
 WORKDIR /project
 COPY . .

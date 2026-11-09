@@ -22,13 +22,35 @@ docs/1.2.0
 
 ## Building Locally
 
-Requirements: Docker (Hugo runs inside a container — no local Hugo installation needed).
+Requirements: Docker, Python 3 and Node.js with `npx` (for Pagefind search).
+Hugo runs inside a container; no local Hugo installation is needed.
 
 ```bash
 ./build-local.sh
 ```
 
-The script checks out each version via git worktrees, builds with Hugo, and writes output to `public-local/`.
+The script builds each published version in a temporary detached worktree and writes
+output to `public-local/`, including Pagefind indexes. It prefers `origin/docs/<version>`
+over a potentially stale local branch, falling back to `docs/<version>` when no remote
+ref exists. Fetch content updates first when needed:
+
+```bash
+git fetch origin 'refs/heads/docs/*:refs/remotes/origin/docs/*'
+```
+
+To preview only Enterprise staging with the new theme and the prepared agent manual,
+run from `BPMS-877-docs-theme`:
+
+```bash
+./build-local.sh --version 1.4-ee-next --ref BPMS-877-agent-manual
+python3 -m http.server 8080 --directory public-local
+```
+
+Open <http://localhost:8080/manual/1.4-ee-next/>. The selected content ref supplies
+its theme configuration; the current working tree supplies shared themes and tooling.
+`--ref` accepts a branch or commit and requires `--version`. Omitting `--ref` selects
+the normal remote/local content ref for that version. Builds replace `public-local/`;
+they do not update content branches or publish staging.
 
 To build **and** immediately serve the result:
 
@@ -36,7 +58,9 @@ To build **and** immediately serve the result:
 ./serve-local.sh
 ```
 
-Then open [http://localhost:8080](http://localhost:8080).
+Then open [http://localhost:8080](http://localhost:8080). The serve wrapper accepts
+the same options, for example
+`./serve-local.sh --version 1.4-ee-next --ref BPMS-877-agent-manual`.
 
 ### Container image
 
@@ -192,3 +216,34 @@ counts and company attribution; these are not unique-reader or installation stat
 
 <img alt="" width="1" height="1" referrerpolicy="no-referrer"
      src="https://static.scarf.sh/a.png?x-pxid=b3145a92-ad3c-4f20-bdbf-ae403eb3eb8c&amp;page=https%3A%2F%2Fgithub.com%2FEximeeBPMS%2Feximeebpms-docs" />
+
+## Refreshing the staging dependency inventory
+
+The license-book page separates a current dependency inventory from retained
+legacy notices. Refresh versions from the engine source being documented, never
+by replacing version strings in historical copyright/license text.
+
+In a clean engine checkout, generate an aggregate BOM using its Maven/Nexus setup:
+
+```bash
+./mvnw org.cyclonedx:cyclonedx-maven-plugin:2.9.3:makeAggregateBom \
+  -DoutputFormat=json -DoutputName=license-inventory
+```
+
+Then run from the shared docs checkout, substituting the engine and staging paths:
+
+```bash
+python3 .github/scripts/render_license_inventory.py \
+  --java-bom <engine>/target/license-inventory.json \
+  --npm-lock <engine>/webapps/frontend/package-lock.json \
+  --npm-bom <engine>/sbom/eximeebpms-frontend-bom.json \
+  --revision <engine-commit> \
+  --output <staging>/manual/content/introduction/third-party-libraries/camunda-bpm-platform-license-book.md
+```
+
+JavaScript versions always come from the lockfile. The frontend BOM only fills
+missing license metadata for an exact package/version match. Missing declarations
+stay explicit; the generated inventory spans build/development modules as well as
+runtime dependencies and does not claim every entry is bundled in every binary.
+Retained notice text is preserved on regeneration. Reconcile the final inventory
+against released artifacts before publishing release documentation.

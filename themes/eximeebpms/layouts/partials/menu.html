@@ -1,0 +1,14 @@
+{{ define "docs-menu-node" }}
+{{ $page := .page }}{{ $node := .node }}
+{{ $active := or ($page.IsMenuCurrent "main" $node) ($page.HasMenuCurrent "main" $node) }}
+<li>
+  {{ if $node.HasChildren }}
+  <details {{ if $active }}open{{ end }}><summary><a href="{{ $node.URL }}" {{ if $page.IsMenuCurrent "main" $node }}aria-current="page"{{ end }}>{{ $node.Name }}</a></summary>
+    <ul>{{ range $node.Children }}{{ template "docs-menu-node" (dict "page" $page "node" .) }}{{ end }}</ul>
+  </details>
+  {{ else }}<a href="{{ $node.URL }}" {{ if $page.IsMenuCurrent "main" $node }}aria-current="page"{{ end }}>{{ $node.Name }}</a>{{ end }}
+</li>
+{{ end }}
+<p class="sidebar-label">{{ .Site.Params.section.id | title }}</p>
+<ul class="docs-menu">{{ range .Site.Menus.main }}{{ template "docs-menu-node" (dict "page" $ "node" .) }}{{ end }}</ul>
+{{ with hugo.Data.versions.enterpriseLine }}<a class="enterprise-edition-link" href="/manual/{{ . }}/">Enterprise Edition ({{ . }}) →</a>{{ end }}

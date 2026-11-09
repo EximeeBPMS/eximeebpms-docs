@@ -1,0 +1,58 @@
+name: Verify documentation without publishing
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  workflow_dispatch: {}
+  workflow_call:
+    inputs:
+      content-ref:
+        description: Remote content branch to build, for example origin/docs/1.4-ee-next
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  build:
+    # Fork pull requests run this workflow: use a GitHub-hosted runner, not the self-hosted pool.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.content-ref != '' && 'master' || github.sha }}
+          fetch-depth: 0
+      - name: Fetch content branches
+        run: git fetch origin 'refs/heads/docs/*:refs/remotes/origin/docs/*'
+      - name: Read Hugo version
+        id: hugo
+        run: echo "version=$(./hugo-version.sh)" >> "$GITHUB_OUTPUT"
+      - uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ steps.hugo.outputs.version }}
+          extended: true
+      - name: Check build tooling and analytics
+        run: |
+          for script in ./*.sh; do bash -n "$script"; done
+          python3 -m unittest discover -s .github/scripts -p 'test_*.py'
+          node --test tests/*.test.cjs
+      - name: Build selected content or the complete version matrix
+        env:
+          CONTENT_REF: ${{ inputs.content-ref }}
+        run: |
+          if [[ -n "$CONTENT_REF" ]]; then
+            git fetch origin "${CONTENT_REF#origin/}:refs/remotes/origin/${CONTENT_REF#origin/}"
+            ./check-build.sh "$CONTENT_REF"
+          else
+            ./check-build.sh
+          fi
+      - name: Browser checks of the new theme
+        # Exercise this PR's content when called from staging, including before its theme switch.
+        env:
+          CONTENT_REF: ${{ inputs.content-ref }}
+        run: |
+          out="$RUNNER_TEMP/theme-build"
+          DOCS_BUILD_VERSION=1.4-ee-next HUGO_THEME=eximeebpms DOCS_BUILD_DIR="$out" \
+            ./check-build.sh "${CONTENT_REF:-origin/docs/1.4-ee-next}"
+          npx --yes pagefind@1.5.2 --site "$out/1.4-ee-next/manual"
+          node tests/theme-browser.cjs "$out/1.4-ee-next/manual"
