@@ -1,6 +1,7 @@
 ---
 
 title: 'Participating in the Form Lifecycle'
+description: "Hook into the form lifecycle from a form script: fetch and submit additional variables and implement custom fields."
 weight: 30
 
 menu:

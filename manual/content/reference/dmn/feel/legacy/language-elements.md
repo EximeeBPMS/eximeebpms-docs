@@ -10,7 +10,7 @@ menu:
     parent: "dmn-ref-feel-legacy"
     pre: "Supported FEEL Language Elements"
 
-aliases: [reference/dmn11/feel/legacy/language-elements/]
+aliases: [/reference/dmn11/feel/legacy/language-elements/]
 ---
 
 {{< note title="Heads Up!" class="info" >}}

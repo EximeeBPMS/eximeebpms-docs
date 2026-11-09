@@ -1,6 +1,7 @@
 ---
 
 title: "Quarkus Version Compatibility"
+description: "The EximeeBPMS and Quarkus version combinations that are recommended and supported for the Quarkus extension."
 weight: 10
 
 menu:

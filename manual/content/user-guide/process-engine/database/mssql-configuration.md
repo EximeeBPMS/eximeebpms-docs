@@ -1,6 +1,7 @@
 ---
 
 title: 'Microsoft SQL Server and Azure SQL Database Configuration'
+description: "Extra configuration needed to run the engine on Microsoft SQL Server or Azure SQL Database."
 weight: 30
 menu:
   main:

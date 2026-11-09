@@ -1,6 +1,7 @@
 ---
 
 title: 'REST API specification'
+description: "Links to the REST API references for the Enterprise Edition, which marks its Enterprise-only endpoints, and for the Community Edition."
 weight: 20
 
 menu:

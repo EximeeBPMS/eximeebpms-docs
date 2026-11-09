@@ -1,6 +1,7 @@
 ---
 
 title: 'Apache Tomcat Integration'
+description: "On Apache Tomcat: the JNDI bindings for EximeeBPMS services and the job executor configuration."
 weight: 30
 
 menu:

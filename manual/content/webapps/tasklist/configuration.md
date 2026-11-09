@@ -1,6 +1,7 @@
 ---
 
 title: 'Configuration'
+description: "Override the Tasklist configuration in app/tasklist/scripts/config.js."
 weight: 70
 
 menu:

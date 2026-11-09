@@ -1,6 +1,7 @@
 ---
 
 title: "Variables in the REST API"
+description: "How process variables are represented in the REST API: the JSON structure, capitalization of type names, and serialized and deserialized object values."
 weight: 50
 
 menu:

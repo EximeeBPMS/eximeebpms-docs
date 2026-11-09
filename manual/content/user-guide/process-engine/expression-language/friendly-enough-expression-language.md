@@ -1,5 +1,6 @@
 ---
 title: 'Friendly Enough Expression Language'
+description: "FEEL, the expression language defined by the DMN standard, and where the engine supports it."
 weight: 70
 
 menu:

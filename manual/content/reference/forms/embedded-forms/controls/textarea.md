@@ -1,6 +1,7 @@
 ---
 
 title: 'Textareas'
+description: "Bind a textarea in an embedded form to a process variable and see which variable types it supports."
 weight: 20
 
 menu:

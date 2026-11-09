@@ -1,6 +1,7 @@
 ---
 
 title: 'Configure the Full Distribution for JBoss EAP/WildFly'
+description: "Configure the Full Distribution on JBoss EAP/WildFly: LDAP, HAL resource caching, custom engine plugins, session cookie and security-related HTTP headers."
 weight: 30
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Configuration"
     identifier: "installation-guide-full-jboss-ldap"
     parent: "installation-guide-full-jboss"
-    pre: "Configure the installation."
 
 ---
 

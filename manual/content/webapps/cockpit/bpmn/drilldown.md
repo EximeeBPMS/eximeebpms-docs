@@ -1,13 +1,13 @@
 ---
 
 title: 'Collapsed Subprocesses'
+description: "Open collapsed subprocesses in the diagram to see their inner activities, and spot running child instances or incidents without leaving the page."
 weight: 80
 
 menu:
   main:
     identifier: "user-guide-cockpit-drilldown"
     parent: "user-guide-cockpit-bpmn"
-    pre: "Collapsed Subprocesses"
 
 ---
 

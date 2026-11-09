@@ -1,6 +1,7 @@
 ---
 
 title: 'Camunda BPMN Extension Elements'
+description: "Reference for the BPMN extension elements EximeeBPMS supports, such as adHoc, connector, constraint, executionListener and failedJobRetryTimeCycle."
 weight: 10
 
 menu:
@@ -8,7 +9,6 @@ menu:
     name: "Extension Elements"
     identifier: "bpmn-extensions-elements"
     parent: "bpmn-extensions"
-    pre: "Reference of Camunda Extension Attributes for BPMN."
 
 ---
 
@@ -23,8 +23,8 @@ matters, never the prefix that labels it. Earlier versions, 1.4.1-ee included,
 accept only `http://camunda.org/schema/1.0/bpmn`, and silently ignore extensions
 declared in any other namespace.
 
-EximeeBPMS never *writes* the EximeeBPMS namespace: a model serialized through
-the BPMN Model API always comes out declaring `http://camunda.org/schema/1.0/bpmn`,
+The BPMN Model API never moves an extension Camunda 7 knows into the EximeeBPMS
+namespace: it writes such extensions in `http://camunda.org/schema/1.0/bpmn`,
 so that files stay readable by tooling that only knows that namespace, such as
 Camunda Modeler. An attribute that arrived in the EximeeBPMS namespace is updated
 in place, in that namespace, so a round-tripped document can come back declaring
@@ -32,8 +32,9 @@ both.
 
 The [`adHoc`](#adhoc) element of the ad-hoc subprocess is the exception: write it
 as `eximeebpms:adHoc`, which Camunda Modeler keeps; it drops `camunda:adHoc`
-when it saves the diagram. The BPMN Model API of this version still writes it as
-`camunda:adHoc`.
+when it saves the diagram. The BPMN Model API writes it as `eximeebpms:adHoc` too.
+A child element the BPMN Model API adds to an element read in the EximeeBPMS namespace
+is written in that namespace as well.
 {{< /note >}}
 
 

@@ -1,6 +1,7 @@
 ---
 
 title: "Assert Examples"
+description: "Examples of the process instance, task and job assertions provided by the testing library."
 weight: 100
 layout: "single"
 

@@ -23,7 +23,7 @@ for our reporting process and disclosure timeline.
 
 **Impact:**
 
-MariaDB Connector/J 3.5.10 is affected by four vulnerabilities requiring a malicious or compromised database server, or an attacker controlling the server side of the connection:
+MariaDB Connector/J versions before 3.3.7, 3.4.5 and 3.5.11 in their respective lines are affected by four vulnerabilities requiring a malicious or compromised database server, or an attacker controlling the server side of the connection:
 
 - [CVE-2026-119210](https://github.com/advisories/GHSA-fhx5-2xqw-2cgm): a forged LOCAL INFILE request can read files accessible to the client JVM when `allowLocalInfile` is enabled.
 - [CVE-2026-119276](https://github.com/advisories/GHSA-h599-m3w5-9m7x): server-declared lengths in OK packets can cause excessive heap allocations.
@@ -32,11 +32,11 @@ MariaDB Connector/J 3.5.10 is affected by four vulnerabilities requiring a malic
 
 **Affected versions:**
 
-EximeeBPMS Enterprise Edition 1.4.2-ee declares Connector/J 3.5.10 in the paths above. Community Edition 1.4.0 does not declare this driver in those paths. An installation that supplies its own MariaDB driver must check that driver's version separately.
+EximeeBPMS Enterprise Edition 1.4.1-ee declares Connector/J 3.5.7 in its `mariadb` Maven profile, and 1.4.2-ee declares Connector/J 3.5.10 in the paths above. Community Edition 1.4.0 does not declare this driver in those paths. An installation that supplies its own MariaDB driver must check that driver's version separately.
 
 **Solution:**
 
-The next Enterprise Edition release (pending release, BPMS-955) updates the shared driver version to 4.0.0, fixing all four vulnerabilities. The WildFly engine integration suite also gains a native MariaDB datasource and driver module; previously it tried the MySQL driver for a `jdbc:mariadb:` URL and could not start. Supported MariaDB server versions remain 11.4 and 12.3. Community Edition's development branch still declares 3.5.10; porting this update is pending the next Community Edition curation. For a separately supplied driver, update it to a patched release independently of EximeeBPMS. Disabling `allowLocalInfile` mitigates CVE-2026-119210 only.
+Enterprise Edition **1.4.3-ee** updates the shared driver version to 4.0.0, fixing all four vulnerabilities. The WildFly engine integration suite also gains a native MariaDB datasource and driver module; previously it tried the MySQL driver for a `jdbc:mariadb:` URL and could not start. Supported MariaDB server versions remain 11.4 and 12.3. Community Edition's development branch still declares 3.5.10; porting this update is pending the next Community Edition curation. For a separately supplied driver, update it to a patched release independently of EximeeBPMS. Disabling `allowLocalInfile` mitigates CVE-2026-119210 only.
 
 **Upgrading the driver:**
 
@@ -68,7 +68,7 @@ All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and Com
 
 **Solution:**
 
-Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the shipped configuration exposes only `health` and `prometheus`, `prometheus` requires authentication, and any other endpoint an installation exposes requires an engine administrator. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the shipped configuration exposes only `health` and `prometheus`, `prometheus` requires authentication, and any other endpoint an installation exposes requires an engine administrator. Pending in the next Community Edition release. On an affected version, change `management.endpoints.web.exposure.include` in your `default.yml` or `production.yml` to `health`, or block `/actuator` at a reverse proxy. Affected versions authenticate none of the Actuator endpoints, `prometheus` included: if you keep any other endpoint exposed, restrict access to it at the network or a reverse proxy.
 
 ---
 
@@ -98,7 +98,7 @@ All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all
 
 **Solution:**
 
-Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the web applications ship DOMPurify 3.4.17 and `qs` 6.16.2. Pending in the next Community Edition release. On an affected version, custom forms and plugins that call `window.DOMPurify` should not combine `SAFE_FOR_TEMPLATES` with a DOM-returning mode, should not remove other nodes from `IN_PLACE` hooks, and should not set `PARSER_MEDIA_TYPE` to `application/xhtml+xml`.
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the web applications ship DOMPurify 3.4.17 and `qs` 6.16.2. Pending in the next Community Edition release. On an affected version, custom forms and plugins that call `window.DOMPurify` should not combine `SAFE_FOR_TEMPLATES` with a DOM-returning mode, should not remove other nodes from `IN_PLACE` hooks, and should not set `PARSER_MEDIA_TYPE` to `application/xhtml+xml`.
 
 ---
 
@@ -120,7 +120,7 @@ All EximeeBPMS Enterprise Edition releases up to and including 1.4.2-ee, and all
 
 **Solution:**
 
-Fixed in the next EximeeBPMS Enterprise Edition release (pending release): the redirect is built from the normalized request path. Pending in the next Community Edition release. On an affected version, a reverse proxy in front of EximeeBPMS that rejects request paths containing `//` or `/../` mitigates the vulnerability.
+Fixed in EximeeBPMS Enterprise Edition **1.4.3-ee**: the redirect is built from the normalized request path. Pending in the next Community Edition release. On an affected version, a reverse proxy in front of EximeeBPMS that rejects request paths containing `//` or `/../` mitigates the vulnerability.
 
 ---
 

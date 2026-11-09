@@ -1,6 +1,7 @@
 ---
 
 title: 'Hidden Input Fields'
+description: "Bind a hidden input field in an embedded form to a process variable and see which variable types it supports."
 weight: 60
 
 menu:

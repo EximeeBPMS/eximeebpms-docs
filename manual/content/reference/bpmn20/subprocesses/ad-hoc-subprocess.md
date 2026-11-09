@@ -62,7 +62,9 @@ prepared, the subprocess completes. The case is walked through step by step in
 Write the `adHoc` extension element, its `outputElement` and the values inside it in the EximeeBPMS namespace,
 declared as `xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"`. All other extensions, such as
 `camunda:inputOutput`, stay in the `camunda:` namespace. The engine also reads `camunda:adHoc`, but Camunda Modeler
-drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)).
+drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)). The
+[BPMN Model API]({{< ref "/user-guide/model-api/bpmn-model-api/_index.md" >}}) writes a new `adHoc` element as
+`eximeebpms:adHoc`, and edits a `camunda:adHoc` read from a file in place, without converting it.
 
 # Activatable elements
 
@@ -80,6 +82,7 @@ The following models are rejected at deployment, with an error naming the elemen
 * an element that can be reached by sequence flows from two activatable elements,
 * a parallel gateway without incoming sequence flows,
 * `outputElement` without `outputCollection`,
+* both `camunda:adHoc` and `eximeebpms:adHoc` on one ad-hoc subprocess — keep one, preferably `eximeebpms:adHoc`,
 * `asyncBefore` on a non-interrupting event subprocess of the ad-hoc subprocess (use `asyncAfter` on its start event,
   or `asyncBefore` on its first element, instead).
 
@@ -98,7 +101,7 @@ Variables follow one rule: **nothing set inside an inner flow leaves it by itsel
 * The variables given with an activation are local variables of its inner flow. Every inner flow has a variable
   `toolCall`, an empty map unless the activation brings one, so that an expression such as `${toolCall.orderId}` does
   not fail.
-* Each inner flow records how it was activated in the local variable `adHocActivationSource`: `ENTRY`, `API` or
+* Each inner flow records how it was activated in the local variable `adHocActivationSource`: `ENTRY`, `WORKER`, `API` or
   `MODIFICATION`. History keeps it with the inner flow's activity instance.
 
 Data leaves an inner flow only through the output collection.
@@ -268,6 +271,148 @@ or evaluate. A Camunda 8 diagram with a service task fails to deploy, and its ad
     migration plan does not map them.</li>
 </ul>
 {{< /note >}}
+
+# Worker-Driven Execution
+
+An ad-hoc subprocess with `camunda:topic` runs in worker-driven mode. The engine
+creates an external task for each decision turn, on the subprocess's scope.
+The [AI agent]({{< ref "/user-guide/ai-agent/_index.md" >}}) is a ready-made worker
+for that contract; custom workers can use the external-task API directly.
+Without a topic, the expression/API-driven behavior described above applies.
+
+A worker-driven subprocess must not have a modeled `completionCondition`.
+The worker decides when to finish. Ending the last tool flow creates another
+turn instead of implicitly completing the subprocess. A worker result can
+activate elements, cancel running flows or decide completion. Completion with
+new activations in the same result is rejected.
+
+## Decision tasks and concurrency
+
+The initial turn appears on entry; subsequent turns follow completed tool/event
+flows, after their output is appended. At most one turn task is open for a
+subprocess instance. A newer turn replaces an older open task even if a worker
+locked it; completing that replaced task returns not found and changes nothing.
+Workers must handle this like other concurrent external-task outcomes.
+
+A turn task with exhausted retries keeps its incident instead of being replaced.
+Resolve the cause and set retries to resume against the updated result collection.
+The job executor must be running for flow completion and cancellation decisions.
+Stopping the worker does not discard the engine's human tasks or pending work.
+
+## Custom worker completion
+
+A turn requires an ad-hoc result, rather than an ordinary external-task completion.
+For `POST /external-task/<task-id>/complete`:
+
+```json
+{
+  "workerId": "my-worker",
+  "result": {
+    "type": "adHocSubProcess",
+    "activateElements": [
+      {"elementId": "lookupOrder", "variables": {"orderId": {"type": "String", "value": "A-1"}}}
+    ],
+    "isCompletionConditionFulfilled": false,
+    "isCancelRemainingInstances": false,
+    "modelUsage": {"modelCalls": 1, "inputTokens": 120, "outputTokens": 30}
+  }
+}
+```
+
+The Java client has `AdHocSubProcessResult` with corresponding builder methods.
+Activation variables use the ordinary typed REST variable format. The engine
+rejects unknown result fields, non-boolean flags, invalid element ids and attempts
+to overwrite reserved local variables. It also rejects an ad-hoc result on a
+normal tool task. Validate all ids before constructing a result.
+
+The two flags default to false. Completion with cancellation stops remaining
+flows; completion without cancellation lets them finish before leaving the
+subprocess. Cancellation can also be requested without completion. A result that
+neither activates nor completes leaves the scope waiting until another event,
+flow completion or activation supplies work; it does not poll the worker forever.
+
+A BPMN error reported by the turn worker propagates from the subprocess activity
+to its boundary/outer handlers. Its internal event subprocesses handle errors
+from tools instead. An unhandled error from the turn task is rejected without
+removing the task, so the worker must report/resolve a failure.
+
+## Tool parameter declarations
+
+`adHocSubProcessElements` describes activatable elements in document order, with
+`elementId`, `elementName`, `documentation`, extension `properties` and `parameters`.
+Each parameter has `name`, `description`, `type`, `schema` and `options`.
+`fromAi(value, description, type, schema, options)` declares a parameter in an
+activatable element's input mapping and returns its first argument unchanged at
+runtime. Only the first argument is required:
+
+```xml
+<camunda:inputParameter name="quantity">${fromAi(toolCall.quantity, 'Number of items', 'integer', '{"minimum":1}', null)}</camunda:inputParameter>
+```
+
+Its first argument must read exactly `toolCall.<name>` or `toolCall['<name>']`,
+not a deeper path. Other arguments are string literals or `null`; schema/options
+are strict JSON text. The engine extracts declarations from JUEL input
+expressions, including nested map keys/values and lists. It does not extract them
+from scripts, output mappings or non-activatable elements. Conflicting declarations
+for the same name in one element fail deployment; identical declarations are shared.
+Keep JUEL varargs enabled. The agent validates argument schemas before activation.
+
+See [BPMN tools]({{< ref "/user-guide/ai-agent/tools.md" >}}) for native user task,
+DMN and call-activity examples, and the
+[complete XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}}) for result mappings.
+
+## Turn history, events and model usage
+
+At history levels `audit` and `full`, ended turns are available through
+`HistoryService.createHistoricAdHocTurnQuery()` or these Enterprise REST endpoints:
+
+```
+GET/POST /history/ad-hoc-turn
+GET/POST /history/ad-hoc-turn/count
+GET/POST /history/ad-hoc-turn/model-usage
+GET /history/ad-hoc-turn/<id>
+GET /history/ad-hoc-turn/<id>/elements
+GET /history/ad-hoc-turn/<id>/content
+POST /history/ad-hoc-turn/external-task/<external-task-id>/model-usage
+```
+
+Filter by process/root-process instance, subprocess activity instance, definition,
+worker, tenant or state. Turn states are `COMPLETED`, `REPLACED`, `BPMN_ERROR` and
+`DELETED`. A decision waiting at an incident has not ended and has no final turn
+record. Per-turn elements identify activated or cancelled inner flows.
+
+Reads follow engine history/tenant authorization. Content/elements require
+`READ_HISTORY` on the process definition; content additionally requires
+`READ_HISTORY_VARIABLE` when specific-variable authorization is enforced.
+Content is absent by default (`metadata`). Engine configuration
+`adHocTurnHistoryContent=content` enables bounded worker completion/error content;
+`adHocTurnHistoryContentLimit` defaults to 4000 characters. A subprocess can set
+`turnHistoryContent` on its `adHoc` extension. Content truncated at the limit is
+plain text, not valid JSON; clients should accept both JSON and text. This setting
+does not suppress ordinary process-variable history.
+
+Optional `modelUsage` reports nonnegative 64-bit `modelCalls`, `inputTokens` and
+`outputTokens`; omitted values mean unknown, while zero is a reported zero.
+The engine stores usage submitted with an accepted completion. In engine
+**1.4.3-ee**, a worker can also report usage for a `REPLACED` turn once per worker
+attempt through the POST operation above, keyed by an attempt id. This requires
+`READ_HISTORY` and `UPDATE_HISTORY` on the process definition and access to its
+tenant. History must still exist; the report neither changes `REPLACED` nor emits
+another turn-end event.
+
+Aggregation includes successfully reported replaced-turn usage and reports
+`completedTurnsWithoutUsageCount` for completed turns without usage. An unknown
+token count in an attempt keeps that turn's token total unknown. Failed model
+requests, missing reports and a worker crash can still leave costs out of engine
+totals. Use [worker audit and provider records]({{< ref "/user-guide/ai-agent/observability.md" >}})
+for reconciliation; token counts are not monetary prices.
+
+When enabled, business events include `ad-hoc-turn:end` and
+`ad-hoc-activation:create`. Database meters include `ad-hoc-turn-decisions`,
+`ad-hoc-turn-tasks-replaced` and `ad-hoc-activations`. Worker-side metrics/audit
+have separate settings and retention. Apply the engine release's schema migration
+for the turn-history tables before running that engine against an existing database;
+worker JDBC schema management does not upgrade the engine schema.
 
 ## Cancellation in Worker-Driven Mode
 

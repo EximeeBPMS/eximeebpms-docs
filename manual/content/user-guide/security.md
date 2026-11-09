@@ -1,6 +1,7 @@
 ---
 
 title: 'Security Instructions'
+description: "An overview of securing an installation: deployment options, authentication for the REST API, the web applications and LDAP, and authorization."
 weight: 210
 
 menu:
@@ -225,8 +226,8 @@ standard.
 Since version 7.11, a [built-in password policy]({{< ref "/user-guide/process-engine/password-policy.md#built-in-password-policy" >}}) 
 can be enabled that requires passwords to follow specific rules. However, you can achieve a much higher 
 level of security by implementing a more sophisticated custom password policy (e.g., with the help of 
-[Password Topology Blacklisting] (https://blog.korelogic.com/blog/2014/04/04/pathwell_topologies), 
-also see the [OWASP guide] (https://github.com/OWASP/CheatSheetSeries/blob/7d94e9a29174b8fd76235ca60f47245d1f34df1e/cheatsheets/Authentication_Cheat_Sheet.md#password-complexity) 
+[Password Topology Blacklisting](https://blog.korelogic.com/blog/2014/04/04/pathwell_topologies),
+also see the [OWASP guide](https://github.com/OWASP/CheatSheetSeries/blob/7d94e9a29174b8fd76235ca60f47245d1f34df1e/cheatsheets/Authentication_Cheat_Sheet.md#password-complexity)
 on password complexity).
 
 You can find more information on how to enable the base password policy and how to implement a custom password policy in our [User Guide]({{< ref "/user-guide/process-engine/password-policy.md" >}}).
