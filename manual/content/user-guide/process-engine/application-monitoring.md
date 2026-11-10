@@ -567,6 +567,14 @@ dots with underscores (`process.definition.key` → `process_definition_key`);
 values keep their original meaning. A custom installation naming convention
 may add its own prefix, which the adapter preserves.
 
+{{< note title="Next Enterprise release (unreleased, BPMS-1000)" class="info" >}}
+Runtime snapshot polling counts process instances, user tasks, external tasks, incidents and failed jobs in the database instead of loading every runtime entity into memory. Memory and transfer depend on the number of metric series; the database still scans the relevant runtime data. The default refresh delay remains 10000 ms.
+
+Running and suspended process-instance gauges now include `tenant.id` when the instance has a tenant. Process-instance and failed-job gauges emit one series per process definition and tenant, including when several tenants use a shared definition. Review dashboards and alerts that select the previous series; sum across tenants when a definition-wide total is required. Task names on standalone-task gauges retain exact case, Unicode width and trailing spaces.
+
+This fix is not part of 1.4.3-ee or earlier releases. On affected installations, `eximeebpms.monitoring.snapshot.enabled=false` disables polling while keeping local event counters enabled.
+{{< /note >}}
+
 # Tags
 
 Meters are tagged as follows:
