@@ -46,6 +46,16 @@ The `ACT_RU_TASK` table contains all open tasks of all running process
 instances. It includes information like the corresponding process instance,
 execution and also metadata such as creation time, assignee or due date.
 
+The table is indexed on `PARENT_TASK_ID_` (`ACT_IDX_TASK_PARENT_TASK_ID`), because
+completing or deleting any task looks up its subtasks by that column. SQL Server
+has had the index since Camunda 7.21. The other databases get it in 1.4.4-ee:
+an existing schema gets it from the patch script
+`$DATABASENAME_engine_1.4_patch_1.4.3_to_1.4.4.sql` or the Liquibase changelog.
+On SQL Server the patch script only writes the schema log. On PostgreSQL and
+Oracle, creating the index blocks writes to `ACT_RU_TASK` until it is built,
+which takes longer the more open tasks there are, so apply the patch when task
+traffic is low.
+
 
 ## Variables (`ACT_RU_VARIABLE`)
 
