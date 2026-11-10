@@ -11,4 +11,3 @@
 {{ end }}
 <p class="sidebar-label">{{ .Site.Params.section.id | title }}</p>
 <ul class="docs-menu">{{ range .Site.Menus.main }}{{ template "docs-menu-node" (dict "page" $ "node" .) }}{{ end }}</ul>
-{{ with hugo.Data.versions.enterpriseLine }}<a class="enterprise-edition-link" href="/manual/{{ . }}/">Enterprise Edition ({{ . }}) →</a>{{ end }}

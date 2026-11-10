@@ -49,9 +49,6 @@
         <option {{if eq $.Site.Params.section.version . }} selected {{end}}>{{.}}</option>
       {{ end }}
     </select>
-    {{ with $.Site.Data.versions.enterpriseLine }}
-      <a class="enterprise-edition-link" href="/manual/{{ . }}/">Enterprise Edition ({{ . }}) &rarr;</a>
-    {{ end }}
   </div>
 </div>
 
