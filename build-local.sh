@@ -120,6 +120,8 @@ done
 [ -d rest ] && cp -r rest/. public-local/rest/
 
 echo ""
+python3 .github/scripts/optimize_publication.py public-local --latest "${selected_version:-$LATEST}"
+
 echo "Build complete! Serve with:"
 echo "  cd public-local && python3 -m http.server 8080"
 echo "  Open: http://localhost:8080"

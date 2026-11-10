@@ -86,6 +86,39 @@ Then open [http://localhost:1313](http://localhost:1313). Hugo will automaticall
 
 `dev.sh` is committed on each `docs/X.Y.Z` branch. Themes are fetched automatically from `master` at startup — no manual setup needed.
 
+## Publication size and shared JavaDoc
+
+The Pages, local and Docker builders optimize assembled output with
+`.github/scripts/optimize_publication.py`. Source branches and their JavaDoc
+artifacts are unchanged. Assembled SVGs lose only formatting whitespace between
+attributes inside tags; text, attribute values, geometry, comments and metadata
+are retained. Only JavaDoc directories whose entire normalized file trees
+have matching SHA-256 fingerprints share one canonical copy; differing APIs,
+search indexes, legal notices or filenames prevent sharing.
+
+The latest OSS version's directory is preferred as canonical when it belongs
+to an identical group. Other JavaDoc HTML URLs become small redirects that
+preserve query strings and fragments. Those pages load the canonical JavaDoc's
+styles and search indexes. Legacy `element-list`, legal notices and downloadable
+`doc-files` remain available; duplicate renderer JavaScript and CSS are omitted.
+
+Identical root copies of `manual/latest` HTML also redirect to `manual/latest`;
+versioned manuals, the latest alias, root resources and distinct root pages remain.
+Redirects receive no analytics pixel. The final Pages output is checked again
+after analytics insertion and must be below 1,000,000,000 bytes. A size failure
+stops publication before the generated branch is committed.
+
+For an assembled output directory:
+
+```bash
+python3 .github/scripts/optimize_publication.py public-local --latest 1.4.0
+python3 .github/scripts/optimize_publication.py public-local --check-only
+```
+
+This shares identical artifacts; it does not regenerate or correct stale JavaDoc.
+A future distinct API keeps its own tree and may require further size reduction
+or a separate API-documentation host.
+
 ## Releasing a New Version
 
 1. Create a new docs branch from the previous one:

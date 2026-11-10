@@ -52,4 +52,6 @@ done
 [ -d rest ] && cp -r rest/. "${OUT_DIR}/rest/"
 
 echo ""
+python3 .github/scripts/optimize_publication.py "$OUT_DIR" --latest "$LATEST"
+
 echo "Docker build complete: ${OUT_DIR}"

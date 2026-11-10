@@ -260,8 +260,16 @@ jobs:
 
           cp CNAME gh-pages/docs/
 
+      - name: Optimize assembled publication
+        env:
+          LATEST_VERSION: ${{ steps.versions.outputs.latest }}
+        run: python3 .github/scripts/optimize_publication.py gh-pages/docs --latest "$LATEST_VERSION"
+
       - name: Add public documentation analytics
         run: python3 .github/scripts/instrument_scarf.py gh-pages/docs --enabled "$SCARF_DOCS_ENABLED"
+
+      - name: Check final publication size
+        run: python3 .github/scripts/optimize_publication.py gh-pages/docs --check-only
 
       - name: Commit and push changes
         run: |
