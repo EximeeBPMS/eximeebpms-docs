@@ -18,6 +18,9 @@ Rolling updates are not possible prior to Version `7.5`. Or in other words: the 
 Also note that it is only possible to update from one minor version to the next. For example, it is possible to update from `7.5.3` to `7.6.2` in a rolling fashion but it is not possible to update from `7.5.3` to `7.7.2` in one go.
 Before the rolling update from one minor to another can be executed, the latest patch, of the current used minor version, must be applied to all nodes before proceeding to the next minor version.
 
+Turning on the UTC storage of dates (`databaseUtcDatesEnabled`, see [Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}})) is **not** a rolling change: nodes with and without it must not work on the same database at the same time,
+and an engine with it refuses to start on an existing database until its dates are migrated or its time zone is declared. The setting is off by default.
+
 More considerations for rolling updates can be found at the bottom of this page. Make sure to read them.
 {{< /note >}}
 

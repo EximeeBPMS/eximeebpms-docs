@@ -569,6 +569,21 @@ Default is <code><strong>true</strong></code>, but this has to be disabled for s
 </td>
 </tr>
 <tr>
+<td><code>databaseUtcDatesEnabled</code></td>
+<td>Boolean</td>
+<td>
+Stores every date in the database as UTC instead of the time zone of the JVM, records that in the database and refuses to start on a database whose dates were not migrated.
+Default is <code><strong>false</strong></code>. Existing databases must be migrated first, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.
+</td>
+</tr>
+<tr>
+<td><code>databaseTimeZone</code></td>
+<td>String</td>
+<td>
+Time zone ID of the stored dates, for example <code>Europe/Warsaw</code>. Effective only with <code>databaseUtcDatesEnabled</code>, and only as a transitional setting for a database that has not been migrated to UTC yet. Default is <code><strong>UTC</strong></code>.
+</td>
+</tr>
+<tr>
 <td><code>jobExecutorAcquireByDueDate</code></td>
 <td>Boolean</td>
 <td>

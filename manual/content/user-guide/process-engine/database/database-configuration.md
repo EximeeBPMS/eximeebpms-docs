@@ -28,6 +28,11 @@ The data source that is constructed based on the provided JDBC properties will h
 * `jdbcStatementTimeout`: The amount of time in seconds the JDBC driver will wait for a response from the database. Default is null which means that there is no timeout.
 
 
+## Dates in UTC
+
+With `databaseUtcDatesEnabled` (`false` by default) the engine stores every date as a UTC wall-clock value, independent of the time zone of the JVM, of the database server and of the JDBC driver. This removes the ambiguity of the hour that is repeated when the clocks go back at the end of daylight saving time.
+Existing databases must be migrated first: see [Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}}). `databaseTimeZone` is a transitional setting for a database that has not been migrated yet.
+
 ## Jdbc Batch Processing
 
 <a name="jdbcBatchProcessing"></a>Another configuration - `jdbcBatchProcessing` - sets if batch processing mode must be used when sending SQL statements to the database. When switched off, statements are executed one by one.
