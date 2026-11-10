@@ -1,0 +1,627 @@
+---
+
+title: "EximeeBPMS 1.4.x Enterprise Edition Release Notes"
+description: "Enterprise engine 1.4.3-ee and companion Connectors 1.0.0-ee: ad-hoc execution, AI agents, REST/MCP tools, monitoring, migration and security updates."
+weight: 1
+
+menu:
+  main:
+    name: "1.4.x EE"
+    identifier: "release-notes-1.4-ee"
+    parent: "release-notes"
+
+---
+
+**Edition:** Enterprise &nbsp;|&nbsp; **Baseline:** [EximeeBPMS 1.4.0 CE]({{< ref "/release-notes/release-notes-1.4.0.md" >}})
+
+---
+
+<span id="unreleased"></span>
+
+## 1.4.3-ee {#143-ee}
+
+**Release date:** 06.11.2026
+
+Engine changes since **1.4.2-ee**. The companion **Enterprise Connectors 1.0.0-ee**
+release supplies the worker bundle described below; it has an independent version
+line and is deployed separately from the engine.
+
+<span id="unreleased-highlights"></span>
+
+### Highlights {#143-highlights}
+
+- Ad-hoc subprocess execution, manual activation and worker-driven decisions,
+  with turn history, model usage and native BPMN tools.
+- A separately released connectors bundle: AI agent, single-shot AI Task,
+  REST and MCP workers, with optional JDBC memory/audit.
+- External task client recovery, queued-lock renewal, bounded requests,
+  worker-aware unlock and connection-pool sizing.
+- Co-released engine and worker monitoring, including business-event and ad-hoc meters.
+- Task-query correctness, Spring Boot startup fixes and security updates.
+
+### Ad-hoc subprocesses and AI tools
+
+The engine executes parallel ad-hoc subprocesses, activates their configured
+starting elements and collects each completed inner flow's output. A case worker
+can activate elements through `RuntimeService#createAdHocSubProcessActivation`
+or the REST activation endpoint. Event subprocesses, compensation and cancellation
+follow the ad-hoc lifecycle; unsupported combinations fail deployment instead of
+being silently ignored.
+
+With a topic on the ad-hoc subprocess, an external worker decides each turn.
+`AdHocSubProcessResult` can activate tools, cancel running flows or complete the
+subprocess. Tool metadata comes from the BPMN model and `fromAi` annotations.
+The engine stores the output collection and ordinary map/collection outputs as
+JSON, including without Spin. Client immutable collections are serialized with
+concrete collection types the engine can deserialize.
+
+At history levels `audit` and `full`, ended turns record activations, cancellations
+and reported model usage. Content recording is separately configurable and defaults
+to metadata. The engine also provides turn-history queries, aggregated model usage
+and ad-hoc business events. The ad-hoc metrics `ad-hoc-turn-decisions`,
+`ad-hoc-turn-tasks-replaced` and `ad-hoc-activations` are recorded in the database only.
+
+Cancelling an inner flow through process instance modification schedules another
+worker turn, without inventing a tool result or evaluating a modelled completion
+condition. Cancelled activities skip their output mappings, so a missing variable
+from an unfinished tool no longer fails cancellation.
+
+→ [Ad-hoc subprocess reference](https://docs.eximeebpms.org/manual/1.4-ee/reference/bpmn20/subprocesses/ad-hoc-subprocess/)
+→ [Manual activation walkthrough](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/ad-hoc-subprocess/)
+→ [AI Agent and Connectors](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/)
+
+### Enterprise Connectors 1.0.0-ee — separate release {#connectors-100-ee}
+
+Enterprise Connectors **1.0.0-ee**, consuming engine **1.4.3-ee**, supplies:
+
+- AI orchestration with OpenAI and Anthropic providers, conversation memory,
+  per-turn model usage, events and cancellation handling.
+- REST calls with authentication, request/response mapping, retries and destination controls.
+- MCP Client and MCP Remote Client, with configured stdio, streamable HTTP or legacy
+  SSE transports as supported by each connector, and gateway tool discovery for agents.
+- A single-shot AI Task, without tools or persistent conversation.
+- Optional JDBC memory/audit, retention and erasure, plus isolated Flyway migration
+  tooling, SQL archives and explicit manual schema registration.
+- Element templates, a Spring Boot starter and an executable bundle. The bundle
+  image uses Alpine/OpenJDK 25, `tini` and numeric UID/GID 1000; custom STDIO server
+  runtimes must be installed explicitly.
+
+The worker checks turn ownership before each model request. A replaced or
+unlocked attempt stops without publishing conversation changes, and usage returned
+after replacement can be reported idempotently to engine history. Task outcomes
+now distinguish `not_found`, `lock_lost` and `unknown`; model metrics and worker
+audit remain the broader record of attempted calls. Unknown token counts remain
+unknown. See [Observability and Model Usage](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/observability/).
+
+Provider SDKs are OpenAI **4.100.0** and Anthropic **3.5.0**. Anthropic uses Messages
+API `2026-10-21`, which rejects `temperature` and `topP`. The JDBC migration
+runtime uses privately relocated Flyway **13.12.0**; it does not replace the
+embedding application's migration runtime.
+
+The [Connectors catalog](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/connectors/)
+groups task configuration. The [support-agent example](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/example-support-agent/)
+combines REST, remote MCP and an actual human approval task.
+
+### External task client
+
+#### Queued tasks retain their locks
+
+With `maxFetchedTasksMultiplier` above 1, fetched tasks can wait in a thread pool
+longer than their original lock. The client now renews queued locks and checks them
+again before execution. If no handler finishes within the lock duration, it unlocks
+queued tasks for other workers instead of renewing them indefinitely.
+
+Unlocking can now identify the worker: `ExternalTaskService.unlock(id, workerId)`
+and the optional `workerId` in `POST /external-task/{id}/unlock` reject another
+worker's lock with HTTP 400. The Java client sends its worker id, so its `unlock`
+also fails for an unlocked task or one another worker holds.
+
+#### Connection limits and request timeouts
+
+The default connection pool accounts for fetch-and-lock loops, handler threads and
+queued-lock renewal threads, with a minimum of five connections. This prevents
+long polls from consuming connections needed to finish tasks or extend locks.
+**A larger pool also increases concurrent requests to the engine.** For example,
+50 handler threads with the default multiplier use up to 51 connections. Set
+`maxConnectionsPerRoute(5)` or `eximeebpms.bpm.client.max-connections-per-route=5`
+to retain the earlier fixed limit. A custom connection manager keeps its own sizing.
+
+Handler requests retain their three-minute response timeout; internal fetches,
+renewals and unlocks use 60 seconds, with a long poll's `asyncResponseTimeout`
+added for fetch-and-lock. Connections time out after 10 seconds. The builder's
+`responseTimeout` and `eximeebpms.bpm.client.response-timeout` set a common limit
+(`0` disables it); explicitly customized request timeouts still apply.
+
+#### Acquisition recovery, shutdown and diagnostics
+
+A failed acquisition loop now makes `isActive()` false. `stop()` cleans up failed
+loops and `start()` can restart them; a critical JVM error other than
+`StackOverflowError` requires a new client. Calling `start()` from an acquisition
+thread is rejected. Stopping cancels a long poll immediately. Tasks the engine
+locks for that cancelled request become available when their locks expire.
+
+Every failed fetch pauses for 500 ms, doubling up to 60 seconds, including when
+ordinary backoff is disabled. An outage is logged once and recovery is reported,
+instead of an error stack trace on every attempt. Non-JSON HTTP 401/403 responses
+retain their status as `UnknownHttpErrorException`.
+
+Update log-based alerts: `TASK/CLIENT-03001` is replaced by `03018`/`03020` for
+unreachable-engine episodes and `03022`/`03023` for other errors. Duplicate codes
+are separated: already subscribed topic → `01006`, failing stats listener →
+`03037`, discovered data format → `01036`.
+
+→ [External Task Client](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ext-client/)
+→ [Client Spring Boot configuration](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ext-client/spring-boot-starter/)
+
+### Other engine changes and fixes
+
+- New REST operations for the signed-in user: `GET /authentication/me` returns
+  the profile, groups, tenants and authorized web applications, and
+  `GET /authentication/me/permissions` the effective permissions per resource
+  type and resource id. In Java they are `IdentityService#getCurrentUser()` and
+  `AuthorizationService#getCurrentUserPermissions(Resource...)`.
+- REST task queries and filter queries apply each `orQueries` element as its own
+  bracket, joining brackets with AND. Since 1.2.x all elements were merged into
+  one OR. Clients splitting alternatives across several elements must put those
+  alternatives in one element. Candidate/involved-user criteria in separate
+  brackets also match separate identity links correctly.
+- The job executor becomes active before acquiring jobs. Jobs acquired during
+  startup are no longer unlocked for the next cycle; exclusive jobs stay in their
+  process hierarchy's batch.
+- Applications disabling the engine or excluding its auto-configuration no longer
+  fail because script security requires a `ProcessEngine` bean.
+- `eximeebpms.bpm.id-generator=simple` again uses the engine's database ID generator
+  without requiring an `IdGenerator` bean.
+- The starter brings JDBC auto-configuration support for applications with their
+  own JDBC driver/pool that do not depend on `spring-boot-starter-jdbc`.
+- Cockpit, Tasklist, Admin and Welcome show the actual release version in their
+  footer. Webapp asset cache-busting also changes with the release.
+
+### Co-released engine and worker monitoring
+
+Prometheus export requires role `metricsreader` (no hyphen, so the default
+group id pattern accepts it). In Run, engine administrators may read metrics
+without it, and the metrics path accepts HTTP Basic and, on the main server
+(a separate management server accepts HTTP Basic only), an existing
+Cockpit/Admin/Tasklist login, also when REST API authentication is disabled or
+Run starts with only `--webapps`. With `--oauth2`, token groups `metricsreader`
+or an administrator group grant access. Outside Run, engine administrators need
+the role too; in Spring Security it is the authority `ROLE_metricsreader`.
+
+Run's shipped configuration no longer exposes every Actuator endpoint, only
+`health` and `prometheus` (Security Notice EXBPMS-19). If you copied the former
+`management.endpoints.web.exposure.include: prometheus,*` into your own
+configuration, change it. Any other endpoint an
+installation exposes requires an engine administrator. The shipped files now
+switch the Prometheus endpoint with `management.endpoint.prometheus.access` (`none` in
+`default.yml`, `read-only` in `production.yml`) instead of the deprecated
+`management.endpoint.prometheus.enabled`. Spring Boot refuses to start when both
+keys are set for the endpoint, so remove `enabled` from any configuration you
+carry over.
+
+Run started with only `--rest` can now expose Actuator metrics as well. Run also
+validates the selected YAML before
+server startup and reports syntax/duplicate-key locations without printing
+configuration values or opening a browser on validation failure.
+
+Spring applications can switch off all automatic engine and worker
+measurements with the new `eximeebpms.monitoring.enabled`, which also disables
+local event counters. The monitor's `eximeebpms.monitoring.snapshot.enabled` and
+`.snapshot.updateRate` keep controlling only the periodic state refreshes. Run defaults to disabled in
+`default.yml` and enabled in `production.yml`. Prometheus registry/HTTP settings
+remain separate. Run launchers recover stale PID files, verify process identity
+before signalling it, and defer opening a browser until startup is accepted.
+
+Monitoring moves into the engine reactor, with separate common, engine, worker,
+Spring Boot, Prometheus and servlet artifacts beneath one `monitoring/` module.
+Replace the old `org.eximeebpms.bpm.extension.monitor:eximeebpms-enterprise-bpm-spring-boot-monitor`
+dependency with the `org.eximeebpms.bpm.monitor` artifacts at version `1.4.3-ee`;
+do not put both implementations on the classpath. Use matching 1.4.3-ee engine,
+client and monitoring artifacts.
+The migration also brings ad-hoc subprocess turn and model usage meters, fixes
+explicit `@EnableMonitoring` registration, and adds reusable execution,
+lock-renewal, queue, executor, HTTP-pool and manual-extension measurements for
+workers. The external task and incident gauges now report each activity, topic
+and incident type, including `tenant.id`, as its own series instead of merging
+them; review dashboards and alerts built on those gauges.
+
+Tomcat and WildFly include opt-in `/metrics` export. Run keeps its Actuator path,
+but scraping now requires an existing authenticated principal mapped to
+`metricsreader`. Configure the scraper's role through the installation's existing
+identity provider. Measurement and HTTP exposure remain separate controls.
+
+The Script Guard gauge retains Micrometer ID `eximeebpms.script.violations.total`
+and exports as `eximeebpms_script_violations_current` to prevent a name-family
+collision with the event counter. Update Prometheus queries for the gauge and
+include the co-released Prometheus adapter.
+
+→ [Application Monitoring](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/application-monitoring/)
+→ [Worker Monitoring](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ext-client/monitoring/)
+
+### Security and dependency updates
+
+- Actuator writes authenticated by a webapp/OAuth2 session require its CSRF token
+  in `X-XSRF-TOKEN`; authorized Actuator GETs return it (except `health`). Browser
+  HTTP Basic writes require a non-empty `X-XSRF-TOKEN`. Scripted HTTP Basic is
+  unaffected. A Prometheus scrape concurrent with gauge refresh no longer fails
+  with duplicate-label registration.
+- MariaDB Connector/J moves to **4.0.0**, including test/QA connections. TLS now
+  defaults to `verify-full`, so externally supplied MariaDB test databases need
+  compatible TLS configuration. See [EXBPMS-20](/security/notices/#notice-exbpms-20).
+- Managed Jackson 2 moves to **2.22.4**; Boot-based distributions use Boot-managed Jackson 3.
+- The trailing-slash redirect in Spring Boot/Run webapps uses the normalized
+  request path, preventing redirects to an attacker-controlled host through a
+  crafted path. See [EXBPMS-17](/security/notices/#notice-exbpms-17).
+- Webapps ship DOMPurify **3.4.17** and qs **6.16.2**. The DOMPurify exposure
+  concerned custom code using sanitizer options the product does not set.
+  See [EXBPMS-18](/security/notices/#notice-exbpms-18).
+- Kafka compression dependencies move to **lz4-java 1.11.4** and **snappy-java
+  1.1.10.12**. WildFly loads these versions as well and removes its older bundled
+  compression jars. Lz4 remains the plugin's default unless compression is
+  explicitly configured as snappy.
+- Tomcat **11.0.27** replaces 11.0.26, and WildFly **42.0.0.Final** (WildFly Core
+  34.0.0.Final) replaces 41.0.1.Final.
+- Spring Boot **4.1.2** and Spring Framework **7.0.10** replace 4.1.1/7.0.9.
+  Starter and Run retain Boot's Jackson 3.1.7 and HttpCore 5.4.4 management.
+- Apache HttpClient 5 **5.6.5** replaces 5.6.4 in the external task client,
+  HTTP/SOAP connectors and WildFly modules. Starter/Run use Boot's managed version.
+- Source frontend builds use Node.js **26.13.0 LTS**, npm **11.21.2**,
+  webpack **5.112.2** and ESLint 9. The generated REST reference uses Redoc **3.0.1**
+  with telemetry disabled. Test dependencies include Guava **33.7.2-jre**,
+  OpenTelemetry **1.67.0** and ChromeDriver **156.0.8078.80**.
+
+→ [Tech Stack](https://docs.eximeebpms.org/manual/1.4-ee/introduction/tech-stack/)
+→ [Third-party dependency inventory and license notices](https://docs.eximeebpms.org/manual/1.4-ee/introduction/third-party-libraries/camunda-bpm-platform-license-book/)
+
+### Database and upgrade considerations
+
+The ad-hoc turn-history tables `ACT_HI_ADHOC_TURN`, `ACT_HI_ADHOC_TURN_EL` and
+`ACT_HI_ADHOC_USAGE` require the matching **1.4.2 → 1.4.3** engine patch script
+(`<db>_engine_1.4_patch_1.4.2_to_1.4.3.sql`) or Liquibase changeSet
+`1.4.2-to-1.4.3`. Take a database backup immediately before migration.
+Connector JDBC migrations are separate and do not migrate the engine database.
+When implementing engine/client interfaces yourself, account for the added
+worker-aware `unlock` and client-builder timeout methods, the changed REST
+unlock resource signature, and `IdentityService#getCurrentUser()` and
+`AuthorizationService#getCurrentUserPermissions(Resource...)`. Review the
+task-query and connection-pool behavior changes above before upgrading.
+
+Ad-hoc subprocesses also change existing behavior:
+
+- Ad-hoc subprocesses deployed with an earlier version run only once their definition
+  is parsed again, and their inner flows need a running job executor.
+- Code iterating sub-processes or flow elements through the BPMN model API now also
+  sees `AdHocSubProcess` elements.
+- In worker-driven mode, deployment fails for an output collection or input parameter
+  named after an engine variable (`adHocCompletionConditionFulfilled`,
+  `adHocActivationSource`, `adHocSubProcessElements`, `adHocTurnCount`).
+- A plugin that sets a fallback serializer factory only when none is set must now do
+  so in `preInit`.
+- The extension properties of external tasks keep their document order.
+
+
+## 1.4.2-ee {#142-ee}
+
+**Release date:** 05.10.2026
+
+The second Enterprise patch on the 1.4.0 baseline. Everything in [1.4.1-ee](#141-ee) applies; this section lists what 1.4.2-ee adds or changes on top of it.
+
+### Highlights
+
+- **[Business events on SQL Server no longer lock the outbox table](#business-events-sql-server-locking)**, which stalled every engine operation that writes a business event
+- **[Business events are published on Oracle](#business-events-oracle)**. Before this release the dispatcher published nothing there
+- **[The dispatcher no longer runs out of memory on a backlog](#dispatcher-per-batch)**: it commits each batch on its own instead of caching the whole outbox, and an `Error` no longer stops it until restart
+- **[Query expressions can be kept away from beans](#query-expressions-without-beans)** with the new `enableBeansInQueryExpressions` setting
+- **[Schema patch](#142-schema)**: two new indexes. Liquibase applies them; read this if you apply the scripts by hand
+- **[Security](#142-security)**: FreeMarker (EXBPMS-15) and Jackson (EXBPMS-16) are patched, and the Spring Boot starter and Run now get the patched Jackson too
+
+### New Features
+
+#### Restricting Query Expressions to Built-in Functions {#query-expressions-without-beans}
+
+A saved filter stores its query, expressions included, and the engine evaluates them for everyone who runs the filter. In a Spring application, such an expression can by default reach every bean in the application context by name. The new process-engine setting `enableBeansInQueryExpressions` closes that path. Set it to `false` and query expressions keep the built-in functions, such as `currentUser()`, `currentUserGroups()` and `dateTime()`, but resolve no beans. Script Guard still applies.
+
+The default is `true`, which keeps the previous behavior. Turning it off breaks any filter that legitimately calls a bean: such an expression then fails with `Unable to resolve expression`.
+
+→ [Securing Custom Code — Queries](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/securing-custom-code/#queries)
+→ [Security — Limit the beans an expression can reach](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/security/#limit-the-beans-an-expression-can-reach)
+
+#### Measuring the Outbox Backlog Cheaply
+
+`BusinessEventService#getOutboxBacklog()` returns the creation time of the oldest undelivered event and an upper-bound estimate of how many are pending. It reads only the two ends of the outbox's id index, so unlike `unprocessed().count()` its cost does not grow with the backlog. Use it to poll the backlog in monitoring.
+
+→ [Business Events — Querying the Outbox](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#querying-the-outbox)
+
+#### Business-Event Dispatch Listeners
+
+The new `BusinessEventDispatchListener` SPI reports every publish attempt and every dispatcher batch: the outcome, the number of records dispatched, and the time spent in the publisher and in the database. Spring Boot registers listener beans automatically. A failing listener is logged as `ENGINE-00021` and never affects dispatching.
+
+{{< note title="Monitoring extension" class="info" >}}
+The Micrometer meters built on this SPI, and the outbox backlog gauges built on `getOutboxBacklog()`, are not yet part of the monitoring extension release that 1.4.2-ee ships with (1.12.0-ee). See [Application Monitoring](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/application-monitoring/#business-events-dispatcher).
+{{< /note >}}
+
+#### Fetch-and-Lock Diagnostic Logs
+
+When the long-polling fetch-and-lock handler rejects requests with "too many requests", it now logs why. `ENGINE-REST-FAL001` summarizes the queued requests by worker, timeout and topic, and `ENGINE-REST-FAL002` reports acquisition cycles longer than one second. Each is logged at most once per interval, set with the new `fetch-and-lock-diagnostic-log-interval` parameter (seconds, default `60`; Spring Boot: `eximeebpms.bpm.rest-api.fetch-and-lock.diagnostic-log-interval`). Which requests are rejected is unchanged.
+
+→ [External Tasks — Diagnostic Logs](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/external-tasks/#diagnostic-logs)
+
+#### EximeeBPMS Extension Namespaces
+
+Process and decision definitions may declare extensions in EximeeBPMS' own namespaces, `http://eximeebpms.org/schema/1.0/bpmn` and `http://eximeebpms.org/schema/1.0/dmn`, as well as in Camunda's. Both are read the same way, even mixed in one document. Definitions are still written with the Camunda namespace, so files stay readable by Camunda tooling. Existing definitions need no change.
+
+### Database Schema Update {#142-schema}
+
+1.4.2-ee adds two indexes, so that deletes no longer scan the table:
+
+- on `ACT_RU_BUS_EVT_OBX.TASK_ID_`, used when a standalone task's events are deleted;
+- on `ACT_RU_SCRIPT_VIOLATION.TIMESTAMP_`, used by the violation cleanup.
+
+On MySQL and MariaDB, the same patch also changes `ACT_RU_SCRIPT_VIOLATION.TIMESTAMP_` from `timestamp(3)` to `datetime(3)` on schemas that were upgraded, so that it matches a fresh schema.
+
+Liquibase applies the patch. If you apply the scripts by hand, run `$DATABASENAME_engine_1.4_patch_1.4.1_to_1.4.2_1.sql` and `…_2.sql`, and skip a script whose table does not exist: the engine creates `ACT_RU_BUS_EVT_OBX` only with business events enabled, and `ACT_RU_SCRIPT_VIOLATION` only when Script Guard is not disabled. Take a backup before running them.
+
+{{< note title="Schemas installed from the SQL distribution, 1.2.19-ee to 1.4.1-ee" class="warning" >}}
+The engine create script in `eximeebpms-sql-scripts` of these versions does not create `ACT_RU_SCRIPT_VIOLATION`. In Script Guard's `AUDIT` mode, an operation whose script triggers a rule then fails instead of recording the violation. Start the engine once with `databaseSchemaUpdate=true` to create the table. The 1.4.2-ee scripts include it again.
+{{< /note >}}
+
+→ [Database Schema](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/database/database-schema/)
+
+### Behavior Changes
+
+- **Outbox and violation cleanups delete in chunks.** Each run of the business-event outbox cleanup and of the script-violation cleanup deletes at most 1,000 rows and reschedules itself immediately while rows remain. One unbounded `DELETE` locked the whole table on SQL Server. → [Business Events — Configuration](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#configuration)
+- **`dispatcher-batch-size` is also the transaction size.** The dispatcher still reads the outbox until it is empty, but now commits after every batch. An aborted cycle redelivers at most one batch.
+- **Generated BPMN XML uses the `camunda` prefix.** XML produced by `Bpmn.createProcess()` and the fluent builder declares `xmlns:camunda` and writes `camunda:`-prefixed extension attributes, instead of binding the `eximeebpms` prefix to the Camunda namespace URI. The parsed model is unchanged; only code that compares generated XML as text is affected.
+- **`eximeebpms-test-utils-testcontainers` relies on the built-in Testcontainers providers.** It no longer ships its own container providers or `testcontainers.properties`. Test JDBC URLs change from `jdbc:tc:campostgresql:`, `jdbc:tc:cammysql:` and `jdbc:tc:camsqlserver:` to the standard `jdbc:tc:postgresql:`, `jdbc:tc:mysql:` and `jdbc:tc:sqlserver:`.
+
+### Bug Fixes
+
+#### Business Events on SQL Server Locked the Outbox Table {#business-events-sql-server-locking}
+
+On SQL Server, the business-event dispatcher and the outbox cleanup took a lock on the whole outbox table. Every engine operation that writes a business event, jobs included, waited behind it. The dispatcher now reads through the index of undelivered rows, and the cleanup deletes in chunks (see [Behavior Changes](#behavior-changes)).
+
+#### Business Events Were Never Published on Oracle {#business-events-oracle}
+
+On Oracle, the dispatcher's fetch failed on every cycle with `ORA-02014`, because Oracle rejects `FOR UPDATE` on the view its paging builds. Nothing was published. Oracle now has its own statement, which locks only the batch.
+
+#### The Dispatcher Could Run Out of Memory on a Backlog {#dispatcher-per-batch}
+
+The dispatcher drained the whole outbox in one transaction, and every row it read stayed in that transaction's entity cache, payload included, until the outbox was empty. A backlog, or events arriving as fast as they were published, grew the heap without bound and could end in `OutOfMemoryError: Java heap space` on the `BPM-BusinessEventDispatcher` thread. Each batch (`dispatcher-batch-size`) is now its own transaction, so the dispatcher holds at most one batch in memory. An `Error` thrown while dispatching no longer stops it until restart.
+
+#### Other Fixes
+
+- **External tasks:** an `Error` in the long-polling fetch-and-lock handler stopped it for good, and every later `fetchAndLock` with `asyncResponseTimeout` failed with HTTP 500 "too many requests" until restart. The handler now logs the error and keeps running.
+- **SQL Server and MySQL/MariaDB:** the dispatcher skipped its cycle whenever an engine transaction had just written an event, which delayed delivery under load. It now takes the events before the uncommitted one and never skips an event.
+- **MariaDB and DB2:** a dispatcher that lost the lock to another node logged an unexpected error on every collision. The lock errors are now recognised and the cycle is skipped quietly.
+- **Oracle:** a dispatcher stopped in the middle of a batch rolled the batch back and closed its database connection. The batch now commits before the dispatcher stops.
+- **DB2:** `BusinessEventService.createBusinessEventOutboxQuery()` failed with `SQLCODE=-134`. It no longer selects `DISTINCT` over the payload.
+- **Oracle:** once script security had written its configuration, every command after the first failed with a `NullPointerException`. An empty property value, which Oracle stores as NULL, is now handled.
+- **Oracle and DB2, upgrade from 1.3:** the 1.3 → 1.4 upgrade scripts failed on both databases (`ORA-03076` on Oracle, `SQL0104N` on DB2) in the business-event table and index definitions. Both are fixed. The scripts are not idempotent: if you already ran a failed upgrade, account for the objects it created before you run it again.
+- **Liquibase on MariaDB:** the changelog named its scripts for MySQL only, so every changeset failed validation on MariaDB. MariaDB now uses the MySQL scripts.
+
+### Technical Updates
+
+#### Dependency Updates
+
+Relative to 1.4.1-ee:
+
+- Jackson 2.22.3 (from 2.22.1). The Spring Boot starter and EximeeBPMS Run now get it too; they previously resolved Jackson 2.21.5 through Spring Boot's dependency management. Jackson 3 (`tools.jackson`) 3.1.7 (from 3.1.5) in the same two distributions
+- Apache FreeMarker 2.3.35 (from 2.3.31)
+- MariaDB Connector/J 3.5.10 (from 3.5.7)
+- Apache HttpCore 5 5.4.4 (from 5.4.3)
+- In the web applications: lodash 4.18.1 (from 4.17.21), preact 10.29.8 (from 10.26.8) and qs 6.16.0 (from 6.15.3)
+- Monitoring extension: unchanged, `eximeebpms-enterprise-bpm-spring-boot-monitor` 1.12.0-ee
+
+→ [Tech Stack](https://docs.eximeebpms.org/manual/1.4-ee/introduction/tech-stack/)
+
+#### Other Changes
+
+- Source files written for EximeeBPMS carry the project's own copyright header. Nineteen of them had carried Camunda's.
+- The manual states each supported database version's vendor end-of-life date. → [Supported Environments](https://docs.eximeebpms.org/manual/1.4-ee/introduction/supported-environments/)
+
+### Security {#142-security}
+
+| Notice | Component | CVE | Fixed version |
+| --- | --- | --- | --- |
+| [EXBPMS-15](/security/notices/#notice-exbpms-15) | Apache FreeMarker | [CVE-2026-84939](https://github.com/advisories/GHSA-27j2-h3m2-8237) | FreeMarker → 2.3.35 |
+| [EXBPMS-16](/security/notices/#notice-exbpms-16) | `jackson-core`, `jackson-databind` | [CVE-2026-68497](https://github.com/advisories/GHSA-q4xh-88c3-wmh7), [CVE-2026-19032](https://github.com/advisories/GHSA-wjgm-6hv5-3cvf), [CVE-2026-83557](https://github.com/advisories/GHSA-gx83-3vf8-gh7j), [CVE-2026-89407](https://github.com/advisories/GHSA-p6pp-m3f8-5c89), [CVE-2026-89425](https://github.com/advisories/GHSA-7hhh-6rmp-j9qf), [CVE-2026-91776](https://github.com/advisories/GHSA-wv8q-qhhj-9h54), [CVE-2026-91777](https://github.com/advisories/GHSA-cxp5-3px4-pw24) | Jackson → 2.22.3, Jackson 3 → 3.1.7 |
+
+The Spring Boot starter and EximeeBPMS Run resolved Jackson through Spring Boot's own dependency management, so earlier fixes did not reach them. They now get Jackson 2.22.3 and Jackson 3 3.1.7 like the rest of the product. EXBPMS-16 covers them too.
+
+Three libraries bundled into the web applications are upgraded:
+
+- lodash 4.18.1, fixing [CVE-2026-4800](https://github.com/advisories/GHSA-r5fr-rjxr-66jc) (code injection through `_.template`) and [GHSA-f23m-r3pf-42rh](https://github.com/advisories/GHSA-f23m-r3pf-42rh) (prototype pollution in `_.unset` and `_.omit`);
+- preact 10.29.8, used by the forms library, fixing [CVE-2026-22028](https://github.com/advisories/GHSA-36hm-qxxp-pg3m) (JSON VNode injection, high severity);
+- qs 6.16.0, used by the HTTP client, fixing [CVE-2026-82562](https://github.com/advisories/GHSA-x5fp-wj9c-mxmx) (array-limit bypass) and [CVE-2026-82417](https://github.com/advisories/GHSA-4mjr-xmp4-gh2g) (denial of service).
+
+The other npm advisories cleared in this release are in build and development tooling, which no distribution contains.
+
+For the full list of security notices, see the [Security Notices](/security/notices/) page.
+
+---
+
+## 1.4.1-ee {#141-ee}
+
+**Release date:** 24.09.2026
+
+The first Enterprise patch on the 1.4.0 baseline. Everything in [1.4.0 CE]({{< ref "/release-notes/release-notes-1.4.0.md" >}}) applies; this section lists what 1.4.1-ee adds or changes on top of it.
+
+### Highlights
+
+- **[Business events are no longer lost when the publisher reports a failure](#business-events-lost-on-publisher-failure)**. If your publisher returns a failure result, which the shipped Kafka publisher does on a broker outage, read this first
+- **[Business events follow history order](#business-event-order)**. `process-instance:start` now comes before the instance's variables and jobs, and several missing events are now emitted
+- **[Selective business-event publication](#business-event-type-filtering)**: allowlist and denylist over event types instead of all-or-nothing
+- **[MariaDB is a supported database](#mariadb-support)**: 11.4 and 12.3
+- **[Opt-in type validation for Spin `mapTo`](#spin-mapto-type-validation)**
+- **Breaking:** the Quarkus configuration prefix, and removal of the Model API's `camunda…` methods. See [Breaking Changes](#141-breaking)
+- **[Security](#141-security)**: the WildFly distribution's bundled Netty is patched for CVE-2026-89044 (EXBPMS-14)
+
+### New Features
+
+#### Business Event Type Filtering {#business-event-type-filtering}
+
+Two new business-events settings narrow which event types are published:
+
+- `enabledEventTypes` is an allowlist, default `*`, which means every type.
+- `disabledEventTypes` is a denylist. It is applied after the allowlist and wins over it.
+
+For example, `disabled-event-types: variable-instance:*` publishes everything except variable events. Tokens name a type by its `<entity>:<event>` pair (`task-instance:complete`). `<entity>` or `<entity>:*` selects a whole entity, and the fully-qualified `<prefix>:<entity>:<event>` form is accepted too.
+
+The settings are available wherever the business-events configuration already was:
+
+- the Spring Boot Starter and EximeeBPMS Run, as `eximeebpms.bpm.business-events.enabled-event-types` and `disabled-event-types`;
+- `BusinessEventConfigurationPlugin` in a standalone `bpm-platform.xml` and in the WildFly subsystem, as comma-separated `enabledEventTypes` and `disabledEventTypes` properties.
+
+They are not available on Quarkus.
+
+A token that names an unknown entity or event fails engine bootstrap with `InvalidBusinessEventTypeException`, even while `enabled` is `false`. Whenever a filter is in effect, the engine logs the effective set of types at startup. A disabled type is skipped before its event is built, so turning off a high-volume type also saves the lookups behind it, not just the outbox row.
+
+This feature is Enterprise Edition only until it is ported to the Community Edition.
+
+→ [Business Events — Limiting Published Event Types](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#limiting-published-event-types)
+
+#### MariaDB Support {#mariadb-support}
+
+MariaDB is now a supported database, on the MySQL dialect. The supported versions are the two current long-term-support lines, **11.4 and 12.3**, with MariaDB Connector/J 3.5.7. MariaDB 13.0 is verified to work but is not declared supported: it is a rolling release that reaches end of life on 31.12.2026.
+
+MariaDB behind the MySQL driver always worked. The native MariaDB driver did not: it reports the product name `MariaDB`, which the engine could not map to a dialect, so engine startup failed with "couldn't deduct database type from database product name". The engine now maps `MariaDB` onto the `mysql` dialect, and the `mysql` create and upgrade scripts apply unchanged.
+
+→ [Supported Environments — Databases](https://docs.eximeebpms.org/manual/1.4-ee/introduction/supported-environments/#supported-database-products)
+
+#### Spin `mapTo` Type Validation {#spin-mapto-type-validation}
+
+The engine's deserialization type whitelist (`deserializationTypeValidationEnabled`, `deserializationAllowedClasses`, `deserializationAllowedPackages`) previously guarded only the deserialization of `ObjectValue` process variables. The new opt-in `spinMapToTypeValidationEnabled` setting (default `false`) extends it to Spin's `mapTo(Class)` and `mapTo(String)` on JSON and XML nodes. It only takes effect when `deserializationTypeValidationEnabled` is also `true`, and it reuses the same allowed classes and packages.
+
+It is off by default because turning it on rejects any `mapTo` target outside the whitelist, and those targets are usually application DTO classes. List them before you enable it.
+
+Independently of the flag, Spin's JSON `mapTo(String)` now loads the target class without initializing it. A class the whitelist rejects therefore can no longer run its static initializer before validation.
+
+→ [Spin — Mapping JSON](https://docs.eximeebpms.org/manual/1.4-ee/reference/spin/json/04-mapping-json/)
+→ [Security](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/security/)
+
+#### Measuring the Business-Event Backlog
+
+`BusinessEventQuery.unprocessed()` limits an outbox query to events not yet delivered to the publisher, and `BusinessEventOutbox.getCreatedDate()` gives the time each one was written. The default order follows write order, so `createBusinessEventOutboxQuery().unprocessed().listPage(0, 1)` returns the oldest pending event. That is what you need to alert on a backlog after the [behavior change below](#business-events-lost-on-publisher-failure).
+
+→ [Business Events — Querying the Outbox](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#querying-the-outbox)
+
+### Breaking Changes {#141-breaking}
+
+#### Quarkus Extension: Configuration Prefix Is Now `quarkus.eximeebpms.*`
+
+The Quarkus extension binds its configuration under `quarkus.eximeebpms.*` instead of `quarkus.camunda.*`. Rename any `quarkus.camunda.generic-config.*`, `quarkus.camunda.job-executor.*`, `quarkus.camunda.datasource` or `quarkus.camunda.id-generator` entries in `application.properties`.
+
+{{< note title="" class="warning" >}}
+The old prefix is not rejected. Properties under `quarkus.camunda.*` are **silently ignored**, so a missed rename shows up as default behavior, not as a startup error.
+{{< /note >}}
+
+The manual and the extension's README have always documented `quarkus.eximeebpms.*`. Only the code bound the other prefix, so the documented prefix never actually worked until now.
+
+→ [Quarkus Integration — Configuration](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/quarkus-integration/configuration/)
+
+#### Model API: `camunda…` Methods Removed
+
+[1.4.0 CE]({{< ref "/release-notes/release-notes-1.4.0.md" >}}#model-api-camunda-method-names) deprecated every `camunda`-named method on the BPMN and DMN Model APIs in favor of its `eximeeBpms…` counterpart. On the Enterprise line those deprecated methods are now **removed**: 405 declarations across `eximeebpms-bpmn-model` and `eximeebpms-dmn-model`. Code that still calls them no longer compiles.
+
+The migration is the mechanical rename 1.4.0 describes: `camundaX` becomes `eximeeBpmsX`, and `getCamundaX` becomes `getEximeeBpmsX`. Also removed:
+
+- `Decision.getCamundaHistoryTimeToLive(Integer)` and its setter. Use `getEximeeBpmsHistoryTimeToLiveString()` and `setEximeeBpmsHistoryTimeToLiveString(String)`.
+- `isEximeeBpmsAsync()`, `setEximeeBpmsAsync(boolean)` and the builder's `eximeeBpmsAsync(boolean)` on `StartEvent`, `Task`, `CallActivity`, `ParallelGateway` and `SubProcess`. These have been deprecated since 2014; use `asyncBefore`/`asyncAfter`. `SignalEventDefinition` keeps its pair.
+- `Process.getEximeeBpmsHistoryTimeToLive()` and `setEximeeBpmsHistoryTimeToLive(Integer)`. Use the `String` variant.
+
+**The XML format does not change.** The extension namespace URI stays `http://camunda.org/schema/1.0/bpmn` (and `…/1.0/dmn`), attribute names stay the same, and no `.bpmn` or `.dmn` file needs editing.
+
+→ [BPMN Model API — Fluent Builder](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/model-api/bpmn-model-api/fluent-builder-api/)
+
+#### Business Events: A Failed Publish Now Blocks Delivery
+
+This is the behavior change behind the [fix below](#business-events-lost-on-publisher-failure). While the receiver is unavailable, `ACT_RU_BUS_EVT_OBX` grows instead of being emptied. A record the receiver can never accept holds back every event behind it, in every process, until it goes through. Monitor for this: see [Bug Fixes](#business-events-lost-on-publisher-failure) for what to alert on and how to skip a record deliberately.
+
+#### Business Events: Dispatcher Log Category Changed
+
+The dispatcher now logs through the engine's coded logger (`ENGINE-00014` to `ENGINE-00020`). Its category changes from `org.eximeebpms.bpm.engine.businessevent.BusinessEventDispatcher` to `org.eximeebpms.bpm.engine`. Adjust logging configuration that targets the old class name; package-level settings are unaffected. A blocked record logs `ENGINE-00019` once per cycle, with how long it has been waiting.
+
+#### Business Events: `process-instance-update` Is Now Emitted
+
+`process-instance-update` was never emitted. It now is, on suspend and activate (with the new `SUSPENDED` or `ACTIVE` state), on `setProcessBusinessKey`, on a process-definition version change, and for sub-process instances left behind when a parent is deleted with `skipSubprocesses`. Consumers start receiving it unless it is excluded with `disabledEventTypes`.
+
+### Bug Fixes
+
+#### Business Events Were Lost When the Publisher Reported a Failure {#business-events-lost-on-publisher-failure}
+
+A publisher can signal failure in two ways: throw, or return `BusinessEventPublishResult.failure(...)`. The shipped Kafka publisher uses the second on a broker outage, rejection or timeout. The dispatcher stopped the cycle only on a throw. On a returned failure it logged "stopping cycle", then **marked the record processed and moved on**, so every event dispatched while the receiver was unavailable was lost.
+
+A failed result now stops the cycle exactly like an exception: the record stays unprocessed and is retried, in order, on the next cycle.
+
+**What to monitor.** Alert on `ENGINE-00019`, or on the age of the oldest pending event (see [Measuring the Business-Event Backlog](#measuring-the-business-event-backlog)). Fix the cause and the queue drains in order. A stuck record is not skipped automatically: that would give consumers a gap they cannot see, such as a process end for an instance whose start never arrived.
+
+**Skipping one record.** This is an operator decision, taken knowing that consumers will miss that event:
+
+```sql
+UPDATE ACT_RU_BUS_EVT_OBX SET PROCESSED_ = true, PROCESSED_DATE_ = CURRENT_TIMESTAMP WHERE ID_ = '…';
+```
+
+Use `true` on PostgreSQL and H2, and `1` on the other databases.
+
+**Recovering events already lost.** Records that were wrongly marked processed stay in the outbox until retention removes them, by default 7 days after `PROCESSED_DATE_`. Their ids are in the dispatcher's error log ("failed to dispatch outbox record id=…"). To queue them again:
+
+```sql
+UPDATE ACT_RU_BUS_EVT_OBX SET PROCESSED_ = false, PROCESSED_DATE_ = NULL WHERE ID_ IN (…);
+```
+
+Use `false` on PostgreSQL and H2, and `0` on Oracle, SQL Server, MySQL/MariaDB and DB2. Delivery is at-least-once, so consumers may receive duplicates of events that did get through.
+
+→ [Business Events — When Publishing Fails](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#when-publishing-fails)
+
+#### Business Events Are Recorded in History Order {#business-event-order}
+
+Business events are now recorded in the same relative order as the corresponding history events:
+
+- **`process-instance:start`** used to come from the process-level `start` listener, after the start variables, form properties and timers were set up. A consumer therefore saw `variable-instance:create`, `form-property:form-property-update` and `job:create` for an instance it had not yet seen start. With an `asyncBefore` start event, the start event was even written in a later transaction. It is now emitted where history records the start, before all of those, and exactly once, including for instances started at an activity or restarted.
+- **`task-instance:complete` and `task-instance:delete`** used to be emitted before user task listeners ran, so variables set by a `complete` or `delete` listener arrived after the task had ended. They are now emitted after those listeners, and after the task's identity links and variables are removed.
+
+Events that were missing are now emitted:
+
+- **`process-instance-update`** (see [Breaking Changes](#141-breaking));
+- **assignee and owner changes** as `identity-link-add` and `identity-link-delete`, as history always recorded them;
+- **standalone tasks** (`taskService.newTask()` / `saveTask()`), which now produce the full `task-instance` lifecycle.
+
+Every other event type already matched history.
+
+→ [Business Events — Event Order](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/#event-order)
+
+#### Other Fixes
+
+- **SQL Server, schema created with `sqlcmd`:** the manual now warns that running the `create` scripts through `sqlcmd` without `-I` silently produces an incomplete schema: 57 of 204 indexes are missing, including five unique constraints. The engine's own schema creation is unaffected. → [SQL Server Configuration](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/database/mssql-configuration/#running-the-create-scripts-manually)
+- **ER diagrams:** the diagrams in the manual are now generated from the engine's own DDL. The previous hand-drawn diagrams had relationships that did not match the schema and still showed CMMN columns. They also lacked `ACT_RU_BUS_EVT_OBX` and `ACT_RU_SCRIPT_VIOLATION`. There is no separate Enterprise diagram any more, because both editions share the same create scripts. → [Database Schema](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/database/database-schema/#entity-relationship-diagrams)
+- **Spring Boot property metadata:** the starter jars now ship `META-INF/spring-configuration-metadata.json`. IDEs can therefore complete and validate `eximeebpms.bpm.*` properties, and `spring-boot-properties-migrator` works with them.
+- **Manual corrections:** `jdbcStatementTimeout` is honored on H2, and batch processing honors it on MariaDB. The manual had said the opposite in both cases.
+
+### Technical Updates
+
+#### Dependency Updates
+
+Relative to 1.4.0 CE:
+
+- Apache Tomcat 11.0.26 (from 11.0.25)
+- MariaDB Connector/J 3.5.7 (new)
+- Netty 4.1.138.Final, also in the WildFly distribution's own Netty modules (see [Security](#141-security))
+- Monitoring extension: `eximeebpms-enterprise-bpm-spring-boot-monitor` 1.12.0-ee, which replaces the Community artifact `eximeebpms-bpm-spring-boot-monitor` 1.7.0
+
+→ [Tech Stack](https://docs.eximeebpms.org/manual/1.4-ee/introduction/tech-stack/)
+
+#### Other Changes
+
+- The published POMs and the resource adapter descriptor name the actual vendor, **Consdata S.A.**, instead of a non-existent `EximeeBPMS services GmbH`.
+- `eximeebpms-engine-cdi-jakarta:tests-quarkus` no longer contains `ProgrammaticBeanLookupTest` and `SpecializedTestBean`, which Quarkus cannot deploy. The plain test-jar still ships both.
+- Test coverage the build had been silently skipping now runs on every change: the Quarkus extension's test suites, the JUnit 4 tests of the Model API, DMN engine and Spring modules, and the database upgrade path through the 1.2→1.3 and 1.3→1.4 scripts. The API-compatibility check has also been repaired.
+
+### Security {#141-security}
+
+| Notice | Component | CVE | Fixed version |
+| --- | --- | --- | --- |
+| [EXBPMS-14](/security/notices/#notice-exbpms-14) | Netty bundled in WildFly | [CVE-2026-89044](https://github.com/netty/netty/security/advisories/GHSA-hcvj-94mj-jp5c) | Netty → 4.1.138.Final |
+
+WildFly 41.0.1.Final bundles Netty 4.1.137.Final in its own server modules, outside EximeeBPMS's Maven dependencies. The WildFly distribution now overrides those modules with 4.1.138.Final and drops the vulnerable jars at assembly time.
+
+For the full list of security notices, see the [Security Notices](/security/notices/) page.
