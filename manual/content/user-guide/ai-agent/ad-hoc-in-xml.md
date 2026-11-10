@@ -8,14 +8,18 @@ menu:
 ---
 
 {{< note title="Enterprise Edition only" class="warning" >}}
-Worker-driven ad-hoc subprocesses require Enterprise engine support. Edit the
-structural extensions in the BPMN XML; use templates for connector fields.
+Worker-driven ad-hoc subprocesses require Enterprise engine support. Without the
+[EximeeBPMS plugin for Camunda Modeler]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}),
+edit the structural extensions in the BPMN XML; use templates for connector fields.
+With the plugin, the properties panel and the AI Agent template write them.
 {{< /note >}}
 
 ## Add the worker-driven scope
 
 Use Camunda Modeler's Camunda 7 mode. Its `camunda:` namespace is accepted by
-the engine, as is `eximeebpms:` bound to `http://eximeebpms.org/schema/1.0/bpmn`.
+the engine. Write the `adHoc` element, and everything inside it, as
+`eximeebpms:adHoc` in `http://eximeebpms.org/schema/1.0/bpmn`: Camunda Modeler
+without the plugin keeps it, but drops `camunda:adHoc` when it saves the diagram.
 Do not use Zeebe extensions or FEEL expressions in place of JUEL expressions.
 
 The following complete process asks a person one question when the model chooses
@@ -25,6 +29,7 @@ The following complete process asks a person one question when the model chooses
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
     xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+    xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"
     id="agentDefinitions" targetNamespace="https://eximeebpms.org/examples">
   <bpmn:process id="humanAgent" isExecutable="true" camunda:historyTimeToLive="P1D">
     <bpmn:startEvent id="start" />
@@ -39,16 +44,16 @@ The following complete process asks a person one question when the model chooses
           <camunda:inputParameter name="limits.maxModelCalls">10</camunda:inputParameter>
           <camunda:outputParameter name="answer">${execution.getVariableLocalTyped('agent')}</camunda:outputParameter>
         </camunda:inputOutput>
-        <camunda:adHoc outputCollection="toolCallResults">
-          <camunda:outputElement>
-            <camunda:map>
-              <camunda:entry key="id">${toolCall._meta.id}</camunda:entry>
-              <camunda:entry key="name">${toolCall._meta.name}</camunda:entry>
-              <camunda:entry key="content">${toolCallResult}</camunda:entry>
-              <camunda:entry key="source">${execution.getVariableLocal('adHocActivationSource')}</camunda:entry>
-            </camunda:map>
-          </camunda:outputElement>
-        </camunda:adHoc>
+        <eximeebpms:adHoc outputCollection="toolCallResults">
+          <eximeebpms:outputElement>
+            <eximeebpms:map>
+              <eximeebpms:entry key="id">${toolCall._meta.id}</eximeebpms:entry>
+              <eximeebpms:entry key="name">${toolCall._meta.name}</eximeebpms:entry>
+              <eximeebpms:entry key="content">${toolCallResult}</eximeebpms:entry>
+              <eximeebpms:entry key="source">${execution.getVariableLocal('adHocActivationSource')}</eximeebpms:entry>
+            </eximeebpms:map>
+          </eximeebpms:outputElement>
+        </eximeebpms:adHoc>
       </bpmn:extensionElements>
       <bpmn:userTask id="askHuman" name="Approve refund">
         <bpmn:documentation>Ask a human reviewer for approval.</bpmn:documentation>

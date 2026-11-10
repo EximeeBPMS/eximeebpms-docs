@@ -52,7 +52,10 @@ connector's `{{secrets.NAME}}` syntax instead. See
 ## Prepare a model
 
 Create the worker-driven ad-hoc subprocess described by the
-[complete XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}}).
+[complete XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}}), or model
+it in Camunda Modeler with the
+[EximeeBPMS plugin]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}) and the
+**AI Agent** element template.
 Its topic is `org.eximeebpms.agenticai:aiagent-job-worker:1`, and its inputs include
 `provider.ref=default`, a system prompt and a user prompt. Activities directly
 inside it without an incoming sequence flow become candidate tools. Give each

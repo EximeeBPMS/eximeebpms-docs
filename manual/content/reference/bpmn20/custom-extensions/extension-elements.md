@@ -31,8 +31,10 @@ in place, in that namespace, so a round-tripped document can come back declaring
 both.
 
 The [`adHoc`](#adhoc) element of the ad-hoc subprocess is the exception: write it
-as `eximeebpms:adHoc`, which Camunda Modeler keeps; it drops `camunda:adHoc`
-when it saves the diagram. The BPMN Model API writes it as `eximeebpms:adHoc` too.
+as `eximeebpms:adHoc`, which Camunda Modeler keeps; without the
+[EximeeBPMS plugin]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}), which converts
+`camunda:adHoc` when a diagram is opened, the Modeler drops `camunda:adHoc` when it saves the
+diagram. The BPMN Model API writes it as `eximeebpms:adHoc` too.
 A child element the BPMN Model API adds to an element read in the EximeeBPMS namespace
 is written in that namespace as well.
 {{< /note >}}
@@ -51,7 +53,8 @@ The ad-hoc subprocess is executed by EximeeBPMS Enterprise Edition only.
       Configures the activation and the output of an
       <a href="{{< ref "/reference/bpmn20/subprocesses/ad-hoc-subprocess.md" >}}">ad-hoc subprocess</a>.
       Write it, with its child elements, in the EximeeBPMS namespace as <code>eximeebpms:adHoc</code>: the engine
-      reads both forms, but Camunda Modeler drops <code>camunda:adHoc</code> when it saves the diagram.
+      reads both forms, but Camunda Modeler without the EximeeBPMS plugin drops <code>camunda:adHoc</code> when it
+      saves the diagram.
     </td>
   </tr>
   <tr>

@@ -14,6 +14,7 @@ mode. They describe bindings, not a worker embedded in the modeler.
 {{< /note >}}
 
 Choose a modeling path: install an element template for its field guidance,
+together with the [EximeeBPMS plugin for Camunda Modeler]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}),
 or use the [BPMN XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}})
 when editing the model by hand. Both produce the same engine/worker contracts.
 
@@ -21,9 +22,14 @@ when editing the model by hand. Both produce the same engine/worker contracts.
 
 Obtain the JSON templates from `element-templates/src/main/resources/element-templates/`
 in the matching Enterprise Connectors source/release artifact. Copy them into
-the `.camunda/element-templates/` directory beside the BPMN project, reopen the
+the `.camunda/element-templates/` directory beside the BPMN project, or into
+Camunda Modeler's `resources/element-templates` folder for every project, reopen the
 model and select the appropriate element template in its properties. Keep the
 templates together with the model and record which connector version they target.
+
+A web application embedding `bpmn-js` installs them as the npm package
+`@eximeebpms/element-templates`, which each Enterprise Connectors release publishes
+with its version number without `-ee` (Connectors `1.1.0-ee`: package `1.1.0`).
 
 | Template | Id suffix under `org.eximeebpms.connectors.` | Use |
 | --- | --- | --- |
@@ -41,12 +47,14 @@ response and limit fields. Blank optional fields preserve defaults.
 
 ## Prepare the agent's subprocess
 
-Templates do not replace the structural
-[ad-hoc XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}}).
-Verify that the exported element is an `adHocSubProcess`, carries the worker
-topic, and has the complete `adHoc` result collection. Keep structural XML
-editing in that step. Do not assume that a topic field alone turns a regular
-subprocess into an agent.
+Apply the **AI Agent** template to an ad-hoc subprocess, not to a regular one: a
+topic alone does not turn a subprocess into an agent. With the
+[EximeeBPMS plugin]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}), applying it
+also creates the `eximeebpms:adHoc` result collection the agent expects. Without
+the plugin the template cannot create it; add it as the
+[ad-hoc XML recipe]({{< ref "/user-guide/ai-agent/ad-hoc-in-xml.md" >}}) shows.
+Either way, verify that the exported element is an `adHocSubProcess`, carries the
+worker topic, and has the complete `adHoc` result collection.
 
 ## Inspect the exported model
 
