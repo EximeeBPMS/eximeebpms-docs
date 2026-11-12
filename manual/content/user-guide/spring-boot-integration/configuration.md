@@ -393,7 +393,7 @@ The available properties are as follows:
 <tr><td colspan="4"><b>Datasource</b></td></tr>
 
 <tr>
-<td rowspan="7"><code>eximeebpms.bpm.database</code></td>
+<td rowspan="6"><code>eximeebpms.bpm.database</code></td>
 <td><code>.schema-update</code></td>
 <td>If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create]</td>
 <td><code>true</code></td>
@@ -427,15 +427,8 @@ See the <a href="{{<ref "/user-guide/process-engine/database/database-configurat
 
 <tr>
 <td><code>.utc-dates-enabled</code></td>
-<td>Stores every date in the database as UTC instead of the time zone of the JVM, records that in the database and refuses to start on a database whose
-dates were not migrated. Existing databases must be migrated first, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.</td>
-<td><code>false</code></td>
-</tr>
-
-<tr>
-<td><code>.time-zone</code></td>
-<td>Time zone ID of the stored dates, e.g. <code>Europe/Warsaw</code>. Only with <code>utc-dates-enabled</code>, and only as a transitional setting for a database that has not been migrated to UTC yet.</td>
-<td><code>UTC</code></td>
+<td>Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM, unset selects automatically (UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing unmarked database). Existing databases are migrated with the scripts, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.</td>
+<td><i>unset (automatic)</i></td>
 </tr>
 
 <tr><td colspan="4"><b>Eventing</b></td></tr>

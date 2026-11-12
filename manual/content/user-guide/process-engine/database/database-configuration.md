@@ -30,8 +30,8 @@ The data source that is constructed based on the provided JDBC properties will h
 
 ## Dates in UTC
 
-With `databaseUtcDatesEnabled` (`false` by default) the engine stores every date as a UTC wall-clock value, independent of the time zone of the JVM, of the database server and of the JDBC driver. This removes the ambiguity of the hour that is repeated when the clocks go back at the end of daylight saving time.
-Existing databases must be migrated first: see [Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}}). `databaseTimeZone` is a transitional setting for a database that has not been migrated yet.
+The engine selects automatically how it stores dates: a new database stores every date as a UTC wall-clock value, independent of the time zone of the JVM, of the database server and of the JDBC driver, and so does a migrated one. This removes the ambiguity of the hour that is repeated when the clocks go back at the end of daylight saving time.
+An existing database keeps the time zone of the JVM until it is migrated. `databaseUtcDatesEnabled` overrides the selection (`true` forces UTC, `false` forces the local-time storage; unset is automatic). See [Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}}).
 
 ## Jdbc Batch Processing
 

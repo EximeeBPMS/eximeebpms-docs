@@ -17,12 +17,24 @@ This change is delivered in the Enterprise Edition engine. The version that cont
 [release notes]({{< ref "/release-notes/release-notes-1.4-ee.md" >}}).
 {{< /note >}}
 
-The engine can store every date in the database as a UTC wall-clock `TIMESTAMP`, independent of the time zone of the
-JVM, of the database server and of the JDBC driver. Earlier versions stored dates in the **default time zone of the JVM**.
-**In this version the UTC storage is off by default** (`databaseUtcDatesEnabled`): updating changes nothing about how dates are stored,
-and the problem described below stays in force until you migrate the existing dates and turn the setting on.
-The database columns carry no time zone, so in a time zone with daylight saving time (DST) the hour that is repeated when the
-clocks go back (for example 02:00-03:00 in Europe/Warsaw on the last Sunday of October) is stored ambiguously.
+The engine stores every date in the database as a UTC wall-clock `TIMESTAMP`, independent of the time zone of the
+JVM, of the database server and of the JDBC driver, **in every new installation**. Earlier versions stored dates in the **default time zone of the JVM**,
+and an existing database keeps doing so until its dates are migrated. The database columns carry no time zone, so in a time zone with daylight saving time (DST)
+the hour that is repeated when the clocks go back (for example 02:00-03:00 in Europe/Warsaw on the last Sunday of October) is stored ambiguously in a database that holds local times.
+
+The storage is selected **automatically** (`AUTO`, the default) from the database itself, so that nothing has to be configured: a **new database** uses UTC from the first date it stores,
+an **existing database** keeps its local-time storage until it is migrated, and a **migrated database** uses UTC from its next start, with the same configuration.
+
+{{< note title="An existing installation keeps its local-time storage until you migrate" class="warning" >}}
+Updating does not change how an existing database stores dates, so the daylight-saving-time problem below stays in force for it. Migrate the dates with the script for your database, with all nodes stopped,
+before the next clock change in your time zone. The engine logs the warning `ENGINE-03120` at every start of such a database.
+{{< /note >}}
+
+{{< note title="UTC storage becomes mandatory in the next version" class="warning" >}}
+Keeping the local-time storage of an existing database is possible only in this version. From the next version on, UTC storage is **not optional any more**:
+an engine that starts on a database without the marker `UTC` (an existing database whose dates were not migrated) **will refuse to start**.
+Migrate the dates in this version, at a time of your choosing, so that the update to the next version needs no maintenance window for it.
+{{< /note >}}
 
 ## What went wrong before
 
@@ -41,63 +53,53 @@ in a time zone without DST. With the UTC storage turned on, the stored values do
 
 ## What changes
 
-| | Default (`databaseUtcDatesEnabled` off) | `databaseUtcDatesEnabled` on |
+How the engine selects the storage (`AUTO`), once, at start, before it reads or writes any date:
+
+| The database at start | Dates are stored | Marker `eximeebpms.database.time.zone` in `ACT_GE_PROPERTY` |
 |---|---|---|
-| Dates in the database | Local time of the JVM, as before | UTC |
-| Time zone record in the database | none is written, the record is only read | `ACT_GE_PROPERTY` row `eximeebpms.database.time.zone`, checked at every start |
-| Start on a database written by an earlier version | Starts as before | **Refuses to start** until the data is migrated (or its zone declared) |
-| Start on a database that already records a zone | **Refuses to start** if the zone is not the zone of the JVM, `ENGINE-03116` | Starts if the record equals the configured zone |
-| Setting `databaseTimeZone` | ignored | zone of the stored dates, default `UTC` |
-| REST API, webapps, BPMN date expressions | JVM time zone | **unchanged**, JVM time zone |
+| **No engine tables yet** (the schema is created now: by the engine, by Liquibase or by the SQL create scripts) | In **UTC**, from the first date | Written by the schema creation, value `UTC` |
+| **Existing schema without a marker**, with or without data | In the time zone of the JVM, **as before**; warning `ENGINE-03120` at every start | none |
+| **Marker `UTC`** (a new database, or one migrated with the script) | In **UTC** | `UTC` |
+| **Marker with another value** | The engine **refuses to start**, `ENGINE-03114` | other |
 
-With the setting **off** the engine stores dates as before and writes no record. The only case in which it then refuses to start is a database that already records a zone: at start it
-reads the record `eximeebpms.database.time.zone`, and if the recorded zone is not the zone of the JVM (the database was migrated, or the setting was turned on, and then turned off again), it
-**refuses to start** with `ENGINE-03116`, because it would read the stored dates in the wrong zone and shift all of them. A recorded zone that is the zone of the JVM does no harm and does not stop the start,
-so running the JVM in the recorded zone (for example `-Duser.timezone=UTC` for a database recorded as `UTC`) is a way out besides turning the setting on or restoring a backup.
-If `databaseTimeZone` is set while the setting is off, the engine logs the warning `ENGINE-03117` and ignores it.
-The other differences to earlier versions are the schema patch (see [Before you start](#before-you-start)) and the UTC time of the first row of `ACT_GE_SCHEMA_LOG` in a newly created database.
+Dates in the REST API, the web applications and BPMN date expressions are **unchanged**: they use the time zone of the JVM.
 
-With the setting **on** the engine records the time zone of the stored dates in the property `eximeebpms.database.time.zone` and checks it at every start:
+What counts as a new database is the **creation of the schema**, not an absence of data: a schema that exists with empty business tables is an existing database and stays in local time
+until it is migrated. `databaseSchemaUpdate=drop-create` always drops and creates the schema, so it is a new one. An ordinary update or patch never writes the marker. The schema creation scripts do: the engine's own creation, the Liquibase changelog (a fresh schema, not an update of an existing one)
+and the SQL files `activiti.<database>.create.engine.sql`; the engine does not run its create script on a schema that already has the table `ACT_GE_PROPERTY` but lacks the engine tables, and stops with `ENGINE-03122` instead, because that script writes the marker. Rolling a schema change back does not remove the marker. The migration scripts below convert the dates and write the marker in one transaction.
+The only other way the marker is written is an explicit `databaseUtcDatesEnabled=true` on a database that holds no data yet. Data, for this check, means a deployment, an execution, a job (also the cleanup job an engine creates at start), a historic process instance or a task: a database that holds only users or metrics counts as one without data.
 
-| Situation | Behavior |
-|---|---|
-| New database, `databaseTimeZone` not set | Starts, records `UTC` |
-| Record equals the effective zone | Starts |
-| Record differs from the configured zone (`databaseTimeZone`, or `UTC`) | **Refuses to start**, `ENGINE-03114` |
-| Database with data, no record, `databaseTimeZone` not set | **Refuses to start**, `ENGINE-03112` |
-| Database with data, no record, `databaseTimeZone` set to the zone used so far | Starts, records that zone, logs warning `ENGINE-03115` at every start |
+The mode is selected **before** the engine binds its date handlers, so it cannot change while the engine runs. If another node creates the schema or migrates the data while a node is starting, that node
+stops with `ENGINE-03121` instead of working with a stale decision: stop **all** nodes for a migration and start them together afterwards.
 
-Refusing to start is deliberate: starting on data written in local time as if it were UTC would silently move every date by one or two hours.
+The dates are written by the type handlers of the engine's `SqlSessionFactory`. An engine to which an application passes its own `SqlSessionFactory`
+(`setSqlSessionFactory`), or that shares one with other engines (`isUseSharedSqlSessionFactory`), refuses to start (`ENGINE-03118`) when the handlers of that factory do not match the selected storage.
+For a database that stores UTC (a new or a migrated one) such a factory must map the dates with the engine's fixed-zone handlers: call `org.eximeebpms.bpm.engine.impl.db.FixedTimeZoneDateTypeHandler.registerWith(configuration)` on its MyBatis `Configuration` **before** the mappers are parsed.
+Engines that share one factory need the same storage, so one legacy and one UTC database cannot be served by one shared factory.
 
-The engine treats a database as used when it holds a deployment, an execution, a job (also the cleanup job an engine creates at start), a historic process instance or a task.
-A database that holds only other data, for example users or metrics, counts as new and is recorded as `UTC`. The check runs after the schema has been created or updated (`databaseSchemaUpdate`),
-so a refused start can already have created missing tables. If several nodes start for the first time at once on a database that has no record yet, one of them can fail with a duplicate key error
-on databases that read with `REPEATABLE READ` (MySQL default); restart it.
+An explicit setting overrides `AUTO` (see [Override the automatic selection](#override-the-automatic-selection)). It is meant for exceptions, for example forcing the local-time storage of a database
+that should not be switched yet, and it is still subject to the checks above: **`true`** on a database that holds data and has no marker is refused (`ENGINE-03112`), and **`false`** on a database whose marker is not the zone of the JVM is refused
+(`ENGINE-03116`), because the engine would shift all dates.
 
 ## Choose how to upgrade
 
-**Update only.** Apply the schema patch like any other patch (step 5 of [Before you start](#before-you-start); on MySQL and MariaDB it rebuilds six history tables, so plan the window). Dates stay in the time zone of the JVM and the daylight-saving-time defect stays in force.
-Use it until you are ready to migrate, and at least migrate before the next clock change in your time zone.
+**Update only.** Apply the schema patch like any other patch (step 5 of [Before you start](#before-you-start); on MySQL and MariaDB it rebuilds six history tables, so plan the window). An existing database stays in local time
+and the daylight-saving-time defect stays in force for it. Use this until you are ready to migrate, and at least migrate before the next clock change in your time zone.
 
-**Path A, migrate and turn the UTC storage on (recommended).** Stop the engine, apply the schema patch, convert the dates with the script for your database,
-turn `databaseUtcDatesEnabled` on and start. This removes the problem completely.
+**Migrate (recommended).** Stop all nodes, apply the schema patch, convert the dates with the script for your database and start the nodes again. **No configuration change is needed**:
+the script writes the marker, and the next start selects UTC. This removes the problem completely.
 
-**Path B, turn the UTC storage on before migrating.** Turn `databaseUtcDatesEnabled` on and set `databaseTimeZone` to the zone your JVM used so far.
-The engine continues to work on the existing data and records that zone. **The daylight-saving-time defect remains in force until you migrate**, which is why
-the engine logs a warning at every start. Later, migrate with the script and remove `databaseTimeZone`.
+**New installation.** Create the schema with the engine, Liquibase or the SQL create script. The database is marked `UTC` and uses UTC from the first start; there is nothing to migrate.
 
-Turning the setting on is **not a rolling change**: nodes with and without it must not work on the same database at the same time, because they store dates differently.
-The migration needs a maintenance window (an H2 database has no migration script: re-create a throw-away one, or use path B for one you keep).
+The migration is **not a rolling change**: nodes that started before it and nodes that start after it must not work on the same database, because they store dates differently. It needs a maintenance window.
+An H2 database has no migration script: re-create a throw-away one; a database that has to be kept needs the migration done by hand
+(the dates are wall-clock values in the time zone of the JVM that wrote them), and a `UTC` marker written, before it is switched.
 
-## Turn the UTC storage on
+## Override the automatic selection
 
-The following examples are for a **new database or an existing database already migrated to UTC** (path A).
-Keep your existing datasource, transaction and other engine settings. Apply the settings to every engine node
-while all nodes are stopped, then restart them together. Setting the configuration does not convert existing dates.
-
-For path B, also set `databaseTimeZone` to the time zone used to write the existing data, for example `Europe/Warsaw`.
-This is a transitional setting: **the DST defect remains until the data is migrated to UTC**.
-After migration remove that setting (or set it to `UTC`). Never use an abbreviation such as `CET`.
+Normally you configure **nothing**. The following settings force a mode and are meant for exceptions; they do not convert any dates. Apply them to every engine node
+while all nodes are stopped, then restart them together. Keep your existing datasource, transaction and other engine settings. The examples force UTC (`true`); `false` forces the
+local-time storage. Leave the setting unset to return to `AUTO`.
 
 ### Tomcat
 
@@ -109,12 +111,6 @@ In `$CATALINA_BASE/conf/bpm-platform.xml`, add the property to the existing
   <!-- Keep the other existing engine properties here. -->
   <property name="databaseUtcDatesEnabled">true</property>
 </properties>
-```
-
-For path B, add this property to the same element before starting on the existing local-time data:
-
-```xml
-<property name="databaseTimeZone">Europe/Warsaw</property>
 ```
 
 ### WildFly
@@ -130,7 +126,6 @@ find the subsystem `urn:org.eximeebpms.bpm.jboss:1.1`. Add the property to each 
 </properties>
 ```
 
-For path B, add `<property name="databaseTimeZone">Europe/Warsaw</property>` to that same element.
 These are process engine properties, not datasource or job acquisition properties.
 
 ### Spring Boot and EximeeBPMS Run
@@ -144,19 +139,8 @@ eximeebpms:
       utc-dates-enabled: true
 ```
 
-For path B, the database section is:
-
-```yaml
-eximeebpms:
-  bpm:
-    database:
-      utc-dates-enabled: true
-      time-zone: Europe/Warsaw
-```
-
-With `application.properties`, the equivalent UTC configuration is
-`eximeebpms.bpm.database.utc-dates-enabled=true`; for path B also set
-`eximeebpms.bpm.database.time-zone=Europe/Warsaw`.
+With `application.properties`, the equivalent configuration is
+`eximeebpms.bpm.database.utc-dates-enabled=true`.
 
 **Run** uses these same Spring Boot properties. Edit `configuration/default.yml`, or
 `configuration/production.yml` when starting with `--production`. Run already has a top-level
@@ -167,15 +151,13 @@ eximeebpms.bpm:
   # Keep admin-user, run and the other existing settings here.
   database:
     utc-dates-enabled: true
-    # Path B only; remove after migrating the dates to UTC:
-    # time-zone: Europe/Warsaw
 ```
 
 Use the `database` properties, rather than `generic-properties`. Keep the existing `spring.datasource` configuration.
 
 ### Embedded engine
 
-With programmatic configuration, set the properties before `buildProcessEngine()`.
+With programmatic configuration, set the property before `buildProcessEngine()`.
 Here `dataSource` is the datasource already configured by your application:
 
 ```java
@@ -185,21 +167,17 @@ import org.eximeebpms.bpm.engine.impl.cfg.StandaloneProcessEngineConfiguration;
 StandaloneProcessEngineConfiguration configuration = new StandaloneProcessEngineConfiguration();
 configuration.setDataSource(dataSource);
 configuration.setDatabaseUtcDatesEnabled(true);
-// Path B only; remove after migrating the dates to UTC:
-// configuration.setDatabaseTimeZone("Europe/Warsaw");
 ProcessEngine processEngine = configuration.buildProcessEngine();
 ```
 
-For an embedded Spring engine, add JavaBean properties to your existing
+For an embedded Spring engine, add a JavaBean property to your existing
 `org.eximeebpms.bpm.engine.spring.SpringProcessEngineConfiguration` bean:
 
 ```xml
 <property name="databaseUtcDatesEnabled" value="true" />
-<!-- Path B only; remove after migrating the dates to UTC: -->
-<!-- <property name="databaseTimeZone" value="Europe/Warsaw" /> -->
 ```
 
-The same bean properties apply to `StandaloneProcessEngineConfiguration` in `eximeebpms.cfg.xml`.
+The same bean property applies to `StandaloneProcessEngineConfiguration` in `eximeebpms.cfg.xml`.
 Keep the application's existing transaction integration; the standalone example above is for an engine
 that manages its own transactions.
 
@@ -215,7 +193,7 @@ that manages its own transactions.
 6. Plan the resources. The migration rewrites every date column of every row in **one transaction**: on PostgreSQL the tables roughly double in size until `VACUUM`, Oracle needs undo space, SQL Server and Db2 need transaction log
    (a full log on Db2 ends the run with `SQL0964C` and rolls it back). Run history cleanup first, size the log, and take the duration from the rehearsal.
 7. Rehearse on a copy of the production data. Compare the number of rows and a few `DUEDATE_`, `LOCK_EXP_TIME_` and history timestamps before and after. The scripts report how many columns they converted (MySQL: `columns_converted`).
-8. Do not turn `databaseUtcDatesEnabled` on before the migration (path A). Once the database records a zone, do not turn the setting off again: the engine refuses to start (`ENGINE-03116`) rather than read the UTC dates as local ones.
+8. Do not force `databaseUtcDatesEnabled=true` on a database before its migration: the engine refuses to start (`ENGINE-03112`). Once the database is marked `UTC`, do not force the setting to `false` either: the engine refuses to start (`ENGINE-03116`) rather than read the UTC dates as local ones.
 
 ## Run the migration
 
@@ -236,7 +214,7 @@ Tested with PostgreSQL 16. Run with `psql -v ON_ERROR_STOP=1 -f migrate_postgres
 ```sql
 -- EximeeBPMS: migrate all dates of the process engine database to UTC (PostgreSQL).
 -- Run with the engine STOPPED, after a backup, exactly ONCE.
--- Set the zone the engine JVM used until now (the value of 'databaseTimeZone', or the JVM time zone).
+-- Set the zone the engine JVM used until now (the JVM time zone).
 
 BEGIN;
 SET LOCAL bpms.source_zone = 'Europe/Warsaw';   -- <== adjust the zone the engine JVM used
@@ -287,6 +265,11 @@ COMMIT;
 Tested with MySQL 8.4 and MariaDB 11.4. Needs the server time zone tables (`mysql_tzinfo_to_sql`; the official Docker images have them). The script checks this and refuses to run without them.
 Run it connected to the engine database, for example `mysql -u root -p <database> < migrate_mysql.sql`. The source zone is the `@source_zone` line at the top.
 
+`CONVERT_TZ` has a version-dependent supported range. Outside it a server can leave a value unchanged instead of reporting an error. This script therefore supports source dates from `1970-01-02 00:00:00` (inclusive) to `2038-01-01 00:00:00` (exclusive), a conservative range shared by the supported MySQL/MariaDB versions.
+Before updating any dates, it checks every date column and lists all columns containing values outside that range, with row counts. If any exist, it stops without changing the dates or writing the UTC marker.
+
+Such dates can be legitimate, for example a timer due in 2040, or history `REMOVAL_TIME_` calculated from a long time to live. Inspect those rows and prepare a migration using a date-time library that supports their full range and the source zone's rules. Rehearse it on a restored copy and verify the converted values before marking the database as UTC. Do not shorten deadlines, delete business data or change removal times just to make this script pass. Changing a definition's time to live alone does not recalculate removal times already stored in history.
+
 ```sql
 -- EximeeBPMS: migrate all dates of the process engine database to UTC (MySQL / MariaDB).
 -- Run with the engine STOPPED, after a backup, exactly ONCE, connected to the engine database.
@@ -331,7 +314,33 @@ BEGIN
     SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'The database records a different time zone than the given source zone';
   END IF;
 
-  -- the SELECT ... INTO above raises NOT FOUND when no record exists yet; do not let it end the loop
+  -- pass 1: CONVERT_TZ does not convert reliably before 1970 and after 2037 (MariaDB leaves such a value unchanged, MySQL
+  -- ignores summer time after 2037), so list every column that holds a value outside 1970-2037 and stop before anything is changed
+  -- (the SELECT ... INTO above raises NOT FOUND when no record exists yet; do not let it end the loops)
+  SET done = 0;
+  DROP TEMPORARY TABLE IF EXISTS bpms_out_of_range;
+  CREATE TEMPORARY TABLE bpms_out_of_range (table_name VARCHAR(128), column_name VARCHAR(128), row_count BIGINT);
+  OPEN cur;
+  loop_check: LOOP
+    FETCH cur INTO t, c;
+    IF done = 1 THEN
+      LEAVE loop_check;
+    END IF;
+    SET @stmt = CONCAT('INSERT INTO bpms_out_of_range SELECT ''', t, ''', ''', c, ''', COUNT(*) FROM `', t, '` WHERE `', c,
+                       '` < ''1970-01-02 00:00:00'' OR `', c, '` >= ''2038-01-01 00:00:00'' HAVING COUNT(*) > 0');
+    PREPARE s FROM @stmt;
+    EXECUTE s;
+    DEALLOCATE PREPARE s;
+  END LOOP;
+  CLOSE cur;
+  IF EXISTS (SELECT 1 FROM bpms_out_of_range) THEN
+    SELECT table_name, column_name, row_count AS rows_outside_1970_2037 FROM bpms_out_of_range ORDER BY table_name, column_name;
+    DROP TEMPORARY TABLE bpms_out_of_range;
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Dates before 1970 or from 2038 on: see the list above and the migration guide';
+  END IF;
+  DROP TEMPORARY TABLE bpms_out_of_range;
+
+  -- pass 2: convert
   SET done = 0;
   START TRANSACTION;
   OPEN cur;
@@ -340,7 +349,8 @@ BEGIN
     IF done = 1 THEN
       LEAVE loop_columns;
     END IF;
-    SET @stmt = CONCAT('UPDATE `', t, '` SET `', c, '` = CONVERT_TZ(`', c, '`, ?, ''UTC'') WHERE `', c, '` IS NOT NULL');
+    SET @stmt = CONCAT('UPDATE `', t, '` SET `', c, '` = CONVERT_TZ(`', c, '`, ?, ''UTC'') ',
+                       'WHERE `', c, '` IS NOT NULL');
     SET @zone = src;
     PREPARE s FROM @stmt;
     EXECUTE s USING @zone;
@@ -443,7 +453,7 @@ DROP FUNCTION bpms_utc_wall_clock;
 
 ### Microsoft SQL Server
 
-Tested with SQL Server 2025. The source zone is a **Windows** time zone name from `sys.time_zone_info`, for example `Central European Standard Time`, and the script also takes the IANA name of the same zone (`Europe/Warsaw`), the form the engine records, so that a database already started with `databaseTimeZone` (path B) is accepted.
+Tested with SQL Server 2025. The source zone is a **Windows** time zone name from `sys.time_zone_info`, for example `Central European Standard Time`, and the script also takes the IANA name of the same zone (`Europe/Warsaw`), the form in which the engine records a zone, so that a record written for that zone is recognized.
 Run it connected to the engine database, for example `sqlcmd -S <server> -d <database> -U <user> -i migrate_mssql.sql`.
 
 ```sql
@@ -453,7 +463,7 @@ Run it connected to the engine database, for example `sqlcmd -S <server> -d <dat
 -- 1. Adjust the Windows time zone name the engine JVM used until now
 --    (list: SELECT name FROM sys.time_zone_info), e.g. 'Central European Standard Time' for Europe/Warsaw:
 DECLARE @source_zone NVARCHAR(100) = N'Central European Standard Time';
---    and the IANA name of the same zone, as the engine records it (the `databaseTimeZone` value), e.g. 'Europe/Warsaw':
+--    and the IANA name of the same zone (a record of that zone, written by hand, is recognized by it), e.g. 'Europe/Warsaw':
 DECLARE @source_zone_iana NVARCHAR(64) = N'Europe/Warsaw';
 
 SET XACT_ABORT ON;
@@ -511,7 +521,7 @@ Run as the owner of the engine schema with `db2 connect to <database>` and then 
 -- The repeated hour of the clock change is resolved to standard time.
 --
 -- 1. Adjust the two values in the migration block at the end of this file:
---      V_ZONE          the time zone name the engine used (the value of 'databaseTimeZone', or the JVM zone), e.g. Europe/Warsaw
+--      V_ZONE          the time zone name the engine used (the JVM zone), e.g. Europe/Warsaw
 --      V_STD_OFFSET    its standard (winter) offset from UTC in minutes, e.g. 60 for Europe/Warsaw
 
 CREATE OR REPLACE FUNCTION BPMS_LAST_SUNDAY(Y INTEGER, M INTEGER)
@@ -577,15 +587,15 @@ DROP FUNCTION BPMS_LAST_SUNDAY
 
 1. The record exists: `SELECT VALUE_ FROM ACT_GE_PROPERTY WHERE NAME_ = 'eximeebpms.database.time.zone'` returns `UTC`.
 2. A few known dates have the expected value. For Europe/Warsaw a summer date is two hours earlier than before, a winter date one hour earlier.
-3. The engine starts with `databaseUtcDatesEnabled` on, without `databaseTimeZone` (or with `UTC`) and without the errors `ENGINE-03112` or `ENGINE-03114` and without the warning `ENGINE-03115`.
+3. The engine starts without the warning `ENGINE-03120` and without the errors `ENGINE-03112`, `ENGINE-03114`, `ENGINE-03116` or `ENGINE-03121`.
 4. A timer you know is due shows the correct due date in Cockpit (Cockpit shows dates in your local zone).
 
 ## Roll back
 
 Liquibase rollback of the schema change set `1.4.3-to-1.4.4_2` removes its schema-log entry but keeps the MySQL/MariaDB `DATETIME` columns. Older engines can use those columns; converting them back to `TIMESTAMP` can reject dates in a daylight-saving gap. This schema rollback does not undo the UTC data conversion described below.
 
-The scripts do not store the old values. Rolling back means restoring the backup and starting the previous version, or the new version with `databaseUtcDatesEnabled` off (the default) on the restored data, or on with `databaseTimeZone` set to the old zone (path B).
-A database that has been migrated cannot be run with the setting off: restore the backup instead. Do not delete or edit the record by hand: the engine uses it to protect the data.
+The scripts do not store the old values. Rolling back means restoring the backup and starting the previous version, or the new version on the restored data, which is again an existing database in local time.
+A database that has been migrated cannot be run in local time: restore the backup instead. Do not delete or edit the marker by hand: the engine uses it to protect the data.
 
 ## After the migration
 
@@ -601,11 +611,13 @@ A database that has been migrated cannot be run with the setting off: restore th
 
 | Code | Meaning | What to do |
 |---|---|---|
-| `ENGINE-03112` | `databaseUtcDatesEnabled` is on, the database has data but no record of its time zone | Migrate with the script, or declare the zone with `databaseTimeZone` (path B), or turn the setting off |
-| `ENGINE-03114` | The configured zone differs from the recorded one | Set `databaseTimeZone` to the recorded zone, or migrate |
-| `ENGINE-03115` | Warning: dates are not stored in UTC | Migrate to UTC and remove `databaseTimeZone` |
-| `ENGINE-03116` | `databaseUtcDatesEnabled` is off, but the database records a time zone that is not the zone of the JVM: the engine did not start | Turn `databaseUtcDatesEnabled` on (and set `databaseTimeZone` to the recorded zone unless it is `UTC`), or run the JVM in the recorded zone (`-Duser.timezone`), or restore the data from before the migration |
-| `ENGINE-03117` | Warning: `databaseTimeZone` is set but `databaseUtcDatesEnabled` is off, so it is ignored | Turn `databaseUtcDatesEnabled` on, or remove `databaseTimeZone` |
-| `ENGINE-03118` | Engines that share one `SqlSessionFactory` (`isUseSharedSqlSessionFactory`) have different `databaseUtcDatesEnabled` | Give all of them the same value |
+| `ENGINE-03112` | `databaseUtcDatesEnabled` is forced to `true`, the database has data but no marker | Migrate the data with the script (then leave the setting unset), or remove the override |
+| `ENGINE-03114` | The marker records a zone other than `UTC` | The dates are in that zone: run the migration script with that zone as the source zone, or restore a backup |
+| `ENGINE-03116` | `databaseUtcDatesEnabled` is forced to `false`, but the marker is not the zone of the JVM: the engine did not start | Remove the override (a new database is marked `UTC` by its creation too), or run the JVM in the recorded zone (`-Duser.timezone`), or restore the data from before the migration |
+| `ENGINE-03118` | The `SqlSessionFactory` of the engine (supplied with `setSqlSessionFactory`, or shared with `isUseSharedSqlSessionFactory`) has date handlers that do not match the selected storage | Let the engine build the factory, or register the fixed-zone handlers in your own (see above), or give all engines that share a factory the same storage |
+| `ENGINE-03119` | The engine could not read the schema or the marker to select the storage | Check the database connection and the permissions to read the engine tables and the schema metadata |
+| `ENGINE-03120` | Warning: an existing schema without a marker stays in local time | Migrate the dates before the next clock change in your time zone |
+| `ENGINE-03122` | The table `ACT_GE_PROPERTY` exists, but the engine tables are missing (an incomplete schema): the engine did not run its create script | If another node is creating the schema at this moment, wait until it has started and restart this node, without dropping anything; otherwise complete or restore the schema, or drop it and let the engine create it |
+| `ENGINE-03121` | The marker changed while the engine was selecting the storage (another node created the schema or migrated), or the table prefix and `databaseSchema` point to different schemas | Stop all nodes and start them again; check that the table prefix and `databaseSchema` name the same schema |
 
-`ENGINE-03113` is an information message logged when a new database is recorded. After `ENGINE-03112` and `ENGINE-03114` the engine did not start; on a database that has not been migrated and records no zone you can also turn `databaseUtcDatesEnabled` off to run as before.
+`ENGINE-03113` is an information message logged when the engine records `UTC` in a database. After every error in this table the engine did not start.
