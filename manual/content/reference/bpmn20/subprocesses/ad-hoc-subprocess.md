@@ -62,7 +62,8 @@ prepared, the subprocess completes. The case is walked through step by step in
 Write the `adHoc` extension element, its `outputElement` and the values inside it in the EximeeBPMS namespace,
 declared as `xmlns:eximeebpms="http://eximeebpms.org/schema/1.0/bpmn"`. All other extensions, such as
 `camunda:inputOutput`, stay in the `camunda:` namespace. The engine also reads `camunda:adHoc`, but Camunda Modeler
-drops it when it saves the diagram (see [Modeling in Camunda Modeler](#modeling-in-camunda-modeler)). The
+without the EximeeBPMS plugin drops it when it saves the diagram (see
+[Modeling in Camunda Modeler](#modeling-in-camunda-modeler)). The
 [BPMN Model API]({{< ref "/user-guide/model-api/bpmn-model-api/_index.md" >}}) writes a new `adHoc` element as
 `eximeebpms:adHoc`, and edits a `camunda:adHoc` read from a file in place, without converting it.
 
@@ -226,12 +227,17 @@ element of an inner flow ends that inner flow only.
 
 Model ad-hoc subprocesses in Camunda Modeler in **Camunda 7** mode, which writes the `camunda:` extensions the engine
 reads. Draw an expanded subprocess and change its type to *Ad-hoc sub-process*; configure its activities in the
-properties panel as usual. The `adHoc` extension element — `activeElementsCollection`, `outputCollection`,
-`outputElement` — is not in the properties panel: write it in the XML tab, as well as the `completionCondition` if
-your Modeler version does not offer it.
+properties panel as usual.
 
-Write it as `eximeebpms:adHoc`, with `outputElement` and the values inside it in the same namespace, and declare the
-namespace on the `definitions` element:
+With the [EximeeBPMS plugin for Camunda Modeler]({{< ref "/user-guide/ai-agent/modeler-plugin.md" >}}), the properties
+panel also edits the `adHoc` extension element — `activeElementsCollection`, `outputCollection`, `outputElement` —
+and the worker topic, converts `camunda:adHoc` when a diagram is opened, and reports the deployment errors below in
+the *Problems* view.
+
+Without the plugin, the `adHoc` extension element is not in the properties panel: write it in the XML tab, as well as
+the `completionCondition` if your Modeler version does not offer it. Write it as `eximeebpms:adHoc`, with
+`outputElement` and the values inside it in the same namespace, and declare the namespace on the `definitions`
+element:
 
 ```xml
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
@@ -254,11 +260,11 @@ namespace on the `definitions` element:
 </bpmn:definitions>
 ```
 
-Camunda Modeler keeps this element as it is. Do not write `camunda:adHoc`: Camunda Modeler does not know it,
-reports it as unparsable content when it opens the diagram and leaves it out when it saves — also after an edit in
-the XML tab, as soon as you switch back to the diagram and save. A diagram that already contains `camunda:adHoc`
-loses it on its next save in the Modeler; rename the element and its children to the `eximeebpms:` prefix in the XML
-tab first.
+Camunda Modeler keeps this element as it is. Do not write `camunda:adHoc`: Camunda Modeler without the plugin does
+not know it, reports it as unparsable content when it opens the diagram and leaves it out when it saves — also after
+an edit in the XML tab, as soon as you switch back to the diagram and save. A diagram that already contains
+`camunda:adHoc` loses it on its next save in the Modeler without the plugin; rename the element and its children to
+the `eximeebpms:` prefix in the XML tab first, or open it with the plugin, which converts it.
 
 Camunda 8 mode cannot be used: it writes `zeebe:` extensions and FEEL expressions, which the engine does not read
 or evaluate. A Camunda 8 diagram with a service task fails to deploy, and its ad-hoc settings would be ignored.
