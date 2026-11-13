@@ -67,7 +67,7 @@ Dates in the REST API, the web applications and BPMN date expressions are **unch
 What counts as a new database is the **creation of the schema**, not an absence of data: a schema that exists with empty business tables is an existing database and stays in local time
 until it is migrated. `databaseSchemaUpdate=drop-create` always drops and creates the schema, so it is a new one. An ordinary update or patch never writes the marker. The schema creation scripts do: the engine's own creation, the Liquibase changelog (a fresh schema, not an update of an existing one)
 and the SQL files `activiti.<database>.create.engine.sql`; the engine does not run its create script on a schema that already has the table `ACT_GE_PROPERTY` but lacks the engine tables, and stops with `ENGINE-03122` instead, because that script writes the marker. Rolling a schema change back does not remove the marker. The migration scripts below convert the dates and write the marker in one transaction.
-The only other way the marker is written is an explicit `databaseUtcDatesEnabled=true` on a database that holds no data yet. Data, for this check, means a deployment, an execution, a job (also the cleanup job an engine creates at start), a historic process instance or a task: a database that holds only users or metrics counts as one without data.
+The only other way the marker is written is an explicit `databaseUtcDatesEnabled=true` on a database that holds no data yet. Data, for this check, means a deployment, an execution, a job (also the cleanup job an engine creates at start), a historic process instance or a task, a historic task instance, an operation log entry or a logged metric: a database that holds only users or authorizations counts as one without data.
 
 The mode is selected **before** the engine binds its date handlers, so it cannot change while the engine runs. If another node creates the schema or migrates the data while a node is starting, that node
 stops with `ENGINE-03121` instead of working with a stale decision: stop **all** nodes for a migration and start them together afterwards.
@@ -78,8 +78,7 @@ For a database that stores UTC (a new or a migrated one) such a factory must map
 Engines that share one factory need the same storage, so one legacy and one UTC database cannot be served by one shared factory.
 
 An explicit setting overrides `AUTO` (see [Override the automatic selection](#override-the-automatic-selection)). It is meant for exceptions, for example forcing the local-time storage of a database
-that should not be switched yet, and it is still subject to the checks above: **`true`** on a database that holds data and has no marker is refused (`ENGINE-03112`), and **`false`** on a database whose marker is not the zone of the JVM is refused
-(`ENGINE-03116`), because the engine would shift all dates.
+that should not be switched yet, and it is still subject to the checks above: **`true`** on a database that holds data and has no marker is refused (`ENGINE-03112`), and **`false`** on a database whose marker is not the zone of the JVM is refused, because the engine would shift all dates: with `ENGINE-03116` when the database holds data, and with `ENGINE-03123` when it holds none yet, which is the case of a **new** database, because its creation marked it `UTC` (leave the setting unset there).
 
 ## Choose how to upgrade
 
@@ -193,7 +192,7 @@ that manages its own transactions.
 6. Plan the resources. The migration rewrites every date column of every row in **one transaction**: on PostgreSQL the tables roughly double in size until `VACUUM`, Oracle needs undo space, SQL Server and Db2 need transaction log
    (a full log on Db2 ends the run with `SQL0964C` and rolls it back). Run history cleanup first, size the log, and take the duration from the rehearsal.
 7. Rehearse on a copy of the production data. Compare the number of rows and a few `DUEDATE_`, `LOCK_EXP_TIME_` and history timestamps before and after. The scripts report how many columns they converted (MySQL: `columns_converted`).
-8. Do not force `databaseUtcDatesEnabled=true` on a database before its migration: the engine refuses to start (`ENGINE-03112`). Once the database is marked `UTC`, do not force the setting to `false` either: the engine refuses to start (`ENGINE-03116`) rather than read the UTC dates as local ones.
+8. Do not force `databaseUtcDatesEnabled=true` on a database before its migration: the engine refuses to start (`ENGINE-03112`). Once the database is marked `UTC`, do not force the setting to `false` either: the engine refuses to start (`ENGINE-03116`, or `ENGINE-03123` when the database holds no data yet) rather than read the UTC dates as local ones.
 
 ## Run the migration
 
@@ -587,7 +586,7 @@ DROP FUNCTION BPMS_LAST_SUNDAY
 
 1. The record exists: `SELECT VALUE_ FROM ACT_GE_PROPERTY WHERE NAME_ = 'eximeebpms.database.time.zone'` returns `UTC`.
 2. A few known dates have the expected value. For Europe/Warsaw a summer date is two hours earlier than before, a winter date one hour earlier.
-3. The engine starts without the warning `ENGINE-03120` and without the errors `ENGINE-03112`, `ENGINE-03114`, `ENGINE-03116` or `ENGINE-03121`.
+3. The engine starts without the warning `ENGINE-03120` and without the errors `ENGINE-03112`, `ENGINE-03114`, `ENGINE-03116`, `ENGINE-03121` or `ENGINE-03123`.
 4. A timer you know is due shows the correct due date in Cockpit (Cockpit shows dates in your local zone).
 
 ## Roll back
@@ -613,9 +612,10 @@ A database that has been migrated cannot be run in local time: restore the backu
 |---|---|---|
 | `ENGINE-03112` | `databaseUtcDatesEnabled` is forced to `true`, the database has data but no marker | Migrate the data with the script (then leave the setting unset), or remove the override |
 | `ENGINE-03114` | The marker records a zone other than `UTC` | The dates are in that zone: run the migration script with that zone as the source zone, or restore a backup |
-| `ENGINE-03116` | `databaseUtcDatesEnabled` is forced to `false`, but the marker is not the zone of the JVM: the engine did not start | Remove the override (a new database is marked `UTC` by its creation too), or run the JVM in the recorded zone (`-Duser.timezone`), or restore the data from before the migration |
+| `ENGINE-03116` | `databaseUtcDatesEnabled` is forced to `false`, but the database holds data and its marker is not the zone of the JVM: the engine did not start | Remove the override (a new database is marked `UTC` by its creation too), or run the JVM in the recorded zone (`-Duser.timezone`), or restore the data from before the migration |
+| `ENGINE-03123` | `databaseUtcDatesEnabled` is forced to `false` on a database that is marked `UTC` and holds no data yet, typically a new one: the engine did not start | Remove the override: a new database always stores UTC |
 | `ENGINE-03118` | The `SqlSessionFactory` of the engine (supplied with `setSqlSessionFactory`, or shared with `isUseSharedSqlSessionFactory`) has date handlers that do not match the selected storage | Let the engine build the factory, or register the fixed-zone handlers in your own (see above), or give all engines that share a factory the same storage |
-| `ENGINE-03119` | The engine could not read the schema or the marker to select the storage | Check the database connection and the permissions to read the engine tables and the schema metadata |
+| `ENGINE-03119` | The engine could not read the marker to select the storage (an error other than a missing table) | Check the database connection and the permissions to read the engine tables |
 | `ENGINE-03120` | Warning: an existing schema without a marker stays in local time | Migrate the dates before the next clock change in your time zone |
 | `ENGINE-03122` | The table `ACT_GE_PROPERTY` exists, but the engine tables are missing (an incomplete schema): the engine did not run its create script | If another node is creating the schema at this moment, wait until it has started and restart this node, without dropping anything; otherwise complete or restore the schema, or drop it and let the engine create it |
 | `ENGINE-03121` | The marker changed while the engine was selecting the storage (another node created the schema or migrated), or the table prefix and `databaseSchema` point to different schemas | Stop all nodes and start them again; check that the table prefix and `databaseSchema` name the same schema |

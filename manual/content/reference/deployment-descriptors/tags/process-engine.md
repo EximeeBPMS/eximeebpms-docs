@@ -572,7 +572,7 @@ Default is <code><strong>true</strong></code>, but this has to be disabled for s
 <td><code>databaseUtcDatesEnabled</code></td>
 <td>Boolean</td>
 <td>
-Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM. When not set the engine selects automatically: UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing database without a marker.
+Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM of an existing database that has not been migrated (a database already marked UTC refuses it, unless the JVM runs in UTC). When not set the engine selects automatically: UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing database without a marker.
 See <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.
 </td>
 </tr>

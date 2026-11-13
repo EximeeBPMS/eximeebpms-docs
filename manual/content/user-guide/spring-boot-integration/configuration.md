@@ -427,7 +427,7 @@ See the <a href="{{<ref "/user-guide/process-engine/database/database-configurat
 
 <tr>
 <td><code>.utc-dates-enabled</code></td>
-<td>Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM, unset selects automatically (UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing unmarked database). Existing databases are migrated with the scripts, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.</td>
+<td>Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM of an existing database that has not been migrated (a database already marked UTC refuses it, unless the JVM runs in UTC), unset selects automatically (UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing unmarked database). Existing databases are migrated with the scripts, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.</td>
 <td><i>unset (automatic)</i></td>
 </tr>
 
