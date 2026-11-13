@@ -150,6 +150,8 @@ The engine create script in `eximeebpms-sql-scripts` of these versions does not 
 
 When you apply the patch scripts by hand, skip one whose table does not exist: the engine creates `ACT_RU_BUS_EVT_OBX` only with business events enabled and `ACT_RU_SCRIPT_VIOLATION` only when Script Guard is not `DISABLED`, each with its index. On MySQL and MariaDB, `_2` also changes `ACT_RU_SCRIPT_VIOLATION.TIMESTAMP_` from `timestamp(3)` to `datetime(3)`. This rewrites the table, blocking violation writes while it runs, and stores each value in the session time zone, so run it with the time zone the engine's connections use.
 
+The patch script `$DATABASENAME_engine_1.4_patch_1.4.3_to_1.4.4_2.sql` belongs to the change that stores dates in UTC ([Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}})). On MySQL and MariaDB it changes six history columns from `timestamp` to `datetime`: `ACT_HI_IDENTITYLINK.TIMESTAMP_`, `ACT_HI_OP_LOG.TIMESTAMP_`, `ACT_HI_INCIDENT.CREATE_TIME_` and `END_TIME_`, `ACT_HI_EXT_TASK_LOG.TIMESTAMP_` and `ACT_HI_ADHOC_TURN.TIMESTAMP_`. A `timestamp` column is read and written in the session time zone and rejects the UTC hour that does not exist locally at the start of daylight saving time. The change rewrites those tables, blocking history writes while it runs, so run it with the time zone the engine's connections use. On the other databases the script only records the schema version. Liquibase skips it when the history tables do not exist.
+
 # Entity Relationship Diagrams
 
 {{< note title="" class="info" >}}

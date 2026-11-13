@@ -1,7 +1,7 @@
 ---
 
 title: 'Time zones'
-description: "The engine uses the default time zone of the JVM for dates in BPMN XML, REST responses and database values."
+description: "The engine uses the default time zone of the JVM for dates in BPMN XML and REST responses; dates in the database are stored in UTC in new databases and in migrated ones."
 weight: 255
 
 menu:
@@ -17,21 +17,22 @@ The EximeeBPMS engine uses the default time zone of the JVM when operating with 
 
 * When reading datetime values from BPMN XML
 * In REST responses
-* When reading/writing DateTime values from/to the database
+* When calculating timer durations such as `P1D` (a calendar day in the JVM time zone) or `P3D`; `PT72H` is exactly 72 hours and `P1W` exactly 168 hours
 
 ## Database
 
-Database time zone and database sessions time zone are out of scope of the EximeeBPMS engine and must be configured explicitly.
+A **new database** stores dates in **UTC**, independent of the time zone of the JVM, of the database server and of its sessions.
+The engine selects this automatically: the schema creation records it in `ACT_GE_PROPERTY` (`eximeebpms.database.time.zone`, value `UTC`) and the engine refuses to start on a database whose recorded zone is not UTC.
+An **existing database** keeps storing dates in the **default time zone of the JVM**, as in earlier versions, until its dates are migrated. That makes timestamps ambiguous when the clocks go back at the end of daylight saving time
+(external task locks and timers could be handed out or fired up to an hour early); the engine logs a warning at every start of such a database.
+Timestamp columns use the `TIMESTAMP [WITHOUT TIME ZONE]` data type (the name differs in different database servers; `DATETIME` on MySQL and MariaDB) and hold UTC wall-clock values.
+The time zone of the database server is irrelevant for the engine.
 
-However, Timestamp columns in the EximeeBPMS engine are using the `TIMESTAMP [WITHOUT TIME ZONE]` data type (the name differs in different database servers).
-For this reason, it is not recommended to change the time zone on the database side once set, since it may lead to an incorrect operation of the EximeeBPMS engine.
+Existing installations migrate their data once, with all nodes stopped; the next start then selects UTC without any configuration change. The local-time storage of an existing database is possible only in this version; **from the next version on, UTC storage is mandatory**:
+see [Database Time Zone: Migrating Dates to UTC]({{< ref "/update/database-time-zone.md" >}}).
 
-{{< note title="Daylight Saving Time" class="warning" >}}
-Timezone information is not saved in the timestamp columns. In order to avoid ambiguous timestamps, it is recommended to use a timezone like `UTC` as the JVM's default timezone 
-that is not adjusted for `Daylight Saving Time (DST)` and therefore cannot produce ambiguous timestamps.
-
-If this is not an option in your setting, please consider disabling the [JobExecutor]({{< ref "/user-guide/process-engine/the-job-executor.md" >}}) during the DST switch in order
-to avoid unexpected job executions. 
+{{< note title="Direct database access" class="info" >}}
+In a database that stores UTC (a new or a migrated one), reports and queries that read the date columns directly see UTC values and must convert them to a local time zone themselves.
 {{< /note >}}
 
 ## EximeeBPMS Web Applications

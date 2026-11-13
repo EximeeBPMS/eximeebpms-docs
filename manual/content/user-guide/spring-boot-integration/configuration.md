@@ -393,7 +393,7 @@ The available properties are as follows:
 <tr><td colspan="4"><b>Datasource</b></td></tr>
 
 <tr>
-<td rowspan="5"><code>eximeebpms.bpm.database</code></td>
+<td rowspan="6"><code>eximeebpms.bpm.database</code></td>
 <td><code>.schema-update</code></td>
 <td>If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create]</td>
 <td><code>true</code></td>
@@ -423,6 +423,12 @@ The available properties are as follows:
 It has to be disabled for some databases.
 See the <a href="{{<ref "/user-guide/process-engine/database/database-configuration.md#jdbc-batch-processing" >}}">user guide</a> for further details.</td>
 <td><i>EximeeBPMS default value: true</i></td>
+</tr>
+
+<tr>
+<td><code>.utc-dates-enabled</code></td>
+<td>Optional override of the automatic date storage: <code>true</code> forces UTC, <code>false</code> forces the time zone of the JVM of an existing database that has not been migrated (a database already marked UTC refuses it, unless the JVM runs in UTC), unset selects automatically (UTC for a new schema and for a schema marked UTC by the migration, the time zone of the JVM for an existing unmarked database). Existing databases are migrated with the scripts, see <a href="{{<ref "/update/database-time-zone.md" >}}">Database Time Zone: Migrating Dates to UTC</a>.</td>
+<td><i>unset (automatic)</i></td>
 </tr>
 
 <tr><td colspan="4"><b>Eventing</b></td></tr>
