@@ -60,13 +60,9 @@ Up to and including 1.4.0 and 1.3.3-ee, `process-instance:start` was written aft
 
 A few events deliberately differ from history:
 
-* `job:fail` is published **once**, when a job has exhausted its retries, and again each time a job that already has none fails (for example when executed manually). History records every failed attempt. It is written in the transaction that records the failure, right before the `incident:create` of the failed-job incident, and its `jobRetries` is `0`.
+* `job:fail` is published **once**, when a job has exhausted its retries. History records every failed attempt.
 * `task-instance:update` is published for every task update as it happens. History records one combined update at the end of the command.
 * Ending a task publishes `identity-link-delete:delete-identity-link` for each of its identity links. History keeps them.
-
-{{< note title="Up to and including 1.4.0 and 1.4.3-ee" class="warning" >}}
-`job:fail` was written in a separate transaction, which needed a second database connection while the failure was being recorded. With the connection pool exhausted, recording the failure was rolled back: the job kept its retries and could be retried again and again without ever reaching an incident. The event's `jobRetries` showed the retries before the last attempt, and the event was kept even when recording the failure was rolled back.
-{{< /note >}}
 
 This order holds within one engine transaction and between transactions that follow one another, such as a process start and a later task completion. Events of different transactions that run concurrently are not ordered relative to each other.
 
