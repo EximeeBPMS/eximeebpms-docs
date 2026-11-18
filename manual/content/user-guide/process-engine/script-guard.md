@@ -15,6 +15,12 @@ Script Guard is an EximeeBPMS feature that inspects scripts before execution and
 
 Script Guard applies to all scripts executed by the process engine: Script Tasks, Execution Listeners, Task Listeners, Condition Expressions, and Input/Output Mappings, as well as scripts submitted dynamically via the REST API or Java API.
 
+Script Guard also checks JUEL expressions (`${...}`, `#{...}`) when the engine evaluates them: expressions in a process model — for example an assignee, a delegate expression, a condition, or a listener `expression` — and expressions in stored filters and queries sent through the REST API or Java API. An expression is checked each time it is evaluated, not when the process is deployed: a forbidden expression in an assignee, for example, deploys without error and is blocked in `ENFORCE` mode when the task is created. This applies to the built-in expression managers of the Tomcat distribution, EximeeBPMS Run, Spring Boot, and the CDI and Quarkus integrations; a custom expression manager is checked only if it implements `ScriptSecurityAware`. A violation in an expression is recorded with source type `EXPRESSION`.
+
+{{< note title="" class="info" >}}
+JUEL expressions in DMN decisions (input entries, output entries, and literal expressions) are not checked by Script Guard.
+{{< /note >}}
+
 # Enforcement Modes
 
 Script Guard operates in three modes:
@@ -195,7 +201,7 @@ Script Guard stores its runtime configuration and violation records in the datab
 
 # Allowlisting Process Definitions
 
-Processes that intentionally use constructs blocked by the policy can be placed on an allowlist. Scripts belonging to allowlisted processes skip all security checks.
+Processes that intentionally use constructs blocked by the policy can be placed on an allowlist. Scripts belonging to allowlisted processes skip all security checks. Expressions in stored filters and queries have no process definition key, so the allowlist cannot exempt them.
 
 The allowlist's *initial* value can be set statically — in `application.yml` (Spring Boot) or `bpm-platform.xml` (Tomcat/plain XML) — see [Configuration](#configuration). From the first engine start onward it lives in the `ACT_GE_PROPERTY` table and can only be changed via the [REST API](#rest-api); static configuration is not consulted again. Updates propagate to all engine nodes within 30 seconds.
 
@@ -208,7 +214,7 @@ Allowlisting disables all Script Guard checks for the listed processes. Prefer e
 Whenever a script triggers a rule — in either `ENFORCE` or `AUDIT` mode — Script Guard records a **violation event** containing:
 
 - Timestamp of the violation
-- Process definition key and activity ID of the offending script
+- Process definition key and activity ID of the offending script, when available — an expression violation has no activity ID, and an expression in a filter or query has no process definition key either
 - Scripting language (e.g., `groovy`, `javascript`)
 - Source type: `INLINE_SOURCE`, `DYNAMIC_SOURCE`, `RESOURCE`, `DYNAMIC_RESOURCE`, `EXPRESSION`, or `UNKNOWN`
 - Script origin: `USER`, `PROCESS_APPLICATION`, or `PLATFORM`
@@ -332,7 +338,7 @@ Returns the total number of violations recorded since the engine started.
 
 # External Validation Module
 
-The same rule set Script Guard enforces inside the engine is also available as a standalone library, with no dependency on the process engine. Add it to a process-design tool, a CI pipeline, or any other pre-deployment tooling to check a script or expression before ever attempting to deploy the process definition that contains it — instead of only finding out from a rejected deployment.
+The same rule set Script Guard enforces inside the engine is also available as a standalone library, with no dependency on the process engine. Add it to a process-design tool, a CI pipeline, or any other pre-deployment tooling to check a script or expression before ever attempting to deploy the process definition that contains it — instead of only finding out from a rejected deployment or, for a JUEL expression, from a failure when the engine evaluates it.
 
 ## Adding the Dependency
 
@@ -357,7 +363,7 @@ if (!result.isClean()) {
 ```
 
 {{< note title="" class="info" >}}
-`ScriptValidationResult` reports rule matches only — it never returns an `ENFORCE`/`AUDIT`/`DENY` outcome. Whether a match actually blocks deployment depends on the target engine instance's own configured [mode](#enforcement-modes), which this module has no way to know. Use it to catch a violation before deploying; the engine's own enforcement is still authoritative at deploy time.
+`ScriptValidationResult` reports rule matches only — it never returns an `ENFORCE`/`AUDIT`/`DENY` outcome. Whether a match actually blocks deployment — or, for a JUEL expression, its evaluation at runtime — depends on the target engine instance's own configured [mode](#enforcement-modes), which this module has no way to know. Use it to catch a violation before deploying; the engine's own enforcement is still authoritative.
 {{< /note >}}
 
 Rule codes and reasons reported here are identical to the ones in [Blocked Patterns](#blocked-patterns) and the ones recorded in [Violation Monitoring](#violation-monitoring) — the engine and this module share one rule set, so the two can never disagree.
