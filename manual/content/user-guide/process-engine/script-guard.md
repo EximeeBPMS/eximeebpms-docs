@@ -15,7 +15,9 @@ Script Guard is an EximeeBPMS feature that inspects scripts before execution and
 
 Script Guard applies to all scripts executed by the process engine: Script Tasks, Execution Listeners, Task Listeners, Condition Expressions, and Input/Output Mappings, as well as scripts submitted dynamically via the REST API or Java API.
 
-Script Guard also checks JUEL expressions (`${...}`, `#{...}`) when the engine evaluates them: expressions in a process model — for example an assignee, a delegate expression, a condition, or a listener `expression` — and expressions in stored filters and queries sent through the REST API or Java API. An expression is checked each time it is evaluated, not when the process is deployed: a forbidden expression in an assignee, for example, deploys without error and is blocked in `ENFORCE` mode when the task is created. This applies to the built-in expression managers of the Tomcat distribution, EximeeBPMS Run, Spring Boot, and the CDI and Quarkus integrations; a custom expression manager is checked only if it implements `ScriptSecurityAware`. A violation in an expression is recorded with source type `EXPRESSION`.
+Script Guard also checks JUEL expressions (`${...}`, `#{...}`) when the engine evaluates them: expressions in a process model — for example an assignee, a delegate expression, a sequence-flow condition without a `language`, or a listener `expression` — and expressions in stored filters and queries sent through the REST API or Java API. A sequence-flow condition with a `language` attribute is a script, and its inline text is also checked at deployment; an expression is checked each time it is evaluated, not when the process is deployed: a forbidden expression in an assignee, for example, deploys without error and is blocked in `ENFORCE` mode when the task is created. This applies to the built-in expression managers of the Tomcat and WildFly distributions, EximeeBPMS Run, Spring Boot, and the CDI and Quarkus integrations; an expression manager of your own is checked only if it receives the policy through `ScriptSecurityAware` and applies it when an expression is evaluated, as the built-in ones do. A violation in an expression is recorded with source type `EXPRESSION`.
+
+The rules match the text of an expression, bean and method names included. For JUEL — expressions, and scripts and conditions in language `juel` — the rules for constructs that JUEL cannot name, marked *JUEL: string literals only* under [Blocked Patterns](#blocked-patterns), such as `load(` or `HttpClient`, are matched only in string literals: `${orderService.load(execution)}` and `${httpClient.post(request)}` pass, while `${''.getClass().forName('groovy.lang.GroovyShell')}` is blocked. As with every rule, only the text is checked: a class name assembled at runtime or read from a variable is not seen. Every other rule matches the whole text: `${order.getClass().getClassLoader()}` is blocked, and so is a bean called `system` used as `${system.exit(0)}`.
 
 {{< note title="" class="info" >}}
 JUEL expressions in DMN decisions (input entries, output entries, and literal expressions) are not checked by Script Guard.
@@ -48,7 +50,7 @@ The mode is only ever *read* from static configuration once — the first time t
 
 # Blocked Patterns
 
-The built-in policy checks the script source (case-insensitively) against the following patterns:
+The built-in policy checks the script source (case-insensitively) against the following patterns. Rules marked *JUEL: string literals only* match a JUEL script or expression only in its string literals:
 
 <table class="table desc-table">
   <tr>
@@ -56,13 +58,13 @@ The built-in policy checks the script source (case-insensitively) against the fo
     <th>Blocked construct</th>
     <th>Risk</th>
   </tr>
-  <tr><td><code>SCRIPT_SECURITY_LOAD</code></td><td><code>load(</code></td><td>External script loading</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_LOAD</code></td><td><code>load(</code></td><td>External script loading (JUEL: string literals only)</td></tr>
   <tr><td><code>SCRIPT_SECURITY_CLASS_FOR_NAME</code></td><td><code>Class.forName(</code></td><td>Dynamic class loading</td></tr>
   <tr><td><code>SCRIPT_SECURITY_CLASS_LOADER</code></td><td><code>getClassLoader(</code></td><td>Class loader access</td></tr>
   <tr><td><code>SCRIPT_SECURITY_REFLECTION</code></td><td><code>java.lang.reflect.</code></td><td>Reflection API</td></tr>
   <tr><td><code>SCRIPT_SECURITY_REFLECTION_METHOD</code></td><td><code>getDeclaredMethod(</code></td><td>Method reflection</td></tr>
   <tr><td><code>SCRIPT_SECURITY_REFLECTION_FIELD</code></td><td><code>getDeclaredField(</code></td><td>Field reflection</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_PROCESS_BUILDER</code></td><td><code>ProcessBuilder</code></td><td>OS process execution</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_PROCESS_BUILDER</code></td><td><code>ProcessBuilder</code></td><td>OS process execution (JUEL: string literals only)</td></tr>
   <tr><td><code>SCRIPT_SECURITY_RUNTIME</code></td><td><code>java.lang.Runtime</code></td><td>JVM runtime access</td></tr>
   <tr><td><code>SCRIPT_SECURITY_RUNTIME_EXEC</code></td><td><code>Runtime.getRuntime(</code></td><td>OS command execution</td></tr>
   <tr><td><code>SCRIPT_SECURITY_JAVA_LANG_SYSTEM</code></td><td><code>java.lang.System</code></td><td>System class access</td></tr>
@@ -74,14 +76,14 @@ The built-in policy checks the script source (case-insensitively) against the fo
   <tr><td><code>SCRIPT_SECURITY_JAVA_NIO_FILE_CHANNEL</code></td><td>NIO file channels</td><td>Low-level file I/O</td></tr>
   <tr><td><code>SCRIPT_SECURITY_JAVA_NIO_NETWORK_CHANNEL</code></td><td>NIO network channels</td><td>Network socket access</td></tr>
   <tr><td><code>SCRIPT_SECURITY_JAVA_NET</code></td><td><code>java.net.*</code></td><td>Network access</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_URL_CONNECTION</code></td><td><code>URLConnection</code></td><td>HTTP/URL connections</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_HTTP_CLIENT</code></td><td><code>HttpClient</code></td><td>HTTP client</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_URL_CONNECTION</code></td><td><code>URLConnection</code></td><td>HTTP/URL connections (JUEL: string literals only)</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_HTTP_CLIENT</code></td><td><code>HttpClient</code></td><td>HTTP client (JUEL: string literals only)</td></tr>
   <tr><td><code>SCRIPT_SECURITY_SOCKET</code></td><td><code>new Socket(</code></td><td>Raw socket creation</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_SERVER_SOCKET</code></td><td><code>ServerSocket</code></td><td>Server socket binding</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_SERVER_SOCKET</code></td><td><code>ServerSocket</code></td><td>Server socket binding (JUEL: string literals only)</td></tr>
   <tr><td><code>SCRIPT_SECURITY_NEW_JAVA</code></td><td><code>new java.*</code></td><td>Generic Java object instantiation</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_GROOVY_SHELL</code></td><td><code>GroovyShell</code></td><td>Dynamic Groovy execution</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_GROOVY_METACLASS</code></td><td><code>metaClass</code></td><td>Groovy metaclass manipulation</td></tr>
-  <tr><td><code>SCRIPT_SECURITY_JAVA_TYPE</code></td><td><code>java.type(</code>, <code>Packages.</code></td><td>Host class lookup (GraalVM JS)</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_GROOVY_SHELL</code></td><td><code>GroovyShell</code></td><td>Dynamic Groovy execution (JUEL: string literals only)</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_GROOVY_METACLASS</code></td><td><code>metaClass</code></td><td>Groovy metaclass manipulation (JUEL: string literals only)</td></tr>
+  <tr><td><code>SCRIPT_SECURITY_JAVA_TYPE</code></td><td><code>java.type(</code>, <code>Packages.</code></td><td>Host class lookup (GraalVM JS) (JUEL: string literals only)</td></tr>
 </table>
 
 {{< note title="Scope of these checks" class="info" >}}
@@ -220,7 +222,11 @@ Whenever a script triggers a rule — in either `ENFORCE` or `AUDIT` mode — Sc
 - Script origin: `USER`, `PROCESS_APPLICATION`, or `PLATFORM`
 - Rule code (e.g., `SCRIPT_SECURITY_RUNTIME_EXEC`) and a human-readable reason
 
-Violations are persisted in the `ACT_RU_SCRIPT_VIOLATION` table and can be queried via the [REST API](#rest-api). The in-memory ring buffer holds up to `violation-store-size` recent entries; the total count is always available independently.
+On EximeeBPMS Run, Spring Boot and the Tomcat distribution, violations are persisted in the `ACT_RU_SCRIPT_VIOLATION` table and can be queried via the [REST API](#rest-api); an engine you configure yourself keeps no violation history unless you set a violation store, and reports violations only in the log and to `ScriptViolationListener`s. An `InMemoryScriptViolationStore`, if you configure one, keeps a fixed number of recent entries in memory instead.
+
+{{< note title="" class="warning" >}}
+When a script or expression is blocked in `ENFORCE` mode inside an engine command — running a stored filter or query, executing a process — its database record is written in that command's transaction, which the `ScriptSecurityException` rolls back, so the record is not kept in `ACT_RU_SCRIPT_VIOLATION`. The warning in the engine log and `ScriptViolationListener`s still see it. To collect violations in the database, run in `AUDIT` mode on an engine that stores them there, as described above.
+{{< /note >}}
 
 {{< note title="" class="info" >}}
 If application monitoring is enabled, violations are also exposed as Micrometer meters — see [Application Monitoring]({{< ref "/user-guide/process-engine/application-monitoring.md#script-guard" >}}).
@@ -361,6 +367,8 @@ if (!result.isClean()) {
   }
 }
 ```
+
+To check a JUEL expression or script as the engine does, pass its language, so the rules marked *JUEL: string literals only* match only its string literals: `ruleSet.validate(expression, ScriptOrigin.USER, "juel")`.
 
 {{< note title="" class="info" >}}
 `ScriptValidationResult` reports rule matches only — it never returns an `ENFORCE`/`AUDIT`/`DENY` outcome. Whether a match actually blocks deployment — or, for a JUEL expression, its evaluation at runtime — depends on the target engine instance's own configured [mode](#enforcement-modes), which this module has no way to know. Use it to catch a violation before deploying; the engine's own enforcement is still authoritative.
