@@ -15,6 +15,52 @@ for our reporting process and disclosure timeline.
 
 ## EximeeBPMS notices
 
+## Notice EXBPMS-21
+
+**Publication Date:** November 20, 2026
+
+**Product affected:** The Java runtime shipped in EximeeBPMS container images: the Community Edition images `ghcr.io/eximeebpms/eximeebpms-bpm-platform` (`run` and `tomcat`), the Enterprise Edition images `eximeebpms.nexus.dev.consdata.org/eximeebpms/eximeebpms-bpm-platform`, and the Enterprise connectors bundle image `eximeebpms.nexus.dev.consdata.org/eximeebpms/eximeebpms-connectors-bundle`. EximeeBPMS code is not affected; an installation that runs a distribution on its own Java runtime is affected through that runtime.
+
+**Impact:**
+
+[CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938) is a vulnerability in the compiler component of the Java runtime (CVSS 3.1 base score 8.1). It is difficult to exploit, but an unauthenticated attacker with network access can take over the Java runtime by supplying data to the affected APIs, for example through a web service. The fixed versions of the Alpine packages our images use are OpenJDK 17.0.21.1, 21.0.13.1 and 25.0.5.1; other vendors may number their fixed releases differently.
+
+**Affected versions:**
+
+- Community Edition 1.4.0 images (`run-1.4.0`, `tomcat-1.4.0`, and `run-latest`, `tomcat-latest`, `latest` while they pointed to 1.4.0) as first published: OpenJDK 21.0.12.
+- Community Edition 1.3.0 and earlier images (`run-` and `tomcat-` 1.0.0 to 1.3.0, and `1.0.0`): OpenJDK 17 older than 17.0.21.1 (17.0.12 in 1.3.0).
+- Enterprise Edition images 1.4.1-ee up to and including 1.4.3-ee (`run-` and `tomcat-`) as first published: an OpenJDK older than the fixed versions.
+- Enterprise connectors bundle images 1.0.0-ee and 1.1.0-ee: OpenJDK 25 older than 25.0.5.1.
+- Any installation running an EximeeBPMS distribution on a Java runtime older than the fixed versions above.
+
+**Solution:**
+
+- **Community Edition:** **1.4.1** (`run-1.4.1`, `tomcat-1.4.1`, now also `run-latest`, `tomcat-latest` and `latest`) ships OpenJDK 21.0.13.1; the engine and distributions are unchanged from 1.4.0 and the Java major version stays 21. Moving to the 1.4.1 tags is the recommended fix, because a new tag is always pulled. The `run-1.4.0` and `tomcat-1.4.0` images were also republished under the same tags with OpenJDK 21.0.13.1.
+- **Enterprise Edition:** the `run-1.4.3-ee` and `tomcat-1.4.3-ee` images were republished under the same tags with OpenJDK 25.0.5.1; later Enterprise Edition releases ship it from their first publication. The 1.4.1-ee and 1.4.2-ee images are not republished; move to 1.4.3-ee or later.
+- **Community Edition 1.3.0 and earlier:** these images are not republished. Move to the 1.4.1 images, or run the distribution on a fixed Java runtime.
+- **Enterprise connectors bundle:** fixed in 1.2.0-ee. Until then, a derived image updates the runtime:
+
+  ```dockerfile
+  FROM eximeebpms.nexus.dev.consdata.org/eximeebpms/eximeebpms-connectors-bundle:1.1.0-ee
+  USER root
+  RUN apk upgrade --no-cache openjdk25-jre-headless
+  USER 1000:1000
+  ```
+
+- **Own Java runtime:** update it to 17.0.21.1, 21.0.13.1, 25.0.5.1 or later, or to your vendor's release that fixes CVE-2026-114938.
+
+**Picking up a republished image:**
+
+This applies to the republished 1.4.0 and 1.4.3-ee tags, not to a move to a new tag such as `run-1.4.1`. A republished image keeps its tag, so a host or cluster that already holds the tag keeps running the old image until it pulls again. The Helm chart's default `image.pullPolicy` is `IfNotPresent`; the HA profile's `Always` applies only to newly started pods. Pull explicitly (`docker pull <image>:<tag>`, `docker compose pull`), or restart the pods with `imagePullPolicy: Always` or with the image referenced by its new digest, then confirm the runtime in the running container:
+
+```shell
+docker exec <container> java -version   # or: kubectl exec <pod> -- java -version
+```
+
+The output must show 21.0.13.1 or 25.0.5.1 or later.
+
+---
+
 ## Notice EXBPMS-20
 
 **Publication Date:** November 5, 2026
