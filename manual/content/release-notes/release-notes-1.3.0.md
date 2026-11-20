@@ -1,12 +1,12 @@
 ---
 
-title: "EximeeBPMS 1.3.0 Release Notes"
+title: "EximeeBPMS 1.3.x Release Notes"
 description: "Introduces Script Guard, configurable OAuth2 endpoints, a multi-threaded External Task Client and UUID v7 IDs. Deprecates CMMN, Tomcat 9 and WildFly 26."
 weight: 10
 
 menu:
   main:
-    name: "1.3.0 CE"
+    name: "1.3.x CE"
     identifier: "release-notes-1.3.0"
     parent: "release-notes"
 
