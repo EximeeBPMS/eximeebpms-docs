@@ -1,11 +1,11 @@
 ---
 
-title: "EximeeBPMS 1.3.0 Release Notes"
+title: "EximeeBPMS 1.3.x Release Notes"
 weight: 10
 
 menu:
   main:
-    name: "1.3.0 CE"
+    name: "1.3.x CE"
     identifier: "release-notes-1.3.0"
     parent: "release-notes"
 
