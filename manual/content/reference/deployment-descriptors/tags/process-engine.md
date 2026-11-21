@@ -257,7 +257,7 @@ Default value is <code>false</code>.
 <td>
 Sets the value for process engine <a href="{{< ref "/user-guide/process-engine/database/database-configuration.md">}}">database schema creation</a>.
 <p>
-<strong>Values:</strong> <code>false</code>, <code>create-drop</code>, <code>true</code>.
+<strong>Values:</strong> <code>false</code>, <code>true</code>, <code>create</code>, <code>create-drop</code>, <code>drop-create</code>, <code>auto</code>, <code>validate</code>, <code>off</code>. <code>NO_CHECK</code> and <code>noop</code> remain accepted as deprecated aliases of <code>off</code>, with a warning. Any other value stops the start.
 </p>
 </td>
 </tr>

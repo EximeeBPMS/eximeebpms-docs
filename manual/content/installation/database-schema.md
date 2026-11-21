@@ -25,6 +25,7 @@ EximeeBPMS supports the following ways of installing the database schema:
 
 * Use the database migration tool [Liquibase](https://www.liquibase.org/) with the provided changelog for a semi-automatic installation and update. Liquibase keeps track of database schema changes. This allows you to focus on *when* changes should be applied rather than also on *which* changes are relevant.
 * Use the provided SQL scripts with the tools related to your database for a fully manual installation and update. A manual procedure allows you to fully control the SQL statements that are executed on your database instance and to adjust those statements to your needs if necessary.
+* Let the engine or the schema migration tool apply the same scripts: `databaseSchemaUpdate` `auto`, or `schema-migrate` before a rollout. See [Automatic Schema Migration]({{< ref "/installation/database-schema-migration.md" >}}).
 
 {{< note title="Isolation level" class="info" >}}
 READ COMMITTED is the required isolation level for database systems to run EximeeBPMS with. 
@@ -64,7 +65,7 @@ Liquibase creates two additional tables to keep track of the changes that have b
 The `DATABASECHANGELOG` table keeps track of all applied changes. The `DATABASECHANGELOGLOCK` table prevents conflicts from concurrent updates on your database instance by multiple Liquibase instances. You can read more about it in the [Liquibase guide](https://www.liquibase.org/get-started/how-liquibase-works).
 
 As you create the tables externally via Liquibase, you have to configure the engine to **not** create tables at startup as well.
-Set the `databaseSchemaUpdate` property to `false` (or, in case you are using Oracle, to `noop`).
+Set the `databaseSchemaUpdate` property to `false`.
 Consult the [manual installation guide]({{< ref "/installation/full/_index.md" >}}) of your distribution for further information on how to achieve that.
 
 {{< note title="Heads Up!" class="info" >}}
@@ -96,7 +97,7 @@ that survives to the end of the run. See [SQL Server configuration]({{< ref "/us
 {{< /note >}}
 
 As you create the tables manually, you have to configure the engine to **not** create tables at startup as well.
-Set the `databaseSchemaUpdate` property to `false` (or, in case you are using Oracle, to `noop`).
+Set the `databaseSchemaUpdate` property to `false`.
 Consult the [manual installation guide]({{< ref "/installation/full/_index.md" >}}) of your distribution for further information on how to achieve that.
 
 {{< note title="Heads Up!" class="info" >}}
