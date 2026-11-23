@@ -13,7 +13,7 @@ SSO returns to Cockpit after authentication, keeping the selected provider.</p><
 third-party license notices, shipped as <code>cockpit-ui/3rdpartylicenses.txt</code>.</p><p>Startup failures in Run and embedded Spring Boot applications keep their cause, including
 occupied ports and invalid servlet configuration. The engine no longer shades an unrelocated
 Commons Logging copy that could hide these reports. Applications that relied solely on that copy
-must declare Commons Logging explicitly.</p><h3 id=144-script-guard>Script Guard</h3><ul><li>For JUEL, on any engine, Script Guard matches the rules for constructs JUEL cannot name,
+must declare Commons Logging explicitly.</p><p>→ <a href=/manual/1.4-ee/webapps/cockpit/new-cockpit/>New Cockpit</a></p><h3 id=144-script-guard>Script Guard</h3><ul><li>For JUEL, on any engine, Script Guard matches the rules for constructs JUEL cannot name,
 such as <code>load(</code>, <code>HttpClient</code> or <code>metaClass</code>, only in string literals. Bean and method names
 such as <code>${orderService.load(execution)}</code> pass, while <code>getClass().forName('groovy.lang.GroovyShell')</code>
 is still caught. <code>ScriptSecurityRuleSet</code> has <code>validate(source, origin, language)</code> for this;
@@ -25,20 +25,21 @@ database violation store report them in the log and to <code>ScriptViolationList
 expression) in the sections <code>[source]</code>, <code>[deny]</code> and <code>[host-class-lookup]</code>. The rules, their
 order and what they report are unchanged. A missing or malformed file fails initialization
 instead of evaluating scripts against an incomplete rule set.</li><li>The reference cases of the rule set ship as <code>script-security-cases.json</code>, for external
-validators to test against.</li></ul><h3 id=144-utc>Dates and time zones</h3><p><strong>New databases store dates in UTC; existing ones keep the JVM time zone until migrated</strong>
+validators to test against.</li></ul><p>→ <a href=/manual/1.4-ee/user-guide/process-engine/script-guard/>Script Guard</a></p><h3 id=144-utc>Dates and time zones</h3><p><strong>New databases store dates in UTC; existing ones keep the JVM time zone until migrated</strong>
 (guide &ldquo;Database Time Zone&rdquo;; warning <code>ENGINE-03120</code> until then). This fixes duplicate external
 task locks and early timers at the clock change. <strong>UTC becomes mandatory in the next version.</strong>
 MySQL and MariaDB need the <code>1.4.3_to_1.4.4_2</code> patch. <code>databaseUtcDatesEnabled</code> only overrides
 the automatic choice; <code>false</code> on a new database, which its creation marked UTC, stops the start
-(<code>ENGINE-03123</code>).</p><h3 id=144-events-jobs>Business events and jobs</h3><ul><li>The dispatcher marks published records processed on Spring Boot, Run and JTA-managed engines
+(<code>ENGINE-03123</code>).</p><p>→ <a href=/manual/1.4-ee/update/database-time-zone/>Database Time Zone: Migrating Dates to UTC</a>
+→ <a href=/manual/1.4-ee/user-guide/process-engine/time-zones/>Time zones</a></p><h3 id=144-events-jobs>Business events and jobs</h3><ul><li>The dispatcher marks published records processed on Spring Boot, Run and JTA-managed engines
 with JDBC batching on (the default). The mark was discarded, so the same records were published
 again in an endless loop. Engines committing their own transactions, such as Tomcat, were not affected.</li><li>A failing job reaches its incident even when the database connection pool is exhausted. Both
 <code>job:fail</code> (now with <code>jobRetries</code> <code>0</code>) and a failed repeating timer&rsquo;s next occurrence are written
-in the failure transaction.</li></ul><h3 id=144-monitoring>Monitoring</h3><ul><li>Monitoring snapshots no longer load every running process instance, task, external task,
+in the failure transaction.</li></ul><p>→ <a href=/manual/1.4-ee/user-guide/process-engine/business-events/>Business Events</a></p><h3 id=144-monitoring>Monitoring</h3><ul><li>Monitoring snapshots no longer load every running process instance, task, external task,
 incident and failed job into memory on each refresh. The gauges are counted in the database.
 On earlier releases, <code>eximeebpms.monitoring.snapshot.enabled=false</code> avoids the problem.</li><li>Process-instance gauges (<code>eximeebpms.process.instances.running.total</code> and
 <code>…running.suspended.total</code>) carry <code>tenant.id</code> for instances of a tenant. Process-instance and
-failed-job series are now one per definition and tenant.</li></ul><h3 id=144-adhoc>Ad-hoc subprocesses</h3><ul><li>The BPMN model API writes an ad-hoc subprocess&rsquo;s <code>adHoc</code> extension element as <code>eximeebpms:adHoc</code>,
+failed-job series are now one per definition and tenant.</li></ul><p>→ <a href=/manual/1.4-ee/user-guide/process-engine/application-monitoring/>Application Monitoring</a></p><h3 id=144-adhoc>Ad-hoc subprocesses</h3><ul><li>The BPMN model API writes an ad-hoc subprocess&rsquo;s <code>adHoc</code> extension element as <code>eximeebpms:adHoc</code>,
 because Camunda Modeler drops <code>camunda:adHoc</code>. <code>camunda:adHoc</code> is still read and edited in place.</li><li>A deployment with both <code>camunda:adHoc</code> and <code>eximeebpms:adHoc</code> on one ad-hoc subprocess now fails,
 instead of silently ignoring the <code>eximeebpms:</code> one. Remove one of them before deploying.</li><li><code>eximeebpms:adHoc</code> is in the namespace <code>http://eximeebpms.org/schema/1.0/bpmn</code>. <code>topic</code> and
 <code>taskPriority</code> stay <code>camunda:</code> attributes.</li><li>A child element the model API adds to an element read in the EximeeBPMS or Activiti namespace is
@@ -48,7 +49,9 @@ of such a mixed element.</li><li><code>ModelInstance#getModelElementsByType</cod
 namespace that has any.</li><li>New attributes of extension elements written in an equivalent namespace are written unqualified,
 as the engine reads them. Before, they came out as <code>camunda:key</code> or <code>camunda:name</code> and were rejected
 or ignored.</li><li>A file that binds the prefix <code>eximeebpms</code> to the Camunda namespace, as the fluent builder wrote it up
-to 1.4.1-ee, gets a generated prefix for the new element instead of rebinding <code>eximeebpms</code>.</li></ul><h3 id=144-security>Security</h3><ul><li><strong>Web applications:</strong> fast-xml-parser 5.12.0, fixing GHSA-474x-hrwr-fgx4. The web applications
+to 1.4.1-ee, gets a generated prefix for the new element instead of rebinding <code>eximeebpms</code>.</li></ul><p>→ <a href=/manual/1.4-ee/reference/bpmn20/subprocesses/ad-hoc-subprocess/>Ad-hoc subprocess reference</a>
+→ <a href=/manual/1.4-ee/user-guide/ai-agent/ad-hoc-in-xml/>Editing an Agent in BPMN XML</a>
+→ <a href=/manual/1.4-ee/user-guide/ai-agent/modeler-plugin/>EximeeBPMS Plugin for Camunda Modeler</a></p><h3 id=144-security>Security</h3><ul><li><strong>Web applications:</strong> fast-xml-parser 5.12.0, fixing GHSA-474x-hrwr-fgx4. The web applications
 only use its <code>XMLValidator</code>, not the affected parser option, so they were not exposed. The unused
 <code>karma-webpack</code> test dependency, which carried a vulnerable minimatch, is removed.</li><li><strong>Container images:</strong> the Java runtime is patched for CVE-2026-114938, see
 <a href=/security/notices/#notice-exbpms-21>Security Notice EXBPMS-21</a>.</li></ul><h3 id=144-upgrade>Database and upgrade</h3><ul><li>New index <code>ACT_IDX_TASK_PARENT_TASK_ID</code> on <code>ACT_RU_TASK(PARENT_TASK_ID_)</code> on PostgreSQL, Oracle,
@@ -56,7 +59,7 @@ MySQL, MariaDB, DB2 and H2. Completing or deleting any task looked up its subtas
 so each of them scanned the whole task table. Existing databases need the 1.4.3-to-1.4.4 patch
 script or the Liquibase changelog; on SQL Server the index already exists.</li><li>Run&rsquo;s <code>start.sh</code> and <code>shutdown.sh</code> accept the process in <code>run.pid</code> only if it is the Run jar and,
 when <code>run.pid.start</code> records one, its start time matches. A foreign process reusing the PID is no
-longer stopped and no longer blocks a start.</li></ul><hr><p><span id=unreleased></span></p><h2 id=143-ee>1.4.3-ee</h2><p><strong>Release date:</strong> 06.11.2026</p><p>Engine changes since <strong>1.4.2-ee</strong>. The companion <strong>Enterprise Connectors 1.0.0-ee</strong>
+longer stopped and no longer blocks a start.</li></ul><p>→ <a href=/manual/1.4-ee/user-guide/process-engine/database/database-schema/>Database Schema</a></p><hr><p><span id=unreleased></span></p><h2 id=143-ee>1.4.3-ee</h2><p><strong>Release date:</strong> 06.11.2026</p><p>Engine changes since <strong>1.4.2-ee</strong>. The companion <strong>Enterprise Connectors 1.0.0-ee</strong>
 release supplies the worker bundle described below; it has an independent version
 line and is deployed separately from the engine.</p><p><span id=unreleased-highlights></span></p><h3 id=143-highlights>Highlights</h3><ul><li>Ad-hoc subprocess execution, manual activation and worker-driven decisions,
 with turn history, model usage and native BPMN tools.</li><li>A separately released connectors bundle: AI agent, single-shot AI Task,
