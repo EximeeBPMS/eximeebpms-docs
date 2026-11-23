@@ -106,8 +106,10 @@ database.schema-update-online-indexes=deferred
 
 Each key can be set or overridden by an environment variable: `EXIMEEBPMS_` followed by the key in upper case with `.` and
 `-` replaced by `_`, e.g. `EXIMEEBPMS_JDBC_PASSWORD`. Unknown keys are refused. **Put the password in `jdbc.password`, never
-in the JDBC URL**: a driver's error message can quote the URL. Java options for the tool go in `SCHEMA_MIGRATION_JAVA_OPTS`
-(not the server's `JAVA_OPTS`).
+in the JDBC URL**: a driver's error message can quote the URL. Java options for the tool go in `SCHEMA_MIGRATION_JAVA_OPTS`.
+The Tomcat and WildFly scripts do not use the server's `JAVA_OPTS`; the Run scripts (`schema-migrate.sh`, `start.sh
+--schema-migrate`) use `JAVA_OPTS` too, so system properties set there (a data source, a truststore) apply to the migration as
+to the start.
 
 Exit codes:
 
@@ -160,7 +162,7 @@ Applying the steps needs the right to change the schema; `validate`, `false`, `s
 
 The upgrade scripts name the tables without a prefix. The migration supports no prefix, or a prefix that is the connection's
 current schema (`MYSCHEMA.`). Any other prefix is refused by `auto`, `validate` and the tool; use the manual route. With
-`false`, the check is skipped with one info line.
+`false`, the check is skipped with one info line. If the engine finds existing tables outside the connection's current schema while the migration sees none there, `auto` refuses startup (`ENGINE-03165`). Set the connection's current schema to the schema holding the engine tables before using automatic migration.
 
 # Liquibase
 
