@@ -1,4 +1,5 @@
 {{ define "docs-menu-node" }}
+{{/* Release-notes entries named "<version> CE"/"<version> EE" show the edition as a tag after the version. */}}
 {{ $page := .page }}{{ $node := .node }}
 {{ $active := or ($page.IsMenuCurrent "main" $node) ($page.HasMenuCurrent "main" $node) }}
 <li>
@@ -6,7 +7,7 @@
   <details {{ if $active }}open{{ end }}><summary><a href="{{ $node.URL }}" {{ if $page.IsMenuCurrent "main" $node }}aria-current="page"{{ end }}>{{ $node.Name }}</a></summary>
     <ul>{{ range $node.Children }}{{ template "docs-menu-node" (dict "page" $page "node" .) }}{{ end }}</ul>
   </details>
-  {{ else }}<a href="{{ $node.URL }}" {{ if $page.IsMenuCurrent "main" $node }}aria-current="page"{{ end }}>{{ $node.Name }}</a>{{ end }}
+  {{ else }}{{ $edition := "" }}{{ if eq $node.Parent "release-notes" }}{{ if strings.HasSuffix $node.Name " EE" }}{{ $edition = "EE" }}{{ else if strings.HasSuffix $node.Name " CE" }}{{ $edition = "CE" }}{{ end }}{{ end }}<a href="{{ $node.URL }}" {{ if $page.IsMenuCurrent "main" $node }}aria-current="page"{{ end }}{{ with $edition }} class="has-edition"{{ end }}>{{ with $edition }}<span>{{ strings.TrimSuffix (printf " %s" .) $node.Name }}</span><span class="edition-tag edition-tag-{{ lower . }}" title="{{ if eq . "EE" }}Enterprise{{ else }}Community{{ end }} Edition">{{ . }}</span>{{ else }}{{ $node.Name }}{{ end }}</a>{{ end }}
 </li>
 {{ end }}
 <p class="sidebar-label">{{ .Site.Params.section.id | title }}</p>
