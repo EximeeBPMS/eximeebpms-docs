@@ -1,18 +1,20 @@
 ---
 
-title: "EximeeBPMS 1.4.0 Release Notes"
+title: "EximeeBPMS 1.4.x Release Notes"
 description: "Adds business events with a transactional outbox and history exclusion by process definition key. Removes CMMN and javax support, requires Java 21 and closes open security notices."
 weight: 2
 
 menu:
   main:
-    name: "1.4.0 CE"
+    name: "1.4.x CE"
     identifier: "release-notes-1.4.0"
     parent: "release-notes"
 
 ---
 
 **Edition:** Community &nbsp;|&nbsp; **Release date:** 15.09.2026
+
+Patch releases: [1.4.1](#141) (20.11.2026) — patched Java runtime in the container images
 
 ---
 
@@ -209,3 +211,23 @@ Six sets of CVE fixes that were open against 1.3.0 are closed in this release, t
 
 The remaining dependency updates in this release (H2, Liquibase, MySQL Connector/J, Oracle JDBC, PostgreSQL JDBC, Microsoft SQL Server JDBC, Kafka Clients, RESTEasy, Groovy, Jakarta XML Bind API, ShrinkWrap Resolvers, Spring Boot, WildFly, and others) are routine security-motivated bumps; no additional CVE was identified whose affected-version range matches this release's starting versions for those components.
 {{< /note >}}
+
+## 1.4.1 {#141}
+
+**Edition:** Community &nbsp;|&nbsp; **Release date:** 20.11.2026
+
+### Highlights
+
+Security patch for the container images. The `run` and `tomcat` images ship OpenJDK **21.0.13.1** instead of 21.0.12, fixing [CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938) in the Java runtime's compiler. The engine and the distributions are unchanged from 1.4.0, and the images stay on Java 21.
+
+### Security
+
+| Notice | Component | CVEs | Fixed via |
+|---|---|---|---|
+| [EXBPMS-21](/security/notices/#notice-exbpms-21) | Java runtime of the container images | [CVE-2026-114938](https://nvd.nist.gov/vuln/detail/CVE-2026-114938) | OpenJDK → 21.0.13.1 (`run-1.4.1`, `tomcat-1.4.1`) |
+
+An installation that runs a distribution on its own Java runtime has to update that runtime to a release fixing CVE-2026-114938. The 1.4.0 images were also republished under their existing tags with the same runtime; see the notice for how to make a host pull them again.
+
+### Upgrading from 1.4.0
+
+No migration: database schema, configuration and APIs are unchanged. Move the image tag to `run-1.4.1` or `tomcat-1.4.1`; the Helm chart's default follows `appVersion` 1.4.1 from chart 0.4.2.
