@@ -1,7 +1,7 @@
 ---
 
 title: "EximeeBPMS 1.4.x Enterprise Edition Release Notes"
-description: "Enterprise engine 1.4.3-ee and companion Connectors 1.0.0-ee: ad-hoc execution, AI agents, REST/MCP tools, monitoring, migration and security updates."
+description: "Enterprise engine 1.4.4-ee: Cockpit, Script Guard for JUEL on every engine, UTC dates for new databases, business-event and job fixes, monitoring memory fix and security updates."
 weight: 1
 
 menu:
@@ -13,6 +13,126 @@ menu:
 ---
 
 **Edition:** Enterprise &nbsp;|&nbsp; **Baseline:** [EximeeBPMS 1.4.0 CE]({{< ref "/release-notes/release-notes-1.4.0.md" >}})
+
+---
+
+## 1.4.4-ee {#144-ee}
+
+**Release date:** 23.11.2026
+
+Engine changes since **1.4.3-ee**. The container images for this release ship the Java runtime
+OpenJDK 25.0.5.1, which fixes [CVE-2026-114938](/security/notices/#notice-exbpms-21);
+see that notice for the affected images.
+
+### Highlights {#144-highlights}
+
+- **Cockpit** bundled in Run, Tomcat, WildFly and Spring Boot at `/eximeebpms/cockpit/`, sharing the existing API, sessions and permissions.
+- **Script Guard checks JUEL on every engine.** Run, Spring Boot, Spring XML, CDI and Quarkus now block matching JUEL expressions in `ENFORCE`, as Tomcat already did. Switch to `AUDIT` first to find them.
+- **New databases store dates in UTC.** Existing databases keep the JVM time zone until migrated; UTC becomes mandatory in the next version.
+- **Business events no longer loop.** The dispatcher marks published records processed on Spring Boot, Run and JTA-managed engines with JDBC batching.
+- **Failing jobs reach their incident** even when the connection pool is exhausted.
+- **Monitoring snapshots** count gauges in the database instead of loading every running instance into memory.
+- **Security:** fast-xml-parser 5.12.0 in the web applications, and the Java runtime of the container images patched for CVE-2026-114938.
+
+### Cockpit {#144-cockpit}
+
+Enterprise bundles the new Cockpit at `/eximeebpms/cockpit/` in Run, Tomcat, WildFly and
+Spring Boot. It shares the existing API, sessions and permissions, and keeps existing
+addresses and redirects. An optional `eximeebpms.bpm.webapp.cockpit.config-file` configures
+the engine, the API path and the login methods; active OAuth2 integration supplies SSO.
+SSO returns to Cockpit after authentication, keeping the selected provider.
+
+The Cockpit UI moves to 0.13.0, the first release whose archive carries the frontend's
+third-party license notices, shipped as `cockpit-ui/3rdpartylicenses.txt`.
+
+Startup failures in Run and embedded Spring Boot applications keep their cause, including
+occupied ports and invalid servlet configuration. The engine no longer shades an unrelocated
+Commons Logging copy that could hide these reports. Applications that relied solely on that copy
+must declare Commons Logging explicitly.
+
+### Script Guard {#144-script-guard}
+
+- For JUEL, on any engine, Script Guard matches the rules for constructs JUEL cannot name,
+  such as `load(`, `HttpClient` or `metaClass`, only in string literals. Bean and method names
+  such as `${orderService.load(execution)}` pass, while `getClass().forName('groovy.lang.GroovyShell')`
+  is still caught. `ScriptSecurityRuleSet` has `validate(source, origin, language)` for this;
+  JUEL uses language `juel`.
+- On Run, Spring Boot, Spring XML, CDI and Quarkus, a JUEL expression that matches now fails
+  with `ScriptSecurityException` in `ENFORCE`, the default. Set `AUDIT` first to find such
+  expressions (on Run and Spring Boot with `PUT /script-security/config`). Engines without the
+  database violation store report them in the log and to `ScriptViolationListener`s.
+- The rules are read from `script-security-rules.txt`, shipped in the
+  `eximeebpms-commons-script-guard-rules` jar: one rule per line (code, reason, regular
+  expression) in the sections `[source]`, `[deny]` and `[host-class-lookup]`. The rules, their
+  order and what they report are unchanged. A missing or malformed file fails initialization
+  instead of evaluating scripts against an incomplete rule set.
+- The reference cases of the rule set ship as `script-security-cases.json`, for external
+  validators to test against.
+
+### Dates and time zones {#144-utc}
+
+**New databases store dates in UTC; existing ones keep the JVM time zone until migrated**
+(guide "Database Time Zone"; warning `ENGINE-03120` until then). This fixes duplicate external
+task locks and early timers at the clock change. **UTC becomes mandatory in the next version.**
+MySQL and MariaDB need the `1.4.3_to_1.4.4_2` patch. `databaseUtcDatesEnabled` only overrides
+the automatic choice; `false` on a new database, which its creation marked UTC, stops the start
+(`ENGINE-03123`).
+
+### Business events and jobs {#144-events-jobs}
+
+- The dispatcher marks published records processed on Spring Boot, Run and JTA-managed engines
+  with JDBC batching on (the default). The mark was discarded, so the same records were published
+  again in an endless loop. Engines committing their own transactions, such as Tomcat, were not affected.
+- A failing job reaches its incident even when the database connection pool is exhausted. Both
+  `job:fail` (now with `jobRetries` `0`) and a failed repeating timer's next occurrence are written
+  in the failure transaction.
+
+### Monitoring {#144-monitoring}
+
+- Monitoring snapshots no longer load every running process instance, task, external task,
+  incident and failed job into memory on each refresh. The gauges are counted in the database.
+  On earlier releases, `eximeebpms.monitoring.snapshot.enabled=false` avoids the problem.
+- Process-instance gauges (`eximeebpms.process.instances.running.total` and
+  `…running.suspended.total`) carry `tenant.id` for instances of a tenant. Process-instance and
+  failed-job series are now one per definition and tenant.
+
+### Ad-hoc subprocesses {#144-adhoc}
+
+- The BPMN model API writes an ad-hoc subprocess's `adHoc` extension element as `eximeebpms:adHoc`,
+  because Camunda Modeler drops `camunda:adHoc`. `camunda:adHoc` is still read and edited in place.
+- A deployment with both `camunda:adHoc` and `eximeebpms:adHoc` on one ad-hoc subprocess now fails,
+  instead of silently ignoring the `eximeebpms:` one. Remove one of them before deploying.
+- `eximeebpms:adHoc` is in the namespace `http://eximeebpms.org/schema/1.0/bpmn`. `topic` and
+  `taskPriority` stay `camunda:` attributes.
+- A child element the model API adds to an element read in the EximeeBPMS or Activiti namespace is
+  written in that namespace, not in `camunda:`. Before, the engine read only the `camunda:` children
+  of such a mixed element.
+- `ModelInstance#getModelElementsByType` returns the elements of every equivalent namespace
+  (`camunda:`, `activiti:`, `eximeebpms:`) in a document that mixes them, not only those of the first
+  namespace that has any.
+- New attributes of extension elements written in an equivalent namespace are written unqualified,
+  as the engine reads them. Before, they came out as `camunda:key` or `camunda:name` and were rejected
+  or ignored.
+- A file that binds the prefix `eximeebpms` to the Camunda namespace, as the fluent builder wrote it up
+  to 1.4.1-ee, gets a generated prefix for the new element instead of rebinding `eximeebpms`.
+
+### Security {#144-security}
+
+- **Web applications:** fast-xml-parser 5.12.0, fixing GHSA-474x-hrwr-fgx4. The web applications
+  only use its `XMLValidator`, not the affected parser option, so they were not exposed. The unused
+  `karma-webpack` test dependency, which carried a vulnerable minimatch, is removed.
+- **Container images:** the Java runtime is patched for CVE-2026-114938, see
+  [Security Notice EXBPMS-21](/security/notices/#notice-exbpms-21).
+
+### Database and upgrade {#144-upgrade}
+
+- New index `ACT_IDX_TASK_PARENT_TASK_ID` on `ACT_RU_TASK(PARENT_TASK_ID_)` on PostgreSQL, Oracle,
+  MySQL, MariaDB, DB2 and H2. Completing or deleting any task looked up its subtasks by this column,
+  so each of them scanned the whole task table. Existing databases need the 1.4.3-to-1.4.4 patch
+  script or the Liquibase changelog; on SQL Server the index already exists.
+- Run's `start.sh` and `shutdown.sh` accept the process in `run.pid` only if it is the Run jar and,
+  when `run.pid.start` records one, its start time matches. A foreign process reusing the PID is no
+  longer stopped and no longer blocks a start.
 
 ---
 
