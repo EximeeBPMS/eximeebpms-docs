@@ -50,6 +50,8 @@ occupied ports and invalid servlet configuration. The engine no longer shades an
 Commons Logging copy that could hide these reports. Applications that relied solely on that copy
 must declare Commons Logging explicitly.
 
+→ [New Cockpit](https://docs.eximeebpms.org/manual/1.4-ee/webapps/cockpit/new-cockpit/)
+
 ### Script Guard {#144-script-guard}
 
 - For JUEL, on any engine, Script Guard matches the rules for constructs JUEL cannot name,
@@ -69,6 +71,8 @@ must declare Commons Logging explicitly.
 - The reference cases of the rule set ship as `script-security-cases.json`, for external
   validators to test against.
 
+→ [Script Guard](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/script-guard/)
+
 ### Dates and time zones {#144-utc}
 
 **New databases store dates in UTC; existing ones keep the JVM time zone until migrated**
@@ -77,6 +81,9 @@ task locks and early timers at the clock change. **UTC becomes mandatory in the 
 MySQL and MariaDB need the `1.4.3_to_1.4.4_2` patch. `databaseUtcDatesEnabled` only overrides
 the automatic choice; `false` on a new database, which its creation marked UTC, stops the start
 (`ENGINE-03123`).
+
+→ [Database Time Zone: Migrating Dates to UTC](https://docs.eximeebpms.org/manual/1.4-ee/update/database-time-zone/)
+→ [Time zones](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/time-zones/)
 
 ### Business events and jobs {#144-events-jobs}
 
@@ -87,6 +94,8 @@ the automatic choice; `false` on a new database, which its creation marked UTC, 
   `job:fail` (now with `jobRetries` `0`) and a failed repeating timer's next occurrence are written
   in the failure transaction.
 
+→ [Business Events](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/business-events/)
+
 ### Monitoring {#144-monitoring}
 
 - Monitoring snapshots no longer load every running process instance, task, external task,
@@ -95,6 +104,8 @@ the automatic choice; `false` on a new database, which its creation marked UTC, 
 - Process-instance gauges (`eximeebpms.process.instances.running.total` and
   `…running.suspended.total`) carry `tenant.id` for instances of a tenant. Process-instance and
   failed-job series are now one per definition and tenant.
+
+→ [Application Monitoring](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/application-monitoring/)
 
 ### Ad-hoc subprocesses {#144-adhoc}
 
@@ -116,6 +127,10 @@ the automatic choice; `false` on a new database, which its creation marked UTC, 
 - A file that binds the prefix `eximeebpms` to the Camunda namespace, as the fluent builder wrote it up
   to 1.4.1-ee, gets a generated prefix for the new element instead of rebinding `eximeebpms`.
 
+→ [Ad-hoc subprocess reference](https://docs.eximeebpms.org/manual/1.4-ee/reference/bpmn20/subprocesses/ad-hoc-subprocess/)
+→ [Editing an Agent in BPMN XML](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/ad-hoc-in-xml/)
+→ [EximeeBPMS Plugin for Camunda Modeler](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/ai-agent/modeler-plugin/)
+
 ### Security {#144-security}
 
 - **Web applications:** fast-xml-parser 5.12.0, fixing GHSA-474x-hrwr-fgx4. The web applications
@@ -133,6 +148,8 @@ the automatic choice; `false` on a new database, which its creation marked UTC, 
 - Run's `start.sh` and `shutdown.sh` accept the process in `run.pid` only if it is the Run jar and,
   when `run.pid.start` records one, its start time matches. A foreign process reusing the PID is no
   longer stopped and no longer blocks a start.
+
+→ [Database Schema](https://docs.eximeebpms.org/manual/1.4-ee/user-guide/process-engine/database/database-schema/)
 
 ---
 
