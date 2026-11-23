@@ -231,3 +231,5 @@ An installation that runs a distribution on its own Java runtime has to update t
 ### Upgrading from 1.4.0
 
 No migration: database schema, configuration and APIs are unchanged. Move the image tag to `run-1.4.1` or `tomcat-1.4.1`; the Helm chart's default follows `appVersion` 1.4.1 from chart 0.4.2.
+
+Building from source: the default Maven profile (`full`, active when no profile is given, for example `./mvnw verify`) now also includes the `javaee/ejb-service` and `javaee/ejb-client-jakarta` modules, which the release profiles already built. Published artifacts are unchanged: `org.eximeebpms.bpm.javaee:eximeebpms-ejb-client-jakarta` is published for 1.4.1 as it was for 1.4.0, and `org.eximeebpms.bpm.javaee:eximeebpms-ejb-service` is not published to Maven Central.
