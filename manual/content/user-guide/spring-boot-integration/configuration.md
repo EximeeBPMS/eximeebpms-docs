@@ -393,10 +393,40 @@ The available properties are as follows:
 <tr><td colspan="4"><b>Datasource</b></td></tr>
 
 <tr>
-<td rowspan="6"><code>eximeebpms.bpm.database</code></td>
+<td rowspan="11"><code>eximeebpms.bpm.database</code></td>
 <td><code>.schema-update</code></td>
-<td>If automatic schema update should be applied, use one of [true, false, create, create-drop, drop-create]</td>
+<td>What happens to the schema at start, one of [true, false, create, create-drop, drop-create, auto, validate, off]; see <a href="{{< ref "/user-guide/process-engine/database/database-configuration.md" >}}">Database Configuration</a>. <code>auto</code> migrates an existing schema (<a href="{{< ref "/installation/database-schema-migration.md" >}}">Automatic Schema Migration</a>). Quote <code>'off'</code> in YAML.</td>
 <td><code>true</code></td>
+</tr>
+
+<tr>
+<td><code>.schema-update-allow-destructive-steps</code></td>
+<td>Lets the schema migration run a step that removes a feature with its data (the removal of the CMMN tables in the update to 1.4).</td>
+<td><code>false</code></td>
+</tr>
+
+<tr>
+<td><code>.schema-update-ignore-liquibase</code></td>
+<td>Lets the schema migration change a database whose schema is managed with the EximeeBPMS Liquibase changelog.</td>
+<td><code>false</code></td>
+</tr>
+
+<tr>
+<td><code>.schema-update-online-indexes</code></td>
+<td>How the schema migration builds new indexes: <code>deferred</code> (online where possible, otherwise left for a maintenance window), <code>preferred</code> (online where possible, otherwise plainly), <code>required</code> (online or refused), <code>off</code> (plainly).</td>
+<td><code>deferred</code></td>
+</tr>
+
+<tr>
+<td><code>.schema-update-lock-timeout-seconds</code></td>
+<td>How long a node waits for the schema migration lock of a node that stopped responding before its start is refused.</td>
+<td><code>600</code></td>
+</tr>
+
+<tr>
+<td><code>.schema-update-statement-lock-timeout-seconds</code></td>
+<td>How long one statement of the schema migration waits for its table lock before it fails (a failed non-unique online index is deferred only in <code>deferred</code> mode; <code>preferred</code> and <code>required</code> fail the migration).</td>
+<td><code>30</code></td>
 </tr>
 
 <tr>
