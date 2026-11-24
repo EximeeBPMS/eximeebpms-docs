@@ -69,6 +69,11 @@ every 10 seconds. Other nodes wait while it is renewed. A lock that has not been
 that stopped: the others wait for it up to `schemaUpdateLockTimeoutSeconds`, then refuse to start, naming the holder. It is
 never taken over. Once you have checked that the holder has stopped, release it with `schema-migrate unlock` and start again.
 
+`schemaUpdateLockTimeoutSeconds` counts only while the lock is not renewed. As long as its holder keeps renewing it, a node
+waits without a limit, however long the migration takes: a node that starts during a long migration on another node does not
+fail, it waits. Size start-up and readiness probes for the longest migration you expect, or run the migration with the tool
+before the rollout (see below).
+
 The migration needs **two free connections** of the data source (one for the statements, one for the lock); with fewer,
 the start is refused with a message naming the minimum.
 
@@ -131,7 +136,8 @@ Exit codes:
    to start on a schema the migration has not completed.
 
 If the nodes run with `auto` instead, give them a start-up probe long enough for the migration (Kubernetes `startupProbe`):
-the first node migrates while the others wait for its lock.
+the first node migrates while the others wait for its lock, for as long as it renews it (see [the lock](#the-lock-and-unlock)).
+A new pod can therefore stay not ready for the whole of a long migration that another node runs.
 
 A rolling update stays possible: the upgrade steps add tables, columns and indexes that older nodes ignore. The removal of the
 CMMN tables in the update to 1.4 is the exception and needs its own setting.
@@ -153,7 +159,12 @@ object could not be told from a hidden one; the message names the right:
 * SQL Server: `VIEW DEFINITION` on the schema.
 * Oracle, when another user owns the tables: access to the owner's tables, so that its entries in the `ALL_*` views are
   visible.
-* Db2: `EXECUTE` on `SYSPROC.ADMIN_GET_TAB_INFO` (or SQLADM/DBADM). The migration itself also needs `EXECUTE` on
+* Oracle: no extra grant. The migration sets `DDL_LOCK_TIMEOUT` for its session and restores the session's own value
+  afterwards; it reads that value from `SYS.V_$PARAMETER` when the account may (`SELECT` on it), otherwise it restores the
+  Oracle default of `0`.
+* Db2: `EXECUTE` on `SYSPROC.ADMIN_GET_TAB_INFO` (or SQLADM/DBADM). `validate` and `auto` read it at every start, also on a
+  schema that is current, because Db2 requires a `REORG` after some column changes and the migration must know whether one is
+  pending; an account without it is refused with the missing right named. The migration itself also needs `EXECUTE` on
   `SYSPROC.ADMIN_CMD` and REORG authority on the engine tables (CONTROL, or SQLADM/DBADM).
 
 Applying the steps needs the right to change the schema; `validate`, `false`, `status` and `preview` only read.
@@ -172,7 +183,6 @@ switch to the automatic migration, set `schema-update-ignore-liquibase` to `true
 consulted. If you return to Liquibase later, run its `changelogSync` first, so that it records the change sets the migration
 applied.
 
-Oracle migration accounts also need `SELECT` on `SYS.V_$PARAMETER` to capture and restore the session's original `DDL_LOCK_TIMEOUT`. This is needed for migration, not for read-only `validate`/`status`. The session setting is restored on success and failure before returning the connection to its pool.
 
 # Recovery after a failed step
 
