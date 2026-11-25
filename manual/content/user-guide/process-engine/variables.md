@@ -129,11 +129,84 @@ The type `file` can be used to store the contents of a file or input stream alon
 
 The value type `object` represents custom Java objects. When such a variable is persisted, its value is serialized according to a serialization procedure. These procedures are configurable and exchangeable.
 
-{{< note title="String length restriction" class="warning" >}}
-`string` values are stored in the database in a column of type `(n)varchar`, with a length restriction of 4000 (2000 for Oracle). Depending on the database in use and the
-configured charset, this length restriction can result in different quantities of real characters. Variable value length is not validated inside the EximeeBPMS engine, but
- the values are sent to the database 'as is' and, in case the length restriction is exceeded, a database level exception will be thrown. If validation is needed, 
- it may be implemented separately and must happen before the EximeeBPMS API to set the variables is called.
+### Long strings {#long-strings}
+
+In the next Enterprise release after 1.4.4-ee, a `string` variable can hold text beyond the column limit,
+subject to the database limits and optional engine cap below. A text up to the length of the database column is stored in the
+`TEXT_` column of the variable, as always. A longer text is stored as UTF-8 in the byte array table
+(`ACT_GE_BYTEARRAY`), and stays a `string` everywhere: in the Java and REST API, in history and in business events.
+No configuration, schema change or change to your processes is needed, and texts that fit the column keep their
+storage.
+
+The column is counted in a unit that differs per database:
+
+<table class="table desc-table">
+<tr><th>Database</th><th>Limit</th><th>Counted in</th></tr>
+<tr><td>H2, Microsoft SQL Server</td><td>4000</td><td>UTF-16 code units (an emoji counts as 2)</td></tr>
+<tr><td>PostgreSQL, MySQL, MariaDB</td><td>4000</td><td>characters (an emoji counts as 1)</td></tr>
+<tr><td>Oracle</td><td>2000</td><td>UTF-16 code units</td></tr>
+<tr><td>IBM Db2</td><td>4000</td><td>UTF-8 bytes (a letter with a diacritic counts as 2)</td></tr>
+</table>
+
+What differs for a text above the limit:
+
+* **Queries by value do not find it.** `variableValueEquals`, `variableValueLike`, `variableValueGreaterThan` and the
+  other value conditions on process, execution, task, external task, variable instance and history queries match only
+  texts in the column. This holds for negated conditions too: `variableValueNotEquals("x", "abc")` does not return an
+  instance whose `x` is a long text. A comparison with `null` and the filter `variableTypeIn("string")` still see it.
+  Query by a shorter value, or by another variable that holds a reference or a category.
+* **A literal above the limit is refused in a query.** Equality, inequality and ordering conditions with a non-null
+  text above the effective threshold fail with `ENGINE-03172`; long stored values are outside these comparisons.
+  `LIKE` keeps SQL pattern semantics for inline values. On SQL Server the engine refuses a pattern above 4000
+  UTF-16 code units with `ENGINE-03172`, independently of the configured threshold; other databases keep their SQL behavior.
+* **Reading costs one more database read** per long variable. Variable-instance and history lists load long strings
+  during the query, including with `disableBinaryFetching()`, so REST can read the values after the command ends.
+  With history level `full`, copies are stored for the runtime value, historic variable and each historic update. Keep texts of several hundred kilobytes out of
+  variables that change often.
+* **Unpaired surrogates are refused.** A text above the limit that contains an unpaired UTF-16 surrogate (for example a
+  cut-off emoji) fails with `ENGINE-03174`, because UTF-8 cannot store it.
+* **The database limits remain.** MySQL and MariaDB limit one statement by the driver property `maxAllowedPacket` and
+  the server variable `max_allowed_packet`; a text of a few megabytes needs both raised. Db2's byte-array `BLOB`
+  is limited to 1 MiB in the engine schema; exceeding it produces a database error (`SQLCODE -302`).
+
+{{< note title="Emoji on MySQL and MariaDB" class="info" >}}
+The engine creates its tables on MySQL and MariaDB with the character set `utf8`, which stores at most three bytes per
+character. A text with an emoji or another four-byte character therefore cannot be stored in the column, whatever
+its length, and the database refuses it. Above the limit the text is in the byte array and has no such restriction.
+{{< /note >}}
+
+#### Configuration {#long-strings-configuration}
+
+The defaults suit most installations. The settings are properties of the process engine configuration (see
+[process engine configuration]({{< ref "/reference/deployment-descriptors/tags/process-engine.md#longStringVariablesEnabled" >}}))
+and, in Spring Boot, `eximeebpms.bpm.string-variable.*` (see
+[configuration]({{< ref "/user-guide/spring-boot-integration/configuration.md" >}})):
+
+* `longStringVariablesEnabled` (default `true`): when `false`, a new long value fails with `ENGINE-03170`.
+  Existing long values stay readable. Writing identical content back to the same long variable remains allowed;
+  different long content or a direct write to a new variable is refused. Internal scope moves and call-activity
+  mappings from a stored variable (by name or all variables) may propagate existing values; expression mappings
+  remain subject to new-write validation. Transient values are not persisted and are exempt from this switch.
+* `maxStringVariableLength` (default: none): the longest new text, in Unicode code points. A longer text fails with
+  `ENGINE-03171`, also for transient values or when the cap is below the inline threshold. Reads, unchanged rewrites
+  of an existing long variable and stored-value propagation described above remain allowed.
+* `longStringVariableThreshold` and `longStringVariableThresholdForced`: an expert override of the limit that decides
+  where a text is stored. It may lower the limit. A value above the limit of the database is refused at engine start
+  unless the flag is set, which is for a schema whose `TEXT_` columns were widened by hand; the engine then trusts
+  that schema.
+
+{{< note title="Mixed versions and downgrade" class="warning" >}}
+An engine without this feature cannot deserialize a long text. Direct variable reads fail with `ENGINE-03040`;
+a default variable-instance query on an older engine may return an entry without a value and report the error
+in `getErrorMessage()`. Queries disabling binary fetching can throw instead. Check query error fields. During a [rolling update]({{< ref "/update/rolling-update.md#long-string-variables" >}}), do not let
+processes write long texts until all nodes are updated; after a downgrade, the same error occurs for the texts that were
+stored.
+{{< /note >}}
+
+{{< note title="Cockpit and Tasklist" class="info" >}}
+This change is in the process engine and its APIs. Showing and editing long texts in Cockpit and Tasklist has not been
+checked, and the variable search of Cockpit does not exclude long texts from a "not equal" condition: it may list
+instances whose variable is a long text.
 {{< /note >}}
 
 Process variables can be stored in formats like JSON and XML provided by the [EximeeBPMS Spin plugin]({{< ref "/user-guide/data-formats/_index.md" >}}). Spin provides serializers for the variables of type `object` such that Java variables can be persisted in these formats to the database. Furthermore, it is possible to store JSON and XML documents directly as a Spin object by the value types `xml` and `json`. Opposed to plain `string` variables, Spin objects provide a fluent API to perform common operations on such documents like reading and writing properties.

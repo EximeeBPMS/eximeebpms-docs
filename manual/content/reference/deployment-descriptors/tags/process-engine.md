@@ -814,6 +814,38 @@ Default value: <code>true</code>
 </tr>
 
 <tr>
+<td><a name="longStringVariablesEnabled"></a><code>longStringVariablesEnabled</code></td>
+<td>Boolean</td>
+<td>
+Store a <code>string</code> variable that does not fit the <code>TEXT_</code> column of the database in the byte array table. When <code>false</code>, writing such a text fails with <code>ENGINE-03170</code>; texts already stored stay readable. See <a href="{{< ref "/user-guide/process-engine/variables.md#long-strings" >}}">Long strings</a>. Default value: <code>true</code>
+</td>
+</tr>
+
+<tr>
+<td><code>maxStringVariableLength</code></td>
+<td>Integer</td>
+<td>
+The longest <code>string</code> variable the engine accepts, in characters. A longer text fails with <code>ENGINE-03171</code>. It applies to new writes only. Default value: <code>null</code> (no limit of the engine; the limits of the database apply).
+</td>
+</tr>
+
+<tr>
+<td><code>longStringVariableThreshold</code></td>
+<td>Integer</td>
+<td>
+Expert setting: the longest text that stays in the <code>TEXT_</code> column, in the unit of the database. It may lower the limit of the database. A higher value is refused at engine start (<code>ENGINE-03169</code>) unless <code>longStringVariableThresholdForced</code> is <code>true</code>. Default value: <code>null</code> (the limit of the database).
+</td>
+</tr>
+
+<tr>
+<td><code>longStringVariableThresholdForced</code></td>
+<td>Boolean</td>
+<td>
+Accept a <code>longStringVariableThreshold</code> above the limit of the database, for a schema whose <code>TEXT_</code> columns were widened by hand. The engine trusts the schema: with a column that is not wider, the database refuses the longer values. Default value: <code>false</code>
+</td>
+</tr>
+
+<tr>
 <td><a name="javaSerializationFormatEnabled"></a><code>javaSerializationFormatEnabled</code></td>
 <td>Boolean</td>
 <td>

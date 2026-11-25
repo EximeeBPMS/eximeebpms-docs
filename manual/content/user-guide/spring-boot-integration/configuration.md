@@ -540,6 +540,32 @@ See the <a href="{{<ref "/user-guide/spring-boot-integration/the-spring-event-br
 <td><code>0</code></td>
 </tr>
 
+<tr><td colspan="4"><b>String Variable</b></td></tr>
+<tr>
+<td rowspan="4"><code>eximeebpms.bpm.string-variable</code></td>
+<td><code>.long-values-enabled</code></td>
+<td>Store a <code>string</code> variable above the length of the database column in the byte array table. When <code>false</code>, writing such a text fails with <code>ENGINE-03170</code>. See <a href="{{< ref "/user-guide/process-engine/variables.md#long-strings" >}}">Long strings</a>.</td>
+<td><code>true</code></td>
+</tr>
+
+<tr>
+<td><code>.max-length</code></td>
+<td>The longest <code>string</code> variable the engine accepts, in characters (<code>ENGINE-03171</code>). Applies to new writes only.</td>
+<td><i>none</i></td>
+</tr>
+
+<tr>
+<td><code>.long-value-threshold</code></td>
+<td>Expert setting: the longest text that stays in the <code>TEXT_</code> column, in the unit of the database. May lower the limit of the database; a higher value needs <code>.force-long-value-threshold</code>.</td>
+<td><i>the limit of the database</i></td>
+</tr>
+
+<tr>
+<td><code>.force-long-value-threshold</code></td>
+<td>Accept a <code>.long-value-threshold</code> above the limit of the database, for a schema whose <code>TEXT_</code> columns were widened by hand.</td>
+<td><code>false</code></td>
+</tr>
+
 <tr><td colspan="4"><b>Webapp</b></td></tr>
 <tr>
 <td rowspan="3"><code>eximeebpms.bpm.webapp</code></td>

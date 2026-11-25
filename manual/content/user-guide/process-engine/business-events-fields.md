@@ -130,18 +130,18 @@ Entities that extend `BusinessEvent` directly (activity instance, identity link,
   <tr><td><code>scopeActivityInstanceId</code></td><td>String</td><td>Activity instance that scopes the variable (may differ from <code>activityInstanceId</code>, which is where it was set).</td></tr>
   <tr><td><code>activityInstanceId</code></td><td>String</td><td>Activity instance in which the variable was set (inherited field; here it identifies the <em>source</em> of the change).</td></tr>
   <tr><td><code>taskId</code></td><td>String</td><td>Task id, when the variable is task-scoped.</td></tr>
-  <tr><td><code>serializerName</code></td><td>String</td><td>Name of the variable type's serializer (e.g. <code>string</code>, <code>json</code>, <code>object</code>).</td></tr>
+  <tr><td><code>serializerName</code></td><td>String</td><td>Name of the variable type's serializer (e.g. <code>string</code>, <code>json</code>, <code>object</code>). A <code>string</code> above the length of the database column is published as <code>string</code> too, with the whole text in <code>textValue</code>.</td></tr>
   <tr><td><code>longValue</code></td><td>Long</td><td>Raw persisted <code>LONG_</code> column value, mirroring <code>ACT_RU_VARIABLE</code> — populated depending on the variable's type.</td></tr>
   <tr><td><code>doubleValue</code></td><td>Double</td><td>Raw persisted <code>DOUBLE_</code> column value.</td></tr>
-  <tr><td><code>textValue</code></td><td>String</td><td>Raw persisted <code>TEXT_</code> column value (e.g. String variables, or the primary text representation for complex types).</td></tr>
+  <tr><td><code>textValue</code></td><td>String</td><td>The persisted <code>TEXT_</code> value for inline variables; for a long String, the full decoded text is supplied even though its storage uses a byte array.</td></tr>
   <tr><td><code>textValue2</code></td><td>String</td><td>Raw persisted <code>TEXT2_</code> column value (secondary text column, used by some serializers, e.g. for a Java class name alongside serialized content).</td></tr>
-  <tr><td><code>byteValue</code></td><td>byte[]</td><td>Inline raw bytes, for small binary values.</td></tr>
-  <tr><td><code>byteArrayId</code></td><td>String</td><td>Id of the associated blob row, when the value is stored out-of-line as a byte array.</td></tr>
+  <tr><td><code>byteValue</code></td><td>byte[]</td><td>Raw bytes where supplied by the serializer; absent for normalized long String events.</td></tr>
+  <tr><td><code>byteArrayId</code></td><td>String</td><td>Id of an associated blob row where exposed by the event; absent for normalized long String events.</td></tr>
   <tr><td><code>isInitial</code></td><td>Boolean</td><td><code>true</code> when this is the first value ever set for the variable, typically during process instance start.</td></tr>
 </table>
 
 {{< note title="Reading the actual variable value" class="info" >}}
-The variable's value is spread across `longValue`/`doubleValue`/`textValue`/`textValue2`/`byteValue`/`byteArrayId` depending on `serializerName` — the same low-level representation used internally by `ACT_RU_VARIABLE` and `ACT_GE_BYTEARRAY`. There is no single pre-decoded "value" field; consumers that need the typed value should decode it the same way the corresponding variable serializer does, or query the variable through the regular Java/REST API instead of relying solely on the event payload for complex types.
+The variable's value is spread across `longValue`/`doubleValue`/`textValue`/`textValue2`/`byteValue`/`byteArrayId` depending on `serializerName`. Most types reflect the persisted representation. Long String events are deliberately normalized: `serializerName` is `string`, the complete decoded text is in `textValue`, and `byteValue` is absent. The event payload is not bounded by the variable's `TEXT_` column, but database LOB/statement limits still apply. There is no single pre-decoded "value" field; consumers that need the typed value should decode it the same way the corresponding variable serializer does, or query the variable through the regular Java/REST API instead of relying solely on the event payload for complex types.
 {{< /note >}}
 
 # Identity Link
