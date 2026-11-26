@@ -49,7 +49,8 @@ bind to client ids (`EXIMEEBPMS_CONNECTORS_GOOGLESHEETS_CLIENTS_WEEKLY_SPREADSHE
 - **`writable-ranges`**: ranges in A1 notation with the sheet name. Leave it out
   for a read-only client.
 - **`allow-formulas`** (default `false`): a written text that would start a
-  formula (`=`, or `+`, `-`, `@` before anything but a number) is refused. A
+  formula (`=`, `@` followed by more text, or `+`/`-` before anything but a
+  number) is refused. A
   formula such as `IMAGE` or `IMPORTXML` could send the sheet's data to another
   server when the sheet is opened; allow formulas only when the process needs
   them.
