@@ -1,6 +1,6 @@
 ---
 title: 'Connector Worker Configuration'
-description: "All worker properties and environment variables: runtime, HTTP, agent defaults, named providers, memory and audit, JDBC, MCP, and the bundle and engine client."
+description: "All worker properties and environment variables: runtime, HTTP, agent defaults, named providers, memory and audit, JDBC, MCP, Google Sheets, and the bundle and engine client."
 weight: 10
 menu:
   main:
@@ -51,15 +51,15 @@ Prefix `eximeebpms.connectors`:
 | `connector.<id>.lock-duration` | Inherit defaults | Per-id lock override |
 | `secrets.<NAME>` | None | Named credential value; not ordinary input binding |
 
-Connector ids are `http-json`, `ai-agent`, `ai-task`, `mcp-client` and
-`mcp-remote-client`. Disabling one id does not disable a provider shared by
+Connector ids are `http-json`, `ai-agent`, `ai-task`, `mcp-client`,
+`mcp-remote-client` and `google-sheets`. Disabling one id does not disable a provider shared by
 other connectors. Model inputs `retries`/`retryBackoff` override execution retry
 defaults: three attempts, ten-second backoff for REST/MCP, thirty seconds for
 AI agent/task. Invalid/nonretryable input errors raise an incident immediately.
 
 ## HTTP transport
 
-Prefix `eximeebpms.connectors.http` is shared by REST, MCP HTTP and provider
+Prefix `eximeebpms.connectors.http` is shared by REST, MCP HTTP, Google Sheets and provider
 network clients:
 
 | Property | Default | Meaning |
@@ -179,6 +179,28 @@ remote `transport.*` are described under
 An element cannot configure a stdio command or override the worker's maximum
 message size. Authentication and transport setup still obey shared destination
 restrictions.
+
+## Google Sheets
+
+Prefix `eximeebpms.connectors.googlesheets` (no dash):
+
+| Property | Default | Meaning |
+| --- | --- | --- |
+| `api-url` | `https://sheets.googleapis.com` | Sheets API |
+| `token-endpoint` | `https://oauth2.googleapis.com/token` | Google's OAuth 2.0 token endpoint |
+| `timeout` | `30s` | Connect and answer wait per request |
+| `max-response-size` | `16MB` | Largest answer read |
+| `clients.<id>.spreadsheet-id` | Required | The spreadsheet's id |
+| `clients.<id>.process-definition-keys[]` | Required | Process definitions whose elements may use the client |
+| `clients.<id>.writable-ranges[]` | Empty | A1 ranges with the sheet name that may be written; empty is read-only |
+| `clients.<id>.allow-formulas` | `false` | Whether written texts may start formulas |
+| `clients.<id>.authentication.type` | Required | `user-account` or `service-account` |
+| `clients.<id>.authentication.client-id`, `.client-secret`, `.refresh-token` | None | `user-account` credentials |
+| `clients.<id>.authentication.service-account-key` | None | `service-account` JSON key |
+
+Element inputs are described under
+[Google Sheets Connector]({{< ref "/user-guide/ai-agent/connectors/google-sheets-connector.md" >}}).
+A misconfigured client fails the worker's startup, naming the property.
 
 ## Bundle and engine client
 

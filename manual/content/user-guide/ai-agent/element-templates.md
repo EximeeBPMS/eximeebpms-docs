@@ -39,6 +39,8 @@ with its version number without `-ee` (Connectors `1.1.0-ee`: package `1.1.0`).
 | MCP Client | `McpClient` | Configured MCP connection selected by `clientId` |
 | MCP Remote Client | `McpRemoteClient` | MCP HTTP connection supplied by the element |
 | AI Task | `AiTask` | Single-shot model request without tools |
+| Google Sheets Connector | `GoogleSheets` | Read, write or copy ranges of a configured spreadsheet |
+| Google Sheets read / write / copy rows as agent tool | `GoogleSheets.read.tool`, `GoogleSheets.write.tool`, `GoogleSheets.copy.tool` | One operation as an agent tool; the model fills only its `fromAi` fields |
 
 The task templates set the external-task type/topic and expose input parameters.
 The MCP templates also mark the element as a gateway, bind `${toolCall}` to
