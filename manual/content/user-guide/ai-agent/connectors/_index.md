@@ -24,6 +24,7 @@ This catalog groups the available connectors and their task configuration.
 | [MCP Client]({{< ref "mcp-connector.md" >}}) | Calls tools on a centrally configured stdio, streamable HTTP or SSE server; can expose its tools to an agent | `org.eximeebpms.agenticai:mcpclient:1` |
 | [MCP Remote Client]({{< ref "mcp-connector.md" >}}) | Calls tools on an HTTP/SSE server supplied by the BPMN element | `org.eximeebpms.agenticai:mcpremoteclient:1` |
 | [Google Sheets Connector]({{< ref "google-sheets-connector.md" >}}) | Reads, writes and copies ranges of an operator-configured spreadsheet; writes only within the client's writable ranges | `org.eximeebpms:google-sheets:1` |
+| [Google Sheets Remote Connector]({{< ref "google-sheets-connector.md" >}}) | The same operations on a spreadsheet and with credentials named by the element, no write limit | `org.eximeebpms:google-sheets-remote:1` |
 | [AI Task]({{< ref "ai-task.md" >}}) | Sends a prompt to a model without tools or conversation | `org.eximeebpms.agenticai:aiagent:1` |
 
 The [AI agent worker]({{< ref "/user-guide/ai-agent/ai-agent.md" >}}) orchestrates

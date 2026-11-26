@@ -52,7 +52,7 @@ Prefix `eximeebpms.connectors`:
 | `secrets.<NAME>` | None | Named credential value; not ordinary input binding |
 
 Connector ids are `http-json`, `ai-agent`, `ai-task`, `mcp-client`,
-`mcp-remote-client` and `google-sheets`. Disabling one id does not disable a provider shared by
+`mcp-remote-client`, `google-sheets` and `google-sheets-remote`. Disabling one id does not disable a provider shared by
 other connectors. Model inputs `retries`/`retryBackoff` override execution retry
 defaults: three attempts, ten-second backoff for REST/MCP, thirty seconds for
 AI agent/task. Invalid/nonretryable input errors raise an incident immediately.
@@ -200,7 +200,9 @@ Prefix `eximeebpms.connectors.googlesheets` (no dash):
 
 Element inputs are described under
 [Google Sheets Connector]({{< ref "/user-guide/ai-agent/connectors/google-sheets-connector.md" >}}).
-A misconfigured client fails the worker's startup, naming the property.
+A misconfigured client fails the worker's startup, naming the property. The
+remote connector (`google-sheets-remote`) uses the properties above except
+`clients`; its spreadsheet and credentials come from the element.
 
 ## Bundle and engine client
 

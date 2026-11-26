@@ -1,6 +1,6 @@
 ---
 title: 'Google Sheets Connector'
-description: "Read, write and copy ranges of a Google spreadsheet from a process or as tools of an AI agent, with operator-set writable ranges and Google account or service account credentials."
+description: "Read, write and copy ranges of a Google spreadsheet from a process or as tools of an AI agent, with operator-set writable ranges, or with the spreadsheet and credentials in the element."
 weight: 25
 menu:
   main:
@@ -160,3 +160,37 @@ spreadsheet's version history in Google shows the changes with the account
 that made them; give each client its own account to tell its writes apart.
 Google may merge revisions made close together, so two writes of one cell in
 quick succession can show as one change.
+
+## Spreadsheet and credentials in the element (remote connector)
+
+The **Google Sheets Remote Connector** (topic
+`org.eximeebpms:google-sheets-remote:1`, connector id `google-sheets-remote`)
+takes the spreadsheet and the credentials from the BPMN element, and there is
+no client configuration.
+
+| Input | Meaning |
+| --- | --- |
+| `spreadsheetId` | The spreadsheet's id, from its URL |
+| `authentication.type` | `userAccount` (`clientId`, `clientSecret`, `refreshToken`), `serviceAccount` (`serviceAccountKey`, the JSON key) or `bearer` (`token`, an access token obtained elsewhere — it expires within an hour and is never renewed) |
+| `allowFormulas` | `false` by default; `true` lets written texts start formulas |
+| `operation`, `range`, `values`, `source`, `destination` | As above |
+
+Put credentials in `{{secrets.NAME}}` placeholders: only `authentication` is
+searched for them, so a cell value is still written as it is.
+
+{{< note title="No write limit" class="warning" >}}
+The remote connector has no writable ranges and no process definition binding:
+an element writes wherever its account may. Use it for fixed process steps; for
+tools whose ranges an AI agent chooses, use the client-configured connector.
+{{< /note >}}
+
+Results, the range forms, the copy rules, errors and retries are the same as
+above. The worker's network policy, proxy and SSL bundle
+(`eximeebpms.connectors.http.*`) and the `timeout`, `max-response-size`,
+`api-url` and `token-endpoint` of `eximeebpms.connectors.googlesheets` apply;
+its `clients` are not used. An element can name any secret the worker knows,
+so keep the credentials of a client-configured connector out of
+`eximeebpms.connectors.secrets.*` (reference them with `${...}` as shown
+above), or a remote element could use them without the writable ranges.
+Switch the remote connector off with
+`eximeebpms.connectors.connector.google-sheets-remote.enabled=false`.
