@@ -122,6 +122,17 @@ While EximeeBPMS does its best effort to ensure this property, it is not guarant
 
 During the rolling update process, it is not permitted to use new features of the newer engine version. This means that it is not possible to "roll out" a new version of the BPMN processes or of the application making use of new API methods while also updating the library. The reason for this is that while performing a rolling update, there is a time frame in which both older and newer versions of the process engine library operate on the database concurrently. During this time, usage of new features of the new engine like deployment of a BPMN process with a newly supported symbol would cause problems with the old engine.
 
+## Long String Variables {#long-string-variables}
+
+In a version with long string support, a `string` variable above the length of the database column is stored in the byte array table (see
+[Long strings]({{< ref "/user-guide/process-engine/variables.md#long-strings" >}})). The database schema does not change, but a
+node of the previous version cannot deserialize such a variable. Direct reads fail with `ENGINE-03040`;
+older default variable-instance queries can return an entry without a value and with that error in
+`getErrorMessage()`. Queries with binary fetching disabled can throw instead; check query error fields.
+Treat long texts as a new
+feature: do not let processes or clients write a `string` above the limit until every node runs the new version. The
+same holds after a downgrade for the texts that were already stored.
+
 ## One Minor Releases Only
 
 It is only possible to update from one minor version to the next. For example, it is possible to update from `7.5.3` to `7.6.2` in a rolling fashion but it is not possible to update from `7.5.3` to `7.7.2` in one go.
