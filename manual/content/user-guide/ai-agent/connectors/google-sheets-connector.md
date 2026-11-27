@@ -50,7 +50,7 @@ bind to client ids (`EXIMEEBPMS_CONNECTORS_GOOGLESHEETS_CLIENTS_WEEKLY_SPREADSHE
   for a read-only client.
 - **`allow-formulas`** (default `false`): a written text that would start a
   formula (`=`, `@` followed by more text, or `+`/`-` before anything but a
-  number) is refused. A
+  number) is refused, also after leading spaces or invisible characters. A
   formula such as `IMAGE` or `IMPORTXML` could send the sheet's data to another
   server when the sheet is opened; allow formulas only when the process needs
   them.
@@ -111,10 +111,17 @@ Results in `sheetsResult`:
   be written back only by a client with `allow-formulas`. Google's version
   history shows the changes with their cells; restoring a version there restores
   the whole spreadsheet, other people's later changes included, and Google may
-  merge close versions.
+  merge close versions. `previousValues`, up to 10 000 cells, is part of the
+  result variable, so the engine keeps it with the process instance's variables
+  and in its history: overwritten cells may hold personal data, and large writes
+  make the history grow. The write tool template also returns it to the model as
+  the tool's result (`toolCallResult`), so it reaches the model provider and the
+  agent's conversation memory. Write only the cells the process needs, and give
+  such processes a history time to live.
 - `copyRows`: `{source, destination}` — rows pasted with values, formulas and
-  formats (also formulas of the copied cells: `allow-formulas` concerns only
-  texts written with `writeRange`); `destination` is the range written. The
+  formats (also formulas of the copied cells, `IMPORTXML` included:
+  `allow-formulas` concerns only texts written with `writeRange`, and writable
+  ranges limit only where rows are pasted); `destination` is the range written. The
   destination must not overlap the source on the same sheet.
 
 ### How writes are limited
