@@ -356,10 +356,28 @@ Default value is <code>true</code>.
 </tr>
   
 <tr>
+<td><code>bpmnModelInstanceCacheCapacity</code> (Unreleased)</td>
+<td>Integer</td>
+<td>Optional positive capacity for BPMN model entries only. Unset inherits <code>cacheCapacity</code> (default 1000). Zero/negative explicit values fail startup. Set before engine construction; a supplied custom <code>DeploymentCache</code> retains its own capacities. See <a href="{{< ref "/user-guide/process-engine/deployment-cache.md">}}">Deployment Cache</a> for configuration and memory/latency tradeoffs.</td>
+</tr>
+
+<tr>
+<td><code>processDefinitionDescriptionCacheCapacity</code> (Unreleased)</td>
+<td>Integer</td>
+<td>Optional capacity of the process-definition description text cache. Unset inherits <code>cacheCapacity</code> (default 1000); <code>0</code> disables it; a negative value fails startup (<code>ENGINE-03178</code>). Set before engine construction; a supplied custom <code>DeploymentCache</code> keeps its own limits. Size it to at least the number of definitions one query returns. See <a href="{{< ref "/user-guide/process-engine/deployment-cache.md">}}">Deployment Cache</a>.</td>
+</tr>
+
+<tr>
+<td><code>processDefinitionDescriptionCacheMaxCharacters</code> (Unreleased)</td>
+<td>Long</td>
+<td>Total character budget (UTF-16 code units) of that cache. Default 1048576; <code>0</code> disables the cache; a negative value fails startup (<code>ENGINE-03178</code>).</td>
+</tr>
+
+<tr>
 <td><code>enableFetchProcessDefinitionDescription</code></td>
 <td>Boolean</td>
 <td>
-If set to false, Bpmn Model Instance is not fetched and cached whenever a process definition query is performed and thus the returned process definition does not contain the description.
+If set to <code>false</code>, process-definition queries skip description enrichment. With <code>true</code>, descriptions are read from deployed BPMN XML. In the unreleased version, this no longer loads or caches a full BPMN model; resource reads are grouped within each query and the description text is kept in a bounded cache.
 Default value is <code>true</code>.
 <p>
 <strong>Values:</strong> <code>true</code>, <code>false</code> (Boolean).
