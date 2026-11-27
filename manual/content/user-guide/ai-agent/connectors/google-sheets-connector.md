@@ -116,8 +116,9 @@ Results in `sheetsResult`:
   and in its history: overwritten cells may hold personal data, and large writes
   make the history grow. The write tool template also returns it to the model as
   the tool's result (`toolCallResult`), so it reaches the model provider and the
-  agent's conversation memory. Write only the cells the process needs, and give
-  such processes a history time to live.
+  agent's conversation memory. Write only the cells the process needs, map
+  `previousValues` into further variables only when the process uses it, and
+  give such processes a history time to live.
 - `copyRows`: `{source, destination}` — rows pasted with values, formulas and
   formats (also formulas of the copied cells, `IMPORTXML` included:
   `allow-formulas` concerns only texts written with `writeRange`, and writable
@@ -163,9 +164,12 @@ values.
 Writing the same values twice writes the same cells, so a write repeated after
 a lost completion is harmless; a repeated copy pastes the source as it is at
 that moment. An answer that is not the Sheets API's JSON (a proxy's page) is
-retried, never taken for data or a confirmed write. The connector keeps no log of its writes: the
-spreadsheet's version history in Google shows the changes with the account
-that made them; give each client its own account to tell its writes apart.
+retried, never taken for data or a confirmed write. The connector keeps no
+audit of its own; it logs one INFO line per completed write or copy with the
+element, process instance, range (both ranges of a copy) and client, never the
+values. The spreadsheet's
+version history in Google shows the changes with the account that made them;
+give each client its own account to tell its writes apart.
 Google may merge revisions made close together, so two writes of one cell in
 quick succession can show as one change.
 
@@ -193,7 +197,8 @@ tools whose ranges an AI agent chooses, use the client-configured connector.
 {{< /note >}}
 
 Results, the range forms, the copy rules, errors and retries are the same as
-above. The worker's network policy, proxy and SSL bundle
+above; the INFO line per write or copy names the spreadsheet id in place of
+the client. The worker's network policy, proxy and SSL bundle
 (`eximeebpms.connectors.http.*`) and the `timeout`, `max-response-size`,
 `api-url` and `token-endpoint` of `eximeebpms.connectors.googlesheets` apply;
 its `clients` are not used. An element can name any secret the worker knows,
