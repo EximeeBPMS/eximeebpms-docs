@@ -16,6 +16,11 @@ menu:
 
 ---
 
+## Unreleased
+
+- Process-definition queries return descriptions without retaining full BPMN models in the deployment cache. The description text is kept in a bounded cache, limited by `processDefinitionDescriptionCacheCapacity` and `processDefinitionDescriptionCacheMaxCharacters`; large result lists may still allocate resource bytes until the command completes.
+- Optional `bpmnModelInstanceCacheCapacity` sizes BPMN models independently. Unset inherits `cacheCapacity`; explicit values must be positive. See [Deployment Cache]({{< ref "/user-guide/process-engine/deployment-cache.md" >}}) for configuration and tradeoffs.
+
 ## 1.4.4-ee {#144-ee}
 
 **Release date:** 23.11.2026
